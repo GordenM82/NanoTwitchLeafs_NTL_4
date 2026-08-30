@@ -1,4 +1,4 @@
-using log4net;
+﻿using log4net;
 using NanoTwitchLeafs.Objects;
 using Newtonsoft.Json;
 using System;
@@ -26,14 +26,19 @@ namespace NanoTwitchLeafs.Controller
 
         private readonly ILog _logger = LogManager.GetLogger(typeof(NanoController));
 
-        private readonly string _websocketUrl = $"wss://app.hyperate.io/socket/websocket?token={Constants.ServiceCredentials.HyperateApi.ApiKey}";
+		private readonly string _apiKey;
+		private readonly string _websocketUrl;
         private WebSocket _webSocket;
         public bool _isConnected = false;
 
-        public HypeRateIOController(AppSettings appSettings)
-        {
-            _appSettings = appSettings;
-            _webSocket = new WebSocket(_websocketUrl);
+		public HypeRateIOController(AppSettings appSettings)
+		{
+			_appSettings = appSettings;
+			_apiKey = !string.IsNullOrWhiteSpace(appSettings.HypeRateApiKey)
+				? appSettings.HypeRateApiKey
+				: Constants.ServiceCredentials?.HyperateApi?.ApiKey ?? string.Empty;
+			_websocketUrl = $"wss://app.hyperate.io/socket/websocket?token={Uri.EscapeDataString(_apiKey)}";
+			_webSocket = new WebSocket(_websocketUrl);
             _webSocket.Opened += _webSocket_Opened;
             _webSocket.Error += _webSocket_Error;
             _webSocket.Closed += _webSocket_Closed;
@@ -83,9 +88,20 @@ namespace NanoTwitchLeafs.Controller
         /// <summary>
         /// Connets to Websocket with HypeRateId from Appsettings
         /// </summary>
-        public void StartListener()
-        {
-            if (string.IsNullOrWhiteSpace(_appSettings.HypeRateId))
+		public void StartListener()
+		{
+			if (string.IsNullOrWhiteSpace(_apiKey))
+			{
+				_logger.Warn("No HypeRate API key configured ... skip Connection");
+				MessageBox.Show(
+					"Für HypeRate ist noch kein API-Schlüssel eingerichtet.",
+					Properties.Resources.General_MessageBox_Hint_Title,
+					MessageBoxButton.OK,
+					MessageBoxImage.Information);
+				return;
+			}
+
+			if (string.IsNullOrWhiteSpace(_appSettings.HypeRateId))
             {
                 _logger.Warn("No HypeRateIO ID ... skip Connection");
                 return;
