@@ -53,7 +53,13 @@
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="62" Width="354"><Run Text="{x:Static p:Resources.Window_TwitchLink_Tab_Test_Almostdone_Text}" /></TextBlock>
                     <Button x:Name="TestNext_Button" Content="{x:Static p:Resources.General_Button_Next}" HorizontalAlignment="Left" Margin="681,0,0,9" VerticalAlignment="Bottom" Width="75" Click="TestNext_Button_Click" IsEnabled="False" />
                     <Button x:Name="Test_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Test}" HorizontalAlignment="Left" Margin="110,101,0,0" VerticalAlignment="Top" Width="120" Click="Test_Button_Click" Padding="5,1" />
-                    <ListBox x:Name="TestConnection_Listbox" HorizontalAlignment="Left" Height="318" Margin="369,10,0,0" VerticalAlignment="Top" Width="387" Focusable="False" VerticalContentAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Auto" />
+                    <ListBox x:Name="TestConnection_Listbox" HorizontalAlignment="Left" Height="318" Margin="369,10,0,0" VerticalAlignment="Top" Width="387" Focusable="False" VerticalContentAlignment="Top" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="3,2" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                     <Label Content="{x:Static p:Resources.Window_TwitchLink_Tab_Broadcaster}" HorizontalAlignment="Left" Margin="8,150,0,0" VerticalAlignment="Top" />
                     <Label Content="{x:Static p:Resources.Window_TwitchLink_Tab_Bot}" HorizontalAlignment="Left" Margin="202,150,0,0" VerticalAlignment="Top" />
                     <CheckBox x:Name="BroadcasterProgress1_Checkbox" Content="{x:Static p:Resources.Window_TwitchLink_Progress_1}" HorizontalAlignment="Left" Margin="10,181,0,0" VerticalAlignment="Top" Focusable="False" IsEnabled="False" />
