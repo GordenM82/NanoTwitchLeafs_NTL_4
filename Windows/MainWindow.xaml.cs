@@ -381,6 +381,13 @@ namespace NanoTwitchLeafs.Windows
             };
 
 				language_Combobox.ItemsSource = languages;
+				bool germanUi = _appSettings.Language == "de-DE";
+				TwitchApiHelp_TextBlock.Text = germanUi
+					? "Client-ID und Client-Secret erhältst du über die Twitch Developer Console. Lege dort eine Anwendung mit der OAuth-Weiterleitungs-URL http://localhost:3000 an."
+					: "Get the Client ID and Client Secret from the Twitch Developer Console. Register an application there with the OAuth redirect URL http://localhost:3000.";
+				OpenTwitchDeveloperConsole_Button.Content = germanUi
+					? "Twitch-Anwendung erstellen / verwalten"
+					: "Create / manage Twitch application";
 
 				switch (_appSettings.Language)
 				{
@@ -817,6 +824,15 @@ namespace NanoTwitchLeafs.Windows
 		private void Open_Dir_Button_Click(object sender, RoutedEventArgs e)
 		{
 			Process.Start(Constants.PROGRAMFILESFOLDER_PATH);
+		}
+
+		private void OpenTwitchDeveloperConsole_Button_Click(object sender, RoutedEventArgs e)
+		{
+			Process.Start(new ProcessStartInfo
+			{
+				FileName = "https://dev.twitch.tv/console/apps",
+				UseShellExecute = true
+			});
 		}
 
 		private void Save_Button_Click(object sender, RoutedEventArgs e)
