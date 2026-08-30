@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using TwitchLib.Api;
@@ -340,151 +341,145 @@ namespace NanoTwitchLeafs.Controller
 
 		public async Task<OAuthObject> GetAuthToken(TwitchApiCredentials apiCredentials, bool isBroadcaster)
 		{
-			//Source from: https:github.com/googlesamples/oauth-apps-for-windows/blob/master/OAuthDesktopApp/OAuthDesktopApp/MainWindow.xaml.cs
-			//Creates an HttpListener to listen for requests on that redirect URI.
-
-			var httpListener = new HttpListener();
-			httpListener.Prefixes.Add("http://127.0.0.1:1234/");
-			try
+			if (string.IsNullOrWhiteSpace(apiCredentials?.ClientId))
 			{
-				httpListener.Start();
-			}
-			catch (HttpListenerException e)
-			{
-				_logger.Error("Could not open Port on Local Machine - Blocked by other Service!");
-				_logger.Error(e.Message, e);
+				_logger.Error("No Twitch Client ID configured.");
 				return null;
 			}
 
-			//Creates the OAuth 2.0 authorization request.
-			var state = HelperClass.RandomDataBase64Url(32);
-			var authorizationRequest = "";
-			if (isBroadcaster)
+			string scopes = (isBroadcaster ? TwitchScopesChannelOwner : TwitchScopesBot)
+				.Substring("scope=".Length);
+
+			using var httpClient = new HttpClient();
+			using var deviceRequest = new FormUrlEncodedContent(new Dictionary<string, string>
 			{
-				authorizationRequest = $"{TwitchApiAddress}{AuthorizationEndpoint}?client_id={apiCredentials.ClientId}&redirect_uri={Uri.EscapeDataString(RedirectUri)}&response_type=code&{TwitchScopesChannelOwner}&force_verify=true&state={state}";
-			}
-			else
-			{
-				authorizationRequest = $"{TwitchApiAddress}{AuthorizationEndpoint}?client_id={apiCredentials.ClientId}&redirect_uri={Uri.EscapeDataString(RedirectUri)}&response_type=code&{TwitchScopesBot}&force_verify=true&state={state}";
-			}
-
-			//Opens request in the browser.
-			Process.Start(authorizationRequest);
-
-			//Waits for the OAuth authorization response.
-
-			var context = await httpListener.GetContextAsync();
-
-			//Brings this app back to the foreground.
-			//Activate();
-
-			//Sends an HTTP response to the browser.
-			const string responseString = "<html><head><meta http-equiv='refresh' content='10;url=https:www.nanotwitchleafs.com/'></head><body>Please return to the app.</body></html>";
-			var buffer = Encoding.UTF8.GetBytes(responseString);
-
-			var response = context.Response;
-			response.ContentLength64 = buffer.Length;
-			var responseOutput = response.OutputStream;
-			await responseOutput.WriteAsync(buffer, 0, buffer.Length).ContinueWith(task =>
-			{
-				responseOutput.Close();
-				httpListener.Stop();
+				["client_id"] = apiCredentials.ClientId,
+				["scopes"] = scopes
 			});
 
-			//Checks for errors.
-			if (context.Request.QueryString.Get("error") != null)
+			HttpResponseMessage deviceResponse;
+			try
 			{
-				_logger.Error($"OAuth authorization error: {context.Request.QueryString.Get("error")}.");
+				deviceResponse = await httpClient.PostAsync($"{TwitchApiAddress}/device", deviceRequest);
+			}
+			catch (Exception exception)
+			{
+				_logger.Error("Could not start Twitch device authorization.", exception);
 				return null;
 			}
 
-			if (context.Request.QueryString.Get("code") == null || context.Request.QueryString.Get("state") == null)
+			string deviceResponseText = await deviceResponse.Content.ReadAsStringAsync();
+			if (!deviceResponse.IsSuccessStatusCode)
 			{
-				_logger.Error("Malformed authorization response. " + context.Request.QueryString);
+				_logger.Error($"Twitch device authorization failed: {deviceResponseText}");
 				return null;
 			}
 
-			//extracts the code
-			string code = context.Request.QueryString.Get("code");
-			string incomingState = context.Request.QueryString.Get("state");
+			dynamic device = JsonConvert.DeserializeObject(deviceResponseText);
+			string deviceCode = device.device_code;
+			string userCode = device.user_code;
+			string verificationUri = device.verification_uri;
+			int expiresIn = device.expires_in;
+			int interval = Math.Max(1, (int)device.interval);
 
-			//compares the received state to the expected value, to ensure that this app made the request which resulted in authorization.
-			if (incomingState != state)
+			Process.Start(new ProcessStartInfo
 			{
-				_logger.Error($"Received request with invalid state ({incomingState})");
+				FileName = verificationUri,
+				UseShellExecute = true
+			});
+
+			bool german = _appSettings.Language == "de-DE";
+			MessageBox.Show(
+				german
+					? $"Twitch wurde im Browser geöffnet.\n\nBestätige dort die Verbindung. Falls der Code nicht automatisch eingetragen ist, verwende:\n\n{userCode}\n\nKlicke anschließend hier auf OK."
+					: $"Twitch has been opened in your browser.\n\nAuthorize the connection there. If the code is not filled in automatically, use:\n\n{userCode}\n\nThen click OK here.",
+				german ? "Twitch verbinden" : "Connect Twitch",
+				System.Windows.MessageBoxButton.OK,
+				System.Windows.MessageBoxImage.Information);
+
+			DateTime expiresAt = DateTime.UtcNow.AddSeconds(expiresIn);
+			while (DateTime.UtcNow < expiresAt)
+			{
+				await Task.Delay(TimeSpan.FromSeconds(interval));
+
+				using var tokenRequest = new FormUrlEncodedContent(new Dictionary<string, string>
+				{
+					["client_id"] = apiCredentials.ClientId,
+					["scopes"] = scopes,
+					["device_code"] = deviceCode,
+					["grant_type"] = "urn:ietf:params:oauth:grant-type:device_code"
+				});
+
+				HttpResponseMessage tokenResponse = await httpClient.PostAsync($"{TwitchApiAddress}{TokenEndpoint}", tokenRequest);
+				string tokenResponseText = await tokenResponse.Content.ReadAsStringAsync();
+
+				if (tokenResponse.IsSuccessStatusCode)
+				{
+					dynamic token = JsonConvert.DeserializeObject(tokenResponseText);
+					return new OAuthObject
+					{
+						Access_Token = token.access_token,
+						Refresh_Token = token.refresh_token,
+						Expires_In = token.expires_in
+					};
+				}
+
+				dynamic pendingResponse = JsonConvert.DeserializeObject(tokenResponseText);
+				string message = pendingResponse?.message;
+				if (string.Equals(message, "authorization_pending", StringComparison.OrdinalIgnoreCase))
+				{
+					continue;
+				}
+
+				if (string.Equals(message, "slow_down", StringComparison.OrdinalIgnoreCase))
+				{
+					interval += 5;
+					continue;
+				}
+
+				_logger.Error($"Twitch device token request failed: {tokenResponseText}");
 				return null;
 			}
 
-			_logger.Debug("Authorization code: " + code);
-
-			return await PerformCodeExchange(code, apiCredentials);
+			_logger.Error("Twitch device authorization timed out.");
+			return null;
 		}
 
 		private async Task<OAuthObject> PerformCodeExchange(string code, TwitchApiCredentials apiCredentials, bool isRefresh = false)
 		{
-			_logger.Info("Exchanging code for tokens...");
-			string tokenRequestBody = "";
-
-			if (!isRefresh)
+			if (!isRefresh || string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(apiCredentials?.ClientId))
 			{
-				//builds the  request
-				tokenRequestBody = $"code={code}&redirect_uri={Uri.EscapeDataString(RedirectUri)}&client_id={apiCredentials.ClientId}&client_secret={apiCredentials.ClientSecret}&grant_type=authorization_code";
-			}
-			else
-			{
-				//builds the  request
-				tokenRequestBody = $"refresh_token={code}&client_id={apiCredentials.ClientId}&client_secret={apiCredentials.ClientSecret}&grant_type=refresh_token";
+				return null;
 			}
 
-			//sends the request
-			var tokenRequest = (HttpWebRequest)WebRequest.Create($"{TwitchApiAddress}{TokenEndpoint}");
-			tokenRequest.Method = "POST";
-			tokenRequest.ContentType = "application/x-www-form-urlencoded";
-			tokenRequest.Accept = "Accept=text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-			tokenRequest.ProtocolVersion = HttpVersion.Version10;
-
-			var byteVersion = Encoding.ASCII.GetBytes(tokenRequestBody);
-			tokenRequest.ContentLength = byteVersion.Length;
-			var stream = tokenRequest.GetRequestStream();
-			await stream.WriteAsync(byteVersion, 0, byteVersion.Length);
-			stream.Close();
-
-			try
+			var values = new Dictionary<string, string>
 			{
-				//gets the response
-				var tokenResponse = await tokenRequest.GetResponseAsync();
-				using (var reader = new StreamReader(tokenResponse.GetResponseStream()))
-				{
-					//reads response body
-					string responseText = await reader.ReadToEndAsync();
-					_logger.Debug("Response: " + responseText);
-
-					responseText = responseText.Remove(136) + "}";
-
-					//converts to dictionary
-					dynamic tokenEndpointDecoded = JsonConvert.DeserializeObject(responseText);
-
-					return new OAuthObject { Access_Token = tokenEndpointDecoded["access_token"], Refresh_Token = tokenEndpointDecoded["refresh_token"], Expires_In = tokenEndpointDecoded["expires_in"] };
-				}
-			}
-			catch (WebException ex)
+				["refresh_token"] = code,
+				["client_id"] = apiCredentials.ClientId,
+				["grant_type"] = "refresh_token"
+			};
+			if (!string.IsNullOrWhiteSpace(apiCredentials.ClientSecret))
 			{
-				if (ex.Status == WebExceptionStatus.ProtocolError)
-				{
-					if (ex.Response is HttpWebResponse response)
-					{
-						_logger.Debug("HTTP: " + response.StatusCode);
-						using (var reader = new StreamReader(response.GetResponseStream()))
-						{
-							//reads response body
-							string responseText = await reader.ReadToEndAsync();
-							_logger.Debug("Response: " + responseText);
-						}
-					}
-				}
+				values["client_secret"] = apiCredentials.ClientSecret;
 			}
 
-			return null;
+			using var httpClient = new HttpClient();
+			using var request = new FormUrlEncodedContent(values);
+			HttpResponseMessage response = await httpClient.PostAsync($"{TwitchApiAddress}{TokenEndpoint}", request);
+			string responseText = await response.Content.ReadAsStringAsync();
+			if (!response.IsSuccessStatusCode)
+			{
+				_logger.Error($"Could not refresh Twitch token: {responseText}");
+				return null;
+			}
+
+			dynamic token = JsonConvert.DeserializeObject(responseText);
+			return new OAuthObject
+			{
+				Access_Token = token.access_token,
+				Refresh_Token = token.refresh_token,
+				Expires_In = token.expires_in
+			};
 		}
 
 		/// <summary>

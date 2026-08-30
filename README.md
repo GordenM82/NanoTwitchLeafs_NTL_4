@@ -18,7 +18,7 @@ NanoTwitchLeafs verbindet Twitch mit Nanoleaf-Leuchten. Chatbefehle und Twitch-E
 
 NanoTwitchLeafs 4 ist eine experimentelle Modernisierung und Weiterentwicklung des ursprünglichen GPL-3.0-Projekts von **Locxion**. Der aktuelle Stand wird unter dem GitHub-Konto **GordenM82** bearbeitet.
 
-Es gibt keine Zusage für regelmäßige Aktualisierungen, Support oder eine dauerhafte Weiterentwicklung. Derzeit befindet sich Version 4 noch in einem privaten Funktionstest und ist noch keine fertige öffentliche Veröffentlichung.
+Es gibt keine Zusage für regelmäßige Aktualisierungen, Support oder eine dauerhafte Weiterentwicklung. Version 4 ist experimentelle Software und kann sich vor einer stabilen Veröffentlichung noch ändern.
 
 ### Funktionen
 
@@ -48,8 +48,12 @@ Es gibt keine Zusage für regelmäßige Aktualisierungen, Support oder eine daue
 - aktualisierte Twitch-EventSub-Abonnements einschließlich HypeTrain v2
 - vergrößerte und frei skalierbare Triggerfenster
 - modernisierte Soundwiedergabe ohne Abhängigkeit vom Windows Media Player COM-Modul
+- deutsche Benutzeroberfläche als Standard auf deutschsprachigen Windows-Systemen; Englisch bleibt auswählbar
+- Twitch-Anmeldung über den offiziellen Gerätecode-Ablauf für öffentliche Desktop-Anwendungen; kein Client-Secret erforderlich
+- sauberer Erststart ohne mitgelieferte Zugangsdaten oder ungefragte Übernahme vorhandener Daten
+- lokale Speicherung persönlicher Daten ohne Telemetrie oder Nutzungsanalyse
 
-Der vollständige zweisprachige Verlauf seit der letzten ursprünglichen Locxion-Version steht im [Änderungsprotokoll](CHANGELOG.md). Der historische Originalverlauf bleibt zusätzlich in [changelog.txt](changelog.txt) erhalten.
+Der vollständige zweisprachige Verlauf seit der letzten ursprünglichen Locxion-Version steht im [Änderungsprotokoll](CHANGELOG.md). Der historische Originalverlauf bleibt zusätzlich in [changelog.txt](changelog.txt) erhalten. Hinweise zur lokalen Speicherung und zu externen Verbindungen stehen unter [Datenschutz](PRIVACY.md).
 
 ### Systemanforderungen
 
@@ -62,13 +66,18 @@ Windows 7, Windows 8/8.1 und 32-Bit-Systeme werden von NanoTwitchLeafs 4 nicht u
 
 ### Installation und Start
 
-1. Das veröffentlichte Windows-x64-ZIP vollständig in einen eigenen Ordner entpacken.
-2. Benötigte Service-Credentials neben `NanoTwitchLeafs.exe` ablegen.
-3. `NanoTwitchLeafs.exe` direkt starten.
+1. Das Windows-x64-ZIP vollständig in einen eigenen Ordner entpacken.
+2. `NanoTwitchLeafs.exe` starten.
+3. Unter **API Einstellungen** die Twitch Client-ID eintragen und speichern. Ein Client-Secret wird nicht benötigt.
+4. Anschließend im Reiter **Twitch** das Twitch-Konto verbinden. Streamlabs- und HypeRate-Zugangsdaten sind nur bei Nutzung dieser Funktionen erforderlich.
+
+Beim ersten Start verwendet NanoTwitchLeafs auf einem deutschsprachigen Windows automatisch Deutsch. Die Sprache kann unter **Einstellungen** zwischen Deutsch und Englisch umgestellt werden.
+
+Eine Twitch-Anwendung kann in der [Twitch Developer Console](https://dev.twitch.tv/console/apps) registriert werden. Als Client-Typ **Öffentlich** auswählen. Falls Twitch beim Anlegen eine Weiterleitungs-URL verlangt, kann `https://localhost` eingetragen werden; NanoTwitchLeafs verwendet für die Anmeldung den Gerätecode-Ablauf und benötigt diese URL nicht. Twitch verlangt für den Zugriff auf die Developer Console ein bestätigtes Konto mit aktivierter Zwei-Faktor-Authentifizierung. Die ausführliche offizielle Anleitung steht unter [Registering Your App](https://dev.twitch.tv/docs/authentication/register-app/).
 
 > **Wichtig:** Zugangsdaten, Tokens, `ServiceCredentials` und persönliche Einstellungsdateien dürfen niemals in ein öffentliches Repository, einen Fehlerbericht oder einen Screenshot hochgeladen werden.
 
-Die spätere öffentliche Ausgabe soll beim ersten Start vollständig leer beginnen. Eine Übernahme vorhandener Daten aus NanoTwitchLeafs 3.x erfolgt dann nicht ungefragt.
+Die Anwendung beginnt beim ersten Start mit einer leeren Konfiguration. Persönliche Einstellungen und Trigger werden nur lokal unter `%APPDATA%\NanoTwitchLeafs-4` gespeichert. NanoTwitchLeafs 4 enthält keine Telemetrie oder Nutzungsanalyse.
 
 ### Fehlerberichte und Vorschläge
 
@@ -94,7 +103,7 @@ NanoTwitchLeafs connects Twitch with Nanoleaf lights. Chat commands and Twitch e
 
 NanoTwitchLeafs 4 is an experimental modernization and continuation of the original GPL-3.0 project created by **Locxion**. The current work is performed under the GitHub account **GordenM82**.
 
-There is no commitment to regular updates, support, or long-term maintenance. Version 4 is currently undergoing private functional testing and is not yet a finished public release.
+There is no commitment to regular updates, support, or long-term maintenance. Version 4 is experimental software and may change before a stable release.
 
 ### Features
 
@@ -124,8 +133,12 @@ There is no commitment to regular updates, support, or long-term maintenance. Ve
 - updated Twitch EventSub subscriptions, including Hype Train v2
 - larger and freely resizable trigger windows
 - modernized sound playback without the Windows Media Player COM dependency
+- German interface by default on German-language Windows systems; English remains selectable
+- Twitch authentication through the official device-code flow for public desktop applications; no Client Secret required
+- clean first launch without bundled credentials or unexpected import of existing data
+- local storage of personal data without telemetry or usage analytics
 
-The complete bilingual history since the last original Locxion release is available in the [changelog](CHANGELOG.md). The original historical version log also remains available in [changelog.txt](changelog.txt).
+The complete bilingual history since the last original Locxion release is available in the [changelog](CHANGELOG.md). The original historical version log also remains available in [changelog.txt](changelog.txt). Details about local storage and external connections are available under [Privacy](PRIVACY.md).
 
 ### System requirements
 
@@ -138,13 +151,18 @@ Windows 7, Windows 8/8.1, and 32-bit systems are not supported by NanoTwitchLeaf
 
 ### Installation and startup
 
-1. Extract the complete published Windows x64 ZIP into its own folder.
-2. Place the required service credentials next to `NanoTwitchLeafs.exe`.
-3. Start `NanoTwitchLeafs.exe` directly.
+1. Extract the complete Windows x64 ZIP into its own folder.
+2. Start `NanoTwitchLeafs.exe`.
+3. Under **API Settings**, enter and save the Twitch Client ID. A Client Secret is not required.
+4. Then connect the Twitch account from the **Twitch** tab. Streamlabs and HypeRate credentials are only required when those features are used.
+
+On a German-language Windows installation, NanoTwitchLeafs starts in German by default. The language can be switched between German and English under **Settings**.
+
+A Twitch application can be registered in the [Twitch Developer Console](https://dev.twitch.tv/console/apps). Select the **Public** client type. If Twitch requires a redirect URL while creating the application, `https://localhost` may be entered; NanoTwitchLeafs uses device-code authentication and does not use this URL. Twitch requires a verified account with two-factor authentication enabled to access the Developer Console. Detailed official instructions are available under [Registering Your App](https://dev.twitch.tv/docs/authentication/register-app/).
 
 > **Important:** Never upload credentials, tokens, `ServiceCredentials`, or personal settings files to a public repository, bug report, or screenshot.
 
-The future public edition is intended to start with a completely clean configuration. Existing NanoTwitchLeafs 3.x data will not be imported without an explicit user action.
+The application starts with a clean configuration on first launch. Personal settings and triggers are stored locally under `%APPDATA%\NanoTwitchLeafs-4`. NanoTwitchLeafs 4 contains no telemetry or usage analytics.
 
 ### Bug reports and suggestions
 

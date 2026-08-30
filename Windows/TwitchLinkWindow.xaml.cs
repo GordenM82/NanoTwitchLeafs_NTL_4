@@ -187,7 +187,7 @@ namespace NanoTwitchLeafs.Windows
 				}
 				catch (Exception e)
 				{
-					_logger.Error("Could not convert Profile Picture", e);
+					_logger.Debug("Twitch profile picture unavailable. Using the default image.", e);
 					BroadcasterAvatar_Image.Source = new BitmapImage(new Uri("pack://application:,,,/Assets/nanotwitchleafs_error_logo.png"));
 					_broadCasterAvatarUrl = new Uri("pack://application:,,,/Assets/nanotwitchleafs_error_logo.png");
 				}
@@ -218,7 +218,7 @@ namespace NanoTwitchLeafs.Windows
 				}
 				catch (Exception e)
 				{
-					_logger.Error("Could not convert Profile Picture", e);
+					_logger.Debug("Twitch profile picture unavailable. Using the default image.", e);
 					BotAccountAvatar_Image.Source = new BitmapImage(new Uri("pack://application:,,,/Assets/nanotwitchleafs_error_logo.png"));
 					_botAccountAvatarUrl = new Uri("pack://application:,,,/Assets/nanotwitchleafs_error_logo.png");
 				}
@@ -315,8 +315,8 @@ namespace NanoTwitchLeafs.Windows
 			client.OnLog+= OnBotClientLog;
 			void OnBotClientLog(object sender, OnLogArgs e)
 			{
-				var message = "[TwitchConsole] " + e.Data;
-				SendMessageToListBox(message);
+				// Keep raw IRC traffic in the debug log instead of the user-facing test.
+				_logger.Debug("[TwitchConsole] " + e.Data);
 			}
 
 			try
@@ -346,8 +346,8 @@ namespace NanoTwitchLeafs.Windows
 				}
 
 				SetProgress(1, isBroadcaster);
-				SendMessageToListBox("Connected to Twitch IRC Network!");
-				SendMessageToListBox("Try to join Channel: " + client.TwitchUsername);
+				SendMessageToListBox(UiText("Mit dem Twitch-Netzwerk verbunden.", "Connected to the Twitch network."));
+				SendMessageToListBox(UiText("Betrete Twitch-Kanal: ", "Joining Twitch channel: ") + client.TwitchUsername);
 
 				// Try to Join Channel
 
@@ -369,8 +369,8 @@ namespace NanoTwitchLeafs.Windows
 				}
 
 				SetProgress(2, isBroadcaster);
-				SendMessageToListBox($"Joined Channel: {_broadCasterAccountName}");
-				SendMessageToListBox("Send Test Message to Chat: 'Testing NanoTwitchLeafs Chat Connection'");
+				SendMessageToListBox(UiText($"Twitch-Kanal betreten: {_broadCasterAccountName}", $"Joined Twitch channel: {_broadCasterAccountName}"));
+				SendMessageToListBox(UiText("Sende eine Testnachricht in den Chat.", "Sending a test message to chat."));
 
 				// Send Test Message to Twitch Channel
 				client.SendMessage(_broadCasterAccountName, "Testing NanoTwitchLeafs Chat Connection");
@@ -426,6 +426,9 @@ namespace NanoTwitchLeafs.Windows
 			}
 		}
 		
+		private string UiText(string german, string english) =>
+			_appSettings.Language == "de-DE" ? german : english;
+
 		private void SendMessageToListBox(string message)
 		{
 			var dateTime = DateTime.Now;

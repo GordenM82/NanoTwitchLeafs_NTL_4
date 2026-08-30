@@ -1,4 +1,4 @@
-#if !NTL4_MIGRATION
+﻿#if !NTL4
 using SQLite;
 #endif
 
@@ -6,7 +6,7 @@ namespace NanoTwitchLeafs.Objects
 {
 	public class TriggerSetting
 	{
-#if !NTL4_MIGRATION
+#if !NTL4
 		[PrimaryKey]
 #endif
 		public int ID { get; set; }

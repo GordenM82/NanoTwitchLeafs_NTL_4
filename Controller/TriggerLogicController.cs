@@ -15,7 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Windows;
-#if NTL4_MIGRATION
+#if NTL4
 using MediaPlayer = System.Windows.Media.MediaPlayer;
 #else
 using WMPLib;
@@ -38,7 +38,7 @@ namespace NanoTwitchLeafs.Controller
 
 		private CancellationTokenSource _queueToken;
 		private CancellationTokenSource _cooldownToken;
-#if NTL4_MIGRATION
+#if NTL4
 		private readonly MediaPlayer _wmPlayer = new MediaPlayer();
 #else
 		private readonly WindowsMediaPlayer _wmPlayer = new WindowsMediaPlayer();
@@ -306,7 +306,7 @@ namespace NanoTwitchLeafs.Controller
 		{
 			try
 			{
-			#if NTL4_MIGRATION
+			#if NTL4
 				RunOnMediaPlayerThread(() =>
 				{
 					_wmPlayer.Stop();
@@ -324,7 +324,7 @@ namespace NanoTwitchLeafs.Controller
 					return;
 				}
 				_logger.Debug($"Play Sound File: {path}");
-#if NTL4_MIGRATION
+#if NTL4
 				RunOnMediaPlayerThread(() =>
 				{
 					_wmPlayer.Open(new Uri(path, UriKind.Absolute));
@@ -342,7 +342,7 @@ namespace NanoTwitchLeafs.Controller
 			}
 		}
 
-#if NTL4_MIGRATION
+#if NTL4
 		private void RunOnMediaPlayerThread(Action action)
 		{
 			if (_wmPlayer.Dispatcher.CheckAccess())
@@ -355,7 +355,7 @@ namespace NanoTwitchLeafs.Controller
 		}
 #endif
 
-#if !NTL4_MIGRATION
+#if !NTL4
 		private void PlayStateChange(int newState)
 		{
 			if (newState == 1)
@@ -1133,7 +1133,7 @@ namespace NanoTwitchLeafs.Controller
 						_logger.Error($"Could not restore state on Device {device.PublicName}. Other target devices will continue.", ex);
 					}
 				}
-#if NTL4_MIGRATION
+#if NTL4
 				RunOnMediaPlayerThread(() => _wmPlayer.Stop());
 #else
 				_wmPlayer.controls.stop();

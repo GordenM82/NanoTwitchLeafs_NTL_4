@@ -1,6 +1,7 @@
-using NanoTwitchLeafs.Windows;
+﻿using NanoTwitchLeafs.Windows;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace NanoTwitchLeafs.Objects
 {
@@ -15,17 +16,20 @@ namespace NanoTwitchLeafs.Objects
 			NanoSettings = new NanoSettings();
 			InstanceID = Guid.NewGuid();
 			AppVersion = typeof(AppInfoWindow).Assembly.GetName().Version;
-			AnalyticsChannelName = true;
+			AnalyticsChannelName = false;
 			BlacklistEnabled = false;
 			Blacklist = new List<string>();
 			AutoIpRefresh = false;
-			Language = "en-US";
+			Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "de"
+				? "de-DE"
+				: "en-US";
 			StreamlabsInformation = new StreamlabsInformation();
-			UseOwnServiceCredentials = false;
+			UseOwnServiceCredentials = true;
 			TwitchClientId = "";
 			TwitchClientSecret = "";
 			StreamlabsClientId = "";
 			StreamlabsClientSecret = "";
+			HypeRateApiKey = "";
 		}
 
 		public bool AnalyticsChannelName
@@ -61,6 +65,12 @@ namespace NanoTwitchLeafs.Objects
 		{
 			get { return Get(() => StreamlabsClientSecret); }
 			set { Set(() => StreamlabsClientSecret, value); }
+		}
+
+		public string HypeRateApiKey
+		{
+			get { return Get(() => HypeRateApiKey); }
+			set { Set(() => HypeRateApiKey, value); }
 		}
 
 		public StreamlabsInformation StreamlabsInformation

@@ -1,4 +1,4 @@
-#if NTL4_MIGRATION
+#if NTL4
 using log4net;
 using NanoTwitchLeafs.Interfaces;
 using NanoTwitchLeafs.Objects;

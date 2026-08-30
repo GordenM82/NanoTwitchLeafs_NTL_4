@@ -1,4 +1,4 @@
-<Window x:Name="Main_Window" x:Class="NanoTwitchLeafs.Windows.MainWindow"
+﻿<Window x:Name="Main_Window" x:Class="NanoTwitchLeafs.Windows.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:fa5="http://schemas.fontawesome.com/icons/svg"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -116,21 +116,33 @@
                     <Image HorizontalAlignment="Center" Margin="-80,0,0,50" VerticalAlignment="Bottom" Source="/NanoTwitchLeafs;component/Assets/hypeRateLogo.png" Height="27" Width="29" />
                 </Grid>
             </TabItem>
-            <TabItem x:Name="ApiSettings_Tabitem"  Header="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}">
-                <Grid Background="#FFE5E5E5" Margin="0">
-                    <CheckBox x:Name="UseOwnServiceCredentials_Checkbox" Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_ServiceCredentials_Checkbox}" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Click="UseOwnServiceCredentials_Checkbox_Click" />
-                    <Label Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}" HorizontalAlignment="Center" Margin="0,9,0,0" VerticalAlignment="Top" FontSize="24" />
-                    <Label Content="Twitch:" HorizontalAlignment="Left" Margin="10,71,0,0" VerticalAlignment="Top" FontSize="18" />
-                    <TextBox x:Name="TwitchClientId_Textbox" Margin="10,133,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" IsEnabled="False" />
-                    <Label Content="TwitchClientId:" HorizontalAlignment="Left" Margin="13,107,0,0" VerticalAlignment="Top" />
-                    <PasswordBox x:Name="TwitchClientSecret_Textbox" Margin="10,175,10,0" Password="" VerticalAlignment="Top" IsEnabled="False" />
-                    <Label Content="TwitchClientSecret:" HorizontalAlignment="Left" Margin="13,150,0,0" VerticalAlignment="Top" />
-                    <Label Content="Streamlabs:" HorizontalAlignment="Left" Margin="13,199,0,0" VerticalAlignment="Top" FontSize="18" />
-                    <TextBox x:Name="StreamlabsClientId_Textbox" Margin="10,258,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" IsEnabled="False" />
-                    <Label Content="StreamlabsClientId:" HorizontalAlignment="Left" Margin="13,232,0,0" VerticalAlignment="Top" />
-                    <PasswordBox x:Name="StreamlabsClientSecret_Textbox" Margin="10,300,10,0" Password="" VerticalAlignment="Top" IsEnabled="False" />
-                    <Label Content="StreamlabsClientSecret:" HorizontalAlignment="Left" Margin="13,275,0,0" VerticalAlignment="Top" />
-                </Grid>
+            <TabItem x:Name="ApiSettings_Tabitem" Header="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="#FFE5E5E5">
+                    <StackPanel Margin="10,8,10,14">
+                        <Label Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}" HorizontalAlignment="Center" FontSize="24" Margin="0,0,0,6" />
+                        <CheckBox x:Name="UseOwnServiceCredentials_Checkbox" Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_ServiceCredentials_Checkbox}" Click="UseOwnServiceCredentials_Checkbox_Click" Margin="0,0,0,8" />
+
+                        <Label Content="Twitch:" FontSize="18" Padding="0" Margin="0,0,0,5" />
+                        <Label Content="Twitch Client-ID:" Padding="0" Margin="2,0,0,2" />
+                        <TextBox x:Name="TwitchClientId_Textbox" TextWrapping="Wrap" IsEnabled="False" Margin="0,0,0,5" />
+                        <Label x:Name="TwitchClientSecret_Label" Content="Twitch Client-Secret:" Padding="0" Margin="2,0,0,2" />
+                        <PasswordBox x:Name="TwitchClientSecret_Textbox" IsEnabled="False" Margin="0,0,0,5" />
+                        <TextBlock x:Name="TwitchApiHelp_TextBlock" TextWrapping="Wrap" Margin="0,3,0,7" />
+                        <Button x:Name="OpenTwitchDeveloperConsole_Button" Height="27" Content="Twitch-Anwendung erstellen / verwalten" Click="OpenTwitchDeveloperConsole_Button_Click" Margin="0,0,0,12" />
+
+                        <Separator Margin="0,0,0,10" />
+                        <Label Content="Streamlabs:" FontSize="18" Padding="0" Margin="0,0,0,5" />
+                        <Label Content="Streamlabs Client-ID:" Padding="0" Margin="2,0,0,2" />
+                        <TextBox x:Name="StreamlabsClientId_Textbox" TextWrapping="Wrap" IsEnabled="False" Margin="0,0,0,5" />
+                        <Label Content="Streamlabs Client-Secret:" Padding="0" Margin="2,0,0,2" />
+                        <PasswordBox x:Name="StreamlabsClientSecret_Textbox" IsEnabled="False" Margin="0,0,0,12" />
+
+                        <Separator Margin="0,0,0,10" />
+                        <Label Content="HypeRate:" FontSize="18" Padding="0" Margin="0,0,0,5" />
+                        <Label Content="HypeRate API-Key:" Padding="0" Margin="2,0,0,2" />
+                        <PasswordBox x:Name="HypeRateApiKey_Textbox" IsEnabled="False" />
+                    </StackPanel>
+                </ScrollViewer>
             </TabItem>
         </TabControl>
         <TabControl x:Name="chatconsole_TabControl" Margin="0,0,1,0" SelectionChanged="ChatConsole_TabControl_SelectionChanged">

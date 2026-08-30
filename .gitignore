@@ -10,6 +10,11 @@
 *.sqlite
 ServiceCredentials
 ServiceCredentials.local
+ServiceCredential.local
+settings.txt
+triggers.json
+triggers.json.backup
+nanotwichleafs.log
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
