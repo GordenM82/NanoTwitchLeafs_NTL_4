@@ -1,4 +1,4 @@
-using Hardcodet.Wpf.TaskbarNotification;
+﻿using Hardcodet.Wpf.TaskbarNotification;
 using log4net;
 using log4net.Core;
 using log4net.Repository.Hierarchy;
@@ -123,10 +123,12 @@ namespace NanoTwitchLeafs.Windows
 				SetLogLevel(Level.Debug);
 			
 			_logger.Info("Load Service Credentials");
-			if (File.Exists(Constants.SERVICE_CREDENTIALS_PATH))
+			string serviceCredentialsPath = Constants.SERVICE_CREDENTIALS_PATHS.FirstOrDefault(File.Exists);
+			if (serviceCredentialsPath != null)
 			{
-				var credentialsJson = File.ReadAllText(Constants.SERVICE_CREDENTIALS_PATH);
+				var credentialsJson = File.ReadAllText(serviceCredentialsPath);
 				Constants.ServiceCredentials = JsonConvert.DeserializeObject<ServiceCredentials>(credentialsJson);
+				_logger.Info($"Loaded Service Credentials from {Path.GetFileName(serviceCredentialsPath)}");
 			}
 			else
 			{
