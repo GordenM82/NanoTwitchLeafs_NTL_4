@@ -4,16 +4,16 @@
 
 > **English version below.**
 
-## NanoTwitchLeafs 4.0.0.2 – privater Teststand
+## NanoTwitchLeafs 4.0.0 – Veröffentlichungskandidat
 
-NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 und dem privat getesteten Zwischenstand 3.2.0.5. Version 4 ist noch keine fertige öffentliche Veröffentlichung.
+NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 und den anschließend getesteten Zwischenständen. Version 4.0.0 ist derzeit ein Veröffentlichungskandidat und noch als experimentell einzustufen.
 
 ### Technische Grundlage und Verteilung
 
 - WPF-Projekt von .NET Framework 4.7.2 auf .NET 10 umgestellt
 - Zielplattform auf Windows 10 und Windows 11 x64 festgelegt
 - eigenständiger Windows-x64-Build einschließlich benötigter .NET-Laufzeit
-- direkt startbare `NanoTwitchLeafs.exe` ohne `Build_NTL.cmd`, Visual Studio oder gesonderte .NET-Installation
+- direkt startbare `NanoTwitchLeafs.exe`
 - reproduzierbare EXE-Erstellung über GitHub Actions eingerichtet
 - veraltete beziehungsweise verwundbare Pakete aktualisiert
 - Windows Media Player COM-Abhängigkeit durch den WPF-Audioplayer ersetzt
@@ -54,37 +54,36 @@ NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 u
 - Trigger-Soundwiedergabe unter .NET 10 korrigiert
 - Threadfehler beim Beenden eines Sounds nach Ablauf eines Triggers behoben
 
-### Datenhaltung und private Migration
+### Datenhaltung, Ersteinrichtung und Datenschutz
 
 - Trigger werden lokal in `triggers.json` statt dauerhaft in einer Datenbank gespeichert
 - vor jeder Änderung wird `triggers.json.backup` als Sicherung erzeugt
-- vorhandene Trigger werden beim privaten Test ausschließlich aus einer Kopie der 3.2.0.5-Datenbank importiert
 - alte verschlüsselte Einstellungen mit einem als JSON-Objekt gespeicherten Versionswert werden unter .NET 10 korrekt gelesen
-- `ServiceCredentials`, `ServiceCredentials.local` und `ServiceCredential.local` werden im privaten Test akzeptiert
-- Version 4 verwendet während des Tests `%APPDATA%\NanoTwitchLeafs-4-Test`
-- die stabile Installation 3.2.0.5 und ihre Originaldaten werden nicht verändert
-- die spätere öffentliche Ausgabe soll vollständig leer starten und keine Daten ungefragt übernehmen
+- öffentliche Builds starten ohne mitgelieferte Zugangsdaten und ohne ungefragte Datenübernahme
+- eigene Twitch-, Streamlabs- und HypeRate-Zugangsdaten können über die API-Einstellungen eingerichtet werden
+- Einstellungen und Trigger werden unter `%APPDATA%\NanoTwitchLeafs-4` gespeichert
+- Telemetrie und die ursprüngliche Nutzungsanalyse sind in NanoTwitchLeafs 4 deaktiviert
+- die GitHub-Action erstellt ausschließlich ein bereinigtes Windows-x64-ZIP ohne Zugangsdaten
 
 ### Noch nicht enthalten
 
 - keine Streamer.bot-Anbindung
 - keine Unterstützung für Windows 7, Windows 8/8.1 oder 32-Bit-Systeme
-- noch keine fertige öffentliche Credential-Ersteinrichtung
 
 ---
 
 ## English
 
-## NanoTwitchLeafs 4.0.0.2 – private test build
+## NanoTwitchLeafs 4.0.0 – release candidate
 
-NanoTwitchLeafs 4 is based on Locxion's last original version 3.1.5.0 and the privately tested intermediate build 3.2.0.5. Version 4 is not yet a finished public release.
+NanoTwitchLeafs 4 is based on Locxion's last original version 3.1.5.0 and the subsequently tested intermediate builds. Version 4.0.0 is currently a release candidate and should still be considered experimental.
 
 ### Technical foundation and distribution
 
 - migrated the WPF project from .NET Framework 4.7.2 to .NET 10
 - set the target platform to 64-bit Windows 10 and Windows 11
 - added a self-contained Windows x64 build including the required .NET runtime
-- added a directly executable `NanoTwitchLeafs.exe` without `Build_NTL.cmd`, Visual Studio, or a separate .NET installation
+- added a directly executable `NanoTwitchLeafs.exe`
 - added reproducible EXE creation through GitHub Actions
 - updated outdated or vulnerable packages
 - replaced the Windows Media Player COM dependency with the WPF media player
@@ -125,22 +124,21 @@ NanoTwitchLeafs 4 is based on Locxion's last original version 3.1.5.0 and the pr
 - corrected trigger sound playback under .NET 10
 - fixed the cross-thread error when stopping sound after a trigger ends
 
-### Data storage and private migration
+### Data storage, initial setup, and privacy
 
 - triggers are stored locally in `triggers.json` instead of requiring a permanent database
 - `triggers.json.backup` is created before each change
-- during private testing, existing triggers are imported exclusively from a copy of the 3.2.0.5 database
 - old encrypted settings containing a version stored as a JSON object are read correctly under .NET 10
-- `ServiceCredentials`, `ServiceCredentials.local`, and `ServiceCredential.local` are accepted during private testing
-- version 4 uses `%APPDATA%\NanoTwitchLeafs-4-Test` during testing
-- the stable 3.2.0.5 installation and its original data are not modified
-- the future public edition is intended to start completely clean and will not import data without explicit consent
+- public builds start without bundled credentials and without importing existing data unexpectedly
+- personal Twitch, Streamlabs, and HypeRate credentials can be configured through API Settings
+- settings and triggers are stored under `%APPDATA%\NanoTwitchLeafs-4`
+- telemetry and the original usage analytics are disabled in NanoTwitchLeafs 4
+- GitHub Actions produces a sanitized Windows x64 ZIP without credentials
 
 ### Not currently included
 
 - no Streamer.bot integration
 - no support for Windows 7, Windows 8/8.1, or 32-bit systems
-- no finished public first-run credential setup yet
 
 ---
 
