@@ -1,0 +1,2 @@
+Privater Windows-x64-Testbuild für NTL 4.0.0.2.
+Audioplayer-Threadkorrektur.
