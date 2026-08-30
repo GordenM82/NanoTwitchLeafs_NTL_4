@@ -1,6 +1,7 @@
-using log4net;
+﻿using log4net;
 using NanoTwitchLeafs.Objects;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Security.Cryptography;
@@ -86,8 +87,25 @@ namespace NanoTwitchLeafs.Controller
                 byte[] encryptedData = Convert.FromBase64String(base64);
                 byte[] decryptedData = ProtectedData.Unprotect(encryptedData, null, DataProtectionScope);
                 string json = Encoding.UTF8.GetString(decryptedData);
-                _logger.Debug("Load Settings from File " + path);
-                return JsonConvert.DeserializeObject<AppSettings>(json);
+				_logger.Debug("Load Settings from File " + path);
+
+#if NTL4_MIGRATION
+                // Ältere NTL-Versionen speicherten System.Version als JSON-Objekt.
+                // Moderne Json.NET-Versionen erwarten dafür einen String. Die alte
+                // Versionsnummer ist keine Benutzereinstellung und darf daher auf
+                // die aktuell laufende Programmversion normalisiert werden.
+                JObject settingsJson = JObject.Parse(json);
+                JToken appVersion = settingsJson[nameof(AppSettings.AppVersion)];
+                if (appVersion != null && appVersion.Type == JTokenType.Object)
+                {
+                    settingsJson[nameof(AppSettings.AppVersion)] =
+                        typeof(AppSettings).Assembly.GetName().Version.ToString();
+                }
+
+                return settingsJson.ToObject<AppSettings>();
+#else
+				return JsonConvert.DeserializeObject<AppSettings>(json);
+#endif
 #endif
             }
             catch (Exception ex)
