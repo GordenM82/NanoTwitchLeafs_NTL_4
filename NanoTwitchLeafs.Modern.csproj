@@ -20,7 +20,7 @@
     <LangVersion>latest</LangVersion>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
-    <DefineConstants>$(DefineConstants);NTL4_MIGRATION</DefineConstants>
+    <DefineConstants>$(DefineConstants);NTL4</DefineConstants>
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
