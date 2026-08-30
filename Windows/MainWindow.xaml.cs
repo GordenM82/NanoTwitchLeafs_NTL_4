@@ -1432,7 +1432,6 @@ namespace NanoTwitchLeafs.Windows
 						jsonStore.Save(trigger);
 					}
 				}
-				}
 
 				_logger.Info($"Imported {legacyTriggers.Count} triggers into local JSON storage.");
 			}
