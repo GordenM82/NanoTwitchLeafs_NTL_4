@@ -124,7 +124,7 @@
                     <TextBox x:Name="TwitchClientId_Textbox" Margin="10,133,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" IsEnabled="False" />
                     <Label Content="TwitchClientId:" HorizontalAlignment="Left" Margin="13,107,0,0" VerticalAlignment="Top" />
                     <PasswordBox x:Name="TwitchClientSecret_Textbox" Margin="10,175,10,0" Password="" VerticalAlignment="Top" IsEnabled="False" />
-                    <Label Content="TwitchClientSecret:" HorizontalAlignment="Left" Margin="13,150,0,0" VerticalAlignment="Top" />
+                    <Label x:Name="TwitchClientSecret_Label" Content="TwitchClientSecret:" HorizontalAlignment="Left" Margin="13,150,0,0" VerticalAlignment="Top" />
                     <Label Content="Streamlabs:" HorizontalAlignment="Left" Margin="13,199,0,0" VerticalAlignment="Top" FontSize="18" />
                     <TextBox x:Name="StreamlabsClientId_Textbox" Margin="10,258,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" IsEnabled="False" />
                     <Label Content="StreamlabsClientId:" HorizontalAlignment="Left" Margin="13,232,0,0" VerticalAlignment="Top" />
