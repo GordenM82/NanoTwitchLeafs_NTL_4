@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - ntl-4
+      - main
     tags:
       - "4.*"
 
