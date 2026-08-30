@@ -1,6 +1,7 @@
 ﻿using NanoTwitchLeafs.Windows;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace NanoTwitchLeafs.Objects
 {
@@ -19,7 +20,9 @@ namespace NanoTwitchLeafs.Objects
 			BlacklistEnabled = false;
 			Blacklist = new List<string>();
 			AutoIpRefresh = false;
-			Language = "en-US";
+			Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "de"
+				? "de-DE"
+				: "en-US";
 			StreamlabsInformation = new StreamlabsInformation();
 			UseOwnServiceCredentials = true;
 			TwitchClientId = "";
