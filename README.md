@@ -53,7 +53,7 @@ Es gibt keine Zusage für regelmäßige Aktualisierungen, Support oder eine daue
 - sauberer Erststart ohne mitgelieferte Zugangsdaten oder ungefragte Übernahme vorhandener Daten
 - lokale Speicherung persönlicher Daten ohne Telemetrie oder Nutzungsanalyse
 
-Der vollständige zweisprachige Verlauf seit der letzten ursprünglichen Locxion-Version steht im [Änderungsprotokoll](CHANGELOG.md). Der historische Originalverlauf bleibt zusätzlich in [changelog.txt](changelog.txt) erhalten. Hinweise zur lokalen Speicherung und zu externen Verbindungen stehen unter [Datenschutz](PRIVACY.md).
+Der vollständige zweisprachige Verlauf seit der letzten ursprünglichen Locxion-Version steht im [Änderungsprotokoll](CHANGELOG.md). Hinweise zur lokalen Speicherung und zu externen Verbindungen stehen unter [Datenschutz](PRIVACY.md).
 
 ### Systemanforderungen
 
@@ -152,7 +152,7 @@ There is no commitment to regular updates, support, or long-term maintenance. Ve
 - clean first launch without bundled credentials or unexpected import of existing data
 - local storage of personal data without telemetry or usage analytics
 
-The complete bilingual history since the last original Locxion release is available in the [changelog](CHANGELOG.md). The original historical version log also remains available in [changelog.txt](changelog.txt). Details about local storage and external connections are available under [Privacy](PRIVACY.md).
+The complete bilingual history since the last original Locxion release is available in the [changelog](CHANGELOG.md). Details about local storage and external connections are available under [Privacy](PRIVACY.md).
 
 ### System requirements
 
