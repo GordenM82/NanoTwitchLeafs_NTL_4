@@ -383,6 +383,9 @@ namespace NanoTwitchLeafs.Windows
 
 				language_Combobox.ItemsSource = languages;
 				bool germanUi = _appSettings.Language == "de-DE";
+				UseOwnServiceCredentials_Checkbox.Content = germanUi
+					? "Eigene API-Zugangsdaten verwenden"
+					: "Use own API credentials";
 				TwitchApiHelp_TextBlock.Text = germanUi
 					? "Die Client-ID erhältst du über die Twitch Developer Console. Wähle den Client-Typ Öffentlich. Falls Twitch eine Weiterleitungs-URL verlangt, verwende https://localhost. NTL nutzt die Gerätecode-Anmeldung ohne Client-Secret."
 					: "Get the Client ID from the Twitch Developer Console. Select the Public client type. If Twitch requires a redirect URL, use https://localhost. NTL uses device-code authentication without a Client Secret.";
