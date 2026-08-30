@@ -73,6 +73,20 @@ Windows 7, Windows 8/8.1 und 32-Bit-Systeme werden von NanoTwitchLeafs 4 nicht u
 
 Beim ersten Start verwendet NanoTwitchLeafs auf einem deutschsprachigen Windows automatisch Deutsch. Die Sprache kann unter **Einstellungen** zwischen Deutsch und Englisch umgestellt werden.
 
+### Update von NanoTwitchLeafs 3.x
+
+NanoTwitchLeafs 4 kann die vorhandenen Daten aus Locxions letzter 3.x-Version beim ersten Start übernehmen:
+
+1. Die bisherige NanoTwitchLeafs-Version vollständig schließen.
+2. Das NTL-4-ZIP in einen **neuen, eigenen Ordner** entpacken. Die alte Installation nicht überschreiben oder löschen.
+3. `NanoTwitchLeafs.exe` starten.
+4. Wenn vorhandene 3.x-Daten erkannt werden, die Frage nach der Datenübernahme mit **Ja** bestätigen.
+5. NTL 4 übernimmt die bisherigen Einstellungen und konvertiert die Trigger aus `nanotwitchleafs.sqlite` in das neue Format `triggers.json`.
+
+Vor der Übernahme wird unter `%APPDATA%\NanoTwitchLeafs-4\Migration-Backup-3.x` eine zusätzliche Sicherung angelegt. Die ursprünglichen Daten unter `%APPDATA%\NanoTwitchLeafs` werden nur gelesen und nicht verändert. Locxions bisherige Version kann deshalb weiterhin unabhängig verwendet werden.
+
+Wird die Übernahme mit **Nein** abgelehnt, startet NTL 4 mit einer leeren Konfiguration und fragt beim nächsten Start erneut, solange noch keine eigenen NTL-4-Daten angelegt wurden.
+
 Eine Twitch-Anwendung kann in der [Twitch Developer Console](https://dev.twitch.tv/console/apps) registriert werden. Als Client-Typ **Öffentlich** auswählen. Falls Twitch beim Anlegen eine Weiterleitungs-URL verlangt, kann `https://localhost` eingetragen werden; NanoTwitchLeafs verwendet für die Anmeldung den Gerätecode-Ablauf und benötigt diese URL nicht. Twitch verlangt für den Zugriff auf die Developer Console ein bestätigtes Konto mit aktivierter Zwei-Faktor-Authentifizierung. Die ausführliche offizielle Anleitung steht unter [Registering Your App](https://dev.twitch.tv/docs/authentication/register-app/).
 
 > **Wichtig:** Zugangsdaten, Tokens, `ServiceCredentials` und persönliche Einstellungsdateien dürfen niemals in ein öffentliches Repository, einen Fehlerbericht oder einen Screenshot hochgeladen werden.
@@ -157,6 +171,20 @@ Windows 7, Windows 8/8.1, and 32-bit systems are not supported by NanoTwitchLeaf
 4. Then connect the Twitch account from the **Twitch** tab. Streamlabs and HypeRate credentials are only required when those features are used.
 
 On a German-language Windows installation, NanoTwitchLeafs starts in German by default. The language can be switched between German and English under **Settings**.
+
+### Updating from NanoTwitchLeafs 3.x
+
+NanoTwitchLeafs 4 can import existing data from Locxion's latest 3.x version on first launch:
+
+1. Close the previous NanoTwitchLeafs version completely.
+2. Extract the NTL 4 ZIP into a **new, separate folder**. Do not overwrite or delete the old installation.
+3. Start `NanoTwitchLeafs.exe`.
+4. When existing 3.x data is detected, confirm the import by selecting **Yes**.
+5. NTL 4 imports the existing settings and converts the triggers from `nanotwitchleafs.sqlite` to the new `triggers.json` format.
+
+Before importing, an additional backup is created under `%APPDATA%\NanoTwitchLeafs-4\Migration-Backup-3.x`. The original data under `%APPDATA%\NanoTwitchLeafs` is read only and is not modified. Locxion's previous version can therefore continue to be used independently.
+
+If the import is declined with **No**, NTL 4 starts with a clean configuration and asks again on the next launch as long as no NTL 4 data has been created.
 
 A Twitch application can be registered in the [Twitch Developer Console](https://dev.twitch.tv/console/apps). Select the **Public** client type. If Twitch requires a redirect URL while creating the application, `https://localhost` may be entered; NanoTwitchLeafs uses device-code authentication and does not use this URL. Twitch requires a verified account with two-factor authentication enabled to access the Developer Console. Detailed official instructions are available under [Registering Your App](https://dev.twitch.tv/docs/authentication/register-app/).
 
