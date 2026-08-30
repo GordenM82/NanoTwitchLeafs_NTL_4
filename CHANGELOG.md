@@ -61,6 +61,8 @@ NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 u
 - alte verschlüsselte Einstellungen mit einem als JSON-Objekt gespeicherten Versionswert werden unter .NET 10 korrekt gelesen
 - öffentliche Builds starten ohne mitgelieferte Zugangsdaten und ohne ungefragte Datenübernahme
 - eigene Twitch-, Streamlabs- und HypeRate-Zugangsdaten können über die API-Einstellungen eingerichtet werden
+- deutschsprachige Windows-Systeme starten standardmäßig mit deutscher Oberfläche; Englisch bleibt auswählbar
+- API-Einstellungen enthalten eine Kurzanleitung und einen direkten Link zur Twitch Developer Console
 - Einstellungen und Trigger werden unter `%APPDATA%\NanoTwitchLeafs-4` gespeichert
 - Telemetrie und die ursprüngliche Nutzungsanalyse sind in NanoTwitchLeafs 4 deaktiviert
 - die GitHub-Action erstellt ausschließlich ein bereinigtes Windows-x64-ZIP ohne Zugangsdaten
@@ -131,6 +133,8 @@ NanoTwitchLeafs 4 is based on Locxion's last original version 3.1.5.0 and the su
 - old encrypted settings containing a version stored as a JSON object are read correctly under .NET 10
 - public builds start without bundled credentials and without importing existing data unexpectedly
 - personal Twitch, Streamlabs, and HypeRate credentials can be configured through API Settings
+- German-language Windows systems now start with the German interface by default; English remains selectable
+- API Settings include brief instructions and a direct link to the Twitch Developer Console
 - settings and triggers are stored under `%APPDATA%\NanoTwitchLeafs-4`
 - telemetry and the original usage analytics are disabled in NanoTwitchLeafs 4
 - GitHub Actions produces a sanitized Windows x64 ZIP without credentials
