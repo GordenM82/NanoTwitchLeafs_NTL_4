@@ -1,5 +1,11 @@
 Changelog for NanoTwitchLeafs
 
+Version 4.0.0.1 - Testkorrektur
+- Alte verschlüsselte Einstellungen aus 3.2.0.5 werden unter .NET 10 korrekt
+  übernommen, auch wenn die frühere Programmversion als JSON-Objekt gespeichert war
+- ServiceCredentials, ServiceCredentials.local und ServiceCredential.local werden
+  als Dateinamen akzeptiert
+
 Version 4.0.0 - in Entwicklung
 
 Technische Grundlage und Verteilung
