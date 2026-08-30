@@ -71,11 +71,6 @@ NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 u
 - Telemetrie und die ursprüngliche Nutzungsanalyse sind in NanoTwitchLeafs 4 deaktiviert
 - die GitHub-Action erstellt ausschließlich ein bereinigtes Windows-x64-ZIP ohne Zugangsdaten
 
-### Noch nicht enthalten
-
-- keine Streamer.bot-Anbindung
-- keine Unterstützung für Windows 7, Windows 8/8.1 oder 32-Bit-Systeme
-
 ---
 
 ## English
@@ -146,11 +141,6 @@ NanoTwitchLeafs 4 is based on Locxion's last original version 3.1.5.0 and the su
 - settings and triggers are stored under `%APPDATA%\NanoTwitchLeafs-4`
 - telemetry and the original usage analytics are disabled in NanoTwitchLeafs 4
 - GitHub Actions produces a sanitized Windows x64 ZIP without credentials
-
-### Not currently included
-
-- no Streamer.bot integration
-- no support for Windows 7, Windows 8/8.1, or 32-bit systems
 
 ---
 
