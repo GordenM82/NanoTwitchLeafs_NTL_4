@@ -74,6 +74,8 @@ namespace NanoTwitchLeafs.Windows
 
 #if NTL4
 			analyticsChannel_Checkbox.Visibility = Visibility.Collapsed;
+			TwitchClientSecret_Label.Visibility = Visibility.Collapsed;
+			TwitchClientSecret_Textbox.Visibility = Visibility.Collapsed;
 			_appSettings.AnalyticsChannelName = false;
 #endif
 
@@ -155,8 +157,7 @@ namespace NanoTwitchLeafs.Windows
 				_logger.Info("No bundled Service Credentials found. User-owned credentials will be used.");
 			}
 
-			_requiresCredentialSetup = string.IsNullOrWhiteSpace(HelperClass.GetTwitchApiCredentials(_appSettings).ClientId)
-				|| string.IsNullOrWhiteSpace(HelperClass.GetTwitchApiCredentials(_appSettings).ClientSecret);
+			_requiresCredentialSetup = string.IsNullOrWhiteSpace(HelperClass.GetTwitchApiCredentials(_appSettings).ClientId);
 			_logger.Info("Initialize Update Controller");
 			_updateController = new UpdateController();
 
@@ -261,8 +262,8 @@ namespace NanoTwitchLeafs.Windows
 			{
 				settings_TabControl.SelectedItem = ApiSettings_Tabitem;
 				string setupText = _appSettings.Language == "de-DE"
-					? "Für die Twitch-Anmeldung müssen zuerst eine eigene Twitch Client-ID und ein Client-Secret unter 'API Einstellungen' eingetragen und gespeichert werden."
-					: "Before signing in to Twitch, enter and save your own Twitch Client ID and Client Secret under 'API Settings'.";
+					? "Für die Twitch-Anmeldung muss zuerst eine Twitch Client-ID unter 'API Einstellungen' eingetragen und gespeichert werden."
+					: "Before signing in to Twitch, enter and save a Twitch Client ID under 'API Settings'.";
 				string setupTitle = _appSettings.Language == "de-DE"
 					? "NanoTwitchLeafs 4 – Ersteinrichtung"
 					: "NanoTwitchLeafs 4 – Initial setup";
@@ -383,8 +384,8 @@ namespace NanoTwitchLeafs.Windows
 				language_Combobox.ItemsSource = languages;
 				bool germanUi = _appSettings.Language == "de-DE";
 				TwitchApiHelp_TextBlock.Text = germanUi
-					? "Client-ID und Client-Secret erhältst du über die Twitch Developer Console. Lege dort eine Anwendung mit der OAuth-Weiterleitungs-URL http://localhost:3000 an."
-					: "Get the Client ID and Client Secret from the Twitch Developer Console. Register an application there with the OAuth redirect URL http://localhost:3000.";
+					? "Die Client-ID erhältst du über die Twitch Developer Console. Wähle den Client-Typ Öffentlich. Falls Twitch eine Weiterleitungs-URL verlangt, verwende https://localhost. NTL nutzt die Gerätecode-Anmeldung ohne Client-Secret."
+					: "Get the Client ID from the Twitch Developer Console. Select the Public client type. If Twitch requires a redirect URL, use https://localhost. NTL uses device-code authentication without a Client Secret.";
 				OpenTwitchDeveloperConsole_Button.Content = germanUi
 					? "Twitch-Anwendung erstellen / verwalten"
 					: "Create / manage Twitch application";
@@ -658,8 +659,23 @@ namespace NanoTwitchLeafs.Windows
 
 		private void ConnectTwitchAccount_Button_Click(object sender, RoutedEventArgs e)
 		{
-			var twitchLinkWindow = new TwitchLinkWindow(_appSettings, _twitchController, _appSettingsController) { Owner = this };
-			twitchLinkWindow.ShowDialog();
+			try
+			{
+				var twitchLinkWindow = new TwitchLinkWindow(_appSettings, _twitchController, _appSettingsController) { Owner = this };
+				twitchLinkWindow.ShowDialog();
+			}
+			catch (Exception exception)
+			{
+				_logger.Error("Could not open Twitch account connection.", exception);
+				MessageBox.Show(
+					(_appSettings.Language == "de-DE"
+						? "Die Twitch-Verbindung konnte nicht geöffnet werden."
+						: "The Twitch connection could not be opened.") +
+					$"\n\n{exception.Message}\n\nLogdatei:\n{Constants.LOG_PATH}",
+					Properties.Resources.General_MessageBox_Error_Title,
+					MessageBoxButton.OK,
+					MessageBoxImage.Error);
+			}
 		}
 
 		private void DisconnectTwitchAccount_Button_Click(object sender, RoutedEventArgs e)
