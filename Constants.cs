@@ -34,6 +34,14 @@ namespace NanoTwitchLeafs
 #endif
 		private static readonly string LOGFOLDER_PATH = Path.Combine(PROGRAMFILESFOLDER_PATH, "logs"); // Path for old Logfiles
 
+		// Read-only source paths used by the optional first-start migration from Locxion\'s 3.x release.
+		public static readonly string LEGACY_PROGRAMFILESFOLDER_PATH = Path.Combine(APPDATA_PATH, "NanoTwitchLeafs");
+		public static readonly string LEGACY_SETTINGS_PATH = Path.Combine(LEGACY_PROGRAMFILESFOLDER_PATH, "settings.txt");
+		public static readonly string LEGACY_DATABASE_PATH = Path.Combine(LEGACY_PROGRAMFILESFOLDER_PATH, "nanotwitchleafs.sqlite");
+		public static readonly string LEGACY_MIGRATION_ACCEPTED_PATH = Path.Combine(PROGRAMFILESFOLDER_PATH, ".migration-3x-accepted");
+		public static readonly string LEGACY_MIGRATION_COMPLETED_PATH = Path.Combine(PROGRAMFILESFOLDER_PATH, ".migration-3x-completed");
+		public static readonly string LEGACY_MIGRATION_BACKUP_PATH = Path.Combine(PROGRAMFILESFOLDER_PATH, "Migration-Backup-3.x");
+
 		private static readonly string SETTINGS_FILE = "settings.txt";
 		private static readonly string DEBUG_SETTINGS_FILE = "debug_settings.txt";
 

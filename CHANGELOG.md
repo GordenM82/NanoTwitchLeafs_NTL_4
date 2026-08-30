@@ -60,6 +60,9 @@ NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 u
 - vor jeder Änderung wird `triggers.json.backup` als Sicherung erzeugt
 - alte verschlüsselte Einstellungen mit einem als JSON-Objekt gespeicherten Versionswert werden unter .NET 10 korrekt gelesen
 - öffentliche Builds starten ohne mitgelieferte Zugangsdaten und ohne ungefragte Datenübernahme
+- beim ersten Start werden vorhandene Daten aus Locxions NanoTwitchLeafs 3.x erkannt und nur nach ausdrücklicher Bestätigung übernommen
+- alte Einstellungen werden in den getrennten NTL-4-Datenordner kopiert und SQLite-Trigger sicher nach `triggers.json` konvertiert
+- vor der Migration wird eine zusätzliche Sicherung erstellt; die ursprüngliche 3.x-Installation bleibt unverändert und weiterhin nutzbar
 - eigene Twitch-, Streamlabs- und HypeRate-Zugangsdaten können über die API-Einstellungen eingerichtet werden
 - deutschsprachige Windows-Systeme starten standardmäßig mit deutscher Oberfläche; Englisch bleibt auswählbar
 - API-Einstellungen enthalten eine Kurzanleitung und einen direkten Link zur Twitch Developer Console
@@ -131,6 +134,9 @@ NanoTwitchLeafs 4 is based on Locxion's last original version 3.1.5.0 and the su
 - `triggers.json.backup` is created before each change
 - old encrypted settings containing a version stored as a JSON object are read correctly under .NET 10
 - public builds start without bundled credentials and without importing existing data unexpectedly
+- existing data from Locxion's NanoTwitchLeafs 3.x is detected on first launch and imported only after explicit confirmation
+- previous settings are copied into the separate NTL 4 data folder and SQLite triggers are safely converted to `triggers.json`
+- an additional backup is created before migration; the original 3.x installation remains unchanged and usable
 - personal Twitch, Streamlabs, and HypeRate credentials can be configured through API Settings
 - German-language Windows systems now start with the German interface by default; English remains selectable
 - API Settings include brief instructions and a direct link to the Twitch Developer Console
