@@ -33,26 +33,26 @@ jobs:
           --configuration Release
           --runtime win-x64
           --self-contained true
-          --output .\artifacts\NanoTwitchLeafs-4.0.0.1-win-x64
+          --output .\artifacts\NanoTwitchLeafs-4.0.0.2-win-x64
 
       - name: Buildinhalt prüfen
         shell: pwsh
         run: |
-          $exe = ".\artifacts\NanoTwitchLeafs-4.0.0.1-win-x64\NanoTwitchLeafs.exe"
+          $exe = ".\artifacts\NanoTwitchLeafs-4.0.0.2-win-x64\NanoTwitchLeafs.exe"
           if (-not (Test-Path $exe)) { throw "NanoTwitchLeafs.exe fehlt." }
-          Get-ChildItem ".\artifacts\NanoTwitchLeafs-4.0.0.1-win-x64"
+          Get-ChildItem ".\artifacts\NanoTwitchLeafs-4.0.0.2-win-x64"
 
       - name: Direkt nutzbares ZIP erstellen
         shell: pwsh
         run: >-
           Compress-Archive
-          -Path .\artifacts\NanoTwitchLeafs-4.0.0.1-win-x64\*
-          -DestinationPath .\artifacts\NanoTwitchLeafs-4.0.0.1-win-x64.zip
+          -Path .\artifacts\NanoTwitchLeafs-4.0.0.2-win-x64\*
+          -DestinationPath .\artifacts\NanoTwitchLeafs-4.0.0.2-win-x64.zip
           -CompressionLevel Optimal
 
       - name: Testbuild bereitstellen
         uses: actions/upload-artifact@v4
         with:
-          name: NanoTwitchLeafs-4.0.0.1-win-x64
-          path: .\artifacts\NanoTwitchLeafs-4.0.0.1-win-x64.zip
+          name: NanoTwitchLeafs-4.0.0.2-win-x64
+          path: .\artifacts\NanoTwitchLeafs-4.0.0.2-win-x64.zip
           if-no-files-found: error
