@@ -1,4 +1,4 @@
-using log4net;
+﻿using log4net;
 using NanoTwitchLeafs.Windows;
 using System;
 using System.IO;
@@ -14,7 +14,7 @@ namespace NanoTwitchLeafs
     {
         private async void App_Startup(object sender, StartupEventArgs e)
         {
-#if NTL4_MIGRATION
+#if NTL4_PRIVATE_MIGRATION
             CopyStableDataForFirstNtl4Start();
 #endif
             // Create Nanoleafs directory.
@@ -53,7 +53,7 @@ namespace NanoTwitchLeafs
             }
         }
 
-#if NTL4_MIGRATION
+#if NTL4_PRIVATE_MIGRATION
         private static void CopyStableDataForFirstNtl4Start()
         {
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
