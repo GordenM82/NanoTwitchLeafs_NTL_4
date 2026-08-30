@@ -1,0 +1,55 @@
+name: Build NanoTwitchLeafs 4
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - ntl-4
+    tags:
+      - "4.*"
+
+jobs:
+  publish-windows-x64:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Quellcode laden
+        uses: actions/checkout@v4
+
+      - name: .NET 10 einrichten
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Windows-x64 veröffentlichen
+        shell: pwsh
+        run: >-
+          dotnet publish .\NanoTwitchLeafs.Modern.csproj
+          --configuration Release
+          --runtime win-x64
+          --self-contained true
+          --output .\artifacts\NanoTwitchLeafs-4.0.0-win-x64
+
+      - name: Buildinhalt prüfen
+        shell: pwsh
+        run: |
+          $exe = ".\artifacts\NanoTwitchLeafs-4.0.0-win-x64\NanoTwitchLeafs.exe"
+          if (-not (Test-Path $exe)) { throw "NanoTwitchLeafs.exe fehlt." }
+          Get-ChildItem ".\artifacts\NanoTwitchLeafs-4.0.0-win-x64"
+
+      - name: Direkt nutzbares ZIP erstellen
+        shell: pwsh
+        run: >-
+          Compress-Archive
+          -Path .\artifacts\NanoTwitchLeafs-4.0.0-win-x64\*
+          -DestinationPath .\artifacts\NanoTwitchLeafs-4.0.0-win-x64.zip
+          -CompressionLevel Optimal
+
+      - name: Testbuild bereitstellen
+        uses: actions/upload-artifact@v4
+        with:
+          name: NanoTwitchLeafs-4.0.0-win-x64
+          path: .\artifacts\NanoTwitchLeafs-4.0.0-win-x64.zip
+          if-no-files-found: error
