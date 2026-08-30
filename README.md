@@ -35,13 +35,11 @@ Es gibt keine Zusage für regelmäßige Aktualisierungen, Support oder eine daue
 - Wiederherstellung des vorherigen Nanoleaf-Zustands nach einem Trigger
 - optionale Soundwiedergabe für Trigger
 
-Eine Anbindung an **Streamer.bot ist derzeit nicht enthalten** und kann möglicherweise später optional ergänzt werden.
-
 ### Neuerungen in Version 4
 
 - Umstellung von .NET Framework 4.7.2 auf .NET 10
 - eigenständiger Windows-x64-Build einschließlich benötigter .NET-Laufzeit
-- direkt startbare `NanoTwitchLeafs.exe` ohne Build-Skript und ohne Visual Studio
+- direkt startbare `NanoTwitchLeafs.exe`
 - Unterstützung von Windows 10 und Windows 11 auf 64-Bit-Systemen
 - Triggerverwaltung ohne dauerhaft benötigte Datenbank
 - lokale Speicherung der Trigger in `triggers.json`
@@ -68,27 +66,15 @@ Windows 7, Windows 8/8.1 und 32-Bit-Systeme werden von NanoTwitchLeafs 4 nicht u
 2. Benötigte Service-Credentials neben `NanoTwitchLeafs.exe` ablegen.
 3. `NanoTwitchLeafs.exe` direkt starten.
 
-Ein Aufruf von `Build_NTL.cmd`, eine Visual-Studio-Installation oder eine gesonderte .NET-Installation sind für das fertige Paket nicht erforderlich.
-
-> **Wichtig:** Zugangsdaten, Tokens, `ServiceCredentials`, `ServiceCredentials.local` und persönliche Einstellungsdateien dürfen niemals in ein öffentliches Repository, einen Fehlerbericht oder einen Screenshot hochgeladen werden.
+> **Wichtig:** Zugangsdaten, Tokens, `ServiceCredentials` und persönliche Einstellungsdateien dürfen niemals in ein öffentliches Repository, einen Fehlerbericht oder einen Screenshot hochgeladen werden.
 
 Die spätere öffentliche Ausgabe soll beim ersten Start vollständig leer beginnen. Eine Übernahme vorhandener Daten aus NanoTwitchLeafs 3.x erfolgt dann nicht ungefragt.
-
-### Lokale Daten
-
-Während der privaten Testphase verwendet NanoTwitchLeafs 4 einen getrennten Ordner:
-
-```text
-%APPDATA%\NanoTwitchLeafs-4-Test
-```
-
-Die stabile Installation von Version 3.2.0.5 und ihre Daten bleiben dadurch unverändert. Trigger von NTL 4 befinden sich in `triggers.json`; die vorherige Fassung wird als `triggers.json.backup` gesichert.
 
 ### Fehlerberichte und Vorschläge
 
 Fehlerberichte und Vorschläge können über die GitHub-Issues dieses Repositories eingereicht werden. Bitte keine Zugangsdaten, OAuth-Tokens, Client-Secrets oder vollständigen Einstellungsdateien anhängen.
 
-Aus einem eingereichten Vorschlag entsteht kein Anspruch auf Umsetzung oder Support.
+Da sich das Projekt in einem experimentellen Stadium befindet und derzeit nicht feststeht, ob es dauerhaft weitergeführt wird, entsteht aus einem eingereichten Vorschlag kein Anspruch auf Umsetzung, Aktualisierungen oder Support.
 
 ### Ursprung und Lizenz
 
@@ -125,13 +111,11 @@ There is no commitment to regular updates, support, or long-term maintenance. Ve
 - restoration of the previous Nanoleaf state after a trigger
 - optional sound playback for triggers
 
-**Streamer.bot integration is not currently included** and may possibly be added as an optional feature later.
-
 ### What's new in version 4
 
 - migrated from .NET Framework 4.7.2 to .NET 10
 - self-contained Windows x64 build including the required .NET runtime
-- directly executable `NanoTwitchLeafs.exe` without a build script or Visual Studio
+- directly executable `NanoTwitchLeafs.exe`
 - support for 64-bit Windows 10 and Windows 11
 - trigger management without a permanently required database
 - local trigger storage in `triggers.json`
@@ -158,27 +142,15 @@ Windows 7, Windows 8/8.1, and 32-bit systems are not supported by NanoTwitchLeaf
 2. Place the required service credentials next to `NanoTwitchLeafs.exe`.
 3. Start `NanoTwitchLeafs.exe` directly.
 
-The finished package does not require `Build_NTL.cmd`, Visual Studio, or a separate .NET installation.
-
-> **Important:** Never upload credentials, tokens, `ServiceCredentials`, `ServiceCredentials.local`, or personal settings files to a public repository, bug report, or screenshot.
+> **Important:** Never upload credentials, tokens, `ServiceCredentials`, or personal settings files to a public repository, bug report, or screenshot.
 
 The future public edition is intended to start with a completely clean configuration. Existing NanoTwitchLeafs 3.x data will not be imported without an explicit user action.
-
-### Local data
-
-During private testing, NanoTwitchLeafs 4 uses a separate directory:
-
-```text
-%APPDATA%\NanoTwitchLeafs-4-Test
-```
-
-The stable 3.2.0.5 installation and its data remain unchanged. NTL 4 triggers are stored in `triggers.json`; the previous state is preserved as `triggers.json.backup`.
 
 ### Bug reports and suggestions
 
 Bug reports and suggestions may be submitted through this repository's GitHub Issues. Do not attach credentials, OAuth tokens, client secrets, or complete settings files.
 
-Submitting a suggestion does not imply a commitment to implementation or support.
+Because this project is experimental and it is not yet certain whether it will be maintained permanently, submitting a suggestion does not imply any commitment to implementation, updates, or support.
 
 ### Origin and license
 
