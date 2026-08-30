@@ -1,5 +1,9 @@
 Changelog for NanoTwitchLeafs
 
+Version 4.0.0.2 - Testkorrektur
+- WPF-Audioplayer wird bei Triggern vollständig über seinen Besitzerthread gesteuert
+- Threadfehler beim Stoppen eines Sounds nach Ablauf eines Triggers behoben
+
 Version 4.0.0.1 - Testkorrektur
 - Alte verschlüsselte Einstellungen aus 3.2.0.5 werden unter .NET 10 korrekt
   übernommen, auch wenn die frühere Programmversion als JSON-Objekt gespeichert war
