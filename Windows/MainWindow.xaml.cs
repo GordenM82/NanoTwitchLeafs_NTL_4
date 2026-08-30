@@ -58,10 +58,76 @@ namespace NanoTwitchLeafs.Windows
 		private bool _requiresCredentialSetup;
 		private static string DisplayVersion => typeof(AppInfoWindow).Assembly.GetName().Version.ToString(3);
 
+		private static void TryPrepareLegacyMigration()
+		{
+#if NTL4
+			if (File.Exists(Constants.SETTINGS_PATH) ||
+				File.Exists(Constants.TRIGGERS_PATH) ||
+				File.Exists(Constants.LEGACY_MIGRATION_ACCEPTED_PATH) ||
+				File.Exists(Constants.LEGACY_MIGRATION_COMPLETED_PATH))
+			{
+				return;
+			}
+
+			bool hasLegacySettings = File.Exists(Constants.LEGACY_SETTINGS_PATH);
+			bool hasLegacyTriggers = File.Exists(Constants.LEGACY_DATABASE_PATH);
+			if (!hasLegacySettings && !hasLegacyTriggers)
+			{
+				return;
+			}
+
+			bool german = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName
+				.Equals("de", StringComparison.OrdinalIgnoreCase);
+			string message = german
+				? "Es wurden Daten einer bisherigen NanoTwitchLeafs-3.x-Installation gefunden.\n\n" +
+				  "Sollen Einstellungen und Trigger nach NanoTwitchLeafs 4 übernommen werden? " +
+				  "Vor dem Import wird eine Sicherung erstellt. Die ursprünglichen Daten werden nicht verändert."
+				: "Data from an existing NanoTwitchLeafs 3.x installation was found.\n\n" +
+				  "Import settings and triggers into NanoTwitchLeafs 4? A backup is created before import. " +
+				  "The original data will not be changed.";
+			string title = german ? "NanoTwitchLeafs 4 – Daten übernehmen" : "NanoTwitchLeafs 4 – Import data";
+
+			if (MessageBox.Show(message, title, MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+			{
+				return;
+			}
+
+			try
+			{
+				Directory.CreateDirectory(Constants.PROGRAMFILESFOLDER_PATH);
+				Directory.CreateDirectory(Constants.LEGACY_MIGRATION_BACKUP_PATH);
+
+				if (hasLegacySettings)
+				{
+					File.Copy(Constants.LEGACY_SETTINGS_PATH,
+						Path.Combine(Constants.LEGACY_MIGRATION_BACKUP_PATH, "settings.txt"), true);
+					File.Copy(Constants.LEGACY_SETTINGS_PATH, Constants.SETTINGS_PATH, false);
+				}
+
+				if (hasLegacyTriggers)
+				{
+					File.Copy(Constants.LEGACY_DATABASE_PATH,
+						Path.Combine(Constants.LEGACY_MIGRATION_BACKUP_PATH, "nanotwitchleafs.sqlite"), true);
+				}
+
+				File.WriteAllText(Constants.LEGACY_MIGRATION_ACCEPTED_PATH, DateTime.UtcNow.ToString("O"));
+			}
+			catch (Exception exception)
+			{
+				MessageBox.Show(
+					(german ? "Die Datenübernahme konnte nicht vorbereitet werden. Die bisherigen Daten wurden nicht verändert.\n\n"
+						: "The data import could not be prepared. The existing data was not changed.\n\n") + exception.Message,
+					title, MessageBoxButton.OK, MessageBoxImage.Warning);
+			}
+#endif
+		}
+
 		#region Init
 
 		public MainWindow()
 		{
+			TryPrepareLegacyMigration();
+
 			// Load settings for Language
 			_appSettingsController = new AppSettingsController();
 			_appSettings = _appSettingsController.LoadSettings();
@@ -1514,45 +1580,52 @@ namespace NanoTwitchLeafs.Windows
 		private JsonTriggerController CreateNtl4TriggerStore()
 		{
 			var jsonStore = new JsonTriggerController(Constants.TRIGGERS_PATH);
-
-#if NTL4_PRIVATE_MIGRATION
-			if (jsonStore.Exists || !File.Exists(Constants.DATABASE_PATH))
+			if (jsonStore.Exists || !File.Exists(Constants.LEGACY_MIGRATION_ACCEPTED_PATH))
 			{
 				return jsonStore;
 			}
 
 			try
 			{
-				_logger.Info("Import triggers from copied NanoTwitchLeafs 3.2.0.5 database.");
-				var legacyStore = new DatabaseController<TriggerSetting>(Constants.DATABASE_PATH);
-				var legacyTriggers = legacyStore.Load();
+				if (File.Exists(Constants.LEGACY_DATABASE_PATH))
+				{
+					_logger.Info("Import triggers from the existing NanoTwitchLeafs 3.x database.");
+					var legacyStore = new DatabaseController<TriggerSetting>(Constants.LEGACY_DATABASE_PATH);
+					var legacyTriggers = legacyStore.Load();
 
-				if (legacyTriggers.Count == 0)
-				{
-					jsonStore.ClearTable();
-				}
-				else
-				{
-					foreach (TriggerSetting trigger in legacyTriggers)
+					if (legacyTriggers.Count == 0)
 					{
-						jsonStore.Save(trigger);
+						jsonStore.ClearTable();
 					}
+					else
+					{
+						foreach (TriggerSetting trigger in legacyTriggers)
+						{
+							jsonStore.Save(trigger);
+						}
+					}
+
+					_logger.Info($"Imported {legacyTriggers.Count} triggers into local JSON storage.");
 				}
 
-				_logger.Info($"Imported {legacyTriggers.Count} triggers into local JSON storage.");
+				File.WriteAllText(Constants.LEGACY_MIGRATION_COMPLETED_PATH, DateTime.UtcNow.ToString("O"));
+				File.Delete(Constants.LEGACY_MIGRATION_ACCEPTED_PATH);
 			}
 			catch (Exception exception)
 			{
-				_logger.Error("Could not import the copied 3.2.0.5 trigger database.", exception);
+				_logger.Error("Could not import the existing NanoTwitchLeafs 3.x trigger database.", exception);
+				bool german = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName
+					.Equals("de", StringComparison.OrdinalIgnoreCase);
 				MessageBox.Show(
-					"Die bisherigen Trigger konnten nicht automatisch in das neue lokale Format kopiert werden.\n\n" +
-					"Die Daten von Version 3.2.0.5 wurden nicht verändert. Weitere Einzelheiten stehen im Protokoll.",
-					"NanoTwitchLeafs 4 – Triggerimport",
+					german
+						? "Die bisherigen Trigger konnten nicht automatisch in das neue Format übernommen werden.\n\n" +
+						  "Die Originaldaten wurden nicht verändert. Weitere Einzelheiten stehen im Protokoll."
+						: "The existing triggers could not be imported into the new format.\n\n" +
+						  "The original data was not changed. See the log for details.",
+					german ? "NanoTwitchLeafs 4 – Triggerimport" : "NanoTwitchLeafs 4 – Trigger import",
 					MessageBoxButton.OK,
 					MessageBoxImage.Warning);
-				}
-
-			#endif
+			}
 			return jsonStore;
 		}
 #endif
