@@ -132,6 +132,8 @@
 					<Label Content="StreamlabsClientSecret:" HorizontalAlignment="Left" Margin="13,275,0,0" VerticalAlignment="Top" />
 					<Label Content="HypeRate API Key:" HorizontalAlignment="Left" Margin="13,322,0,0" VerticalAlignment="Top" />
 					<PasswordBox x:Name="HypeRateApiKey_Textbox" Margin="10,347,10,0" Password="" VerticalAlignment="Top" IsEnabled="False" />
+					<TextBlock x:Name="TwitchApiHelp_TextBlock" Margin="10,378,10,0" VerticalAlignment="Top" TextWrapping="Wrap" Text="Client-ID und Client-Secret erhältst du über die Twitch Developer Console." />
+					<Button x:Name="OpenTwitchDeveloperConsole_Button" Margin="10,424,10,0" VerticalAlignment="Top" Height="25" Content="Twitch-Anwendung erstellen / verwalten" Click="OpenTwitchDeveloperConsole_Button_Click" />
                 </Grid>
             </TabItem>
         </TabControl>
