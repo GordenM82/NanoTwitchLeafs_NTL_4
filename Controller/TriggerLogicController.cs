@@ -1,4 +1,4 @@
-using log4net;
+﻿using log4net;
 using NanoTwitchLeafs.Colors;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Objects;
@@ -304,16 +304,19 @@ namespace NanoTwitchLeafs.Controller
 
 		private void PlaySound(string path, int volume)
 		{
-#if NTL4_MIGRATION
-			_wmPlayer.Stop();
-			_wmPlayer.Volume = Math.Max(0, Math.Min(100, volume)) / 100d;
-#else
-			_wmPlayer.controls.stop();
-			_wmPlayer.settings.volume = volume;
-#endif
-
 			try
 			{
+			#if NTL4_MIGRATION
+				RunOnMediaPlayerThread(() =>
+				{
+					_wmPlayer.Stop();
+					_wmPlayer.Volume = Math.Max(0, Math.Min(100, volume)) / 100d;
+				});
+			#else
+				_wmPlayer.controls.stop();
+				_wmPlayer.settings.volume = volume;
+			#endif
+
 				_logger.Debug($"Read Sound File: {path}");
 				if (!File.Exists(path))
 				{
@@ -322,8 +325,11 @@ namespace NanoTwitchLeafs.Controller
 				}
 				_logger.Debug($"Play Sound File: {path}");
 #if NTL4_MIGRATION
-				_wmPlayer.Open(new Uri(path, UriKind.Absolute));
-				_wmPlayer.Play();
+				RunOnMediaPlayerThread(() =>
+				{
+					_wmPlayer.Open(new Uri(path, UriKind.Absolute));
+					_wmPlayer.Play();
+				});
 #else
 				_wmPlayer.URL = path;
 				_wmPlayer.controls.play();
@@ -335,6 +341,19 @@ namespace NanoTwitchLeafs.Controller
 				_logger.Error(ex.Message, ex);
 			}
 		}
+
+#if NTL4_MIGRATION
+		private void RunOnMediaPlayerThread(Action action)
+		{
+			if (_wmPlayer.Dispatcher.CheckAccess())
+			{
+				action();
+				return;
+			}
+
+			_wmPlayer.Dispatcher.Invoke(action);
+		}
+#endif
 
 #if !NTL4_MIGRATION
 		private void PlayStateChange(int newState)
@@ -1115,7 +1134,7 @@ namespace NanoTwitchLeafs.Controller
 					}
 				}
 #if NTL4_MIGRATION
-				_wmPlayer.Stop();
+				RunOnMediaPlayerThread(() => _wmPlayer.Stop());
 #else
 				_wmPlayer.controls.stop();
 #endif
