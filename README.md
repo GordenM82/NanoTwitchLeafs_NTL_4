@@ -64,12 +64,12 @@ Windows 7, Windows 8/8.1 und 32-Bit-Systeme werden von NanoTwitchLeafs 4 nicht u
 
 1. Das Windows-x64-ZIP vollständig in einen eigenen Ordner entpacken.
 2. `NanoTwitchLeafs.exe` starten.
-3. Unter **API Einstellungen** die eigene Twitch Client-ID und das Client-Secret eintragen und speichern.
+3. Unter **API Einstellungen** die Twitch Client-ID eintragen und speichern. Ein Client-Secret wird nicht benötigt.
 4. Anschließend im Reiter **Twitch** das Twitch-Konto verbinden. Streamlabs- und HypeRate-Zugangsdaten sind nur bei Nutzung dieser Funktionen erforderlich.
 
 Beim ersten Start verwendet NanoTwitchLeafs auf einem deutschsprachigen Windows automatisch Deutsch. Die Sprache kann unter **Einstellungen** zwischen Deutsch und Englisch umgestellt werden.
 
-Eine Twitch-Anwendung kann in der [Twitch Developer Console](https://dev.twitch.tv/console/apps) registriert werden. Als OAuth-Weiterleitungs-URL wird `http://localhost:3000` verwendet. Twitch verlangt für den Zugriff auf die Developer Console ein bestätigtes Konto mit aktivierter Zwei-Faktor-Authentifizierung. Die ausführliche offizielle Anleitung steht unter [Registering Your App](https://dev.twitch.tv/docs/authentication/register-app/).
+Eine Twitch-Anwendung kann in der [Twitch Developer Console](https://dev.twitch.tv/console/apps) registriert werden. Als Client-Typ **Öffentlich** auswählen. Falls Twitch beim Anlegen eine Weiterleitungs-URL verlangt, kann `https://localhost` eingetragen werden; NanoTwitchLeafs verwendet für die Anmeldung den Gerätecode-Ablauf und benötigt diese URL nicht. Twitch verlangt für den Zugriff auf die Developer Console ein bestätigtes Konto mit aktivierter Zwei-Faktor-Authentifizierung. Die ausführliche offizielle Anleitung steht unter [Registering Your App](https://dev.twitch.tv/docs/authentication/register-app/).
 
 > **Wichtig:** Zugangsdaten, Tokens, `ServiceCredentials` und persönliche Einstellungsdateien dürfen niemals in ein öffentliches Repository, einen Fehlerbericht oder einen Screenshot hochgeladen werden.
 
@@ -145,12 +145,12 @@ Windows 7, Windows 8/8.1, and 32-bit systems are not supported by NanoTwitchLeaf
 
 1. Extract the complete Windows x64 ZIP into its own folder.
 2. Start `NanoTwitchLeafs.exe`.
-3. Under **API Settings**, enter and save your own Twitch Client ID and Client Secret.
+3. Under **API Settings**, enter and save the Twitch Client ID. A Client Secret is not required.
 4. Then connect the Twitch account from the **Twitch** tab. Streamlabs and HypeRate credentials are only required when those features are used.
 
 On a German-language Windows installation, NanoTwitchLeafs starts in German by default. The language can be switched between German and English under **Settings**.
 
-A Twitch application can be registered in the [Twitch Developer Console](https://dev.twitch.tv/console/apps). Use `http://localhost:3000` as the OAuth redirect URL. Twitch requires a verified account with two-factor authentication enabled to access the Developer Console. Detailed official instructions are available under [Registering Your App](https://dev.twitch.tv/docs/authentication/register-app/).
+A Twitch application can be registered in the [Twitch Developer Console](https://dev.twitch.tv/console/apps). Select the **Public** client type. If Twitch requires a redirect URL while creating the application, `https://localhost` may be entered; NanoTwitchLeafs uses device-code authentication and does not use this URL. Twitch requires a verified account with two-factor authentication enabled to access the Developer Console. Detailed official instructions are available under [Registering Your App](https://dev.twitch.tv/docs/authentication/register-app/).
 
 > **Important:** Never upload credentials, tokens, `ServiceCredentials`, or personal settings files to a public repository, bug report, or screenshot.
 
