@@ -48,6 +48,10 @@ Es gibt keine Zusage für regelmäßige Aktualisierungen, Support oder eine daue
 - aktualisierte Twitch-EventSub-Abonnements einschließlich HypeTrain v2
 - vergrößerte und frei skalierbare Triggerfenster
 - modernisierte Soundwiedergabe ohne Abhängigkeit vom Windows Media Player COM-Modul
+- deutsche Benutzeroberfläche als Standard auf deutschsprachigen Windows-Systemen; Englisch bleibt auswählbar
+- Twitch-Anmeldung über den offiziellen Gerätecode-Ablauf für öffentliche Desktop-Anwendungen; kein Client-Secret erforderlich
+- sauberer Erststart ohne mitgelieferte Zugangsdaten oder ungefragte Übernahme vorhandener Daten
+- lokale Speicherung persönlicher Daten ohne Telemetrie oder Nutzungsanalyse
 
 Der vollständige zweisprachige Verlauf seit der letzten ursprünglichen Locxion-Version steht im [Änderungsprotokoll](CHANGELOG.md). Der historische Originalverlauf bleibt zusätzlich in [changelog.txt](changelog.txt) erhalten. Hinweise zur lokalen Speicherung und zu externen Verbindungen stehen unter [Datenschutz](PRIVACY.md).
 
@@ -129,6 +133,10 @@ There is no commitment to regular updates, support, or long-term maintenance. Ve
 - updated Twitch EventSub subscriptions, including Hype Train v2
 - larger and freely resizable trigger windows
 - modernized sound playback without the Windows Media Player COM dependency
+- German interface by default on German-language Windows systems; English remains selectable
+- Twitch authentication through the official device-code flow for public desktop applications; no Client Secret required
+- clean first launch without bundled credentials or unexpected import of existing data
+- local storage of personal data without telemetry or usage analytics
 
 The complete bilingual history since the last original Locxion release is available in the [changelog](CHANGELOG.md). The original historical version log also remains available in [changelog.txt](changelog.txt). Details about local storage and external connections are available under [Privacy](PRIVACY.md).
 
