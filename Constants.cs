@@ -1,4 +1,4 @@
-using NanoTwitchLeafs.Objects;
+﻿using NanoTwitchLeafs.Objects;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -50,7 +50,13 @@ namespace NanoTwitchLeafs
 
 		#region ServiceCredentials
 
-		public static readonly string SERVICE_CREDENTIALS_PATH = AppDomain.CurrentDomain.BaseDirectory + "/ServiceCredentials";
+		public static readonly string SERVICE_CREDENTIALS_PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ServiceCredentials");
+		public static readonly string[] SERVICE_CREDENTIALS_PATHS =
+		{
+			SERVICE_CREDENTIALS_PATH,
+			Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ServiceCredentials.local"),
+			Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ServiceCredential.local")
+		};
 		public static ServiceCredentials ServiceCredentials;
 
 		#endregion
