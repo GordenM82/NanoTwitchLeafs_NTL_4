@@ -1,4 +1,4 @@
-using NanoTwitchLeafs.Controller;
+﻿using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Objects;
 using System;
 using System.Diagnostics;
@@ -19,7 +19,7 @@ namespace NanoTwitchLeafs.Windows
             _appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
             Constants.SetCultureInfo(_appSettings.Language);
             InitializeComponent();
-            version_Label.Content = typeof(AppInfoWindow).Assembly.GetName().Version;
+            version_Label.Content = typeof(AppInfoWindow).Assembly.GetName().Version.ToString(3);
         }
 
         private void Feedback_Button_Click(object sender, RoutedEventArgs e)
