@@ -49,10 +49,14 @@ namespace NanoTwitchLeafs.Windows
 		private readonly TriggerLogicController _triggerLogicController;
 		private readonly HypeRateIOController _hypeRatecontroller;
 		private readonly UpdateController _updateController;
+#if !NTL4
 		private readonly AnalyticsController _analyticsController;
+#endif
 		private readonly TaskbarIcon _tbi = new TaskbarIcon();
 		private readonly TwitchEventSubController _twitchEventSubController;
 		private bool _initialWindowActivationCompleted;
+		private bool _requiresCredentialSetup;
+		private static string DisplayVersion => typeof(AppInfoWindow).Assembly.GetName().Version.ToString(3);
 
 		#region Init
 
@@ -67,6 +71,11 @@ namespace NanoTwitchLeafs.Windows
 
 			// Init Window and Controls
 			InitializeComponent();
+
+#if NTL4
+			analyticsChannel_Checkbox.Visibility = Visibility.Collapsed;
+			_appSettings.AnalyticsChannelName = false;
+#endif
 
 #if !DEBUG
             InstanceCheck();
@@ -91,8 +100,8 @@ namespace NanoTwitchLeafs.Windows
 
 			// Initialize Controller
 #if RELEASE
-            _logger.Info($"Start Program - Version: {typeof(AppInfoWindow).Assembly.GetName().Version}");
-            _tbi.ToolTipText = $"NanoTwitchLeafs {typeof(AppInfoWindow).Assembly.GetName().Version}";
+            _logger.Info($"Start Program - Version: {DisplayVersion}");
+            _tbi.ToolTipText = $"NanoTwitchLeafs {DisplayVersion}";
 #endif
 #if BETA
             _logger.Info($"Start Program - Version: {typeof(AppInfoWindow).Assembly.GetName().Version} - BETA");
@@ -123,19 +132,31 @@ namespace NanoTwitchLeafs.Windows
 				SetLogLevel(Level.Debug);
 			
 			_logger.Info("Load Service Credentials");
+			Constants.ServiceCredentials = CreateEmptyServiceCredentials();
 			string serviceCredentialsPath = Constants.SERVICE_CREDENTIALS_PATHS.FirstOrDefault(File.Exists);
 			if (serviceCredentialsPath != null)
 			{
-				var credentialsJson = File.ReadAllText(serviceCredentialsPath);
-				Constants.ServiceCredentials = JsonConvert.DeserializeObject<ServiceCredentials>(credentialsJson);
-				_logger.Info($"Loaded Service Credentials from {Path.GetFileName(serviceCredentialsPath)}");
+				try
+				{
+					var credentialsJson = File.ReadAllText(serviceCredentialsPath);
+					Constants.ServiceCredentials = JsonConvert.DeserializeObject<ServiceCredentials>(credentialsJson)
+						?? CreateEmptyServiceCredentials();
+					NormalizeServiceCredentials();
+					_logger.Info($"Loaded Service Credentials from {Path.GetFileName(serviceCredentialsPath)}");
+				}
+				catch (Exception exception)
+				{
+					Constants.ServiceCredentials = CreateEmptyServiceCredentials();
+					_logger.Error("Could not load the optional Service Credentials file.", exception);
+				}
 			}
 			else
 			{
-				MessageBox.Show("Could not load provided Service Credentials!", Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
-				_logger.Error("Could not load provided Service Credentials!");
-				Close();
+				_logger.Info("No bundled Service Credentials found. User-owned credentials will be used.");
 			}
+
+			_requiresCredentialSetup = string.IsNullOrWhiteSpace(HelperClass.GetTwitchApiCredentials(_appSettings).ClientId)
+				|| string.IsNullOrWhiteSpace(HelperClass.GetTwitchApiCredentials(_appSettings).ClientSecret);
 			_logger.Info("Initialize Update Controller");
 			_updateController = new UpdateController();
 
@@ -165,7 +186,7 @@ namespace NanoTwitchLeafs.Windows
 			_nanoController = new NanoController(_appSettings);
 
 			_logger.Info("Initialize Trigger Command Repository");
-#if NTL4_MIGRATION
+#if NTL4
 			_commandRepository = new CommandRepository(CreateNtl4TriggerStore());
 #else
 			_commandRepository = new CommandRepository(new DatabaseController<TriggerSetting>(Constants.DATABASE_PATH));
@@ -188,7 +209,7 @@ namespace NanoTwitchLeafs.Windows
 			}
 			catch (Exception ex)
 			{
-#if NTL4_MIGRATION
+#if NTL4
 				MessageBox.Show(
 					$"Die Triggersteuerung konnte nicht initialisiert werden.\n\n{ex.Message}",
 					Properties.Resources.General_MessageBox_Error_Title,
@@ -202,9 +223,11 @@ namespace NanoTwitchLeafs.Windows
 				_logger.Error(ex.Message, ex);
 			}
 
+#if !NTL4
 			_logger.Info("Initialize Analytics Controller");
 			_analyticsController = new AnalyticsController(_appSettings);
 			_analyticsController.KeepAlive();
+#endif
 			
 			// Initialize Data
 			_logger.Info("Initialize Data");
@@ -233,11 +256,29 @@ namespace NanoTwitchLeafs.Windows
 			{
 				_logger.Info("Auto Connect not enabled!");
 			}
+
+			if (_requiresCredentialSetup)
+			{
+				settings_TabControl.SelectedItem = ApiSettings_Tabitem;
+				string setupText = _appSettings.Language == "de-DE"
+					? "Für die Twitch-Anmeldung müssen zuerst eine eigene Twitch Client-ID und ein Client-Secret unter 'API Einstellungen' eingetragen und gespeichert werden."
+					: "Before signing in to Twitch, enter and save your own Twitch Client ID and Client Secret under 'API Settings'.";
+				string setupTitle = _appSettings.Language == "de-DE"
+					? "NanoTwitchLeafs 4 – Ersteinrichtung"
+					: "NanoTwitchLeafs 4 – Initial setup";
+				Dispatcher.BeginInvoke(new Action(() => MessageBox.Show(
+					setupText,
+					setupTitle,
+					MessageBoxButton.OK,
+					MessageBoxImage.Information)));
+			}
 		}
 
 		private void ItemExit_Click(object sender, RoutedEventArgs e)
 		{
+#if !NTL4
 			_analyticsController.SendPing(PingType.Stop, "Shutting down");
+#endif
 			Close();
 		}
 
@@ -419,6 +460,7 @@ namespace NanoTwitchLeafs.Windows
 				}
 				StreamlabsClientId_Textbox.Text = _appSettings.StreamlabsClientId;
 				StreamlabsClientSecret_Textbox.Password = _appSettings.StreamlabsClientSecret;
+				HypeRateApiKey_Textbox.Password = _appSettings.HypeRateApiKey;
 
 				ChangeEnabledUi();
 			}
@@ -430,7 +472,28 @@ namespace NanoTwitchLeafs.Windows
 				_appSettingsController.LoadSettings();
 				InitializeData();
 			}
+#if !NTL4
 			_analyticsController.SendPing(PingType.Start, "Hello World!");
+#endif
+		}
+
+		private static ServiceCredentials CreateEmptyServiceCredentials()
+		{
+			return new ServiceCredentials
+			{
+				TwitchApiCredentials = new TwitchApiCredentials(string.Empty, string.Empty),
+				StreamLabsApiCedentials = new StreamLabsApiCedentials(string.Empty, string.Empty),
+				HyperateApi = new HyperateApi(string.Empty)
+			};
+		}
+
+		private static void NormalizeServiceCredentials()
+		{
+			Constants.ServiceCredentials.TwitchApiCredentials ??=
+				new TwitchApiCredentials(string.Empty, string.Empty);
+			Constants.ServiceCredentials.StreamLabsApiCedentials ??=
+				new StreamLabsApiCedentials(string.Empty, string.Empty);
+			Constants.ServiceCredentials.HyperateApi ??= new HyperateApi(string.Empty);
 		}
 
 		private void CheckForUpdate()
@@ -738,6 +801,7 @@ namespace NanoTwitchLeafs.Windows
 				TwitchClientSecret_Textbox.IsEnabled = true;
 				StreamlabsClientId_Textbox.IsEnabled = true;
 				StreamlabsClientSecret_Textbox.IsEnabled = true;
+				HypeRateApiKey_Textbox.IsEnabled = true;
 			}
 			else
 			{
@@ -746,6 +810,7 @@ namespace NanoTwitchLeafs.Windows
 				TwitchClientSecret_Textbox.IsEnabled = false;
 				StreamlabsClientId_Textbox.IsEnabled = false;
 				StreamlabsClientSecret_Textbox.IsEnabled = false;
+				HypeRateApiKey_Textbox.IsEnabled = false;
 			}
 		}
 
@@ -794,6 +859,7 @@ namespace NanoTwitchLeafs.Windows
 			// Streamlabs
 			_appSettings.StreamlabsClientId = StreamlabsClientId_Textbox.Text;
 			_appSettings.StreamlabsClientSecret = StreamlabsClientSecret_Textbox.Password;
+			_appSettings.HypeRateApiKey = HypeRateApiKey_Textbox.Password;
 		}
 
 		private void SendMessage_Button_Click(object sender, RoutedEventArgs e)
@@ -1221,6 +1287,7 @@ namespace NanoTwitchLeafs.Windows
 				TwitchClientSecret_Textbox.IsEnabled = true;
 				StreamlabsClientId_Textbox.IsEnabled = true;
 				StreamlabsClientSecret_Textbox.IsEnabled = true;
+				HypeRateApiKey_Textbox.IsEnabled = true;
 			}
 
 			help_TextBlock.Text = string.Format(Properties.Resources.Code_Main_Label_NanoHelpText, _appSettings.CommandPrefix);
@@ -1408,10 +1475,12 @@ namespace NanoTwitchLeafs.Windows
 			return _hypeRatecontroller._isConnected;
 		}
 
-#if NTL4_MIGRATION
+#if NTL4
 		private JsonTriggerController CreateNtl4TriggerStore()
 		{
 			var jsonStore = new JsonTriggerController(Constants.TRIGGERS_PATH);
+
+#if NTL4_PRIVATE_MIGRATION
 			if (jsonStore.Exists || !File.Exists(Constants.DATABASE_PATH))
 			{
 				return jsonStore;
@@ -1446,8 +1515,9 @@ namespace NanoTwitchLeafs.Windows
 					"NanoTwitchLeafs 4 – Triggerimport",
 					MessageBoxButton.OK,
 					MessageBoxImage.Warning);
-			}
+				}
 
+			#endif
 			return jsonStore;
 		}
 #endif
