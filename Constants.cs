@@ -25,8 +25,10 @@ namespace NanoTwitchLeafs
 		private static readonly string APPDATA_PATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); // AppData folder
 		// Während der 4.0-Migration bleiben Einstellungen und Trigger der stabilen
 		// 3.2.0.5 unangetastet. Erst ein späterer, ausdrücklicher Import übernimmt Daten.
-#if NTL4_MIGRATION
+#if NTL4_PRIVATE_MIGRATION
 		public static readonly string PROGRAMFILESFOLDER_PATH = Path.Combine(APPDATA_PATH, "NanoTwitchLeafs-4-Test");
+#elif NTL4
+		public static readonly string PROGRAMFILESFOLDER_PATH = Path.Combine(APPDATA_PATH, "NanoTwitchLeafs-4");
 #else
 		public static readonly string PROGRAMFILESFOLDER_PATH = Path.Combine(APPDATA_PATH, "NanoTwitchLeafs");
 #endif
