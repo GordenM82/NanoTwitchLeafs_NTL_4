@@ -187,7 +187,7 @@ namespace NanoTwitchLeafs.Windows
 				}
 				catch (Exception e)
 				{
-					_logger.Warn("Twitch profile picture unavailable. Using the default image.", e);
+					_logger.Debug("Twitch profile picture unavailable. Using the default image.", e);
 					BroadcasterAvatar_Image.Source = new BitmapImage(new Uri("pack://application:,,,/Assets/nanotwitchleafs_error_logo.png"));
 					_broadCasterAvatarUrl = new Uri("pack://application:,,,/Assets/nanotwitchleafs_error_logo.png");
 				}
@@ -218,7 +218,7 @@ namespace NanoTwitchLeafs.Windows
 				}
 				catch (Exception e)
 				{
-					_logger.Warn("Twitch profile picture unavailable. Using the default image.", e);
+					_logger.Debug("Twitch profile picture unavailable. Using the default image.", e);
 					BotAccountAvatar_Image.Source = new BitmapImage(new Uri("pack://application:,,,/Assets/nanotwitchleafs_error_logo.png"));
 					_botAccountAvatarUrl = new Uri("pack://application:,,,/Assets/nanotwitchleafs_error_logo.png");
 				}
