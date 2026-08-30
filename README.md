@@ -51,7 +51,7 @@ Eine Anbindung an **Streamer.bot ist derzeit nicht enthalten** und kann möglich
 - vergrößerte und frei skalierbare Triggerfenster
 - modernisierte Soundwiedergabe ohne Abhängigkeit vom Windows Media Player COM-Modul
 
-Der vollständige Verlauf seit der letzten ursprünglichen Locxion-Version steht in der Datei [changelog.txt](changelog.txt).
+Der vollständige zweisprachige Verlauf seit der letzten ursprünglichen Locxion-Version steht im [Änderungsprotokoll](CHANGELOG.md). Der historische Originalverlauf bleibt zusätzlich in [changelog.txt](changelog.txt) erhalten.
 
 ### Systemanforderungen
 
@@ -141,7 +141,7 @@ There is no commitment to regular updates, support, or long-term maintenance. Ve
 - larger and freely resizable trigger windows
 - modernized sound playback without the Windows Media Player COM dependency
 
-The complete history since the last original Locxion release is available in [changelog.txt](changelog.txt).
+The complete bilingual history since the last original Locxion release is available in the [changelog](CHANGELOG.md). The original historical version log also remains available in [changelog.txt](changelog.txt).
 
 ### System requirements
 
