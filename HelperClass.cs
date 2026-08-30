@@ -1,4 +1,4 @@
-using NanoTwitchLeafs.Objects;
+﻿using NanoTwitchLeafs.Objects;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -67,7 +67,7 @@ namespace NanoTwitchLeafs
 		/// <returns></returns>
 		public static TwitchApiCredentials GetTwitchApiCredentials(AppSettings appSettings)
 		{
-			if (appSettings.UseOwnServiceCredentials)
+			if (appSettings.UseOwnServiceCredentials || Constants.ServiceCredentials?.TwitchApiCredentials == null)
 				return new TwitchApiCredentials(appSettings.TwitchClientId, appSettings.TwitchClientSecret);
 
 			return Constants.ServiceCredentials.TwitchApiCredentials;
@@ -80,8 +80,8 @@ namespace NanoTwitchLeafs
 		/// <returns></returns>
 		public static StreamLabsApiCedentials GetStreamLabsApiCedentials(AppSettings appSettings)
 		{
-			if (appSettings.UseOwnServiceCredentials)
-				return new StreamLabsApiCedentials(appSettings.TwitchClientId, appSettings.TwitchClientSecret);
+			if (appSettings.UseOwnServiceCredentials || Constants.ServiceCredentials?.StreamLabsApiCedentials == null)
+				return new StreamLabsApiCedentials(appSettings.StreamlabsClientId, appSettings.StreamlabsClientSecret);
 
 			return Constants.ServiceCredentials.StreamLabsApiCedentials;
 		}
