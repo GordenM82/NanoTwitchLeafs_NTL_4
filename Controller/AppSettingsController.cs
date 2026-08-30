@@ -89,7 +89,7 @@ namespace NanoTwitchLeafs.Controller
                 string json = Encoding.UTF8.GetString(decryptedData);
 				_logger.Debug("Load Settings from File " + path);
 
-#if NTL4_MIGRATION
+#if NTL4
                 // Ältere NTL-Versionen speicherten System.Version als JSON-Objekt.
                 // Moderne Json.NET-Versionen erwarten dafür einen String. Die alte
                 // Versionsnummer ist keine Benutzereinstellung und darf daher auf
