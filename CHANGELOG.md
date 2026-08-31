@@ -4,9 +4,9 @@
 
 > **English version below.**
 
-## NanoTwitchLeafs 4.0.0 – Veröffentlichungskandidat
+## NanoTwitchLeafs 4.0.0-rc.1 – privater Veröffentlichungskandidat (31. August 2026)
 
-NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 und den anschließend getesteten Zwischenständen. Version 4.0.0 ist derzeit ein Veröffentlichungskandidat und noch als experimentell einzustufen.
+NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 und den anschließend getesteten Zwischenständen. `v4.0.0-rc.1` ist der erste private Veröffentlichungskandidat für eingeladene Tester und noch als experimentell einzustufen.
 
 ### Technische Grundlage und Verteilung
 
@@ -15,6 +15,8 @@ NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 u
 - eigenständiger Windows-x64-Build einschließlich benötigter .NET-Laufzeit
 - direkt startbare `NanoTwitchLeafs.exe`
 - reproduzierbare EXE-Erstellung über GitHub Actions eingerichtet
+- privates Pre-Release `v4.0.0-rc.1` mit bereinigtem Windows-x64-ZIP und zweisprachigen Veröffentlichungshinweisen erstellt
+- veraltete .NET-Framework-Projekt-, Installer-, Build- und Konfigurationsdateien aus dem NTL-4-Quellbaum entfernt
 - veraltete beziehungsweise verwundbare Pakete aktualisiert
 - Windows Media Player COM-Abhängigkeit durch den WPF-Audioplayer ersetzt
 - Audioplayer-Zugriffe für die Verarbeitung in der Triggerwarteschlange threadsicher umgesetzt
@@ -78,9 +80,9 @@ NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 u
 
 ## English
 
-## NanoTwitchLeafs 4.0.0 – release candidate
+## NanoTwitchLeafs 4.0.0-rc.1 – private release candidate (31 August 2026)
 
-NanoTwitchLeafs 4 is based on Locxion's last original version 3.1.5.0 and the subsequently tested intermediate builds. Version 4.0.0 is currently a release candidate and should still be considered experimental.
+NanoTwitchLeafs 4 is based on Locxion's last original version 3.1.5.0 and the subsequently tested intermediate builds. `v4.0.0-rc.1` is the first private release candidate for invited testers and should still be considered experimental.
 
 ### Technical foundation and distribution
 
@@ -89,6 +91,8 @@ NanoTwitchLeafs 4 is based on Locxion's last original version 3.1.5.0 and the su
 - added a self-contained Windows x64 build including the required .NET runtime
 - added a directly executable `NanoTwitchLeafs.exe`
 - added reproducible EXE creation through GitHub Actions
+- created private pre-release `v4.0.0-rc.1` with a sanitized Windows x64 ZIP and bilingual release notes
+- removed obsolete .NET Framework project, installer, build, and configuration files from the NTL 4 source tree
 - updated outdated or vulnerable packages
 - replaced the Windows Media Player COM dependency with the WPF media player
 - made media-player access safe for background trigger-queue processing
