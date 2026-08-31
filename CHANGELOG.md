@@ -4,7 +4,9 @@
 
 > **English version below.**
 
-## NanoTwitchLeafs 4.0.0-rc.2 – in Vorbereitung
+## NanoTwitchLeafs 4.0.0-rc.2 – privater Veröffentlichungskandidat (31. August 2026)
+
+Dieser zweite private Veröffentlichungskandidat setzt die Rückmeldungen aus der Quellcodeprüfung nach RC1 um.
 
 - neue Programmtexte aus NTL 4 in das vorhandene Sprachressourcensystem überführt; keine fest eincodierten deutsch/englischen Meldungen mehr in der Hauptfensterlogik
 - Englisch bleibt die neutrale Standardsprache; auf deutschsprachigem Windows wird bei einer neuen Konfiguration zuverlässig Deutsch vorausgewählt
@@ -89,7 +91,9 @@ NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 u
 
 ## English
 
-## NanoTwitchLeafs 4.0.0-rc.2 – in preparation
+## NanoTwitchLeafs 4.0.0-rc.2 – private release candidate (31 August 2026)
+
+This second private release candidate implements the source-review feedback received after RC1.
 
 - moved new NTL 4 user-facing text into the existing language-resource system; the main-window logic no longer contains hard-coded German/English messages
 - kept English as the neutral default language while reliably preselecting German for new configurations on German-language Windows systems
