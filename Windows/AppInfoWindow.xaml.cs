@@ -19,22 +19,67 @@ namespace NanoTwitchLeafs.Windows
             _appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
             Constants.SetCultureInfo(_appSettings.Language);
             InitializeComponent();
+
             version_Label.Content = typeof(AppInfoWindow).Assembly.GetName().Version.ToString(3);
+            originalDeveloperTitle_TextBlock.Text = GetResource("Window_AppInfo_OriginalDeveloper");
+            maintainerTitle_TextBlock.Text = GetResource("Window_AppInfo_Ntl4Maintainer");
+            discord_Button.Content = GetResource("Window_AppInfo_Discord");
+            originalGithub_Button.Content = GetResource("Window_AppInfo_GithubOriginal");
+            ntl4Github_Button.Content = GetResource("Window_AppInfo_GithubNtl4");
+            originalFeedback_Button.Content = GetResource("Window_AppInfo_FeedbackOriginal");
+            ntl4Feedback_Button.Content = GetResource("Window_AppInfo_FeedbackNtl4");
+            aiAssistance_TextBlock.Text = GetResource("Window_AppInfo_AiAssistance");
+            association_TextBlock.Text = GetResource("Window_AppInfo_Associated_Label");
         }
 
-        private void Feedback_Button_Click(object sender, RoutedEventArgs e)
+        private static string GetResource(string key)
         {
-            Process.Start("https://github.com/Locxion/NanoTwitchLeafs/issues");
+            return Properties.Resources.ResourceManager.GetString(key) ?? key;
         }
 
-        private void Discord_Label_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Discord_Button_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://discord.gg/w92xZKd");
+            OpenUrl("https://discord.gg/w92xZKd");
         }
 
-        private void Github_Label_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void OriginalGithub_Button_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("https://github.com/Locxion/NanoTwitchLeafs");
+            OpenUrl("https://github.com/Locxion/NanoTwitchLeafs");
+        }
+
+        private void Ntl4Github_Button_Click(object sender, RoutedEventArgs e)
+        {
+            OpenUrl("https://github.com/GordenM82/NanoTwitchLeafs_NTL_4");
+        }
+
+        private void OriginalFeedback_Button_Click(object sender, RoutedEventArgs e)
+        {
+            OpenUrl("https://github.com/Locxion/NanoTwitchLeafs/issues");
+        }
+
+        private void Ntl4Feedback_Button_Click(object sender, RoutedEventArgs e)
+        {
+            OpenUrl("https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/issues");
+        }
+
+        private static void OpenUrl(string url)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                });
+            }
+            catch
+            {
+                MessageBox.Show(
+                    Properties.Resources.General_MessageBox_GeneralError_Text,
+                    Properties.Resources.General_MessageBox_Error_Title,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
     }
 }
