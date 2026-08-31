@@ -1,4 +1,4 @@
-using log4net;
+﻿using log4net;
 using Microsoft.Win32;
 using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Enums;
@@ -42,6 +42,11 @@ namespace NanoTwitchLeafs.Windows
 
 			Constants.SetCultureInfo(_appSettings.Language);
 			InitializeComponent();
+			AllDevices_CheckBox.Content = Text("Window_TriggerDetail_TargetDevices_All");
+			DeviceGroup_Label.Content = Text("Window_TriggerDetail_TargetDevices_Group");
+			ApplyDeviceGroup_Button.Content = Text("Window_TriggerDetail_TargetDevices_Apply");
+			ManageDeviceGroups_Button.Content = Text("Window_TriggerDetail_TargetDevices_Manage");
+			NoDeviceGroups_TextBlock.Text = Text("Window_TriggerDetail_TargetDevices_NoGroups");
 			InitializeTargetDevices();
 
 			if (_twitchEventSubController != null && _twitchEventSubController.IsConnected)
@@ -68,7 +73,8 @@ namespace NanoTwitchLeafs.Windows
 			if (_appSettings.NanoSettings.DeviceGroups == null)
 				_appSettings.NanoSettings.DeviceGroups = new List<NanoleafDeviceGroup>();
 			RefreshDeviceGroups();
-			TargetDevices_GroupBox.Header = $"Zielgeräte ({_appSettings.NanoSettings.NanoLeafDevices.Count} verfügbar)";
+			TargetDevices_GroupBox.Header = string.Format(Text("Window_TriggerDetail_TargetDevices_Header"),
+				_appSettings.NanoSettings.NanoLeafDevices.Count);
 
 			foreach (NanoLeafDevice device in _appSettings.NanoSettings.NanoLeafDevices)
 			{
@@ -501,7 +507,7 @@ namespace NanoTwitchLeafs.Windows
 			if (AllDevices_CheckBox.IsChecked != true &&
 				!TargetDevices_ItemsControl.Items.OfType<CheckBox>().Any(checkBox => checkBox.IsChecked == true))
 			{
-				MessageBox.Show("Bitte mindestens ein Nanoleaf-Zielgerät auswählen.", Properties.Resources.General_MessageBox_Error_Title,
+				MessageBox.Show(Text("Code_TriggerDetail_MessageBox_TargetRequired"), Properties.Resources.General_MessageBox_Error_Title,
 					MessageBoxButton.OK, MessageBoxImage.Error);
 				return;
 			}
@@ -830,6 +836,8 @@ namespace NanoTwitchLeafs.Windows
 		}
 
 		#endregion
+
+		private static string Text(string key) => Properties.Resources.ResourceManager.GetString(key);
 
 		private void Checkbox_Click(object sender, RoutedEventArgs e)
 		{
