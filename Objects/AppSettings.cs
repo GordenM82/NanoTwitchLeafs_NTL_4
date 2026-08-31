@@ -23,24 +23,11 @@ namespace NanoTwitchLeafs.Objects
 				? "de-DE"
 				: "en-US";
 			StreamlabsInformation = new StreamlabsInformation();
-			TwitchClientId = "";
-			TwitchClientSecret = "";
 			StreamlabsClientId = "";
 			StreamlabsClientSecret = "";
 			HypeRateApiKey = "";
 		}
 
-		public string TwitchClientId
-		{
-			get { return Get(() => TwitchClientId); }
-			set { Set(() => TwitchClientId, value); }
-		}
-
-		public string TwitchClientSecret
-		{
-			get { return Get(() => TwitchClientSecret); }
-			set { Set(() => TwitchClientSecret, value); }
-		}
 
 		public string StreamlabsClientId
 		{

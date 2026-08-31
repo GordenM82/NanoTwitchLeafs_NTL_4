@@ -1035,10 +1035,6 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="Code_Main_MessageBox_LegacyMigration_Title" xml:space="preserve"><value>NanoTwitchLeafs 4 – Daten übernehmen</value></data>
   <data name="Code_Main_MessageBox_LegacyMigration_Error" xml:space="preserve"><value>Die Datenübernahme konnte nicht vorbereitet werden. Die bisherigen Daten wurden nicht verändert.</value></data>
   <data name="Code_Main_MessageBox_TriggerInitialization_Error" xml:space="preserve"><value>Die Triggersteuerung konnte nicht initialisiert werden.</value></data>
-  <data name="Code_Main_MessageBox_CredentialSetup_Text" xml:space="preserve"><value>Für die Twitch-Anmeldung muss zuerst eine Twitch Client-ID unter 'API Einstellungen' eingetragen und gespeichert werden.</value></data>
-  <data name="Code_Main_MessageBox_CredentialSetup_Title" xml:space="preserve"><value>NanoTwitchLeafs 4 – Ersteinrichtung</value></data>
-  <data name="Window_Main_Tabs_ApiSettings_TwitchHelp" xml:space="preserve"><value>Die Client-ID erhältst du über die Twitch Developer Console. Wähle den Client-Typ Öffentlich. Falls Twitch eine Weiterleitungs-URL verlangt, verwende https://localhost. NTL nutzt die Gerätecode-Anmeldung ohne Client-Secret.</value></data>
-  <data name="Window_Main_Tabs_ApiSettings_OpenTwitchConsole" xml:space="preserve"><value>Twitch-Anwendung erstellen / verwalten</value></data>
   <data name="Code_Main_MessageBox_TwitchConnection_Error" xml:space="preserve"><value>Die Twitch-Verbindung konnte nicht geöffnet werden.</value></data>
   <data name="General_LogFile_Label" xml:space="preserve"><value>Logdatei</value></data>
   <data name="Code_Main_MessageBox_TriggerMigration_Error" xml:space="preserve"><value>Die bisherigen Trigger konnten nicht automatisch in das neue Format übernommen werden.&#xA;&#xA;Die Originaldaten wurden nicht verändert. Weitere Einzelheiten stehen im Protokoll.</value></data>

@@ -51,7 +51,6 @@ namespace NanoTwitchLeafs.Windows
 		private readonly TaskbarIcon _tbi = new TaskbarIcon();
 		private readonly TwitchEventSubController _twitchEventSubController;
 		private bool _initialWindowActivationCompleted;
-		private bool _requiresCredentialSetup;
 		private static string DisplayVersion => typeof(AppInfoWindow).Assembly.GetName().Version.ToString(3);
 
 		private static void TryPrepareLegacyMigration()
@@ -132,10 +131,6 @@ namespace NanoTwitchLeafs.Windows
 			// Init Window and Controls
 			InitializeComponent();
 
-#if NTL4
-			TwitchClientSecret_Label.Visibility = Visibility.Collapsed;
-			TwitchClientSecret_Textbox.Visibility = Visibility.Collapsed;
-#endif
 
 #if !DEBUG
             InstanceCheck();
@@ -190,8 +185,6 @@ namespace NanoTwitchLeafs.Windows
 
 			if (_appSettings.DebugEnabled)
 				SetLogLevel(Level.Debug);
-			
-			_requiresCredentialSetup = string.IsNullOrWhiteSpace(_appSettings.TwitchClientId);
 			_logger.Info("Initialize Update Controller");
 			_updateController = new UpdateController();
 
@@ -287,17 +280,6 @@ namespace NanoTwitchLeafs.Windows
 				_logger.Info("Auto Connect not enabled!");
 			}
 
-			if (_requiresCredentialSetup)
-			{
-				settings_TabControl.SelectedItem = ApiSettings_Tabitem;
-				string setupText = Properties.Resources.ResourceManager.GetString("Code_Main_MessageBox_CredentialSetup_Text");
-				string setupTitle = Properties.Resources.ResourceManager.GetString("Code_Main_MessageBox_CredentialSetup_Title");
-				Dispatcher.BeginInvoke(new Action(() => MessageBox.Show(
-					setupText,
-					setupTitle,
-					MessageBoxButton.OK,
-					MessageBoxImage.Information)));
-			}
 		}
 
 		private void ItemExit_Click(object sender, RoutedEventArgs e)
@@ -407,8 +389,6 @@ namespace NanoTwitchLeafs.Windows
             };
 
 				language_Combobox.ItemsSource = languages;
-				TwitchApiHelp_TextBlock.Text = Properties.Resources.ResourceManager.GetString("Window_Main_Tabs_ApiSettings_TwitchHelp");
-				OpenTwitchDeveloperConsole_Button.Content = Properties.Resources.ResourceManager.GetString("Window_Main_Tabs_ApiSettings_OpenTwitchConsole");
 
 				switch (_appSettings.Language)
 				{
@@ -458,8 +438,7 @@ namespace NanoTwitchLeafs.Windows
 				autoIPRefresh_Checkbox.IsChecked = _appSettings.AutoIpRefresh;
 				debugCmd_Checkbox.IsChecked = _appSettings.DebugEnabled;
 				blacklist_CheckBox.IsChecked = _appSettings.BlacklistEnabled;
-				TwitchClientId_Textbox.Text = _appSettings.TwitchClientId;
-				TwitchClientSecret_Textbox.Password = _appSettings.TwitchClientSecret;
+
 				DebugCmd_Checkbox_Click(this, null);
 
 				// HypeRate
@@ -814,14 +793,6 @@ namespace NanoTwitchLeafs.Windows
 			Process.Start(Constants.PROGRAMFILESFOLDER_PATH);
 		}
 
-		private void OpenTwitchDeveloperConsole_Button_Click(object sender, RoutedEventArgs e)
-		{
-			Process.Start(new ProcessStartInfo
-			{
-				FileName = "https://dev.twitch.tv/console/apps",
-				UseShellExecute = true
-			});
-		}
 
 		private void Save_Button_Click(object sender, RoutedEventArgs e)
 		{
@@ -852,8 +823,7 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings.AutoIpRefresh = (bool)autoIPRefresh_Checkbox.IsChecked;
 			_appSettings.DebugEnabled = (bool)debugCmd_Checkbox.IsChecked;
 			_appSettings.AutoConnect = (bool)autoConnect_Checkbox.IsChecked;
-			_appSettings.TwitchClientId = TwitchClientId_Textbox.Text;
-			_appSettings.TwitchClientSecret = TwitchClientSecret_Textbox.Password;
+
 
 			// Hype Rate
 			_appSettings.HypeRateId = hypeRateId_Textbox.Text;
@@ -1278,8 +1248,6 @@ namespace NanoTwitchLeafs.Windows
 				nanoCooldown_TextBox.IsEnabled = false;
 			}
 
-			TwitchClientId_Textbox.IsEnabled = true;
-			TwitchClientSecret_Textbox.IsEnabled = true;
 			StreamlabsClientId_Textbox.IsEnabled = true;
 			StreamlabsClientSecret_Textbox.IsEnabled = true;
 			HypeRateApiKey_Textbox.IsEnabled = true;
