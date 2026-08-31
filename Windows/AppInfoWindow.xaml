@@ -6,15 +6,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.Window_AppInfo_Title}" Height="415.435" Width="343.334" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Title="{x:Static p:Resources.Window_AppInfo_Title}" Height="555" Width="430"
+        ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
     <Canvas Margin="10">
-        <Label Content="{x:Static p:Resources.Window_AppInfo_Label_Version}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="227" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="87" Canvas.Top="5" />
-        <Label x:Name="version_Label" Content="x.x.x" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="31" Width="227" VerticalContentAlignment="Center" Canvas.Left="87" />
-        <Label Content="{x:Static p:Resources.Window_AppInfo_Label_Creator}" Canvas.Top="57" HorizontalAlignment="Center" VerticalAlignment="Top" Width="227" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Canvas.Left="87" />
-        <Label x:Name="author_Label" Content="Locxion - Markus Bender" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="83" Width="227" VerticalContentAlignment="Center" Canvas.Left="87" />
-        <Label x:Name="thanks_label" Content="special Thanks to Eric Bach &lt;3" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="253" Width="227" Canvas.Left="87" />
-        <Button Content="{x:Static p:Resources.Window_AppInfo_Button_Feedback}" Height="20" Canvas.Left="100" Canvas.Top="228" Width="207" HorizontalAlignment="Center" Click="Feedback_Button_Click" VerticalAlignment="Top" />
-        <Image Height="133" Canvas.Left="-137" Canvas.Top="104" Width="361" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_logo.png" RenderTransformOrigin="0.5,0.5">
+        <Image Height="133" Canvas.Left="-137" Canvas.Top="150" Width="361"
+               Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_logo.png"
+               RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform />
@@ -24,11 +21,60 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Label x:Name="discord_Label" Content="NTL - Discord" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="119" Width="227" VerticalContentAlignment="Center" Canvas.Left="87" MouseDown="Discord_Label_MouseDown" Foreground="#FF0C3BDA" />
-        <fa:ImageAwesome Icon="Brands_Discord" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="#FF8B9BD4" Canvas.Left="116" Canvas.Top="119" Height="25" Width="25" />
-        <Label x:Name="translator_label" Content="{x:Static p:Resources.General_Label_Translator}" Canvas.Left="100" Canvas.Top="197" Width="207" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" />
-        <TextBlock Text="{x:Static p:Resources.Window_AppInfo_Associated_Label}" Canvas.Top="288.92" VerticalAlignment="Top" HorizontalAlignment="Center" Canvas.Left="100" Width="207" Height="73" UseLayoutRounding="False" ScrollViewer.VerticalScrollBarVisibility="Disabled" Padding="5,5,5,5" TextWrapping="WrapWithOverflow" />
-        <Label x:Name="Github_Label" Content="Github" HorizontalContentAlignment="Center" Canvas.Top="146" Width="227" VerticalContentAlignment="Center" Canvas.Left="87" MouseDown="Github_Label_MouseDown" Foreground="#FF0C3BDA" HorizontalAlignment="Center" VerticalAlignment="Top" />
-        <fa:ImageAwesome Icon="Brands_Github" Foreground="#FF8B9BD4" Canvas.Left="116" Canvas.Top="146" Height="25" Width="25" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+        <Label Content="{x:Static p:Resources.Window_AppInfo_Label_Version}"
+               Canvas.Left="105" Canvas.Top="2" Width="290"
+               HorizontalContentAlignment="Center" />
+        <Label x:Name="version_Label" Content="x.x.x"
+               Canvas.Left="105" Canvas.Top="28" Width="290"
+               HorizontalContentAlignment="Center" />
+
+        <TextBlock x:Name="originalDeveloperTitle_TextBlock"
+                   Canvas.Left="105" Canvas.Top="62" Width="290"
+                   TextAlignment="Center" />
+        <TextBlock Text="Locxion – Markus Bender"
+                   Canvas.Left="105" Canvas.Top="84" Width="290"
+                   TextAlignment="Center" />
+
+        <TextBlock x:Name="maintainerTitle_TextBlock"
+                   Canvas.Left="105" Canvas.Top="112" Width="290"
+                   TextAlignment="Center" />
+        <TextBlock Text="GordenM82"
+                   Canvas.Left="105" Canvas.Top="134" Width="290"
+                   TextAlignment="Center" />
+
+        <fa:ImageAwesome Icon="Brands_Discord" Foreground="#FF8B9BD4"
+                         Canvas.Left="122" Canvas.Top="165" Height="25" Width="25" />
+        <Button x:Name="discord_Button" Canvas.Left="155" Canvas.Top="163"
+                Width="220" Height="27" Click="Discord_Button_Click" />
+
+        <fa:ImageAwesome Icon="Brands_Github" Foreground="#FF8B9BD4"
+                         Canvas.Left="122" Canvas.Top="198" Height="25" Width="25" />
+        <Button x:Name="originalGithub_Button" Canvas.Left="155" Canvas.Top="196"
+                Width="220" Height="27" Click="OriginalGithub_Button_Click" />
+
+        <fa:ImageAwesome Icon="Brands_Github" Foreground="#FF8B9BD4"
+                         Canvas.Left="122" Canvas.Top="231" Height="25" Width="25" />
+        <Button x:Name="ntl4Github_Button" Canvas.Left="155" Canvas.Top="229"
+                Width="220" Height="27" Click="Ntl4Github_Button_Click" />
+
+        <Button x:Name="originalFeedback_Button" Canvas.Left="115" Canvas.Top="272"
+                Width="270" Height="27" Click="OriginalFeedback_Button_Click" />
+        <Button x:Name="ntl4Feedback_Button" Canvas.Left="115" Canvas.Top="305"
+                Width="270" Height="27" Click="Ntl4Feedback_Button_Click" />
+
+        <TextBlock Text="{x:Static p:Resources.General_Label_Translator}"
+                   Canvas.Left="105" Canvas.Top="349" Width="290"
+                   TextAlignment="Center" />
+        <TextBlock x:Name="aiAssistance_TextBlock"
+                   Canvas.Left="105" Canvas.Top="375" Width="290"
+                   TextAlignment="Center" TextWrapping="Wrap" />
+        <TextBlock Text="Special thanks to Eric Bach &lt;3"
+                   Canvas.Left="105" Canvas.Top="409" Width="290"
+                   TextAlignment="Center" />
+
+        <TextBlock x:Name="association_TextBlock"
+                   Canvas.Left="105" Canvas.Top="440" Width="290" Height="65"
+                   TextAlignment="Center" TextWrapping="Wrap" />
     </Canvas>
 </Window>

@@ -966,7 +966,7 @@ to use Donation Trigger</value>
     <value>HypeRate</value>
   </data>
   <data name="Window_AppInfo_Associated_Label" xml:space="preserve">
-    <value>NanoTwitchLeaf's is not associated with Twitch or Nanoleaf</value>
+    <value>NanoTwitchLeafs is not an official Twitch or Nanoleaf application and is not affiliated with either company.</value>
   </data>
   <data name="General_MessageBox_HypeRate_Error_Message" xml:space="preserve">
     <value>Could not connect to HypeRateIO Socket!</value>
@@ -1073,4 +1073,28 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
   <data name="Code_TriggerDetail_MessageBox_TargetRequired" xml:space="preserve"><value>Select at least one Nanoleaf target device.</value></data>
   <data name="Window_Trigger_TargetDevices_All" xml:space="preserve"><value>All</value></data>
   <data name="Window_Trigger_TargetDevices_Unavailable" xml:space="preserve"><value>Unavailable</value></data>
+  <data name="Window_AppInfo_OriginalDeveloper" xml:space="preserve">
+    <value>Original developer:</value>
+  </data>
+  <data name="Window_AppInfo_Ntl4Maintainer" xml:space="preserve">
+    <value>NTL 4 development:</value>
+  </data>
+  <data name="Window_AppInfo_Discord" xml:space="preserve">
+    <value>NTL Discord</value>
+  </data>
+  <data name="Window_AppInfo_GithubOriginal" xml:space="preserve">
+    <value>GitHub – original version</value>
+  </data>
+  <data name="Window_AppInfo_GithubNtl4" xml:space="preserve">
+    <value>GitHub – NTL 4</value>
+  </data>
+  <data name="Window_AppInfo_FeedbackOriginal" xml:space="preserve">
+    <value>Feedback – original version</value>
+  </data>
+  <data name="Window_AppInfo_FeedbackNtl4" xml:space="preserve">
+    <value>Feedback – NTL 4</value>
+  </data>
+  <data name="Window_AppInfo_AiAssistance" xml:space="preserve">
+    <value>NTL 4 was developed with AI assistance.</value>
+  </data>
 </root>

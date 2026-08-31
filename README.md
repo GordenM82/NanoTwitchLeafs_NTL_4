@@ -21,7 +21,7 @@ NanoTwitchLeafs verbindet Twitch mit Nanoleaf-Leuchten. Chatbefehle und Twitch-E
 
 NanoTwitchLeafs 4 ist eine experimentelle Modernisierung und Weiterentwicklung des ursprünglichen GPL-3.0-Projekts von **Locxion**. Der aktuelle Stand wird unter dem GitHub-Konto **GordenM82** bearbeitet. Bei Weiterentwicklung, Fehlersuche und Dokumentation wurde KI-Unterstützung eingesetzt.
 
-Die öffentliche Version **4.0.0** steht unter [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest) als direkt startbares Windows-x64-Paket bereit. Trotz der Veröffentlichung bleibt das Projekt experimentell. Es gibt keine Zusage für regelmäßige Aktualisierungen, Support oder eine dauerhafte Weiterentwicklung.
+Die öffentliche Version **4.0.1** steht unter [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest) als direkt startbares Windows-x64-Paket bereit. Trotz der Veröffentlichung bleibt das Projekt experimentell. Es gibt keine Zusage für regelmäßige Aktualisierungen, Support oder eine dauerhafte Weiterentwicklung.
 
 ### Funktionen
 
@@ -139,7 +139,7 @@ NanoTwitchLeafs connects Twitch with Nanoleaf lights. Chat commands and Twitch e
 
 NanoTwitchLeafs 4 is an experimental modernization and continuation of **Locxion**'s original GPL-3.0 project. The current version is maintained under the GitHub account **GordenM82**. AI assistance was used for continued development, troubleshooting, and documentation.
 
-Public version **4.0.0** is available from [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest) as a directly executable Windows x64 package. The project remains experimental despite this public release. Regular updates, support, and continued long-term development are not guaranteed.
+Public version **4.0.1** is available from [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest) as a directly executable Windows x64 package. The project remains experimental despite this public release. Regular updates, support, and continued long-term development are not guaranteed.
 
 ### Features
 

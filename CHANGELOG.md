@@ -4,6 +4,16 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.0.1 – Fehlerbehebungen (31. August 2026)
+
+- Abstürze beim Öffnen von NTL-Discord, GitHub und Feedback aus dem Informationsfenster behoben
+- externe Links werden unter .NET 10 sicher über den Standardbrowser geöffnet
+- getrennte Links für Locxions ursprüngliches GitHub-Repository und das NTL-4-Repository ergänzt
+- getrennte Feedback-Links für die ursprüngliche Version und NTL 4 ergänzt
+- ursprünglichen Entwickler Locxion und Weiterentwicklung durch GordenM82 getrennt ausgewiesen
+- Hinweis zur KI-Unterstützung und präzisierter Unabhängigkeitshinweis ergänzt
+- Informationsfenster auf Deutsch und Englisch aktualisiert
+
 ## NanoTwitchLeafs 4.0.0 – öffentliche Erstveröffentlichung (31. August 2026)
 
 Version 4.0.0 ist die erste öffentliche Veröffentlichung der modernisierten NanoTwitchLeafs-Version.
@@ -104,6 +114,16 @@ NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 u
 ---
 
 ## English
+
+## NanoTwitchLeafs 4.0.1 – bug fixes (31 August 2026)
+
+- fixed crashes when opening NTL Discord, GitHub, or feedback links from the information window
+- external links now open safely through the default browser on .NET 10
+- added separate links to Locxion's original GitHub repository and the NTL 4 repository
+- added separate feedback links for the original version and NTL 4
+- distinguished original developer Locxion from NTL 4 development by GordenM82
+- added the AI-assistance notice and clarified the non-affiliation statement
+- updated the information window in German and English
 
 ## NanoTwitchLeafs 4.0.0 – initial public release (31 August 2026)
 
