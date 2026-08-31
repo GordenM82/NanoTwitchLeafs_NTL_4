@@ -1,0 +1,108 @@
+name: Publish NanoTwitchLeafs 4.0.0 RC1
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/publish-rc1.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  publish-private-prerelease:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Publish Windows x64
+        shell: pwsh
+        run: |
+          dotnet publish .\NanoTwitchLeafs.Modern.csproj --configuration Release --runtime win-x64 --self-contained true --output .\artifacts\NanoTwitchLeafs-4.0.0-rc.1-win-x64
+          Remove-Item ".\artifacts\NanoTwitchLeafs-4.0.0-rc.1-win-x64\*.pdb" -Force -ErrorAction SilentlyContinue
+          Compress-Archive -Path ".\artifacts\NanoTwitchLeafs-4.0.0-rc.1-win-x64\*" -DestinationPath ".\artifacts\NanoTwitchLeafs-4.0.0-rc.1-win-x64.zip" -CompressionLevel Optimal
+
+      - name: Create release notes
+        shell: pwsh
+        run: |
+          @'
+          ## Deutsch
+
+          > **English version below.**
+
+          Dies ist der erste private Veröffentlichungskandidat von **NanoTwitchLeafs 4.0.0**. Die Version ist experimentell und derzeit für eingeladene Tester vorgesehen.
+
+          ### Wichtigste Neuerungen
+
+          - Umstellung auf .NET 10
+          - direkt startbare Windows-x64-Ausgabe
+          - deutsche Benutzeroberfläche als Standard; Englisch auswählbar
+          - aktualisierte Twitch-EventSub-Anbindung einschließlich HypeTrain v2
+          - Twitch-Anmeldung über den offiziellen Gerätecode-Ablauf ohne Client-Secret
+          - Steuerung mehrerer Nanoleaf-Geräte und wiederverwendbare Gerätegruppen
+          - freie Zielgeräteauswahl für jeden Trigger
+          - lokale Triggerverwaltung über `triggers.json` mit Sicherung
+          - freiwillige, gesicherte Übernahme vorhandener Einstellungen und Trigger aus NanoTwitchLeafs 3.x
+          - keine Telemetrie oder Nutzungsanalyse
+
+          ### Installation
+
+          1. Das ZIP vollständig in einen eigenen Ordner entpacken.
+          2. `NanoTwitchLeafs.exe` starten.
+          3. Den Anweisungen zur Ersteinrichtung folgen.
+
+          Eine erkannte NanoTwitchLeafs-3.x-Installation wird nur nach ausdrücklicher Bestätigung übernommen. Vor dem Import wird eine Sicherung erstellt; die ursprüngliche Installation bleibt unverändert.
+
+          **System:** Windows 10 oder Windows 11, 64-Bit (`x64`). Windows 7, Windows 8/8.1 und 32-Bit-Systeme werden nicht unterstützt.
+
+          Bitte keine Zugangsdaten, Tokens, Client-Secrets oder persönlichen Einstellungsdateien in Fehlerberichte oder Screenshots aufnehmen.
+
+          ---
+
+          ## English
+
+          This is the first private release candidate of **NanoTwitchLeafs 4.0.0**. It is experimental and currently intended for invited testers.
+
+          ### Main changes
+
+          - migrated to .NET 10
+          - directly executable Windows x64 build
+          - German interface by default; English selectable
+          - updated Twitch EventSub integration, including Hype Train v2
+          - Twitch authentication through the official device-code flow without a Client Secret
+          - control of multiple Nanoleaf devices and reusable device groups
+          - per-trigger target-device selection
+          - local trigger storage in `triggers.json` with backup
+          - optional, backed-up migration of settings and triggers from NanoTwitchLeafs 3.x
+          - no telemetry or usage analytics
+
+          ### Installation
+
+          1. Extract the complete ZIP into a separate folder.
+          2. Start `NanoTwitchLeafs.exe`.
+          3. Follow the initial setup instructions.
+
+          A detected NanoTwitchLeafs 3.x installation is imported only after explicit confirmation. A backup is created before import; the original installation remains unchanged.
+
+          **System:** 64-bit (`x64`) Windows 10 or Windows 11. Windows 7, Windows 8/8.1, and 32-bit systems are not supported.
+
+          Do not include credentials, tokens, Client Secrets, or personal settings files in bug reports or screenshots.
+          '@ | Set-Content -Path release-notes.md -Encoding utf8
+
+      - name: Create private pre-release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if (gh release view "v4.0.0-rc.1" 2>$null) {
+            Write-Host "Release v4.0.0-rc.1 already exists."
+            exit 0
+          }
+          gh release create "v4.0.0-rc.1" ".\artifacts\NanoTwitchLeafs-4.0.0-rc.1-win-x64.zip#NanoTwitchLeafs 4.0.0 RC1 Windows x64" --target "${{ github.sha }}" --title "NanoTwitchLeafs 4.0.0 – Release Candidate 1" --notes-file release-notes.md --prerelease
