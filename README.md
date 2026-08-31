@@ -185,7 +185,6 @@ The second private release candidate, **v4.0.0-rc.2**, is available to invited t
 - modernized sound playback without the Windows Media Player COM dependency
 - integrated newly added program text into the existing language-resource system
 - English as the neutral default language; German is selected automatically for a new configuration on German-language Windows systems and English remains selectable
-- Twitch authentication through the official device-code flow for public desktop applications; no Client Secret required
 - Twitch, Streamlabs, and HypeRate credentials are read exclusively from local user settings; no credentials are bundled
 - clean first launch without unexpected import of existing data
 - completely removed the former telemetry and usage-analytics components
