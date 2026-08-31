@@ -289,9 +289,6 @@ We are watching you ... Kappa!</value>
   <data name="Window_Main_Tabs_Settings_Checkbox_Autoconnect" xml:space="preserve">
     <value>Auto Connect at Startup</value>
   </data>
-  <data name="Window_Main_Tabs_Settings_Label_Analytics" xml:space="preserve">
-    <value>Share Channelname</value>
-  </data>
   <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
     <value>Debug Directory</value>
   </data>
@@ -1033,13 +1030,51 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
   <data name="Windows_Main_Tabs_ApiSettings_Title" xml:space="preserve">
     <value>API Settings</value>
   </data>
-  <data name="Windows_Main_Tabs_ApiSettings_ServiceCredentials_Checkbox" xml:space="preserve">
-    <value>Use own Service Credentials</value>
-  </data>
-  <data name="Window_Main_Tabs_Settings_Checkbox_ToolTip_AnalyticsChannelName" xml:space="preserve">
-    <value>Shares TwitchChannel to Analytics Server. Disable to only share Anonymous Data.</value>
-  </data>
   <data name="Window_TriggerDetail_RadioButton_HypeTrain" xml:space="preserve">
     <value>HypeTrain</value>
   </data>
+  <data name="Code_Main_MessageBox_LegacyMigration_Text" xml:space="preserve"><value>Data from an existing NanoTwitchLeafs 3.x installation was found.&#xA;&#xA;Import settings and triggers into NanoTwitchLeafs 4? A backup is created before import. The original data will not be changed.</value></data>
+  <data name="Code_Main_MessageBox_LegacyMigration_Title" xml:space="preserve"><value>NanoTwitchLeafs 4 – Import data</value></data>
+  <data name="Code_Main_MessageBox_LegacyMigration_Error" xml:space="preserve"><value>The data import could not be prepared. The existing data was not changed.</value></data>
+  <data name="Code_Main_MessageBox_TriggerInitialization_Error" xml:space="preserve"><value>The trigger controller could not be initialized.</value></data>
+  <data name="Code_Main_MessageBox_CredentialSetup_Text" xml:space="preserve"><value>Before signing in to Twitch, enter and save a Twitch Client ID under 'API Settings'.</value></data>
+  <data name="Code_Main_MessageBox_CredentialSetup_Title" xml:space="preserve"><value>NanoTwitchLeafs 4 – Initial setup</value></data>
+  <data name="Window_Main_Tabs_ApiSettings_TwitchHelp" xml:space="preserve"><value>Get the Client ID from the Twitch Developer Console. Select the Public client type. If Twitch requires a redirect URL, use https://localhost. NTL uses device-code authentication without a Client Secret.</value></data>
+  <data name="Window_Main_Tabs_ApiSettings_OpenTwitchConsole" xml:space="preserve"><value>Create / manage Twitch application</value></data>
+  <data name="Code_Main_MessageBox_TwitchConnection_Error" xml:space="preserve"><value>The Twitch connection could not be opened.</value></data>
+  <data name="General_LogFile_Label" xml:space="preserve"><value>Log file</value></data>
+  <data name="Code_Main_MessageBox_TriggerMigration_Error" xml:space="preserve"><value>The existing triggers could not be imported into the new format.&#xA;&#xA;The original data was not changed. See the log for details.</value></data>
+  <data name="Code_Main_MessageBox_TriggerMigration_Title" xml:space="preserve"><value>NanoTwitchLeafs 4 – Trigger import</value></data>
+  <data name="Code_Update_MessageBox_Disabled" xml:space="preserve"><value>Automatic updates are disabled for this customized version so NTL is not accidentally replaced by a different official release.</value></data>
+  <data name="Code_App_MessageBox_StartupError_Text" xml:space="preserve"><value>NanoTwitchLeafs could not be started completely.</value></data>
+  <data name="Code_App_MessageBox_StartupError_Title" xml:space="preserve"><value>NanoTwitchLeafs – Startup error</value></data>
+  <data name="Code_Twitch_MessageBox_DeviceCode_Text" xml:space="preserve"><value>Twitch has been opened in your browser.&#xA;&#xA;Authorize the connection there. If the code is not filled in automatically, use:&#xA;&#xA;{0}&#xA;&#xA;Then click OK here.</value></data>
+  <data name="Code_Twitch_MessageBox_DeviceCode_Title" xml:space="preserve"><value>Connect Twitch</value></data>
+  <data name="Code_HypeRate_MessageBox_MissingApiKey" xml:space="preserve"><value>No HypeRate API key has been configured yet.</value></data>
+  <data name="Code_TwitchLink_Status_Connected" xml:space="preserve"><value>Connected to the Twitch network.</value></data>
+  <data name="Code_TwitchLink_Status_Joining" xml:space="preserve"><value>Joining Twitch channel: </value></data>
+  <data name="Code_TwitchLink_Status_Joined" xml:space="preserve"><value>Joined Twitch channel: {0}</value></data>
+  <data name="Code_TwitchLink_Status_TestMessage" xml:space="preserve"><value>Sending a test message to chat.</value></data>
+  <data name="Window_DeviceGroups_Title" xml:space="preserve"><value>Nanoleaf device groups</value></data>
+  <data name="Window_DeviceGroups_Groups" xml:space="preserve"><value>Groups</value></data>
+  <data name="Window_DeviceGroups_Edit" xml:space="preserve"><value>Edit group</value></data>
+  <data name="Window_DeviceGroups_Name" xml:space="preserve"><value>Name</value></data>
+  <data name="Window_DeviceGroups_Devices" xml:space="preserve"><value>Nanoleafs in this group</value></data>
+  <data name="Window_DeviceGroups_New" xml:space="preserve"><value>New group</value></data>
+  <data name="Window_DeviceGroups_Save" xml:space="preserve"><value>Save group</value></data>
+  <data name="Window_DeviceGroups_Delete" xml:space="preserve"><value>Delete group</value></data>
+  <data name="Window_DeviceGroups_Close" xml:space="preserve"><value>Close</value></data>
+  <data name="Code_DeviceGroups_MessageBox_NameRequired" xml:space="preserve"><value>Enter a group name.</value></data>
+  <data name="Code_DeviceGroups_MessageBox_DeviceRequired" xml:space="preserve"><value>Select at least one Nanoleaf.</value></data>
+  <data name="Code_DeviceGroups_MessageBox_Duplicate" xml:space="preserve"><value>A group with this name already exists.</value></data>
+  <data name="Code_DeviceGroups_MessageBox_DeleteConfirm" xml:space="preserve"><value>Delete group '{0}'?</value></data>
+  <data name="Window_TriggerDetail_TargetDevices_All" xml:space="preserve"><value>All Nanoleafs</value></data>
+  <data name="Window_TriggerDetail_TargetDevices_Group" xml:space="preserve"><value>Group:</value></data>
+  <data name="Window_TriggerDetail_TargetDevices_Apply" xml:space="preserve"><value>Apply</value></data>
+  <data name="Window_TriggerDetail_TargetDevices_Manage" xml:space="preserve"><value>Manage groups…</value></data>
+  <data name="Window_TriggerDetail_TargetDevices_NoGroups" xml:space="preserve"><value>No groups created yet</value></data>
+  <data name="Window_TriggerDetail_TargetDevices_Header" xml:space="preserve"><value>Target devices ({0} available)</value></data>
+  <data name="Code_TriggerDetail_MessageBox_TargetRequired" xml:space="preserve"><value>Select at least one Nanoleaf target device.</value></data>
+  <data name="Window_Trigger_TargetDevices_All" xml:space="preserve"><value>All</value></data>
+  <data name="Window_Trigger_TargetDevices_Unavailable" xml:space="preserve"><value>Unavailable</value></data>
 </root>
