@@ -20,6 +20,8 @@ NanoTwitchLeafs 4 ist eine experimentelle Modernisierung und Weiterentwicklung d
 
 Es gibt keine Zusage für regelmäßige Aktualisierungen, Support oder eine dauerhafte Weiterentwicklung. Version 4 ist experimentelle Software und kann sich vor einer stabilen Veröffentlichung noch ändern.
 
+Der erste private Veröffentlichungskandidat **v4.0.0-rc.1** steht eingeladenen Testern unter [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/tag/v4.0.0-rc.1) zur Verfügung. Dies ist noch keine öffentliche stabile Veröffentlichung.
+
 ### Funktionen
 
 - Twitch-Chatbefehle und Schlüsselwörter
@@ -118,6 +120,8 @@ NanoTwitchLeafs connects Twitch with Nanoleaf lights. Chat commands and Twitch e
 NanoTwitchLeafs 4 is an experimental modernization and continuation of the original GPL-3.0 project created by **Locxion**. The current work is performed under the GitHub account **GordenM82**.
 
 There is no commitment to regular updates, support, or long-term maintenance. Version 4 is experimental software and may change before a stable release.
+
+The first private release candidate, **v4.0.0-rc.1**, is available to invited testers under [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/tag/v4.0.0-rc.1). This is not yet a public stable release.
 
 ### Features
 
