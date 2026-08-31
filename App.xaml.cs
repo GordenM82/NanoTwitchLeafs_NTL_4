@@ -2,6 +2,7 @@
 using NanoTwitchLeafs.Windows;
 using System;
 using System.IO;
+using System.Globalization;
 using System.Windows;
 using log4net.Config;
 
@@ -38,9 +39,15 @@ namespace NanoTwitchLeafs
                 logger.Error($"Error while initializing {nameof(MainWindow)}: {exception.Message}", exception);
                 logger.Error(exception.Message, exception);
 
+                CultureInfo startupCulture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "de"
+                    ? CultureInfo.GetCultureInfo("de-DE")
+                    : CultureInfo.GetCultureInfo("en-US");
                 MessageBox.Show(
-                    $"NanoTwitchLeafs konnte nicht vollständig gestartet werden.\n\n{exception.Message}\n\nLogdatei:\n{Constants.LOG_PATH}",
-                    "NanoTwitchLeafs – Startfehler",
+                    Properties.Resources.ResourceManager.GetString("Code_App_MessageBox_StartupError_Text", startupCulture) +
+                    $"\n\n{exception.Message}\n\n" +
+                    Properties.Resources.ResourceManager.GetString("General_LogFile_Label", startupCulture) +
+                    $":\n{Constants.LOG_PATH}",
+                    Properties.Resources.ResourceManager.GetString("Code_App_MessageBox_StartupError_Title", startupCulture),
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
 
@@ -65,8 +72,8 @@ namespace NanoTwitchLeafs
                 return;
             }
 
-            // Nur Nutzdaten kopieren. Die stabile Installation und ihre Dateien
-            // werden weder geöffnet noch verändert oder gelöscht.
+            // Copy user data only. The stable installation and its files are not
+            // opened, modified, or deleted.
             string[] filesToCopy = { "settings.txt", "nanotwitchleafs.sqlite" };
             foreach (string fileName in filesToCopy)
             {
@@ -83,8 +90,8 @@ namespace NanoTwitchLeafs
             {
                 File.WriteAllText(
                     markerPath,
-                    $"Kopie aus NanoTwitchLeafs 3.2.0.5 erstellt am {DateTime.Now:yyyy-MM-dd HH:mm:ss}.{Environment.NewLine}" +
-                    "Die Originaldaten wurden nicht verändert.");
+                    $"Copy from NanoTwitchLeafs 3.2.0.5 created at {DateTime.Now:yyyy-MM-dd HH:mm:ss}.{Environment.NewLine}" +
+                    "The original data was not changed.");
             }
         }
 #endif
