@@ -34,9 +34,7 @@ namespace NanoTwitchLeafs.Controller
 		public HypeRateIOController(AppSettings appSettings)
 		{
 			_appSettings = appSettings;
-			_apiKey = !string.IsNullOrWhiteSpace(appSettings.HypeRateApiKey)
-				? appSettings.HypeRateApiKey
-				: Constants.ServiceCredentials?.HyperateApi?.ApiKey ?? string.Empty;
+			_apiKey = appSettings.HypeRateApiKey ?? string.Empty;
 			_websocketUrl = $"wss://app.hyperate.io/socket/websocket?token={Uri.EscapeDataString(_apiKey)}";
 			_webSocket = new WebSocket(_websocketUrl);
             _webSocket.Opened += _webSocket_Opened;
@@ -94,7 +92,7 @@ namespace NanoTwitchLeafs.Controller
 			{
 				_logger.Warn("No HypeRate API key configured ... skip Connection");
 				MessageBox.Show(
-					"Für HypeRate ist noch kein API-Schlüssel eingerichtet.",
+					Properties.Resources.ResourceManager.GetString("Code_HypeRate_MessageBox_MissingApiKey"),
 					Properties.Resources.General_MessageBox_Hint_Title,
 					MessageBoxButton.OK,
 					MessageBoxImage.Information);
