@@ -23,8 +23,9 @@ namespace NanoTwitchLeafs
 
 		public static readonly string TEMP_PATH = Path.GetTempPath();
 		private static readonly string APPDATA_PATH = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData); // AppData folder
-		// Während der 4.0-Migration bleiben Einstellungen und Trigger der stabilen
-		// 3.2.0.5 unangetastet. Erst ein späterer, ausdrücklicher Import übernimmt Daten.
+		// Keep the stable 3.x settings and triggers untouched during migration.
+		// This compatibility path must remain available in later releases unless an
+		// equivalent direct importer is provided.
 #if NTL4_PRIVATE_MIGRATION
 		public static readonly string PROGRAMFILESFOLDER_PATH = Path.Combine(APPDATA_PATH, "NanoTwitchLeafs-4-Test");
 #elif NTL4
@@ -56,19 +57,6 @@ namespace NanoTwitchLeafs
 		public static readonly string LOG_PATH = Path.Combine(LOGFOLDER_PATH, "nanotwichleafs.log");
 		
 		public static readonly List<string> DEVELOPER = new List<string> { "locxion", "silverdark", "revyn112" };
-		#endregion
-
-		#region ServiceCredentials
-
-		public static readonly string SERVICE_CREDENTIALS_PATH = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ServiceCredentials");
-		public static readonly string[] SERVICE_CREDENTIALS_PATHS =
-		{
-			SERVICE_CREDENTIALS_PATH,
-			Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ServiceCredentials.local"),
-			Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ServiceCredential.local")
-		};
-		public static ServiceCredentials ServiceCredentials;
-
 		#endregion
 
 		#region Twitch
