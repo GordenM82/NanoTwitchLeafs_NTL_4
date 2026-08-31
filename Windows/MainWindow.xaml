@@ -86,7 +86,6 @@
                     <CheckBox x:Name="autoIPRefresh_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh}" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" Click="autoIPRefresh_Checkbox_Click" Padding="4,-1,5,0" />
                     <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Language}" HorizontalAlignment="Left" Margin="5,268,0,0" VerticalAlignment="Top" Padding="5,0" />
                     <ComboBox x:Name="language_Combobox" Margin="10,291,10,0" VerticalAlignment="Top" SelectionChanged="language_Combobox_SelectionChanged" />
-                    <CheckBox ToolTip="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_ToolTip_AnalyticsChannelName}" x:Name="analyticsChannel_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Analytics}" HorizontalAlignment="Right" Margin="0,247,10,0" VerticalAlignment="Top" Click="analyticsChannel_Checkbox_Click" Padding="4,-1,5,0" />
                 </Grid>
             </TabItem>
             <TabItem x:Name="Streamlabs_Tabitem"  Header="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_Title}">
@@ -120,27 +119,25 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="#FFE5E5E5">
                     <StackPanel Margin="10,8,10,14">
                         <Label Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}" HorizontalAlignment="Center" FontSize="24" Margin="0,0,0,6" />
-                        <CheckBox x:Name="UseOwnServiceCredentials_Checkbox" Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_ServiceCredentials_Checkbox}" Click="UseOwnServiceCredentials_Checkbox_Click" Margin="0,0,0,8" />
-
                         <Label Content="Twitch:" FontSize="18" Padding="0" Margin="0,0,0,5" />
                         <Label Content="Twitch Client-ID:" Padding="0" Margin="2,0,0,2" />
-                        <TextBox x:Name="TwitchClientId_Textbox" TextWrapping="Wrap" IsEnabled="False" Margin="0,0,0,5" />
+                        <TextBox x:Name="TwitchClientId_Textbox" TextWrapping="Wrap" Margin="0,0,0,5" />
                         <Label x:Name="TwitchClientSecret_Label" Content="Twitch Client-Secret:" Padding="0" Margin="2,0,0,2" />
-                        <PasswordBox x:Name="TwitchClientSecret_Textbox" IsEnabled="False" Margin="0,0,0,5" />
+                        <PasswordBox x:Name="TwitchClientSecret_Textbox" Margin="0,0,0,5" />
                         <TextBlock x:Name="TwitchApiHelp_TextBlock" TextWrapping="Wrap" Margin="0,3,0,7" />
                         <Button x:Name="OpenTwitchDeveloperConsole_Button" Height="27" Content="Twitch-Anwendung erstellen / verwalten" Click="OpenTwitchDeveloperConsole_Button_Click" Margin="0,0,0,12" />
 
                         <Separator Margin="0,0,0,10" />
                         <Label Content="Streamlabs:" FontSize="18" Padding="0" Margin="0,0,0,5" />
                         <Label Content="Streamlabs Client-ID:" Padding="0" Margin="2,0,0,2" />
-                        <TextBox x:Name="StreamlabsClientId_Textbox" TextWrapping="Wrap" IsEnabled="False" Margin="0,0,0,5" />
+                        <TextBox x:Name="StreamlabsClientId_Textbox" TextWrapping="Wrap" Margin="0,0,0,5" />
                         <Label Content="Streamlabs Client-Secret:" Padding="0" Margin="2,0,0,2" />
-                        <PasswordBox x:Name="StreamlabsClientSecret_Textbox" IsEnabled="False" Margin="0,0,0,12" />
+                        <PasswordBox x:Name="StreamlabsClientSecret_Textbox" Margin="0,0,0,12" />
 
                         <Separator Margin="0,0,0,10" />
                         <Label Content="HypeRate:" FontSize="18" Padding="0" Margin="0,0,0,5" />
                         <Label Content="HypeRate API-Key:" Padding="0" Margin="2,0,0,2" />
-                        <PasswordBox x:Name="HypeRateApiKey_Textbox" IsEnabled="False" />
+                        <PasswordBox x:Name="HypeRateApiKey_Textbox" />
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
