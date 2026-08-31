@@ -16,7 +16,6 @@ namespace NanoTwitchLeafs.Objects
 			NanoSettings = new NanoSettings();
 			InstanceID = Guid.NewGuid();
 			AppVersion = typeof(AppInfoWindow).Assembly.GetName().Version;
-			AnalyticsChannelName = false;
 			BlacklistEnabled = false;
 			Blacklist = new List<string>();
 			AutoIpRefresh = false;
@@ -24,23 +23,11 @@ namespace NanoTwitchLeafs.Objects
 				? "de-DE"
 				: "en-US";
 			StreamlabsInformation = new StreamlabsInformation();
-			UseOwnServiceCredentials = true;
 			TwitchClientId = "";
 			TwitchClientSecret = "";
 			StreamlabsClientId = "";
 			StreamlabsClientSecret = "";
 			HypeRateApiKey = "";
-		}
-
-		public bool AnalyticsChannelName
-		{
-			get { return Get(() => AnalyticsChannelName); }
-			set { Set(() => AnalyticsChannelName, value); }
-		}
-		public bool UseOwnServiceCredentials
-		{
-			get { return Get(() => UseOwnServiceCredentials); }
-			set { Set(() => UseOwnServiceCredentials, value); }
 		}
 
 		public string TwitchClientId

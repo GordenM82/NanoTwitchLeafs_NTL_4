@@ -4,6 +4,15 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.0.0-rc.2 – in Vorbereitung
+
+- neue Programmtexte aus NTL 4 in das vorhandene Sprachressourcensystem überführt; keine fest eincodierten deutsch/englischen Meldungen mehr in der Hauptfensterlogik
+- Englisch bleibt die neutrale Standardsprache; auf deutschsprachigem Windows wird bei einer neuen Konfiguration zuverlässig Deutsch vorausgewählt
+- Telemetrie, Analytics-Controller und zugehörige Datenmodelle vollständig entfernt, da der frühere Server nicht mehr verfügbar ist
+- mitgelieferte `ServiceCredentials`-Logik vollständig entfernt; Twitch-, Streamlabs- und HypeRate-Zugangsdaten werden ausschließlich aus den lokalen Benutzereinstellungen gelesen
+- direkten Importpfad von 3.x-Einstellungen und SQLite-Triggern als dauerhafte NTL-4-Kompatibilitätsfunktion festgelegt
+- KI-Unterstützung bei Weiterentwicklung, Fehlersuche und Dokumentation transparent in der README ausgewiesen
+
 ## NanoTwitchLeafs 4.0.0-rc.1 – privater Veröffentlichungskandidat (31. August 2026)
 
 NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 und den anschließend getesteten Zwischenständen. `v4.0.0-rc.1` ist der erste private Veröffentlichungskandidat für eingeladene Tester und noch als experimentell einzustufen.
@@ -73,12 +82,21 @@ NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 u
 - Verbindungstest auf lesbare, umgebrochene Statusmeldungen reduziert; technische IRC-Rohdaten bleiben nur im Debugprotokoll
 - ein nicht verfügbares Twitch-Profilbild verwendet unauffällig das Standardbild und gilt nicht mehr als Programmfehler
 - Einstellungen und Trigger werden unter `%APPDATA%\NanoTwitchLeafs-4` gespeichert
-- Telemetrie und die ursprüngliche Nutzungsanalyse sind in NanoTwitchLeafs 4 deaktiviert
+- Telemetrie und die ursprüngliche Nutzungsanalyse sind in NanoTwitchLeafs 4 nicht aktiv
 - die GitHub-Action erstellt ausschließlich ein bereinigtes Windows-x64-ZIP ohne Zugangsdaten
 
 ---
 
 ## English
+
+## NanoTwitchLeafs 4.0.0-rc.2 – in preparation
+
+- moved new NTL 4 user-facing text into the existing language-resource system; the main-window logic no longer contains hard-coded German/English messages
+- kept English as the neutral default language while reliably preselecting German for new configurations on German-language Windows systems
+- completely removed telemetry, the analytics controller, and related data models because the former server is no longer available
+- completely removed bundled `ServiceCredentials` handling; Twitch, Streamlabs, and HypeRate credentials are read exclusively from local user settings
+- established direct import of 3.x settings and SQLite triggers as a permanent NTL 4 compatibility feature
+- disclosed the use of AI assistance for continued development, troubleshooting, and documentation in the README
 
 ## NanoTwitchLeafs 4.0.0-rc.1 – private release candidate (31 August 2026)
 
@@ -149,5 +167,5 @@ NanoTwitchLeafs 4 is based on Locxion's last original version 3.1.5.0 and the su
 - reduced the connection test to readable wrapped status messages; raw IRC traffic remains in the debug log only
 - an unavailable Twitch profile image now quietly uses the default image instead of being treated as an application error
 - settings and triggers are stored under `%APPDATA%\NanoTwitchLeafs-4`
-- telemetry and the original usage analytics are disabled in NanoTwitchLeafs 4
+- telemetry and the original usage analytics are not active in NanoTwitchLeafs 4
 - GitHub Actions produces a sanitized Windows x64 ZIP without credentials

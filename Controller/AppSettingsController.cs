@@ -90,10 +90,9 @@ namespace NanoTwitchLeafs.Controller
 				_logger.Debug("Load Settings from File " + path);
 
 #if NTL4
-                // Ältere NTL-Versionen speicherten System.Version als JSON-Objekt.
-                // Moderne Json.NET-Versionen erwarten dafür einen String. Die alte
-                // Versionsnummer ist keine Benutzereinstellung und darf daher auf
-                // die aktuell laufende Programmversion normalisiert werden.
+				// Older NTL versions stored System.Version as a JSON object.
+				// Modern Json.NET versions expect a string. The version number is
+				// not a user preference, so normalize it to the running application.
                 JObject settingsJson = JObject.Parse(json);
                 JToken appVersion = settingsJson[nameof(AppSettings.AppVersion)];
                 if (appVersion != null && appVersion.Type == JTokenType.Object)

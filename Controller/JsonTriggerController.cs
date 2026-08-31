@@ -11,9 +11,9 @@ using System.Linq;
 namespace NanoTwitchLeafs.Controller
 {
     /// <summary>
-    /// Lokale, datenbankfreie Triggerablage für NTL 4.
-    /// Jede Änderung wird atomar geschrieben; die vorherige Datei bleibt als
-    /// Sicherung erhalten.
+    /// Local database-free trigger storage for NTL 4.
+    /// Every change is written atomically; the previous file remains available as
+    /// a backup.
     /// </summary>
     public sealed class JsonTriggerController : IDatabaseController<TriggerSetting>
     {
@@ -117,9 +117,9 @@ namespace NanoTwitchLeafs.Controller
             }
             catch (Exception exception)
             {
-                _logger.Error($"Triggerdatei konnte nicht gelesen werden: {_path}", exception);
+                _logger.Error($"Could not read trigger file: {_path}", exception);
                 throw new InvalidDataException(
-                    "Die lokale Triggerdatei konnte nicht gelesen werden. Die Sicherungsdatei wurde nicht verändert.",
+                    "The local trigger file could not be read. The backup file was not changed.",
                     exception);
             }
         }

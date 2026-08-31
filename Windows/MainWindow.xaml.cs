@@ -6,7 +6,6 @@ using NanoTwitchLeafs.Colors;
 using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Objects;
 using NanoTwitchLeafs.Repositories;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -49,9 +48,6 @@ namespace NanoTwitchLeafs.Windows
 		private readonly TriggerLogicController _triggerLogicController;
 		private readonly HypeRateIOController _hypeRatecontroller;
 		private readonly UpdateController _updateController;
-#if !NTL4
-		private readonly AnalyticsController _analyticsController;
-#endif
 		private readonly TaskbarIcon _tbi = new TaskbarIcon();
 		private readonly TwitchEventSubController _twitchEventSubController;
 		private bool _initialWindowActivationCompleted;
@@ -76,16 +72,14 @@ namespace NanoTwitchLeafs.Windows
 				return;
 			}
 
-			bool german = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName
-				.Equals("de", StringComparison.OrdinalIgnoreCase);
-			string message = german
-				? "Es wurden Daten einer bisherigen NanoTwitchLeafs-3.x-Installation gefunden.\n\n" +
-				  "Sollen Einstellungen und Trigger nach NanoTwitchLeafs 4 übernommen werden? " +
-				  "Vor dem Import wird eine Sicherung erstellt. Die ursprünglichen Daten werden nicht verändert."
-				: "Data from an existing NanoTwitchLeafs 3.x installation was found.\n\n" +
-				  "Import settings and triggers into NanoTwitchLeafs 4? A backup is created before import. " +
-				  "The original data will not be changed.";
-			string title = german ? "NanoTwitchLeafs 4 – Daten übernehmen" : "NanoTwitchLeafs 4 – Import data";
+			var startupCulture = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName
+				.Equals("de", StringComparison.OrdinalIgnoreCase)
+				? System.Globalization.CultureInfo.GetCultureInfo("de-DE")
+				: System.Globalization.CultureInfo.GetCultureInfo("en-US");
+			string message = Properties.Resources.ResourceManager.GetString(
+				"Code_Main_MessageBox_LegacyMigration_Text", startupCulture);
+			string title = Properties.Resources.ResourceManager.GetString(
+				"Code_Main_MessageBox_LegacyMigration_Title", startupCulture);
 
 			if (MessageBox.Show(message, title, MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
 			{
@@ -115,8 +109,8 @@ namespace NanoTwitchLeafs.Windows
 			catch (Exception exception)
 			{
 				MessageBox.Show(
-					(german ? "Die Datenübernahme konnte nicht vorbereitet werden. Die bisherigen Daten wurden nicht verändert.\n\n"
-						: "The data import could not be prepared. The existing data was not changed.\n\n") + exception.Message,
+					Properties.Resources.ResourceManager.GetString(
+						"Code_Main_MessageBox_LegacyMigration_Error", startupCulture) + "\n\n" + exception.Message,
 					title, MessageBoxButton.OK, MessageBoxImage.Warning);
 			}
 #endif
@@ -139,10 +133,8 @@ namespace NanoTwitchLeafs.Windows
 			InitializeComponent();
 
 #if NTL4
-			analyticsChannel_Checkbox.Visibility = Visibility.Collapsed;
 			TwitchClientSecret_Label.Visibility = Visibility.Collapsed;
 			TwitchClientSecret_Textbox.Visibility = Visibility.Collapsed;
-			_appSettings.AnalyticsChannelName = false;
 #endif
 
 #if !DEBUG
@@ -199,31 +191,7 @@ namespace NanoTwitchLeafs.Windows
 			if (_appSettings.DebugEnabled)
 				SetLogLevel(Level.Debug);
 			
-			_logger.Info("Load Service Credentials");
-			Constants.ServiceCredentials = CreateEmptyServiceCredentials();
-			string serviceCredentialsPath = Constants.SERVICE_CREDENTIALS_PATHS.FirstOrDefault(File.Exists);
-			if (serviceCredentialsPath != null)
-			{
-				try
-				{
-					var credentialsJson = File.ReadAllText(serviceCredentialsPath);
-					Constants.ServiceCredentials = JsonConvert.DeserializeObject<ServiceCredentials>(credentialsJson)
-						?? CreateEmptyServiceCredentials();
-					NormalizeServiceCredentials();
-					_logger.Info($"Loaded Service Credentials from {Path.GetFileName(serviceCredentialsPath)}");
-				}
-				catch (Exception exception)
-				{
-					Constants.ServiceCredentials = CreateEmptyServiceCredentials();
-					_logger.Error("Could not load the optional Service Credentials file.", exception);
-				}
-			}
-			else
-			{
-				_logger.Info("No bundled Service Credentials found. User-owned credentials will be used.");
-			}
-
-			_requiresCredentialSetup = string.IsNullOrWhiteSpace(HelperClass.GetTwitchApiCredentials(_appSettings).ClientId);
+			_requiresCredentialSetup = string.IsNullOrWhiteSpace(_appSettings.TwitchClientId);
 			_logger.Info("Initialize Update Controller");
 			_updateController = new UpdateController();
 
@@ -278,7 +246,7 @@ namespace NanoTwitchLeafs.Windows
 			{
 #if NTL4
 				MessageBox.Show(
-					$"Die Triggersteuerung konnte nicht initialisiert werden.\n\n{ex.Message}",
+					Properties.Resources.ResourceManager.GetString("Code_Main_MessageBox_TriggerInitialization_Error") + $"\n\n{ex.Message}",
 					Properties.Resources.General_MessageBox_Error_Title,
 					MessageBoxButton.OK,
 					MessageBoxImage.Error);
@@ -290,11 +258,6 @@ namespace NanoTwitchLeafs.Windows
 				_logger.Error(ex.Message, ex);
 			}
 
-#if !NTL4
-			_logger.Info("Initialize Analytics Controller");
-			_analyticsController = new AnalyticsController(_appSettings);
-			_analyticsController.KeepAlive();
-#endif
 			
 			// Initialize Data
 			_logger.Info("Initialize Data");
@@ -327,12 +290,8 @@ namespace NanoTwitchLeafs.Windows
 			if (_requiresCredentialSetup)
 			{
 				settings_TabControl.SelectedItem = ApiSettings_Tabitem;
-				string setupText = _appSettings.Language == "de-DE"
-					? "Für die Twitch-Anmeldung muss zuerst eine Twitch Client-ID unter 'API Einstellungen' eingetragen und gespeichert werden."
-					: "Before signing in to Twitch, enter and save a Twitch Client ID under 'API Settings'.";
-				string setupTitle = _appSettings.Language == "de-DE"
-					? "NanoTwitchLeafs 4 – Ersteinrichtung"
-					: "NanoTwitchLeafs 4 – Initial setup";
+				string setupText = Properties.Resources.ResourceManager.GetString("Code_Main_MessageBox_CredentialSetup_Text");
+				string setupTitle = Properties.Resources.ResourceManager.GetString("Code_Main_MessageBox_CredentialSetup_Title");
 				Dispatcher.BeginInvoke(new Action(() => MessageBox.Show(
 					setupText,
 					setupTitle,
@@ -448,16 +407,8 @@ namespace NanoTwitchLeafs.Windows
             };
 
 				language_Combobox.ItemsSource = languages;
-				bool germanUi = _appSettings.Language == "de-DE";
-				UseOwnServiceCredentials_Checkbox.Content = germanUi
-					? "Eigene API-Zugangsdaten verwenden"
-					: "Use own API credentials";
-				TwitchApiHelp_TextBlock.Text = germanUi
-					? "Die Client-ID erhältst du über die Twitch Developer Console. Wähle den Client-Typ Öffentlich. Falls Twitch eine Weiterleitungs-URL verlangt, verwende https://localhost. NTL nutzt die Gerätecode-Anmeldung ohne Client-Secret."
-					: "Get the Client ID from the Twitch Developer Console. Select the Public client type. If Twitch requires a redirect URL, use https://localhost. NTL uses device-code authentication without a Client Secret.";
-				OpenTwitchDeveloperConsole_Button.Content = germanUi
-					? "Twitch-Anwendung erstellen / verwalten"
-					: "Create / manage Twitch application";
+				TwitchApiHelp_TextBlock.Text = Properties.Resources.ResourceManager.GetString("Window_Main_Tabs_ApiSettings_TwitchHelp");
+				OpenTwitchDeveloperConsole_Button.Content = Properties.Resources.ResourceManager.GetString("Window_Main_Tabs_ApiSettings_OpenTwitchConsole");
 
 				switch (_appSettings.Language)
 				{
@@ -507,10 +458,8 @@ namespace NanoTwitchLeafs.Windows
 				autoIPRefresh_Checkbox.IsChecked = _appSettings.AutoIpRefresh;
 				debugCmd_Checkbox.IsChecked = _appSettings.DebugEnabled;
 				blacklist_CheckBox.IsChecked = _appSettings.BlacklistEnabled;
-				UseOwnServiceCredentials_Checkbox.IsChecked = _appSettings.UseOwnServiceCredentials;
 				TwitchClientId_Textbox.Text = _appSettings.TwitchClientId;
 				TwitchClientSecret_Textbox.Password = _appSettings.TwitchClientSecret;
-				analyticsChannel_Checkbox.IsChecked = _appSettings.AnalyticsChannelName;
 				DebugCmd_Checkbox_Click(this, null);
 
 				// HypeRate
@@ -549,28 +498,6 @@ namespace NanoTwitchLeafs.Windows
 				_appSettingsController.LoadSettings();
 				InitializeData();
 			}
-#if !NTL4
-			_analyticsController.SendPing(PingType.Start, "Hello World!");
-#endif
-		}
-
-		private static ServiceCredentials CreateEmptyServiceCredentials()
-		{
-			return new ServiceCredentials
-			{
-				TwitchApiCredentials = new TwitchApiCredentials(string.Empty, string.Empty),
-				StreamLabsApiCedentials = new StreamLabsApiCedentials(string.Empty, string.Empty),
-				HyperateApi = new HyperateApi(string.Empty)
-			};
-		}
-
-		private static void NormalizeServiceCredentials()
-		{
-			Constants.ServiceCredentials.TwitchApiCredentials ??=
-				new TwitchApiCredentials(string.Empty, string.Empty);
-			Constants.ServiceCredentials.StreamLabsApiCedentials ??=
-				new StreamLabsApiCedentials(string.Empty, string.Empty);
-			Constants.ServiceCredentials.HyperateApi ??= new HyperateApi(string.Empty);
 		}
 
 		private void CheckForUpdate()
@@ -737,10 +664,8 @@ namespace NanoTwitchLeafs.Windows
 			{
 				_logger.Error("Could not open Twitch account connection.", exception);
 				MessageBox.Show(
-					(_appSettings.Language == "de-DE"
-						? "Die Twitch-Verbindung konnte nicht geöffnet werden."
-						: "The Twitch connection could not be opened.") +
-					$"\n\n{exception.Message}\n\nLogdatei:\n{Constants.LOG_PATH}",
+					Properties.Resources.ResourceManager.GetString("Code_Main_MessageBox_TwitchConnection_Error") +
+					$"\n\n{exception.Message}\n\n{Properties.Resources.ResourceManager.GetString("General_LogFile_Label")}:\n{Constants.LOG_PATH}",
 					Properties.Resources.General_MessageBox_Error_Title,
 					MessageBoxButton.OK,
 					MessageBoxImage.Error);
@@ -884,28 +809,6 @@ namespace NanoTwitchLeafs.Windows
 			Process.Start("https://hyperate.io");
 		}
 
-		private void UseOwnServiceCredentials_Checkbox_Click(object sender, RoutedEventArgs e)
-		{
-			if (UseOwnServiceCredentials_Checkbox.IsChecked == true)
-			{
-				_appSettings.UseOwnServiceCredentials = true;
-				TwitchClientId_Textbox.IsEnabled = true;
-				TwitchClientSecret_Textbox.IsEnabled = true;
-				StreamlabsClientId_Textbox.IsEnabled = true;
-				StreamlabsClientSecret_Textbox.IsEnabled = true;
-				HypeRateApiKey_Textbox.IsEnabled = true;
-			}
-			else
-			{
-				_appSettings.UseOwnServiceCredentials = false;
-				TwitchClientId_Textbox.IsEnabled = false;
-				TwitchClientSecret_Textbox.IsEnabled = false;
-				StreamlabsClientId_Textbox.IsEnabled = false;
-				StreamlabsClientSecret_Textbox.IsEnabled = false;
-				HypeRateApiKey_Textbox.IsEnabled = false;
-			}
-		}
-
 		private void Open_Dir_Button_Click(object sender, RoutedEventArgs e)
 		{
 			Process.Start(Constants.PROGRAMFILESFOLDER_PATH);
@@ -949,10 +852,8 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings.AutoIpRefresh = (bool)autoIPRefresh_Checkbox.IsChecked;
 			_appSettings.DebugEnabled = (bool)debugCmd_Checkbox.IsChecked;
 			_appSettings.AutoConnect = (bool)autoConnect_Checkbox.IsChecked;
-			_appSettings.UseOwnServiceCredentials = (bool)UseOwnServiceCredentials_Checkbox.IsChecked;
 			_appSettings.TwitchClientId = TwitchClientId_Textbox.Text;
 			_appSettings.TwitchClientSecret = TwitchClientSecret_Textbox.Password;
-			_appSettings.AnalyticsChannelName = (bool)analyticsChannel_Checkbox.IsChecked;
 
 			// Hype Rate
 			_appSettings.HypeRateId = hypeRateId_Textbox.Text;
@@ -1178,11 +1079,6 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings.ChatResponse = (bool)response_CheckBox.IsChecked;
 		}
 
-		private void analyticsChannel_Checkbox_Click(object sender, RoutedEventArgs e)
-		{
-			_appSettings.AnalyticsChannelName = (bool)analyticsChannel_Checkbox.IsChecked;
-		}
-
 		private void KeywordRestore_Checkbox_Click(object sender, RoutedEventArgs e)
 		{
 			_appSettings.NanoSettings.ChangeBackOnKeyword = (bool)keywordRestore_Checkbox.IsChecked;
@@ -1382,14 +1278,11 @@ namespace NanoTwitchLeafs.Windows
 				nanoCooldown_TextBox.IsEnabled = false;
 			}
 
-			if (_appSettings.UseOwnServiceCredentials)
-			{
-				TwitchClientId_Textbox.IsEnabled = true;
-				TwitchClientSecret_Textbox.IsEnabled = true;
-				StreamlabsClientId_Textbox.IsEnabled = true;
-				StreamlabsClientSecret_Textbox.IsEnabled = true;
-				HypeRateApiKey_Textbox.IsEnabled = true;
-			}
+			TwitchClientId_Textbox.IsEnabled = true;
+			TwitchClientSecret_Textbox.IsEnabled = true;
+			StreamlabsClientId_Textbox.IsEnabled = true;
+			StreamlabsClientSecret_Textbox.IsEnabled = true;
+			HypeRateApiKey_Textbox.IsEnabled = true;
 
 			help_TextBlock.Text = string.Format(Properties.Resources.Code_Main_Label_NanoHelpText, _appSettings.CommandPrefix);
 		}
@@ -1614,15 +1507,9 @@ namespace NanoTwitchLeafs.Windows
 			catch (Exception exception)
 			{
 				_logger.Error("Could not import the existing NanoTwitchLeafs 3.x trigger database.", exception);
-				bool german = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName
-					.Equals("de", StringComparison.OrdinalIgnoreCase);
 				MessageBox.Show(
-					german
-						? "Die bisherigen Trigger konnten nicht automatisch in das neue Format übernommen werden.\n\n" +
-						  "Die Originaldaten wurden nicht verändert. Weitere Einzelheiten stehen im Protokoll."
-						: "The existing triggers could not be imported into the new format.\n\n" +
-						  "The original data was not changed. See the log for details.",
-					german ? "NanoTwitchLeafs 4 – Triggerimport" : "NanoTwitchLeafs 4 – Trigger import",
+					Properties.Resources.ResourceManager.GetString("Code_Main_MessageBox_TriggerMigration_Error"),
+					Properties.Resources.ResourceManager.GetString("Code_Main_MessageBox_TriggerMigration_Title"),
 					MessageBoxButton.OK,
 					MessageBoxImage.Warning);
 			}

@@ -169,7 +169,8 @@ namespace NanoTwitchLeafs.Windows
 			if (isBroadcaster)
 			{
 				_broadCasterAccountName = accountName;
-				_broadcasterAuthObject = await _twitchController.GetAuthToken(HelperClass.GetTwitchApiCredentials(_appSettings), true);
+				_broadcasterAuthObject = await _twitchController.GetAuthToken(
+					new TwitchApiCredentials(_appSettings.TwitchClientId, _appSettings.TwitchClientSecret), true);
 
 				if (_broadcasterAuthObject == null)
 				{
@@ -200,7 +201,8 @@ namespace NanoTwitchLeafs.Windows
 			else
 			{
 				_botAccountName = accountName;
-				_botAuthObject = await _twitchController.GetAuthToken(HelperClass.GetTwitchApiCredentials(_appSettings), false);
+				_botAuthObject = await _twitchController.GetAuthToken(
+					new TwitchApiCredentials(_appSettings.TwitchClientId, _appSettings.TwitchClientSecret), false);
 
 				if (_botAuthObject == null)
 				{
@@ -346,8 +348,8 @@ namespace NanoTwitchLeafs.Windows
 				}
 
 				SetProgress(1, isBroadcaster);
-				SendMessageToListBox(UiText("Mit dem Twitch-Netzwerk verbunden.", "Connected to the Twitch network."));
-				SendMessageToListBox(UiText("Betrete Twitch-Kanal: ", "Joining Twitch channel: ") + client.TwitchUsername);
+				SendMessageToListBox(Properties.Resources.ResourceManager.GetString("Code_TwitchLink_Status_Connected"));
+				SendMessageToListBox(Properties.Resources.ResourceManager.GetString("Code_TwitchLink_Status_Joining") + client.TwitchUsername);
 
 				// Try to Join Channel
 
@@ -369,8 +371,8 @@ namespace NanoTwitchLeafs.Windows
 				}
 
 				SetProgress(2, isBroadcaster);
-				SendMessageToListBox(UiText($"Twitch-Kanal betreten: {_broadCasterAccountName}", $"Joined Twitch channel: {_broadCasterAccountName}"));
-				SendMessageToListBox(UiText("Sende eine Testnachricht in den Chat.", "Sending a test message to chat."));
+				SendMessageToListBox(string.Format(Properties.Resources.ResourceManager.GetString("Code_TwitchLink_Status_Joined"), _broadCasterAccountName));
+				SendMessageToListBox(Properties.Resources.ResourceManager.GetString("Code_TwitchLink_Status_TestMessage"));
 
 				// Send Test Message to Twitch Channel
 				client.SendMessage(_broadCasterAccountName, "Testing NanoTwitchLeafs Chat Connection");
@@ -426,9 +428,6 @@ namespace NanoTwitchLeafs.Windows
 			}
 		}
 		
-		private string UiText(string german, string english) =>
-			_appSettings.Language == "de-DE" ? german : english;
-
 		private void SendMessageToListBox(string message)
 		{
 			var dateTime = DateTime.Now;

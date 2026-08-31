@@ -1,4 +1,4 @@
-using AutoUpdaterDotNET;
+﻿using AutoUpdaterDotNET;
 using log4net;
 using NanoTwitchLeafs.Objects;
 using NanoTwitchLeafs.Windows;
@@ -44,7 +44,7 @@ namespace NanoTwitchLeafs.Controller
 			if (!Constants.AUTO_UPDATE_ENABLED)
 			{
 				_logger.Info("Automatic updates are disabled for this custom build.");
-				MessageBox.Show("Die automatische Aktualisierung ist für diese angepasste Version deaktiviert. Dadurch wird NTL nicht versehentlich durch eine andere offizielle Version ersetzt.",
+				MessageBox.Show(Properties.Resources.ResourceManager.GetString("Code_Update_MessageBox_Disabled"),
 					"NanoTwitchLeafs Update", MessageBoxButton.OK, MessageBoxImage.Information);
 				return;
 			}

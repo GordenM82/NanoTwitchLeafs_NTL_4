@@ -128,7 +128,7 @@ public class TwitchEventSubController : IDisposable
         }
         _api = new TwitchAPI();
 		
-        _api.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId;
+        _api.Settings.ClientId = _appSettings.TwitchClientId;
         _api.Settings.AccessToken = _appSettings.BroadcasterAuthObject.Access_Token;
         var broadcasterId = await HelperClass.GetUserId(_api, _appSettings, _appSettings.ChannelName);
         if (string.IsNullOrWhiteSpace(broadcasterId))

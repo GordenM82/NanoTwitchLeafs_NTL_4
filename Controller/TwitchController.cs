@@ -121,7 +121,8 @@ namespace NanoTwitchLeafs.Controller
 				OnCallLoadingWindow?.Invoke(true);
 
 				Disconnect(true);
-				var newOauth = await PerformCodeExchange(_appSettings.BotAuthObject.Refresh_Token, HelperClass.GetTwitchApiCredentials(_appSettings), true);
+				var newOauth = await PerformCodeExchange(_appSettings.BotAuthObject.Refresh_Token,
+					new TwitchApiCredentials(_appSettings.TwitchClientId, _appSettings.TwitchClientSecret), true);
 				_appSettings.BotAuthObject = newOauth;
 				if (_appSettings.BotName == _appSettings.ChannelName)
 					_appSettings.BroadcasterAuthObject = newOauth;
@@ -148,7 +149,8 @@ namespace NanoTwitchLeafs.Controller
 
 				OnCallLoadingWindow?.Invoke(true);
 
-				var newOauth = await PerformCodeExchange(_appSettings.BroadcasterAuthObject.Refresh_Token, HelperClass.GetTwitchApiCredentials(_appSettings), true);
+				var newOauth = await PerformCodeExchange(_appSettings.BroadcasterAuthObject.Refresh_Token,
+					new TwitchApiCredentials(_appSettings.TwitchClientId, _appSettings.TwitchClientSecret), true);
 				_appSettings.BroadcasterAuthObject = newOauth;
 				_appSettingsController.SaveSettings(_appSettings);
 
@@ -287,7 +289,7 @@ namespace NanoTwitchLeafs.Controller
 			
 			_api = new TwitchAPI();
 			
-			_api.Settings.ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId;
+			_api.Settings.ClientId = _appSettings.TwitchClientId;
 			_api.Settings.AccessToken = _appSettings.BotAuthObject.Access_Token;
 			
 			var fromUserId = await HelperClass.GetUserId(_api, _appSettings, _appSettings.BotName);
@@ -388,12 +390,9 @@ namespace NanoTwitchLeafs.Controller
 				UseShellExecute = true
 			});
 
-			bool german = _appSettings.Language == "de-DE";
 			MessageBox.Show(
-				german
-					? $"Twitch wurde im Browser geöffnet.\n\nBestätige dort die Verbindung. Falls der Code nicht automatisch eingetragen ist, verwende:\n\n{userCode}\n\nKlicke anschließend hier auf OK."
-					: $"Twitch has been opened in your browser.\n\nAuthorize the connection there. If the code is not filled in automatically, use:\n\n{userCode}\n\nThen click OK here.",
-				german ? "Twitch verbinden" : "Connect Twitch",
+				string.Format(Properties.Resources.ResourceManager.GetString("Code_Twitch_MessageBox_DeviceCode_Text"), userCode),
+				Properties.Resources.ResourceManager.GetString("Code_Twitch_MessageBox_DeviceCode_Title"),
 				System.Windows.MessageBoxButton.OK,
 				System.Windows.MessageBoxImage.Information);
 
@@ -494,7 +493,7 @@ namespace NanoTwitchLeafs.Controller
 			{
 				Settings =
 				{
-					ClientId = HelperClass.GetTwitchApiCredentials(_appSettings).ClientId,
+					ClientId = _appSettings.TwitchClientId,
 					AccessToken = token
 				}
 			};
