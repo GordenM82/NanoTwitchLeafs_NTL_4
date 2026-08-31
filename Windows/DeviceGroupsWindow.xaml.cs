@@ -1,4 +1,4 @@
-using NanoTwitchLeafs.Controller;
+﻿using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Objects;
 using System;
 using System.Collections.Generic;
@@ -19,6 +19,15 @@ namespace NanoTwitchLeafs.Windows
             _appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
             _settingsController = settingsController ?? throw new ArgumentNullException(nameof(settingsController));
             InitializeComponent();
+			Title = Text("Window_DeviceGroups_Title");
+			Groups_GroupBox.Header = Text("Window_DeviceGroups_Groups");
+			EditGroup_GroupBox.Header = Text("Window_DeviceGroups_Edit");
+			GroupName_Label.Content = Text("Window_DeviceGroups_Name");
+			GroupDevices_Label.Content = Text("Window_DeviceGroups_Devices");
+			NewGroup_Button.Content = Text("Window_DeviceGroups_New");
+			SaveGroup_Button.Content = Text("Window_DeviceGroups_Save");
+			DeleteGroup_Button.Content = Text("Window_DeviceGroups_Delete");
+			Close_Button.Content = Text("Window_DeviceGroups_Close");
 
             if (_appSettings.NanoSettings.DeviceGroups == null)
                 _appSettings.NanoSettings.DeviceGroups = new List<NanoleafDeviceGroup>();
@@ -70,7 +79,7 @@ namespace NanoTwitchLeafs.Windows
             string name = GroupName_TextBox.Text.Trim();
             if (string.IsNullOrWhiteSpace(name))
             {
-                MessageBox.Show("Bitte einen Gruppennamen eingeben.", "Gerätegruppen", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Text("Code_DeviceGroups_MessageBox_NameRequired"), Title, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -81,14 +90,14 @@ namespace NanoTwitchLeafs.Windows
                 .ToList();
             if (deviceNames.Count == 0)
             {
-                MessageBox.Show("Bitte mindestens ein Nanoleaf auswählen.", "Gerätegruppen", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Text("Code_DeviceGroups_MessageBox_DeviceRequired"), Title, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (_appSettings.NanoSettings.DeviceGroups.Any(group => group != _selectedGroup &&
                 string.Equals(group.Name, name, StringComparison.OrdinalIgnoreCase)))
             {
-                MessageBox.Show("Eine Gruppe mit diesem Namen existiert bereits.", "Gerätegruppen", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(Text("Code_DeviceGroups_MessageBox_Duplicate"), Title, MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -110,7 +119,7 @@ namespace NanoTwitchLeafs.Windows
             if (_selectedGroup == null)
                 return;
 
-            if (MessageBox.Show($"Gruppe '{_selectedGroup.Name}' wirklich löschen?", "Gerätegruppen",
+            if (MessageBox.Show(string.Format(Text("Code_DeviceGroups_MessageBox_DeleteConfirm"), _selectedGroup.Name), Title,
                 MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
                 return;
 
@@ -125,5 +134,7 @@ namespace NanoTwitchLeafs.Windows
         {
             Close();
         }
+
+		private static string Text(string key) => Properties.Resources.ResourceManager.GetString(key);
     }
 }
