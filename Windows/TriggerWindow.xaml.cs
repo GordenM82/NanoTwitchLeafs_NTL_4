@@ -1,4 +1,4 @@
-using log4net;
+﻿using log4net;
 using NanoTwitchLeafs.Colors;
 using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Enums;
@@ -83,7 +83,7 @@ namespace NanoTwitchLeafs.Windows
                     vipsubmod = vipsubmod.Replace("Mod[N]", "Mod[Y]");
                 }
 
-                string targetDevices = "Alle";
+                string targetDevices = Properties.Resources.ResourceManager.GetString("Window_Trigger_TargetDevices_All");
                 if (!string.IsNullOrWhiteSpace(triggerSetting.TargetDeviceNames))
                 {
                     var selectedDeviceNames = new HashSet<string>(
@@ -93,7 +93,9 @@ namespace NanoTwitchLeafs.Windows
                         .Where(device => selectedDeviceNames.Contains(device.DeviceName))
                         .Select(device => device.PublicName)
                         .ToList();
-                    targetDevices = publicNames.Count > 0 ? string.Join(", ", publicNames) : "Nicht verfügbar";
+                    targetDevices = publicNames.Count > 0
+						? string.Join(", ", publicNames)
+						: Properties.Resources.ResourceManager.GetString("Window_Trigger_TargetDevices_Unavailable");
                 }
 
                 Button editButton = new Button
