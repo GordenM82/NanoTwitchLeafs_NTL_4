@@ -61,32 +61,6 @@ namespace NanoTwitchLeafs
 		}
 
 		/// <summary>
-		/// Returns TwitchApiCredentials depending on AppSetting UseOwnServiceCredentials
-		/// </summary>
-		/// <param name="appSettings"></param>
-		/// <returns></returns>
-		public static TwitchApiCredentials GetTwitchApiCredentials(AppSettings appSettings)
-		{
-			if (appSettings.UseOwnServiceCredentials || Constants.ServiceCredentials?.TwitchApiCredentials == null)
-				return new TwitchApiCredentials(appSettings.TwitchClientId, appSettings.TwitchClientSecret);
-
-			return Constants.ServiceCredentials.TwitchApiCredentials;
-		}
-
-		/// <summary>
-		/// Returns StreamLabsApiCedentials depending on AppSetting UseOwnServiceCredentials
-		/// </summary>
-		/// <param name="appSettings"></param>
-		/// <returns></returns>
-		public static StreamLabsApiCedentials GetStreamLabsApiCedentials(AppSettings appSettings)
-		{
-			if (appSettings.UseOwnServiceCredentials || Constants.ServiceCredentials?.StreamLabsApiCedentials == null)
-				return new StreamLabsApiCedentials(appSettings.StreamlabsClientId, appSettings.StreamlabsClientSecret);
-
-			return Constants.ServiceCredentials.StreamLabsApiCedentials;
-		}
-
-		/// <summary>
 		/// Splits a String into Parts with a Max Char length
 		/// </summary>
 		/// <param name="input"></param>
