@@ -1,0 +1,40 @@
+name: Create authorized NanoTwitchLeafs 4.0.0 RC2 pre-release
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/rc2-release-trigger"
+
+permissions:
+  contents: write
+
+jobs:
+  create-rc2:
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'release/trigger-v4.0.0-rc.2'
+    runs-on: windows-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Publish Windows x64
+        shell: pwsh
+        run: |
+          dotnet restore NanoTwitchLeafs.Modern.csproj
+          dotnet publish NanoTwitchLeafs.Modern.csproj --configuration Release --runtime win-x64 --self-contained true --output artifacts/NanoTwitchLeafs-4.0.0-win-x64
+          Remove-Item "artifacts/NanoTwitchLeafs-4.0.0-win-x64/*.pdb" -Force -ErrorAction SilentlyContinue
+          Compress-Archive -Path "artifacts/NanoTwitchLeafs-4.0.0-win-x64/*" -DestinationPath "artifacts/NanoTwitchLeafs-4.0.0-win-x64.zip"
+
+      - name: Create exact RC2 pre-release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "v4.0.0-rc.2" "artifacts/NanoTwitchLeafs-4.0.0-win-x64.zip" --repo "${{ github.repository }}" --target "main" --title "NanoTwitchLeafs 4.0.0 – Release Candidate 2" --prerelease --generate-notes
