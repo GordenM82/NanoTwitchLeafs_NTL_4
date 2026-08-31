@@ -43,11 +43,11 @@ namespace NanoTwitchLeafs
                     ? CultureInfo.GetCultureInfo("de-DE")
                     : CultureInfo.GetCultureInfo("en-US");
                 MessageBox.Show(
-                    Properties.Resources.ResourceManager.GetString("Code_App_MessageBox_StartupError_Text", startupCulture) +
+                    global::NanoTwitchLeafs.Properties.Resources.ResourceManager.GetString("Code_App_MessageBox_StartupError_Text", startupCulture) +
                     $"\n\n{exception.Message}\n\n" +
-                    Properties.Resources.ResourceManager.GetString("General_LogFile_Label", startupCulture) +
+                    global::NanoTwitchLeafs.Properties.Resources.ResourceManager.GetString("General_LogFile_Label", startupCulture) +
                     $":\n{Constants.LOG_PATH}",
-                    Properties.Resources.ResourceManager.GetString("Code_App_MessageBox_StartupError_Title", startupCulture),
+                    global::NanoTwitchLeafs.Properties.Resources.ResourceManager.GetString("Code_App_MessageBox_StartupError_Title", startupCulture),
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
 
