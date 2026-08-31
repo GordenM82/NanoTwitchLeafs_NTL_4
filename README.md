@@ -87,11 +87,13 @@ NanoTwitchLeafs 4 kann die vorhandenen Daten aus Locxions letzter 3.x-Version be
 
 Vor der Übernahme wird unter `%APPDATA%\NanoTwitchLeafs-4\Migration-Backup-3.x` eine zusätzliche Sicherung angelegt. Die ursprünglichen Daten unter `%APPDATA%\NanoTwitchLeafs` werden nur gelesen und nicht verändert. Locxions bisherige Version kann deshalb weiterhin unabhängig verwendet werden.
 
+Der direkte Importpfad von NanoTwitchLeafs 3.x bleibt als fester Kompatibilitätsbestandteil in NTL 4 erhalten. Er darf in späteren Versionen nur entfernt werden, wenn ein gleichwertiger direkter Import weiterhin möglich ist. Benutzer müssen deshalb keine bestimmte Zwischenversion installieren, um ihre 3.x-Daten zu übernehmen.
+
 Wird die Übernahme mit **Nein** abgelehnt, startet NTL 4 mit einer leeren Konfiguration und fragt beim nächsten Start erneut, solange noch keine eigenen NTL-4-Daten angelegt wurden.
 
 Eine Twitch-Anwendung kann in der [Twitch Developer Console](https://dev.twitch.tv/console/apps) registriert werden. Als Client-Typ **Öffentlich** auswählen. Falls Twitch beim Anlegen eine Weiterleitungs-URL verlangt, kann `https://localhost` eingetragen werden; NanoTwitchLeafs verwendet für die Anmeldung den Gerätecode-Ablauf und benötigt diese URL nicht. Twitch verlangt für den Zugriff auf die Developer Console ein bestätigtes Konto mit aktivierter Zwei-Faktor-Authentifizierung. Die ausführliche offizielle Anleitung steht unter [Registering Your App](https://dev.twitch.tv/docs/authentication/register-app/).
 
-> **Wichtig:** Zugangsdaten, Tokens, `ServiceCredentials` und persönliche Einstellungsdateien dürfen niemals in ein öffentliches Repository, einen Fehlerbericht oder einen Screenshot hochgeladen werden.
+> **Wichtig:** Zugangsdaten, Tokens und persönliche Einstellungsdateien dürfen niemals in ein öffentliches Repository, einen Fehlerbericht oder einen Screenshot hochgeladen werden.
 
 Die Anwendung beginnt beim ersten Start mit einer leeren Konfiguration. Persönliche Einstellungen und Trigger werden nur lokal unter `%APPDATA%\NanoTwitchLeafs-4` gespeichert. NanoTwitchLeafs 4 enthält keine Telemetrie oder Nutzungsanalyse.
 
@@ -100,6 +102,10 @@ Die Anwendung beginnt beim ersten Start mit einer leeren Konfiguration. Persönl
 Fehlerberichte und Vorschläge können über die GitHub-Issues dieses Repositories eingereicht werden. Bitte keine Zugangsdaten, OAuth-Tokens, Client-Secrets oder vollständigen Einstellungsdateien anhängen.
 
 Da sich das Projekt in einem experimentellen Stadium befindet und derzeit nicht feststeht, ob es dauerhaft weitergeführt wird, entsteht aus einem eingereichten Vorschlag kein Anspruch auf Umsetzung, Aktualisierungen oder Support.
+
+### Entwicklungstransparenz
+
+Teile der Weiterentwicklung, Fehlersuche und Dokumentation wurden mithilfe künstlicher Intelligenz erstellt oder bearbeitet. Alle Änderungen werden vom Maintainer geprüft und praktisch getestet. Das ursprüngliche Projekt und seine wesentliche Architektur stammen von Locxion.
 
 ### Ursprung und Lizenz
 
@@ -188,11 +194,13 @@ NanoTwitchLeafs 4 can import existing data from Locxion's latest 3.x version on 
 
 Before importing, an additional backup is created under `%APPDATA%\NanoTwitchLeafs-4\Migration-Backup-3.x`. The original data under `%APPDATA%\NanoTwitchLeafs` is read only and is not modified. Locxion's previous version can therefore continue to be used independently.
 
+The direct import path from NanoTwitchLeafs 3.x remains a permanent compatibility feature in NTL 4. It may only be removed from a later version if an equivalent direct import remains available. Users therefore do not need to install a specific intermediate version before importing their 3.x data.
+
 If the import is declined with **No**, NTL 4 starts with a clean configuration and asks again on the next launch as long as no NTL 4 data has been created.
 
 A Twitch application can be registered in the [Twitch Developer Console](https://dev.twitch.tv/console/apps). Select the **Public** client type. If Twitch requires a redirect URL while creating the application, `https://localhost` may be entered; NanoTwitchLeafs uses device-code authentication and does not use this URL. Twitch requires a verified account with two-factor authentication enabled to access the Developer Console. Detailed official instructions are available under [Registering Your App](https://dev.twitch.tv/docs/authentication/register-app/).
 
-> **Important:** Never upload credentials, tokens, `ServiceCredentials`, or personal settings files to a public repository, bug report, or screenshot.
+> **Important:** Never upload credentials, tokens, or personal settings files to a public repository, bug report, or screenshot.
 
 The application starts with a clean configuration on first launch. Personal settings and triggers are stored locally under `%APPDATA%\NanoTwitchLeafs-4`. NanoTwitchLeafs 4 contains no telemetry or usage analytics.
 
@@ -201,6 +209,10 @@ The application starts with a clean configuration on first launch. Personal sett
 Bug reports and suggestions may be submitted through this repository's GitHub Issues. Do not attach credentials, OAuth tokens, client secrets, or complete settings files.
 
 Because this project is experimental and it is not yet certain whether it will be maintained permanently, submitting a suggestion does not imply any commitment to implementation, updates, or support.
+
+### Development transparency
+
+Parts of the continued development, troubleshooting, and documentation were created or revised with the assistance of artificial intelligence. All changes are reviewed and tested in practice by the maintainer. The original project and its core architecture were created by Locxion.
 
 ### Origin and license
 
