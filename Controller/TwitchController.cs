@@ -121,8 +121,7 @@ namespace NanoTwitchLeafs.Controller
 				OnCallLoadingWindow?.Invoke(true);
 
 				Disconnect(true);
-				var newOauth = await PerformCodeExchange(_appSettings.BotAuthObject.Refresh_Token,
-					new TwitchApiCredentials(_appSettings.TwitchClientId, _appSettings.TwitchClientSecret), true);
+				var newOauth = await PerformCodeExchange(_appSettings.BotAuthObject.Refresh_Token, true);
 				_appSettings.BotAuthObject = newOauth;
 				if (_appSettings.BotName == _appSettings.ChannelName)
 					_appSettings.BroadcasterAuthObject = newOauth;
@@ -149,8 +148,7 @@ namespace NanoTwitchLeafs.Controller
 
 				OnCallLoadingWindow?.Invoke(true);
 
-				var newOauth = await PerformCodeExchange(_appSettings.BroadcasterAuthObject.Refresh_Token,
-					new TwitchApiCredentials(_appSettings.TwitchClientId, _appSettings.TwitchClientSecret), true);
+				var newOauth = await PerformCodeExchange(_appSettings.BroadcasterAuthObject.Refresh_Token, true);
 				_appSettings.BroadcasterAuthObject = newOauth;
 				_appSettingsController.SaveSettings(_appSettings);
 
@@ -289,7 +287,7 @@ namespace NanoTwitchLeafs.Controller
 			
 			_api = new TwitchAPI();
 			
-			_api.Settings.ClientId = _appSettings.TwitchClientId;
+			_api.Settings.ClientId = Constants.TWITCH_CLIENT_ID;
 			_api.Settings.AccessToken = _appSettings.BotAuthObject.Access_Token;
 			
 			var fromUserId = await HelperClass.GetUserId(_api, _appSettings, _appSettings.BotName);
@@ -341,13 +339,8 @@ namespace NanoTwitchLeafs.Controller
 
 		#region Auth Handling
 
-		public async Task<OAuthObject> GetAuthToken(TwitchApiCredentials apiCredentials, bool isBroadcaster)
+		public async Task<OAuthObject> GetAuthToken(bool isBroadcaster)
 		{
-			if (string.IsNullOrWhiteSpace(apiCredentials?.ClientId))
-			{
-				_logger.Error("No Twitch Client ID configured.");
-				return null;
-			}
 
 			string scopes = (isBroadcaster ? TwitchScopesChannelOwner : TwitchScopesBot)
 				.Substring("scope=".Length);
@@ -355,7 +348,7 @@ namespace NanoTwitchLeafs.Controller
 			using var httpClient = new HttpClient();
 			using var deviceRequest = new FormUrlEncodedContent(new Dictionary<string, string>
 			{
-				["client_id"] = apiCredentials.ClientId,
+				["client_id"] = Constants.TWITCH_CLIENT_ID,
 				["scopes"] = scopes
 			});
 
@@ -403,7 +396,7 @@ namespace NanoTwitchLeafs.Controller
 
 				using var tokenRequest = new FormUrlEncodedContent(new Dictionary<string, string>
 				{
-					["client_id"] = apiCredentials.ClientId,
+					["client_id"] = Constants.TWITCH_CLIENT_ID,
 					["scopes"] = scopes,
 					["device_code"] = deviceCode,
 					["grant_type"] = "urn:ietf:params:oauth:grant-type:device_code"
@@ -444,9 +437,9 @@ namespace NanoTwitchLeafs.Controller
 			return null;
 		}
 
-		private async Task<OAuthObject> PerformCodeExchange(string code, TwitchApiCredentials apiCredentials, bool isRefresh = false)
+		private async Task<OAuthObject> PerformCodeExchange(string code, bool isRefresh = false)
 		{
-			if (!isRefresh || string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(apiCredentials?.ClientId))
+			if (!isRefresh || string.IsNullOrWhiteSpace(code))
 			{
 				return null;
 			}
@@ -454,13 +447,9 @@ namespace NanoTwitchLeafs.Controller
 			var values = new Dictionary<string, string>
 			{
 				["refresh_token"] = code,
-				["client_id"] = apiCredentials.ClientId,
+				["client_id"] = Constants.TWITCH_CLIENT_ID,
 				["grant_type"] = "refresh_token"
 			};
-			if (!string.IsNullOrWhiteSpace(apiCredentials.ClientSecret))
-			{
-				values["client_secret"] = apiCredentials.ClientSecret;
-			}
 
 			using var httpClient = new HttpClient();
 			using var request = new FormUrlEncodedContent(values);
@@ -493,7 +482,7 @@ namespace NanoTwitchLeafs.Controller
 			{
 				Settings =
 				{
-					ClientId = _appSettings.TwitchClientId,
+					ClientId = Constants.TWITCH_CLIENT_ID,
 					AccessToken = token
 				}
 			};

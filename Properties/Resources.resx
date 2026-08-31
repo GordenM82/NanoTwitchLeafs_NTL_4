@@ -1037,10 +1037,6 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
   <data name="Code_Main_MessageBox_LegacyMigration_Title" xml:space="preserve"><value>NanoTwitchLeafs 4 – Import data</value></data>
   <data name="Code_Main_MessageBox_LegacyMigration_Error" xml:space="preserve"><value>The data import could not be prepared. The existing data was not changed.</value></data>
   <data name="Code_Main_MessageBox_TriggerInitialization_Error" xml:space="preserve"><value>The trigger controller could not be initialized.</value></data>
-  <data name="Code_Main_MessageBox_CredentialSetup_Text" xml:space="preserve"><value>Before signing in to Twitch, enter and save a Twitch Client ID under 'API Settings'.</value></data>
-  <data name="Code_Main_MessageBox_CredentialSetup_Title" xml:space="preserve"><value>NanoTwitchLeafs 4 – Initial setup</value></data>
-  <data name="Window_Main_Tabs_ApiSettings_TwitchHelp" xml:space="preserve"><value>Get the Client ID from the Twitch Developer Console. Select the Public client type. If Twitch requires a redirect URL, use https://localhost. NTL uses device-code authentication without a Client Secret.</value></data>
-  <data name="Window_Main_Tabs_ApiSettings_OpenTwitchConsole" xml:space="preserve"><value>Create / manage Twitch application</value></data>
   <data name="Code_Main_MessageBox_TwitchConnection_Error" xml:space="preserve"><value>The Twitch connection could not be opened.</value></data>
   <data name="General_LogFile_Label" xml:space="preserve"><value>Log file</value></data>
   <data name="Code_Main_MessageBox_TriggerMigration_Error" xml:space="preserve"><value>The existing triggers could not be imported into the new format.&#xA;&#xA;The original data was not changed. See the log for details.</value></data>

@@ -61,6 +61,8 @@ namespace NanoTwitchLeafs
 
 		#region Twitch
 
+		// Public desktop-application identifier. This is intentionally not a secret.
+		public const string TWITCH_CLIENT_ID = "dqqg40l0baki77hwqy7e3uz78pm5st";
 		public static int TwitchMessageMaxLength = 500;
 
 		#endregion

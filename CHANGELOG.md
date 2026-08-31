@@ -4,6 +4,20 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.0.0 – öffentliche Erstveröffentlichung (31. August 2026)
+
+Version 4.0.0 ist die erste öffentliche Veröffentlichung der modernisierten NanoTwitchLeafs-Version.
+
+- öffentliche Twitch-Client-ID der Desktop-Anwendung integriert, sodass Nutzer keine eigene Twitch-Anwendung mehr registrieren und keine Client-ID mehr eintragen müssen
+- Twitch-Anmeldung auf **Verbinde Twitch Account** und die Bestätigung bei Twitch vereinfacht
+- Twitch-Client-Secret vollständig aus Datenmodell, Oberfläche, Authentifizierungsmethoden und Token-Aktualisierung entfernt
+- bisherige Twitch-Credential-Hilfsklasse sowie die zugehörigen Eingabefelder, Ersteinrichtungsmeldungen und Hilfetexte entfernt
+- Twitch API, EventSub und Profilabfragen verwenden einheitlich die öffentliche Anwendungskennung
+- README für öffentliche Veröffentlichung, direkten Start, manuelle 4.x-Aktualisierung und dauerhaften Import aus 3.x überarbeitet
+- Versions- sowie Download-Badges für die öffentliche GitHub-Veröffentlichung ergänzt
+- Windows-x64-Paket als stabile Version 4.0.0 veröffentlicht
+- Projekt bleibt experimentell; regelmäßige Aktualisierungen, Support und dauerhafte Weiterentwicklung sind nicht zugesagt
+
 ## NanoTwitchLeafs 4.0.0-rc.2 – privater Veröffentlichungskandidat (31. August 2026)
 
 Dieser zweite private Veröffentlichungskandidat setzt die Rückmeldungen aus der Quellcodeprüfung nach RC1 um.
@@ -90,6 +104,20 @@ NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 u
 ---
 
 ## English
+
+## NanoTwitchLeafs 4.0.0 – initial public release (31 August 2026)
+
+Version 4.0.0 is the first public release of the modernized NanoTwitchLeafs application.
+
+- integrated the desktop application's public Twitch client ID so users no longer need to register their own Twitch application or enter a client ID
+- simplified Twitch sign-in to selecting **Link Twitch Account** and confirming the request with Twitch
+- completely removed the Twitch client secret from the data model, user interface, authentication methods, and token refresh handling
+- removed the former Twitch credential helper class together with its input fields, initial-setup prompts, and help text
+- made Twitch API, EventSub, and profile requests use the same public application identifier
+- revised the README for the public release, direct startup, manual 4.x updates, and the permanent import path from 3.x
+- added version and download badges for the public GitHub release
+- published the Windows x64 package as stable version 4.0.0
+- the project remains experimental; regular updates, support, and continued long-term development are not guaranteed
 
 ## NanoTwitchLeafs 4.0.0-rc.2 – private release candidate (31 August 2026)
 
