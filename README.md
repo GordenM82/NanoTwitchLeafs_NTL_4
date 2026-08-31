@@ -50,10 +50,12 @@ Der zweite private Veröffentlichungskandidat **v4.0.0-rc.2** steht eingeladenen
 - aktualisierte Twitch-EventSub-Abonnements einschließlich HypeTrain v2
 - vergrößerte und frei skalierbare Triggerfenster
 - modernisierte Soundwiedergabe ohne Abhängigkeit vom Windows Media Player COM-Modul
-- deutsche Benutzeroberfläche als Standard auf deutschsprachigen Windows-Systemen; Englisch bleibt auswählbar
+- neue Programmtexte in das vorhandene Sprachressourcensystem integriert
+- Englisch als neutrale Standardsprache; auf deutschsprachigen Windows-Systemen wird bei einer neuen Konfiguration automatisch Deutsch gewählt und Englisch bleibt auswählbar
 - Twitch-Anmeldung über den offiziellen Gerätecode-Ablauf für öffentliche Desktop-Anwendungen; kein Client-Secret erforderlich
-- sauberer Erststart ohne mitgelieferte Zugangsdaten oder ungefragte Übernahme vorhandener Daten
-- lokale Speicherung persönlicher Daten ohne Telemetrie oder Nutzungsanalyse
+- Twitch-, Streamlabs- und HypeRate-Zugangsdaten werden ausschließlich aus den lokalen Benutzereinstellungen gelesen; es werden keine Zugangsdaten mitgeliefert
+- sauberer Erststart ohne ungefragte Übernahme vorhandener Daten
+- frühere Telemetrie- und Nutzungsanalyse-Komponenten vollständig entfernt
 
 Der vollständige zweisprachige Verlauf seit der letzten ursprünglichen Locxion-Version steht im [Änderungsprotokoll](CHANGELOG.md). Hinweise zur lokalen Speicherung und zu externen Verbindungen stehen unter [Datenschutz](PRIVACY.md).
 
@@ -157,10 +159,12 @@ The second private release candidate, **v4.0.0-rc.2**, is available to invited t
 - updated Twitch EventSub subscriptions, including Hype Train v2
 - larger and freely resizable trigger windows
 - modernized sound playback without the Windows Media Player COM dependency
-- German interface by default on German-language Windows systems; English remains selectable
+- integrated newly added program text into the existing language-resource system
+- English as the neutral default language; German is selected automatically for a new configuration on German-language Windows systems and English remains selectable
 - Twitch authentication through the official device-code flow for public desktop applications; no Client Secret required
-- clean first launch without bundled credentials or unexpected import of existing data
-- local storage of personal data without telemetry or usage analytics
+- Twitch, Streamlabs, and HypeRate credentials are read exclusively from local user settings; no credentials are bundled
+- clean first launch without unexpected import of existing data
+- completely removed the former telemetry and usage-analytics components
 
 The complete bilingual history since the last original Locxion release is available in the [changelog](CHANGELOG.md). Details about local storage and external connections are available under [Privacy](PRIVACY.md).
 
