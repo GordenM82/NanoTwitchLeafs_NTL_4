@@ -106,36 +106,33 @@
                 </Grid>
             </TabItem>
             <TabItem Header="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Margin="1,0,-1,0">
-                <Grid Background="{DynamicResource NtlSurfaceBrush}" MaxWidth="920" HorizontalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="380" />
-                    </Grid.ColumnDefinitions>
-                    <CheckBox x:Name="debugCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Debug}" HorizontalAlignment="Left" Margin="10,247,0,0" VerticalAlignment="Top" Click="DebugCmd_Checkbox_Click" Padding="4,-1,5,0" />
-                    <CheckBox x:Name="response_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Responses}" HorizontalAlignment="Left" Margin="10,61,0,0" VerticalAlignment="Top" Height="15" Width="163" Click="Response_CheckBox_Click" />
-                    <CheckBox x:Name="whisperMode_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Whisper}" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" Height="15" Width="157" Click="WhisperMode_Checkbox_Click" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Chat}" HorizontalAlignment="Left" Margin="5,40,0,0" VerticalAlignment="Top" Padding="5,0" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_General}" HorizontalAlignment="Left" Margin="5,1,0,0" VerticalAlignment="Top" Padding="5,0" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Misc}" HorizontalAlignment="Left" Margin="5,110,0,0" VerticalAlignment="Top" Padding="5,0" />
-                    <Button x:Name="responses_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_Edit}" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" Click="Responses_Button_Click" Padding="5,1" />
-                    <CheckBox x:Name="autoConnect_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Autoconnect}" HorizontalAlignment="Left" Margin="10,22,0,0" VerticalAlignment="Top" Click="AutoConnect_Checkbox_Click" Width="212" />
-                    <Button x:Name="Open_Dir_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_OpenDebugDir}" VerticalAlignment="Bottom" Click="Open_Dir_Button_Click" HorizontalContentAlignment="Center" Margin="10,0,10,30" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_ResetBrightness}" HorizontalAlignment="Left" Margin="10,197,0,0" VerticalAlignment="Top" Height="26" Width="174" />
-                    <TextBox x:Name="brightnessReset_TextBox" HorizontalAlignment="Right" Height="23" Margin="0,198,44,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="46" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                    <Button x:Name="resetBrightness_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,200,10,0" VerticalAlignment="Top" Click="ResetBrightness_Button_Click" Padding="5,1" />
-                    <CheckBox x:Name="blacklist_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Blocklist}" HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top" Height="15" Width="163" Click="blacklist_CheckBox_Click" />
-                    <Button x:Name="blacklist_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_Edit}" HorizontalAlignment="Right" Margin="0,89,10,0" VerticalAlignment="Top" Click="blacklist_Button_Click" Padding="5,1" />
-                    <Button x:Name="CheckForUpdate_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_UpdateCheck}" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" Click="CheckForUpdate_Button_Click" Margin="10,0,10,5" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_SetEffect}" HorizontalAlignment="Left" Margin="5,128,0,0" VerticalAlignment="Top" Padding="5,0" />
-                    <ComboBox x:Name="Effects_ComboBox" HorizontalAlignment="Left" Margin="77,147,0,0" VerticalAlignment="Top" Width="191" Height="25" />
-                    <Button x:Name="LoadEffects_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_LoadEffects}" HorizontalAlignment="Left" Margin="11,149,0,0" VerticalAlignment="Top" Width="61" Click="LoadEffects_Button_Click" />
-                    <Button x:Name="SetBaseEffect_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,150,10,0" VerticalAlignment="Top" Click="SetBaseEffect_Button_Click" Padding="5,1" />
-                    <Button x:Name="SetBaseColor_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,174,10,0" VerticalAlignment="Top" Click="SetBaseColor_Button_Click" Padding="5,1" />
-                    <xctk:ColorPicker x:Name="ColorPicker" Margin="11,174,0,0" IsEnabled="True" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top" Width="257" />
-                    <CheckBox x:Name="autoIPRefresh_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh}" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" Click="autoIPRefresh_Checkbox_Click" Padding="4,-1,5,0" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Language}" HorizontalAlignment="Left" Margin="5,268,0,0" VerticalAlignment="Top" Padding="5,0" />
-                    <ComboBox x:Name="language_Combobox" Margin="10,291,0,0" Width="280" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="language_Combobox_SelectionChanged" />
-                    <Border Grid.Column="1" Style="{StaticResource NtlCardStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="{DynamicResource NtlSurfaceBrush}">
+                  <Grid MaxWidth="1040" HorizontalAlignment="Center" Margin="20">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="380"/></Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" FontSize="14" Margin="0,0,20,0">
+                      <Border Style="{StaticResource NtlCardStyle}" Margin="0,0,0,12"><StackPanel>
+                        <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_General}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <CheckBox x:Name="autoConnect_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Autoconnect}" Click="AutoConnect_Checkbox_Click"/>
+                      </StackPanel></Border>
+                      <Border Style="{StaticResource NtlCardStyle}" Margin="0,0,0,12"><StackPanel>
+                        <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Chat}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <Grid Margin="0,3"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><CheckBox x:Name="response_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Responses}" Click="Response_CheckBox_Click"/><Button x:Name="responses_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_Edit}" Click="Responses_Button_Click"/></Grid>
+                        <CheckBox x:Name="whisperMode_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Whisper}" Margin="0,3"/>
+                        <Grid Margin="0,3"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><CheckBox x:Name="blacklist_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Blocklist}" Click="blacklist_CheckBox_Click"/><Button x:Name="blacklist_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_Edit}" Click="blacklist_Button_Click"/></Grid>
+                      </StackPanel></Border>
+                      <Border Style="{StaticResource NtlCardStyle}" Margin="0,0,0,12"><StackPanel>
+                        <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Misc}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_SetEffect}" Margin="0,0,0,5"/>
+                        <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><Button x:Name="LoadEffects_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_LoadEffects}" Click="LoadEffects_Button_Click" Margin="0,0,8,0"/><ComboBox x:Name="Effects_ComboBox" Grid.Column="1" Margin="0,0,8,0"/><Button x:Name="SetBaseEffect_Button" Grid.Column="2" Content="{x:Static p:Resources.General_Button_OK}" Click="SetBaseEffect_Button_Click"/></Grid>
+                        <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><xctk:ColorPicker x:Name="ColorPicker" Height="34"/><Button x:Name="SetBaseColor_Button" Grid.Column="1" Content="{x:Static p:Resources.General_Button_OK}" Click="SetBaseColor_Button_Click" Margin="8,0,0,0"/></Grid>
+                        <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="64"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_ResetBrightness}" VerticalAlignment="Center"/><TextBox x:Name="brightnessReset_TextBox" Grid.Column="1" Text="50" HorizontalContentAlignment="Center" Margin="8,0"/><Button x:Name="resetBrightness_Button" Grid.Column="2" Content="{x:Static p:Resources.General_Button_OK}" Click="ResetBrightness_Button_Click"/></Grid>
+                        <CheckBox x:Name="autoIPRefresh_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh}" Click="autoIPRefresh_Checkbox_Click"/>
+                        <CheckBox x:Name="debugCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Debug}" Click="DebugCmd_Checkbox_Click"/>
+                        <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Language}" Margin="0,10,0,5"/><ComboBox x:Name="language_Combobox" SelectionChanged="language_Combobox_SelectionChanged"/>
+                      </StackPanel></Border>
+                      <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><Button x:Name="Open_Dir_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_OpenDebugDir}" Click="Open_Dir_Button_Click" Margin="0,0,6,0"/><Button x:Name="CheckForUpdate_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_UpdateCheck}" Click="CheckForUpdate_Button_Click" Margin="6,0,0,0"/></Grid>
+                    </StackPanel>
+                    <Border Grid.Column="1" Style="{StaticResource NtlCardStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                         <StackPanel>
                             <TextBlock x:Name="appearanceHeading_TextBlock" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,14" />
                             <TextBlock x:Name="themeLabel_TextBlock" Margin="0,0,0,5" />
@@ -153,7 +150,8 @@
                             </ComboBox>
                         </StackPanel>
                     </Border>
-                </Grid>
+                  </Grid>
+                </ScrollViewer>
             </TabItem>
             <TabItem x:Name="Streamlabs_Tabitem"  Header="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_Title}">
                 <Grid Background="{DynamicResource NtlSurfaceBrush}" Margin="0" MaxWidth="760" HorizontalAlignment="Center">
