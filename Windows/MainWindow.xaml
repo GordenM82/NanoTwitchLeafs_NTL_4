@@ -63,47 +63,35 @@
         <TabControl x:Name="settings_TabControl" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed">
             <TabControl.Resources><Style TargetType="TabItem"><Setter Property="Visibility" Value="Collapsed" /></Style></TabControl.Resources>
             <TabItem x:Name="botLogin_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}" Margin="0,0,-1,0">
-                <Grid Background="{DynamicResource NtlSurfaceBrush}" MaxWidth="760" HorizontalAlignment="Center">
-                    <Grid x:Name="DefaultTwitchLogin_Grid" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="323" Margin="0,10,0,0">
-                        <Image x:Name="TwitchLinkAvatar_Image" HorizontalAlignment="Center" Height="100" Margin="62,10,62,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.5,0.5" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" />
-                        <Label x:Name="TwitchLink_Label" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_AccountLabel_Text}" HorizontalAlignment="Center" Margin="5,115,5,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                        <Button x:Name="ConnectTwitchAccount_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_LinkButton_Text}" HorizontalAlignment="Center" Margin="0,168,0,0" VerticalAlignment="Top" Click="ConnectTwitchAccount_Button_Click" Padding="5,1" />
-                        <Button x:Name="DisconnectTwitchAccount_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_UnlinkButton_Text}" HorizontalAlignment="Center" Margin="0,193,0,0" VerticalAlignment="Top" IsEnabled="False" Click="DisconnectTwitchAccount_Button_Click" Padding="5,1" />
-                        <Button x:Name="ConnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Connect}" HorizontalAlignment="Center" Margin="20,245,20,0" VerticalAlignment="Top" Click="ConnectChat_Button_Click" IsEnabled="False" Padding="5,1" />
-                        <Button x:Name="DisconnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Disconnect}" HorizontalAlignment="Center" Margin="20,268,20,0" VerticalAlignment="Top" Click="DisconnectChat_Button_Click" IsEnabled="False" Padding="5,1" />
-                    </Grid>
-                    <Grid x:Name="ConnectedTwitchLogin_Grid" Visibility="Hidden" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="323" Margin="0,10,0,0">
-                    </Grid>
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Label_Prefix}" HorizontalAlignment="Left" Margin="10,316,0,0" VerticalAlignment="Top" Height="26" Width="104" />
-                    <TextBox x:Name="commandPrefix_TextBox" HorizontalAlignment="Right" Height="23" Margin="0,317,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" VerticalContentAlignment="Center" Text="!" HorizontalContentAlignment="Center" LostFocus="commandPrefix_TextBox_LostFocus" />
-                    <TextBlock x:Name="help_TextBlock" HorizontalAlignment="Center" Margin="10,0,10,10" TextWrapping="Wrap" Text="Help Command TextBlock" Height="42" VerticalAlignment="Bottom" Width="205" TextAlignment="Center" />
-                </Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="680" Margin="28" TextElement.FontSize="14">
+                    <Border Style="{StaticResource NtlCardStyle}"><StackPanel x:Name="DefaultTwitchLogin_Grid">
+                        <Image x:Name="TwitchLinkAvatar_Image" Height="120" Width="120" Margin="0,0,0,12" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" />
+                        <Label x:Name="TwitchLink_Label" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_AccountLabel_Text}" HorizontalContentAlignment="Center" FontSize="15" Margin="0,0,0,12" />
+                        <Button x:Name="ConnectTwitchAccount_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_LinkButton_Text}" Click="ConnectTwitchAccount_Button_Click" Margin="80,0,80,8" />
+                        <Button x:Name="DisconnectTwitchAccount_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_UnlinkButton_Text}" IsEnabled="False" Click="DisconnectTwitchAccount_Button_Click" Margin="80,0,80,18" />
+                        <Button x:Name="ConnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Connect}" Click="ConnectChat_Button_Click" IsEnabled="False" Margin="80,0,80,8" />
+                        <Button x:Name="DisconnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Disconnect}" Click="DisconnectChat_Button_Click" IsEnabled="False" Margin="80,0,80,0" />
+                    </StackPanel></Border>
+                    <Grid x:Name="ConnectedTwitchLogin_Grid" Visibility="Hidden"/>
+                    <Grid Margin="0,16,0,12"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="80"/></Grid.ColumnDefinitions><Label Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Label_Prefix}"/><TextBox x:Name="commandPrefix_TextBox" Grid.Column="1" Text="!" HorizontalContentAlignment="Center" LostFocus="commandPrefix_TextBox_LostFocus" /></Grid>
+                    <TextBlock x:Name="help_TextBlock" Text="Help Command TextBlock" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" />
+                </StackPanel></ScrollViewer>
             </TabItem>
             <TabItem x:Name="nanoConfig_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_Nano_Title}" Margin="1,0,-1,0">
-                <Grid Background="{DynamicResource NtlSurfaceBrush}" MaxWidth="820" HorizontalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="nanoPairing_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Pairing}" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Click="nanoPairing_Button_Click" Padding="5,1" />
-                    <Button x:Name="nanoTestConnection_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Test}" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Click="NanoTestConnection_Button_Click" IsEnabled="False" Padding="5,1" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_Status}" HorizontalAlignment="Left" Margin="7,138,0,0" VerticalAlignment="Top" AutomationProperties.HelpText="You can find the IP Adress of the Device in the Nanoleaf App Settings or on your Router Settings" Width="46" />
-                    <CheckBox x:Name="nanoCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableTrigger}" HorizontalAlignment="Left" Margin="6,33,0,0" VerticalAlignment="Top" Click="NanoCmd_Checkbox_Click" Width="108" />
-                    <Button x:Name="nanoCmd_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_EditTrigger}" HorizontalAlignment="Right" Margin="0,29,10,0" VerticalAlignment="Top" Click="NanoCmd_Button_Click" IsEnabled="False" Padding="5,1" />
-                    <TextBox x:Name="nanoInfo_TextBox" Height="150" Margin="10,162,10,0" TextWrapping="Wrap" Text="{x:Static p:Resources.Window_Main_Tabs_Nano_Textbox_Text}" VerticalAlignment="Top" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" IsEnabled="False" />
-                    <CheckBox x:Name="nanoCooldown_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableCooldown}" HorizontalAlignment="Left" Margin="6,55,0,0" VerticalAlignment="Top" Click="NanoCooldown_Checkbox_Click" Width="119" />
-                    <TextBox x:Name="nanoCooldown_TextBox" HorizontalAlignment="Center" Margin="140,53,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextInput="NanoCooldown_TextBox_TextInput" LostFocus="NanoCooldown_TextBox_LostFocus" Width="25" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_Seconds}" HorizontalAlignment="Right" Margin="0,49,10,0" VerticalAlignment="Top" />
-                    <Button x:Name="eventReset_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_ResetQueue}" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Click="EventReset_Button_Click" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_EventsInQueue}" HorizontalAlignment="Left" Margin="7,313,0,0" VerticalAlignment="Top" Width="115" />
-                    <TextBox x:Name="nanoQueueCount_TextBox" HorizontalAlignment="Right" Height="20" Margin="0,316,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_AutoRestore}" HorizontalAlignment="Left" Margin="4,87,0,0" VerticalAlignment="Top" Height="26" Width="195" />
-                    <Button x:Name="autoRestoreHelp_Button" Content="?" HorizontalAlignment="Right" Margin="0,108,10,0" VerticalAlignment="Top" Width="11" Click="AutoRestoreHelp_Button_Click" Height="23" />
-                    <CheckBox x:Name="commandRestore_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_onCommand}" HorizontalAlignment="Left" Margin="7,113,0,0" VerticalAlignment="Top" Click="CommandRestore_CheckBox_Click" Padding="5,-1,5,0" />
-                    <CheckBox x:Name="keywordRestore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_onKeyword}" HorizontalAlignment="Right" Margin="0,113,27,0" VerticalAlignment="Top" Height="15" Click="KeywordRestore_Checkbox_Click" Padding="5,-1,5,0" />
-                    <CheckBox x:Name="nanoCooldownIgnore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_ModeratorIgnorCooldown}" HorizontalAlignment="Left" Margin="6,75,0,0" VerticalAlignment="Top" Click="NanoCooldownIgnore_Checkbox_Click" Width="209" IsEnabled="False" />
-                    <Button x:Name="showDevices_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_ManageDevices}" HorizontalAlignment="Right" Margin="0,136,10,0" VerticalAlignment="Top" Click="ShowDevices_Button_Click" Padding="5,1" />
-                    <Button x:Name="eventRestart_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_RestartQueue}" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="EventRestart_Button_Click" Padding="5,1" />
-                </Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="900" Margin="24" TextElement.FontSize="14">
+                    <Grid Margin="0,0,0,12"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><Button x:Name="nanoTestConnection_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Test}" Click="NanoTestConnection_Button_Click" IsEnabled="False" Margin="0,0,6,0"/><Button x:Name="nanoPairing_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Pairing}" Click="nanoPairing_Button_Click" Margin="6,0,0,0"/></Grid>
+                    <Border Style="{StaticResource NtlCardStyle}" Margin="0,0,0,12"><StackPanel>
+                        <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><CheckBox x:Name="nanoCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableTrigger}" Click="NanoCmd_Checkbox_Click"/><Button x:Name="nanoCmd_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_EditTrigger}" Click="NanoCmd_Button_Click" IsEnabled="False"/></Grid>
+                        <Grid Margin="0,0,0,6"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="72"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><CheckBox x:Name="nanoCooldown_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableCooldown}" Click="NanoCooldown_Checkbox_Click"/><TextBox x:Name="nanoCooldown_TextBox" Grid.Column="1" Text="0" HorizontalContentAlignment="Center" TextInput="NanoCooldown_TextBox_TextInput" LostFocus="NanoCooldown_TextBox_LostFocus" Margin="8,0"/><Label Grid.Column="2" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_Seconds}"/></Grid>
+                        <CheckBox x:Name="nanoCooldownIgnore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_ModeratorIgnorCooldown}" Click="NanoCooldownIgnore_Checkbox_Click" IsEnabled="False"/>
+                        <Grid Margin="0,10,0,4"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_AutoRestore}" Padding="0"/><Button x:Name="autoRestoreHelp_Button" Grid.Column="1" Content="?" Width="38" Click="AutoRestoreHelp_Button_Click"/></Grid>
+                        <WrapPanel><CheckBox x:Name="commandRestore_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_onCommand}" Click="CommandRestore_CheckBox_Click" Margin="0,0,24,0"/><CheckBox x:Name="keywordRestore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_onKeyword}" Click="KeywordRestore_Checkbox_Click"/></WrapPanel>
+                    </StackPanel></Border>
+                    <Grid Margin="0,0,0,6"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_Status}" FontSize="16" FontWeight="SemiBold" Padding="0"/><Button x:Name="showDevices_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_ManageDevices}" Click="ShowDevices_Button_Click"/></Grid>
+                    <TextBox x:Name="nanoInfo_TextBox" Height="210" TextWrapping="Wrap" Text="{x:Static p:Resources.Window_Main_Tabs_Nano_Textbox_Text}" VerticalScrollBarVisibility="Auto" IsEnabled="False" Margin="0,0,0,10"/>
+                    <Grid Margin="0,0,0,10"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="72"/></Grid.ColumnDefinitions><Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_EventsInQueue}" Padding="0"/><TextBox x:Name="nanoQueueCount_TextBox" Grid.Column="1" Text="0" HorizontalContentAlignment="Center"/></Grid>
+                    <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><Button x:Name="eventReset_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_ResetQueue}" Click="EventReset_Button_Click" Margin="0,0,6,0"/><Button x:Name="eventRestart_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_RestartQueue}" Click="EventRestart_Button_Click" Margin="6,0,0,0"/></Grid>
+                </StackPanel></ScrollViewer>
             </TabItem>
             <TabItem Header="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Margin="1,0,-1,0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="{DynamicResource NtlSurfaceBrush}">
@@ -154,31 +142,30 @@
                 </ScrollViewer>
             </TabItem>
             <TabItem x:Name="Streamlabs_Tabitem"  Header="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_Title}">
-                <Grid Background="{DynamicResource NtlSurfaceBrush}" Margin="0" MaxWidth="760" HorizontalAlignment="Center">
-                    <Button x:Name="StreamlabsLink_Button" Content="{x:Static p:Resources.Windows_Main_Tabs_Streamlabs_LinkStreamlabs_Label}" HorizontalAlignment="Center" Margin="0,177,0,0" VerticalAlignment="Top" Padding="5,1" Click="StreamlabsLink_Button_Click" UseLayoutRounding="True" />
-                    <Image x:Name="Streamlabs_Image" HorizontalAlignment="Left" Height="100" Margin="156,10,0,0" VerticalAlignment="Top" Width="100" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" />
-                    <Button x:Name="StreamlabsUnlink_Button" Content="{x:Static p:Resources.Windows_Main_Tabs_Streamlabs_UnLinkStreamlabs_Label}" HorizontalAlignment="Center" VerticalAlignment="Top" IsEnabled="False" Padding="5,1" Click="StreamlabsUnlink_Button_Click" Margin="0,202,0,0" />
-                    <TextBlock x:Name="StreamlabsInfo_TextBlock" HorizontalAlignment="Center" Margin="0,132,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" Height="43" ScrollViewer.VerticalScrollBarVisibility="Disabled" TextAlignment="Center" Text="{x:Static p:Resources.Windows_Main_Tabs_Streamlabs_Linktext_Textblock1}" />
-                    <Image HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="100" Source="/NanoTwitchLeafs;component/Assets/streamlabs_logo.png" />
-                    <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Bottom" Padding="5,0" TextAlignment="Center" Text="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_BottomText_Texblock}" Margin="0,0,0,20" />
-                    <Button x:Name="StreamlabsConnectButton"  Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_ConnectButton_Text}" HorizontalAlignment="Center" Height="20" Margin="0,291,0,0" VerticalAlignment="Top" Click="StreamlabsConnectButton_Click" IsEnabled="False" Padding="5,1" />
-                    <Button x:Name="StreamlabsDisconnectButton" Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_DisconnectButton_Text}" HorizontalAlignment="Center" Height="20" Margin="0,316,0,0" VerticalAlignment="Top" IsEnabled="False" Click="StreamlabsDisconnectButton_Click" Padding="5,1" />
-                </Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="680" Margin="28" TextElement.FontSize="14">
+                    <Border Style="{StaticResource NtlCardStyle}"><StackPanel>
+                        <Grid HorizontalAlignment="Center" Margin="0,0,0,12"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><Image Height="115" Width="150" Source="/NanoTwitchLeafs;component/Assets/streamlabs_logo.png" Margin="0,0,18,0"/><Image x:Name="Streamlabs_Image" Grid.Column="1" Height="115" Width="115" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" Margin="18,0,0,0"/></Grid>
+                        <TextBlock x:Name="StreamlabsInfo_TextBlock" TextWrapping="Wrap" TextAlignment="Center" FontSize="15" Text="{x:Static p:Resources.Windows_Main_Tabs_Streamlabs_Linktext_Textblock1}" Margin="0,0,0,14"/>
+                        <Button x:Name="StreamlabsLink_Button" Content="{x:Static p:Resources.Windows_Main_Tabs_Streamlabs_LinkStreamlabs_Label}" Click="StreamlabsLink_Button_Click" Margin="70,0,70,8"/>
+                        <Button x:Name="StreamlabsUnlink_Button" Content="{x:Static p:Resources.Windows_Main_Tabs_Streamlabs_UnLinkStreamlabs_Label}" IsEnabled="False" Click="StreamlabsUnlink_Button_Click" Margin="70,0,70,18"/>
+                        <Button x:Name="StreamlabsConnectButton" Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_ConnectButton_Text}" Click="StreamlabsConnectButton_Click" IsEnabled="False" Margin="70,0,70,8"/>
+                        <Button x:Name="StreamlabsDisconnectButton" Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_DisconnectButton_Text}" IsEnabled="False" Click="StreamlabsDisconnectButton_Click" Margin="70,0,70,0"/>
+                    </StackPanel></Border>
+                    <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_BottomText_Texblock}" Margin="10,16,10,0"/>
+                </StackPanel></ScrollViewer>
             </TabItem>
             <TabItem x:Name="HypeRate_Tabitem"  Header="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Title}">
-                <Grid Background="{DynamicResource NtlSurfaceBrush}" Margin="0" MaxWidth="760" HorizontalAlignment="Center">
-                    <Image HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Source="/NanoTwitchLeafs;component/Assets/hypeRateLogo.png" Height="106" Width="128" />
-                    <Label Content="HypeRate ID:" HorizontalAlignment="Left" Margin="10,129,0,0" VerticalAlignment="Top" />
-                    <TextBox x:Name="hypeRateId_Textbox" HorizontalAlignment="Left" Margin="95,133,0,0" TextWrapping="Wrap" Text="HypeRateId" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="121" />
-                    <Button x:Name="HypeRateConnect_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Connect}" HorizontalAlignment="Center" Margin="10,160,10,0" VerticalAlignment="Top" Click="HypeRateConnect_Button_Click" Padding="5,1" />
-                    <Label x:Name="hypeRate_Label" Content="0" HorizontalAlignment="Center" Margin="0,240,0,0" VerticalAlignment="Top" FontSize="72" Height="94" />
-                    <Label Content="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Heartrate_Label}" HorizontalAlignment="Center" Margin="78,209,78,0" VerticalAlignment="Top" />
-                    <Button x:Name="HypeRateDisconnect_Button" Content="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Disconnect_Button}" HorizontalAlignment="Center" Margin="10,185,10,0" VerticalAlignment="Top" Click="HypeRateDisconnect_Button_Click" IsEnabled="False" Padding="5,1" />
-                    <fa5:ImageAwesome Icon="Brands_Discord" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="#FF8B9BD4" Canvas.Left="116" Canvas.Top="212" Height="25" Width="25" Margin="-80,0,0,100" />
-                    <Label x:Name="HypeRateDiscord_Label" Content="HypeRate Discord" HorizontalAlignment="Center" Margin="60,0,0,100" VerticalAlignment="Bottom" Foreground="#FF0C3BDA" MouseDown="HypeRateDiscord_Label_MouseDown" />
-                    <Label x:Name="HypeRateWebsite_Label" Content="HypeRate.io" HorizontalAlignment="Center" Margin="60,0,0,50" VerticalAlignment="Bottom" Foreground="#FF0C3BDA" MouseDown="HypeRateWebsite_Label_MouseDown" />
-                    <Image HorizontalAlignment="Center" Margin="-80,0,0,50" VerticalAlignment="Bottom" Source="/NanoTwitchLeafs;component/Assets/hypeRateLogo.png" Height="27" Width="29" />
-                </Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="620" Margin="28" TextElement.FontSize="14">
+                    <Border Style="{StaticResource NtlCardStyle}"><StackPanel>
+                        <Image Source="/NanoTwitchLeafs;component/Assets/hypeRateLogo.png" Height="125" Width="150" Margin="0,0,0,12"/>
+                        <Grid Margin="50,0,50,10"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition/></Grid.ColumnDefinitions><Label Content="HypeRate ID:" FontSize="15" Margin="0,0,10,0"/><TextBox x:Name="hypeRateId_Textbox" Grid.Column="1" Text="HypeRateId"/></Grid>
+                        <Button x:Name="HypeRateConnect_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Connect}" Click="HypeRateConnect_Button_Click" Margin="100,0,100,8"/>
+                        <Button x:Name="HypeRateDisconnect_Button" Content="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Disconnect_Button}" Click="HypeRateDisconnect_Button_Click" IsEnabled="False" Margin="100,0,100,14"/>
+                        <Label Content="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Heartrate_Label}" HorizontalContentAlignment="Center" FontSize="15"/>
+                        <Label x:Name="hypeRate_Label" Content="0" HorizontalContentAlignment="Center" FontSize="72"/>
+                    </StackPanel></Border>
+                    <WrapPanel HorizontalAlignment="Center" Margin="0,14,0,0"><fa5:ImageAwesome Icon="Brands_Discord" Height="25" Width="25" Foreground="{DynamicResource NtlTextBrush}"/><Label x:Name="HypeRateDiscord_Label" Content="HypeRate Discord" Foreground="{DynamicResource NtlAccentBrush}" MouseDown="HypeRateDiscord_Label_MouseDown" Margin="4,0,20,0"/><Image Source="/NanoTwitchLeafs;component/Assets/hypeRateLogo.png" Height="27" Width="29"/><Label x:Name="HypeRateWebsite_Label" Content="HypeRate.io" Foreground="{DynamicResource NtlAccentBrush}" MouseDown="HypeRateWebsite_Label_MouseDown" Margin="4,0,0,0"/></WrapPanel>
+                </StackPanel></ScrollViewer>
             </TabItem>
             <TabItem x:Name="ApiSettings_Tabitem" Header="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="{DynamicResource NtlSurfaceBrush}">
