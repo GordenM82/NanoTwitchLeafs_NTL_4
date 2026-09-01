@@ -46,21 +46,21 @@
                         <Separator Margin="18,8" />
                         <Button Content="{x:Static p:Resources.Window_Main_Tabs_Chat_Button_Info}" Style="{StaticResource NtlNavigationButtonStyle}" Click="AppInfo_Button_Click" />
                     </StackPanel>
-                    <StackPanel>
+                    <StackPanel x:Name="navigationButtons_Panel">
                         <Button x:Name="chatNavigation_Button" Tag="-1" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
                         <Button Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}" Tag="0" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
                         <Button Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Title}" Tag="1" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
                         <Button x:Name="integrationsNavigation_Button" Tag="3" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
-                        <Button Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}" Tag="5" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
                         <Button Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Tag="2" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
                     </StackPanel>
                 </DockPanel>
             </Border>
         <StackPanel x:Name="integrationTabs_Panel" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,18,0,0" Visibility="Collapsed">
             <Button Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_Title}" Tag="3" Click="Navigation_Button_Click" Margin="0,0,8,0" />
-            <Button Content="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Title}" Tag="4" Click="Navigation_Button_Click" />
+            <Button Content="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Title}" Tag="4" Click="Navigation_Button_Click" Margin="0,0,8,0" />
+            <Button Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}" Tag="5" Click="Navigation_Button_Click" />
         </StackPanel>
-        <TabControl x:Name="settings_TabControl" HorizontalAlignment="Stretch" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed">
+        <TabControl x:Name="settings_TabControl" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed">
             <TabControl.Resources><Style TargetType="TabItem"><Setter Property="Visibility" Value="Collapsed" /></Style></TabControl.Resources>
             <TabItem x:Name="botLogin_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}" Margin="0,0,-1,0">
                 <Grid Background="{DynamicResource NtlSurfaceBrush}" MaxWidth="760" HorizontalAlignment="Center">
@@ -108,7 +108,8 @@
             <TabItem Header="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Margin="1,0,-1,0">
                 <Grid Background="{DynamicResource NtlSurfaceBrush}" MaxWidth="920" HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="380" />
                     </Grid.ColumnDefinitions>
                     <CheckBox x:Name="debugCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Debug}" HorizontalAlignment="Left" Margin="10,247,0,0" VerticalAlignment="Top" Click="DebugCmd_Checkbox_Click" Padding="4,-1,5,0" />
                     <CheckBox x:Name="response_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Responses}" HorizontalAlignment="Left" Margin="10,61,0,0" VerticalAlignment="Top" Height="15" Width="163" Click="Response_CheckBox_Click" />
@@ -134,7 +135,7 @@
                     <CheckBox x:Name="autoIPRefresh_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh}" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" Click="autoIPRefresh_Checkbox_Click" Padding="4,-1,5,0" />
                     <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Language}" HorizontalAlignment="Left" Margin="5,268,0,0" VerticalAlignment="Top" Padding="5,0" />
                     <ComboBox x:Name="language_Combobox" Margin="10,291,0,0" Width="280" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="language_Combobox_SelectionChanged" />
-                    <Border Style="{StaticResource NtlCardStyle}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="360" Margin="0,20,20,0">
+                    <Border Grid.Column="1" Style="{StaticResource NtlCardStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="20">
                         <StackPanel>
                             <TextBlock x:Name="appearanceHeading_TextBlock" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,14" />
                             <TextBlock x:Name="themeLabel_TextBlock" Margin="0,0,0,5" />

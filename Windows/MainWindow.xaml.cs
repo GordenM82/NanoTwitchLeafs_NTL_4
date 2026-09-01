@@ -675,6 +675,7 @@ namespace NanoTwitchLeafs.Windows
 			SelectComboBoxItem(theme_ComboBox, _appSettings.Theme ?? "Light");
 			SelectComboBoxItem(accent_ComboBox, _appSettings.AccentColor ?? "TwitchPurple");
 			_appearanceControlsReady = true;
+			UpdateNavigationState(-1);
 		}
 
 		private static void SelectComboBoxItem(ComboBox comboBox, string tag)
@@ -710,7 +711,7 @@ namespace NanoTwitchLeafs.Windows
 		{
 			if (sender is not Button button || !int.TryParse(button.Tag?.ToString(), out int page)) return;
 			bool showChat = page < 0;
-			bool showIntegrations = page >= 3 && page <= 4;
+			bool showIntegrations = page >= 3 && page <= 5;
 			chatconsole_TabControl.Visibility = showChat ? Visibility.Visible : Visibility.Collapsed;
 			settings_TabControl.Visibility = showChat ? Visibility.Collapsed : Visibility.Visible;
 			integrationTabs_Panel.Visibility = showIntegrations ? Visibility.Visible : Visibility.Collapsed;
@@ -718,6 +719,41 @@ namespace NanoTwitchLeafs.Windows
 				? new Thickness(20, 68, 20, 76)
 				: new Thickness(20, 20, 20, 76);
 			if (!showChat) settings_TabControl.SelectedIndex = page;
+			UpdateNavigationState(page);
+		}
+
+		private void UpdateNavigationState(int page)
+		{
+			foreach (Button navigationButton in navigationButtons_Panel.Children.OfType<Button>())
+			{
+				if (!int.TryParse(navigationButton.Tag?.ToString(), out int targetPage)) continue;
+				bool active = targetPage == page || (targetPage == 3 && page >= 3 && page <= 5);
+				if (active)
+				{
+					navigationButton.SetResourceReference(BackgroundProperty, "NtlAccentSurfaceBrush");
+					navigationButton.FontWeight = FontWeights.SemiBold;
+				}
+				else
+				{
+					navigationButton.Background = System.Windows.Media.Brushes.Transparent;
+					navigationButton.ClearValue(FontWeightProperty);
+				}
+			}
+
+			foreach (Button integrationButton in integrationTabs_Panel.Children.OfType<Button>())
+			{
+				bool active = int.TryParse(integrationButton.Tag?.ToString(), out int targetPage) && targetPage == page;
+				if (active)
+				{
+					integrationButton.SetResourceReference(BackgroundProperty, "NtlAccentSurfaceBrush");
+					integrationButton.FontWeight = FontWeights.SemiBold;
+				}
+				else
+				{
+					integrationButton.ClearValue(BackgroundProperty);
+					integrationButton.ClearValue(FontWeightProperty);
+				}
+			}
 		}
 
 		private async void SetBaseColor_Button_Click(object sender, RoutedEventArgs e)
