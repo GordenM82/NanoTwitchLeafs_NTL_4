@@ -6,7 +6,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.Window_TriggerDetail_Title}" Height="840" Width="720" MinHeight="700" MinWidth="555" WindowStartupLocation="CenterOwner" ResizeMode="CanResizeWithGrip">
+        Title="{x:Static p:Resources.Window_TriggerDetail_Title}" Height="840" Width="720" MinHeight="700" MinWidth="555" WindowStartupLocation="CenterOwner" ResizeMode="CanResizeWithGrip" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}">
     <Grid>
         <Slider x:Name="OnOff_Slider" HorizontalAlignment="Left" Margin="95,5,0,0" VerticalAlignment="Top" Width="30" Minimum="0" Maximum="1" SmallChange="1" BorderBrush="#FFAEAEAE" BorderThickness="0" ValueChanged="Slider_ValueChanged" Background="#FF33E433" />
         <Label Content="{x:Static p:Resources.Window_TriggerDetail_Slider_Text}" HorizontalAlignment="Left" VerticalAlignment="Top" />

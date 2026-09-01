@@ -6,12 +6,14 @@
     xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
     x:Name="Trigger_Window" x:Class="NanoTwitchLeafs.Windows.TriggerWindow"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.Window_Trigger_Title}" Height="760" Width="1500" MinHeight="560" MinWidth="1000" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterOwner">
+        Title="{x:Static p:Resources.Window_Trigger_Title}" Height="760" Width="1500" MinHeight="560" MinWidth="1000" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterOwner" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}">
     <Grid>
         <Grid.Resources>
             <Style TargetType="ListViewItem">
                 <Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListViewItem"><Border x:Name="row" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" Padding="2"><ContentPresenter/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="row" Property="BorderBrush" Value="{DynamicResource NtlAccentBrush}"/></Trigger><Trigger Property="IsSelected" Value="True"><Setter TargetName="row" Property="Background" Value="{DynamicResource NtlAccentSurfaceBrush}"/><Setter TargetName="row" Property="BorderBrush" Value="{DynamicResource NtlAccentBrush}"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
                 <Style.Triggers>
                     <Trigger Property="ItemsControl.AlternationIndex"  Value="0">
                         <Setter Property="Background" Value="{DynamicResource NtlSurfaceBrush}" />
@@ -23,7 +25,7 @@
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
-        <ListView x:Name="Trigger_Listview" AlternationCount="2" Margin="2,2,2,45" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+        <ListView x:Name="Trigger_Listview" AlternationCount="2" Margin="6,6,6,58" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_On}" Width="46">
@@ -73,7 +75,11 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="newCmd_Button" Content="{x:Static p:Resources.Window_Trigger_Button_New}" HorizontalAlignment="Left" Height="30" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="120" Click="NewCmd_Button_Click" />
-        <Button x:Name="clearCmd_Button" Content="{x:Static p:Resources.Window_Trigger_Button_Clear}" HorizontalAlignment="Right" Height="30" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="120" />
+        <Grid VerticalAlignment="Bottom" Margin="10"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <Button x:Name="newCmd_Button" Content="{x:Static p:Resources.Window_Trigger_Button_New}" Width="130" Click="NewCmd_Button_Click" Margin="0,0,8,0" />
+            <Button x:Name="importCmd_Button" Grid.Column="1" Content="Importieren" Width="130" Click="ImportCmd_Button_Click" Margin="0,0,8,0" />
+            <Button x:Name="exportCmd_Button" Grid.Column="2" Content="Exportieren" Width="130" Click="ExportCmd_Button_Click" />
+            <Button x:Name="clearCmd_Button" Grid.Column="4" Content="{x:Static p:Resources.Window_Trigger_Button_Clear}" Width="130" Click="ClearCmd_Button_Click" />
+        </Grid>
     </Grid>
 </Window>

@@ -664,6 +664,7 @@ namespace NanoTwitchLeafs.Windows
 			_appearanceControlsReady = false;
 			bool german = string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase);
 			chatNavigation_Button.Content = german ? "Chat / Konsole" : "Chat / Console";
+			triggerNavigation_Button.Content = german ? "Trigger" : "Triggers";
 			integrationsNavigation_Button.Content = german ? "Integrationen" : "Integrations";
 			appearanceHeading_TextBlock.Text = german ? "Darstellung" : "Appearance";
 			themeLabel_TextBlock.Text = german ? "Darstellungsmodus" : "Theme";
@@ -1001,6 +1002,18 @@ namespace NanoTwitchLeafs.Windows
 
 		private void NanoCmd_Button_Click(object sender, RoutedEventArgs e)
 		{
+			OpenTriggerManager();
+		}
+
+		private void TriggerNavigation_Button_Click(object sender, RoutedEventArgs e)
+		{
+			OpenTriggerManager(true);
+		}
+
+		private void OpenTriggerManager(bool markNavigation = false)
+		{
+			try
+			{
 			TriggerWindow triggerWindow = new TriggerWindow(_commandRepository, _nanoController, _appSettings, _appSettingsController, _streamlabsController, _hypeRatecontroller, _triggerLogicController, _twitchEventSubController)
 			{
 				Owner = this
@@ -1008,7 +1021,19 @@ namespace NanoTwitchLeafs.Windows
 
 			if (!CheckForDuplicateWindow(triggerWindow))
 			{
+				if (markNavigation)
+				{
+					triggerNavigation_Button.SetResourceReference(BackgroundProperty, "NtlAccentSurfaceBrush");
+					triggerNavigation_Button.FontWeight = FontWeights.SemiBold;
+					triggerWindow.Closed += (_, _) => { triggerNavigation_Button.Background = Brushes.Transparent; triggerNavigation_Button.ClearValue(FontWeightProperty); };
+				}
 				triggerWindow.Show();
+			}
+			}
+			catch (Exception ex)
+			{
+				_logger.Error("Trigger manager could not be opened.", ex);
+				MessageBox.Show(string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase) ? "Die Triggerverwaltung konnte nicht geöffnet werden." : "The trigger manager could not be opened.", Properties.Resources.General_MessageBox_Error_Title);
 			}
 		}
 

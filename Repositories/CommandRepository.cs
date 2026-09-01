@@ -87,6 +87,8 @@ namespace NanoTwitchLeafs.Repositories
 
         public void Update(TriggerSetting trigger)
         {
+            if (trigger == null) throw new ArgumentNullException(nameof(trigger));
+            _cachedCommands ??= _dbController.Load();
             _dbController.Update(trigger);
 
             var dbCommand = _cachedCommands.RemoveAll(dbCmd => dbCmd.ID == trigger.ID);
@@ -95,6 +97,8 @@ namespace NanoTwitchLeafs.Repositories
 
         public void Insert(TriggerSetting trigger)
         {
+            if (trigger == null) throw new ArgumentNullException(nameof(trigger));
+            _cachedCommands ??= _dbController.Load();
             _dbController.Save(trigger);
 
             _cachedCommands.Add(trigger);
@@ -102,6 +106,8 @@ namespace NanoTwitchLeafs.Repositories
 
         public void Delete(TriggerSetting trigger)
         {
+            if (trigger == null) throw new ArgumentNullException(nameof(trigger));
+            _cachedCommands ??= _dbController.Load();
             _dbController.Delete(trigger);
 
             var dbCommand = _cachedCommands.RemoveAll(dbCmd => dbCmd.ID == trigger.ID);

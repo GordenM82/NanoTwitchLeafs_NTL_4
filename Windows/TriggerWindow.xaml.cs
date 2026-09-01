@@ -4,8 +4,11 @@ using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Enums;
 using NanoTwitchLeafs.Objects;
 using NanoTwitchLeafs.Repositories;
+using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,7 +41,26 @@ namespace NanoTwitchLeafs.Windows
             Constants.SetCultureInfo(_appSettings.Language);
             InitializeComponent();
 
-            LoadTrigger();
+            bool german = string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase);
+            importCmd_Button.Content = german ? "Importieren" : "Import";
+            exportCmd_Button.Content = german ? "Exportieren" : "Export";
+
+            SafeLoadTrigger();
+        }
+
+        private bool IsGerman => string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase);
+
+        private void ShowError(string germanMessage, string englishMessage, Exception exception = null)
+        {
+            if (exception != null) _logger.Error(IsGerman ? germanMessage : englishMessage, exception);
+            MessageBox.Show(IsGerman ? germanMessage : englishMessage,
+                Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        private void SafeLoadTrigger()
+        {
+            try { LoadTrigger(); }
+            catch (Exception ex) { ShowError("Die Trigger konnten nicht geladen werden.", "The triggers could not be loaded.", ex); }
         }
 
         private void LoadTrigger()
@@ -89,7 +111,7 @@ namespace NanoTwitchLeafs.Windows
                     var selectedDeviceNames = new HashSet<string>(
                         triggerSetting.TargetDeviceNames.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries),
                         StringComparer.OrdinalIgnoreCase);
-                    var publicNames = _appSettings.NanoSettings.NanoLeafDevices
+                    var publicNames = (_appSettings.NanoSettings?.NanoLeafDevices ?? new List<NanoLeafDevice>())
                         .Where(device => selectedDeviceNames.Contains(device.DeviceName))
                         .Select(device => device.PublicName)
                         .ToList();
@@ -163,8 +185,10 @@ namespace NanoTwitchLeafs.Windows
 
         private void OnOffSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            if (!IsLoaded || sender is not Slider slider || !TryGetTrigger(slider, out TriggerSetting triggerSetting)) return;
+            try
+            {
             bool IsActive;
-            Slider slider = (Slider)sender;
             if (e.NewValue == 0)
             {
                 slider.Background = Brushes.LimeGreen;
@@ -176,52 +200,39 @@ namespace NanoTwitchLeafs.Windows
                 IsActive = false;
             }
 
-            var dataContext = slider.DataContext as TriggerListObject;
-            var triggerId = int.Parse(dataContext.ID);
-
-            List<TriggerSetting> triggerSettings = _commandRepository.GetList();
-            TriggerSetting triggerSetting = triggerSettings.Where(l => l.ID == triggerId).FirstOrDefault();
             triggerSetting.IsActive = IsActive;
             _commandRepository.Update(triggerSetting);
             _logger.Info($"Trigger with the ID {triggerSetting.ID} is now updated to IsActive: {IsActive}.");
+            }
+            catch (Exception ex) { ShowError("Der Trigger konnte nicht geändert werden.", "The trigger could not be changed.", ex); SafeLoadTrigger(); }
+        }
+
+        private bool TryGetTrigger(FrameworkElement element, out TriggerSetting triggerSetting)
+        {
+            triggerSetting = null;
+            if (element?.DataContext is not TriggerListObject row || !int.TryParse(row.ID, out int triggerId)) return false;
+            triggerSetting = _commandRepository.GetList().FirstOrDefault(item => item.ID == triggerId);
+            return triggerSetting != null;
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = (Button)sender;
-            var dataContext = button.DataContext as TriggerListObject;
-
-            var triggerId = int.Parse(dataContext.ID);
-            List<TriggerSetting> triggerSettings = _commandRepository.GetList();
-            TriggerSetting triggerSetting = triggerSettings.Where(l => l.ID == triggerId).FirstOrDefault();
-            _commandRepository.Delete(triggerSetting);
-            LoadTrigger();
+            if (sender is not FrameworkElement element || !TryGetTrigger(element, out TriggerSetting triggerSetting)) return;
+            try { _commandRepository.Delete(triggerSetting); SafeLoadTrigger(); }
+            catch (Exception ex) { ShowError("Der Trigger konnte nicht gelöscht werden.", "The trigger could not be deleted.", ex); }
         }
 
 
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = (Button)sender;
-            var dataContext = button.DataContext as TriggerListObject;
-
-            var triggerId = int.Parse(dataContext.ID);
-            List<TriggerSetting> triggerSettings = _commandRepository.GetList();
-            TriggerSetting triggerSetting = triggerSettings.Where(l => l.ID == triggerId).FirstOrDefault();
-
-            var obj = new QueueObject(triggerSetting, "Test");
-            _triggerLogicController.AddToQueue(obj);
+            if (sender is not FrameworkElement element || !TryGetTrigger(element, out TriggerSetting triggerSetting)) return;
+            try { _triggerLogicController.AddToQueue(new QueueObject(triggerSetting, "Test")); }
+            catch (Exception ex) { ShowError("Der Trigger konnte nicht getestet werden.", "The trigger could not be tested.", ex); }
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            var button = (Button)sender;
-            var dataContext = button.DataContext as TriggerListObject;
-
-            var triggerId = int.Parse(dataContext.ID);
-            List<TriggerSetting> triggerSettings = _commandRepository.GetList();
-            TriggerSetting triggerSetting = triggerSettings.Where(l => l.ID == triggerId).FirstOrDefault();
-
-            OpenTriggerDetails(triggerSetting);
+            if (sender is FrameworkElement element && TryGetTrigger(element, out TriggerSetting triggerSetting)) OpenTriggerDetails(triggerSetting);
         }
 
         private void NewCmd_Button_Click(object sender, RoutedEventArgs e)
@@ -231,11 +242,18 @@ namespace NanoTwitchLeafs.Windows
 
         private async void OpenTriggerDetails(TriggerSetting triggerSetting = null)
         {
+            try
+            {
+            if (_appSettings.NanoSettings?.NanoLeafDevices == null || _appSettings.NanoSettings.NanoLeafDevices.Count == 0)
+            {
+                ShowError("Bitte zuerst ein Nanoleaf-Gerät verbinden.", "Please connect a Nanoleaf device first.");
+                return;
+            }
+
             var effectList = await _nanoController.GetEffectList(_appSettings.NanoSettings.NanoLeafDevices[0]);
 
             if (effectList == null)
             {
-                this.Close();
                 _logger.Error("Connection failed! Couldn't get Effect List!");
                 System.Windows.MessageBox.Show(Properties.Resources.Code_Trigger_MessageBox_EffectList, Properties.Resources.General_MessageBox_Error_Title);
                 return;
@@ -247,11 +265,67 @@ namespace NanoTwitchLeafs.Windows
             };
             triggerDetailWindow.Closed += TriggerDetailWindow_Closed;
             triggerDetailWindow.Show();
+            }
+            catch (Exception ex) { ShowError("Die Trigger-Details konnten nicht geöffnet werden.", "The trigger details could not be opened.", ex); }
         }
 
         private void TriggerDetailWindow_Closed(object sender, EventArgs e)
         {
-            LoadTrigger();
+            SafeLoadTrigger();
+        }
+
+        private void ExportCmd_Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var dialog = new SaveFileDialog { Filter = "JSON (*.json)|*.json", FileName = $"NanoTwitchLeafs-triggers-{DateTime.Now:yyyy-MM-dd}.json" };
+                if (dialog.ShowDialog(this) != true) return;
+                File.WriteAllText(dialog.FileName, JsonConvert.SerializeObject(_commandRepository.GetList(), Formatting.Indented));
+                MessageBox.Show(IsGerman ? "Trigger wurden exportiert." : "Triggers were exported.");
+            }
+            catch (Exception ex) { ShowError("Die Trigger konnten nicht exportiert werden.", "The triggers could not be exported.", ex); }
+        }
+
+        private void ImportCmd_Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var dialog = new OpenFileDialog { Filter = "JSON (*.json)|*.json" };
+                if (dialog.ShowDialog(this) != true) return;
+                var imported = JsonConvert.DeserializeObject<List<TriggerSetting>>(File.ReadAllText(dialog.FileName));
+                if (imported == null || imported.Count == 0 || imported.Any(item => item == null || string.IsNullOrWhiteSpace(item.Trigger)))
+                    throw new InvalidDataException(IsGerman ? "Die Datei enthält keine gültigen Trigger." : "The file contains no valid triggers.");
+
+                if (File.Exists(Constants.TRIGGERS_PATH))
+                    File.Copy(Constants.TRIGGERS_PATH, Constants.TRIGGERS_PATH + $".before-import-{DateTime.Now:yyyyMMdd-HHmmss}.backup", false);
+
+                MessageBoxResult mode = MessageBox.Show(
+                    IsGerman ? "Ja: mit vorhandenen Triggern zusammenführen\nNein: vorhandene Trigger ersetzen" : "Yes: merge with existing triggers\nNo: replace existing triggers",
+                    IsGerman ? "Trigger importieren" : "Import triggers", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                if (mode == MessageBoxResult.Cancel) return;
+
+                if (mode == MessageBoxResult.No) _commandRepository.ClearAll();
+                foreach (TriggerSetting item in imported)
+                {
+                    TriggerSetting existing = mode == MessageBoxResult.Yes ? _commandRepository.GetList().FirstOrDefault(current =>
+                        string.Equals(current.Trigger, item.Trigger, StringComparison.OrdinalIgnoreCase) &&
+                        string.Equals(current.CMD ?? "", item.CMD ?? "", StringComparison.OrdinalIgnoreCase) &&
+                        string.Equals(current.ChannelPointsGuid ?? "", item.ChannelPointsGuid ?? "", StringComparison.OrdinalIgnoreCase)) : null;
+                    if (existing != null) { item.ID = existing.ID; _commandRepository.Update(item); }
+                    else { item.ID = 0; _commandRepository.Insert(item); }
+                }
+                SafeLoadTrigger();
+                MessageBox.Show(IsGerman ? $"{imported.Count} Trigger wurden importiert." : $"{imported.Count} triggers were imported.");
+            }
+            catch (Exception ex) { ShowError("Die Trigger konnten nicht importiert werden.", "The triggers could not be imported.", ex); }
+        }
+
+        private void ClearCmd_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show(IsGerman ? "Wirklich alle Trigger löschen?" : "Delete all triggers?",
+                IsGerman ? "Trigger leeren" : "Clear triggers", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+            try { _commandRepository.ClearAll(); SafeLoadTrigger(); }
+            catch (Exception ex) { ShowError("Die Trigger konnten nicht gelöscht werden.", "The triggers could not be deleted.", ex); }
         }
 
     }
