@@ -252,7 +252,7 @@ namespace NanoTwitchLeafs.Controller
 				}
 			}
 
-			EventSubController.StopAsync();
+				_ = EventSubController.StopAsync();
 			OnCallLoadingWindow?.Invoke(false);
 		}
 		

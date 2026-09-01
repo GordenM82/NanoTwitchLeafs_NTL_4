@@ -61,10 +61,12 @@ namespace NanoTwitchLeafs.Objects
             Attached = true;
 
             // attach event for object which inherits from NotifyObject
+#pragma warning disable CS0618
             PropertyChanged += delegate (object s, PropertyChangedEventArgs e)
             {
                 callback(s, e);
             };
+#pragma warning restore CS0618
 
             // define if event handler should be attached to all properties which are also derived from NotifyObject
             if (propagateToChildren != true)

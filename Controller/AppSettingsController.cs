@@ -13,7 +13,6 @@ namespace NanoTwitchLeafs.Controller
     {
         private const DataProtectionScope DataProtectionScope = System.Security.Cryptography.DataProtectionScope.CurrentUser;
 
-        private static AppSettingsController _instance;
         private readonly ILog _logger = LogManager.GetLogger(typeof(AppSettingsController));
 
 
