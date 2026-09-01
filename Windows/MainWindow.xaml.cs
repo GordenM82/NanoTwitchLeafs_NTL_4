@@ -664,6 +664,7 @@ namespace NanoTwitchLeafs.Windows
 			_appearanceControlsReady = false;
 			bool german = string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase);
 			chatNavigation_Button.Content = german ? "Chat / Konsole" : "Chat / Console";
+			integrationsNavigation_Button.Content = german ? "Integrationen" : "Integrations";
 			appearanceHeading_TextBlock.Text = german ? "Darstellung" : "Appearance";
 			themeLabel_TextBlock.Text = german ? "Darstellungsmodus" : "Theme";
 			accentLabel_TextBlock.Text = german ? "Akzentfarbe" : "Accent color";
@@ -709,8 +710,13 @@ namespace NanoTwitchLeafs.Windows
 		{
 			if (sender is not Button button || !int.TryParse(button.Tag?.ToString(), out int page)) return;
 			bool showChat = page < 0;
+			bool showIntegrations = page >= 3 && page <= 4;
 			chatconsole_TabControl.Visibility = showChat ? Visibility.Visible : Visibility.Collapsed;
 			settings_TabControl.Visibility = showChat ? Visibility.Collapsed : Visibility.Visible;
+			integrationTabs_Panel.Visibility = showIntegrations ? Visibility.Visible : Visibility.Collapsed;
+			settings_TabControl.Margin = showIntegrations
+				? new Thickness(20, 68, 20, 76)
+				: new Thickness(20, 20, 20, 76);
 			if (!showChat) settings_TabControl.SelectedIndex = page;
 		}
 

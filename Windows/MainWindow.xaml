@@ -50,17 +50,20 @@
                         <Button x:Name="chatNavigation_Button" Tag="-1" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
                         <Button Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}" Tag="0" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
                         <Button Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Title}" Tag="1" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
-                        <Button Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_Title}" Tag="3" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
-                        <Button Content="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Title}" Tag="4" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
+                        <Button x:Name="integrationsNavigation_Button" Tag="3" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
                         <Button Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}" Tag="5" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
                         <Button Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Tag="2" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
                     </StackPanel>
                 </DockPanel>
             </Border>
+        <StackPanel x:Name="integrationTabs_Panel" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,18,0,0" Visibility="Collapsed">
+            <Button Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_Title}" Tag="3" Click="Navigation_Button_Click" Margin="0,0,8,0" />
+            <Button Content="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Title}" Tag="4" Click="Navigation_Button_Click" />
+        </StackPanel>
         <TabControl x:Name="settings_TabControl" HorizontalAlignment="Stretch" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed">
             <TabControl.Resources><Style TargetType="TabItem"><Setter Property="Visibility" Value="Collapsed" /></Style></TabControl.Resources>
             <TabItem x:Name="botLogin_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}" Margin="0,0,-1,0">
-                <Grid Background="{StaticResource NtlSurfaceBrush}">
+                <Grid Background="{DynamicResource NtlSurfaceBrush}" MaxWidth="760" HorizontalAlignment="Center">
                     <Grid x:Name="DefaultTwitchLogin_Grid" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="323" Margin="0,10,0,0">
                         <Image x:Name="TwitchLinkAvatar_Image" HorizontalAlignment="Center" Height="100" Margin="62,10,62,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.5,0.5" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" />
                         <Label x:Name="TwitchLink_Label" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_AccountLabel_Text}" HorizontalAlignment="Center" Margin="5,115,5,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
@@ -77,7 +80,7 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="nanoConfig_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_Nano_Title}" Margin="1,0,-1,0">
-                <Grid Background="{StaticResource NtlSurfaceBrush}">
+                <Grid Background="{DynamicResource NtlSurfaceBrush}" MaxWidth="820" HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
@@ -103,7 +106,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Margin="1,0,-1,0">
-                <Grid Background="{StaticResource NtlSurfaceBrush}">
+                <Grid Background="{DynamicResource NtlSurfaceBrush}" MaxWidth="920" HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
@@ -152,7 +155,7 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="Streamlabs_Tabitem"  Header="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_Title}">
-                <Grid Background="{StaticResource NtlSurfaceBrush}" Margin="0">
+                <Grid Background="{DynamicResource NtlSurfaceBrush}" Margin="0" MaxWidth="760" HorizontalAlignment="Center">
                     <Button x:Name="StreamlabsLink_Button" Content="{x:Static p:Resources.Windows_Main_Tabs_Streamlabs_LinkStreamlabs_Label}" HorizontalAlignment="Center" Margin="0,177,0,0" VerticalAlignment="Top" Padding="5,1" Click="StreamlabsLink_Button_Click" UseLayoutRounding="True" />
                     <Image x:Name="Streamlabs_Image" HorizontalAlignment="Left" Height="100" Margin="156,10,0,0" VerticalAlignment="Top" Width="100" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" />
                     <Button x:Name="StreamlabsUnlink_Button" Content="{x:Static p:Resources.Windows_Main_Tabs_Streamlabs_UnLinkStreamlabs_Label}" HorizontalAlignment="Center" VerticalAlignment="Top" IsEnabled="False" Padding="5,1" Click="StreamlabsUnlink_Button_Click" Margin="0,202,0,0" />
@@ -164,7 +167,7 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="HypeRate_Tabitem"  Header="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Title}">
-                <Grid Background="{StaticResource NtlSurfaceBrush}" Margin="0">
+                <Grid Background="{DynamicResource NtlSurfaceBrush}" Margin="0" MaxWidth="760" HorizontalAlignment="Center">
                     <Image HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Source="/NanoTwitchLeafs;component/Assets/hypeRateLogo.png" Height="106" Width="128" />
                     <Label Content="HypeRate ID:" HorizontalAlignment="Left" Margin="10,129,0,0" VerticalAlignment="Top" />
                     <TextBox x:Name="hypeRateId_Textbox" HorizontalAlignment="Left" Margin="95,133,0,0" TextWrapping="Wrap" Text="HypeRateId" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="121" />
@@ -179,8 +182,8 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="ApiSettings_Tabitem" Header="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="{StaticResource NtlSurfaceBrush}">
-                    <StackPanel Margin="10,8,10,14">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="{DynamicResource NtlSurfaceBrush}">
+                    <StackPanel Margin="24,18,24,24" MaxWidth="680">
                         <Label Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}" HorizontalAlignment="Center" FontSize="24" Margin="0,0,0,6" />
 
                         <Separator Margin="0,0,0,10" />
@@ -200,7 +203,7 @@
         </TabControl>
         <TabControl x:Name="chatconsole_TabControl" Grid.Column="1" Margin="20,20,20,76" SelectionChanged="ChatConsole_TabControl_SelectionChanged">
             <TabItem x:Name="chat_Tabitem" Header="{x:Static p:Resources.Window_Main_Tabs_Chat_Title}">
-                <Grid Background="{StaticResource NtlSurfaceBrush}" Margin="0">
+                <Grid Background="{DynamicResource NtlSurfaceBrush}" Margin="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
@@ -210,7 +213,7 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="console_Tabitem" Header="{x:Static p:Resources.Window_Main_Tabs_Console_Title}">
-                <Grid Background="{StaticResource NtlSurfaceBrush}">
+                <Grid Background="{DynamicResource NtlSurfaceBrush}">
                     <ListBox x:Name="console_ListBox" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top" Margin="2" />
                 </Grid>
             </TabItem>

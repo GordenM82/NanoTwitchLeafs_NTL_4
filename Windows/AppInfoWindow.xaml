@@ -4,10 +4,10 @@
  Title="{x:Static p:Resources.Window_AppInfo_Title}" Height="650" Width="620" MinHeight="560" MinWidth="540"
  ResizeMode="CanResize" WindowStartupLocation="CenterOwner" Background="{DynamicResource NtlBackgroundBrush}">
  <Grid Margin="24">
-  <Grid.ColumnDefinitions><ColumnDefinition Width="150"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+  <Grid.ColumnDefinitions><ColumnDefinition Width="210"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
   <Border Grid.Column="0" Style="{StaticResource NtlCardStyle}" Margin="0,0,18,0">
-   <Image Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_logo.png" Stretch="Uniform" RenderTransformOrigin="0.5,0.5">
-    <Image.RenderTransform><RotateTransform Angle="-90"/></Image.RenderTransform>
+   <Image Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_logo.png" Stretch="Uniform" Margin="4">
+    <Image.LayoutTransform><RotateTransform Angle="-90"/></Image.LayoutTransform>
    </Image>
   </Border>
   <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
