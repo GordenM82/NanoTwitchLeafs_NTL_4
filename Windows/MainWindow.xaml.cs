@@ -1025,7 +1025,7 @@ namespace NanoTwitchLeafs.Windows
 				{
 					triggerNavigation_Button.SetResourceReference(BackgroundProperty, "NtlAccentSurfaceBrush");
 					triggerNavigation_Button.FontWeight = FontWeights.SemiBold;
-					triggerWindow.Closed += (_, _) => { triggerNavigation_Button.Background = Brushes.Transparent; triggerNavigation_Button.ClearValue(FontWeightProperty); };
+					triggerWindow.Closed += (_, _) => { triggerNavigation_Button.Background = System.Windows.Media.Brushes.Transparent; triggerNavigation_Button.ClearValue(FontWeightProperty); };
 				}
 				triggerWindow.Show();
 			}
