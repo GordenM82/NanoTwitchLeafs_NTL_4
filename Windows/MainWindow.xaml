@@ -63,7 +63,7 @@
         <TabControl x:Name="settings_TabControl" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed">
             <TabControl.Resources><Style TargetType="TabItem"><Setter Property="Visibility" Value="Collapsed" /></Style></TabControl.Resources>
             <TabItem x:Name="botLogin_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}" Margin="0,0,-1,0">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="680" Margin="28" TextElement.FontSize="14">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="680" Margin="18" TextElement.FontSize="14">
                     <Border Style="{StaticResource NtlCardStyle}"><StackPanel x:Name="DefaultTwitchLogin_Grid">
                         <Image x:Name="TwitchLinkAvatar_Image" Height="120" Width="120" Margin="0,0,0,12" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" />
                         <Label x:Name="TwitchLink_Label" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_AccountLabel_Text}" HorizontalContentAlignment="Center" FontSize="15" Margin="0,0,0,12" />
@@ -78,7 +78,7 @@
                 </StackPanel></ScrollViewer>
             </TabItem>
             <TabItem x:Name="nanoConfig_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_Nano_Title}" Margin="1,0,-1,0">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="900" Margin="24" TextElement.FontSize="14">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="900" Margin="18" TextElement.FontSize="14">
                     <Grid Margin="0,0,0,12"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><Button x:Name="nanoTestConnection_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Test}" Click="NanoTestConnection_Button_Click" IsEnabled="False" Margin="0,0,6,0"/><Button x:Name="nanoPairing_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Pairing}" Click="nanoPairing_Button_Click" Margin="6,0,0,0"/></Grid>
                     <Border Style="{StaticResource NtlCardStyle}" Margin="0,0,0,12"><StackPanel>
                         <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><CheckBox x:Name="nanoCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableTrigger}" Click="NanoCmd_Checkbox_Click"/><Button x:Name="nanoCmd_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_EditTrigger}" Click="NanoCmd_Button_Click" IsEnabled="False"/></Grid>
@@ -95,20 +95,19 @@
             </TabItem>
             <TabItem Header="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Margin="1,0,-1,0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="{DynamicResource NtlSurfaceBrush}">
-                  <Grid MaxWidth="1040" HorizontalAlignment="Center" Margin="20">
+                  <Grid MaxWidth="1040" HorizontalAlignment="Center" Margin="12">
                     <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="380"/></Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" TextElement.FontSize="14" Margin="0,0,20,0">
-                      <Border Style="{StaticResource NtlCardStyle}" Margin="0,0,0,12"><StackPanel>
-                        <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_General}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
-                        <CheckBox x:Name="autoConnect_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Autoconnect}" Click="AutoConnect_Checkbox_Click"/>
-                      </StackPanel></Border>
-                      <Border Style="{StaticResource NtlCardStyle}" Margin="0,0,0,12"><StackPanel>
+                    <StackPanel Grid.Column="0" TextElement.FontSize="14" Margin="0,0,12,0">
+                      <Border Style="{StaticResource NtlCardStyle}" Margin="0,0,0,8"><StackPanel>
+                        <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_General}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <CheckBox x:Name="autoConnect_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Autoconnect}" Click="AutoConnect_Checkbox_Click" Margin="0,0,0,8"/>
+                        <Separator Margin="0,0,0,8"/>
                         <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Chat}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,8"/>
                         <Grid Margin="0,3"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><CheckBox x:Name="response_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Responses}" Click="Response_CheckBox_Click"/><Button x:Name="responses_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_Edit}" Click="Responses_Button_Click"/></Grid>
                         <CheckBox x:Name="whisperMode_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Whisper}" Margin="0,3"/>
                         <Grid Margin="0,3"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><CheckBox x:Name="blacklist_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Blocklist}" Click="blacklist_CheckBox_Click"/><Button x:Name="blacklist_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_Edit}" Click="blacklist_Button_Click"/></Grid>
                       </StackPanel></Border>
-                      <Border Style="{StaticResource NtlCardStyle}" Margin="0,0,0,12"><StackPanel>
+                      <Border Style="{StaticResource NtlCardStyle}" Margin="0,0,0,8"><StackPanel>
                         <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Misc}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
                         <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_SetEffect}" Margin="0,0,0,5"/>
                         <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><Button x:Name="LoadEffects_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_LoadEffects}" Click="LoadEffects_Button_Click" Margin="0,0,8,0"/><ComboBox x:Name="Effects_ComboBox" Grid.Column="1" Margin="0,0,8,0"/><Button x:Name="SetBaseEffect_Button" Grid.Column="2" Content="{x:Static p:Resources.General_Button_OK}" Click="SetBaseEffect_Button_Click"/></Grid>
@@ -142,7 +141,7 @@
                 </ScrollViewer>
             </TabItem>
             <TabItem x:Name="Streamlabs_Tabitem"  Header="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_Title}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="680" Margin="28" TextElement.FontSize="14">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="680" Margin="18" TextElement.FontSize="14">
                     <Border Style="{StaticResource NtlCardStyle}"><StackPanel>
                         <Grid HorizontalAlignment="Center" Margin="0,0,0,12"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><Image Height="115" Width="150" Source="/NanoTwitchLeafs;component/Assets/streamlabs_logo.png" Margin="0,0,18,0"/><Image x:Name="Streamlabs_Image" Grid.Column="1" Height="115" Width="115" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" Margin="18,0,0,0"/></Grid>
                         <TextBlock x:Name="StreamlabsInfo_TextBlock" TextWrapping="Wrap" TextAlignment="Center" FontSize="15" Text="{x:Static p:Resources.Windows_Main_Tabs_Streamlabs_Linktext_Textblock1}" Margin="0,0,0,14"/>
@@ -155,7 +154,7 @@
                 </StackPanel></ScrollViewer>
             </TabItem>
             <TabItem x:Name="HypeRate_Tabitem"  Header="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Title}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="620" Margin="28" TextElement.FontSize="14">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="620" Margin="18" TextElement.FontSize="14">
                     <Border Style="{StaticResource NtlCardStyle}"><StackPanel>
                         <Image Source="/NanoTwitchLeafs;component/Assets/hypeRateLogo.png" Height="125" Width="150" Margin="0,0,0,12"/>
                         <Grid Margin="50,0,50,10"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition/></Grid.ColumnDefinitions><Label Content="HypeRate ID:" FontSize="15" Margin="0,0,10,0"/><TextBox x:Name="hypeRateId_Textbox" Grid.Column="1" Text="HypeRateId"/></Grid>
@@ -169,7 +168,7 @@
             </TabItem>
             <TabItem x:Name="ApiSettings_Tabitem" Header="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="{DynamicResource NtlSurfaceBrush}">
-                    <StackPanel Margin="24,18,24,24" MaxWidth="680">
+                    <StackPanel Margin="18" MaxWidth="680">
                         <Label Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}" HorizontalAlignment="Center" FontSize="24" Margin="0,0,0,6" />
 
                         <Separator Margin="0,0,0,10" />

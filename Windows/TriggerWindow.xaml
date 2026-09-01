@@ -10,13 +10,16 @@
     <Grid>
         <Grid.Resources>
             <Style TargetType="ListViewItem">
+                <Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Style.Triggers>
                     <Trigger Property="ItemsControl.AlternationIndex"  Value="0">
-                        <Setter Property="Background" Value="White" />
+                        <Setter Property="Background" Value="{DynamicResource NtlSurfaceBrush}" />
                     </Trigger>
                     <Trigger Property="ItemsControl.AlternationIndex"  Value="1">
-                        <Setter Property="Background" Value="LightGray" />
+                        <Setter Property="Background" Value="{DynamicResource NtlSurfaceRaisedBrush}" />
                     </Trigger>
+                    <Trigger Property="IsSelected" Value="True"><Setter Property="Background" Value="{DynamicResource NtlAccentSurfaceBrush}"/><Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}"/></Trigger>
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
