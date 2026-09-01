@@ -20,7 +20,7 @@
     <LangVersion>latest</LangVersion>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
-    <DefineConstants>$(DefineConstants);NTL4</DefineConstants>
+    <DefineConstants>$(DefineConstants);NTL4;NTL4_LAYOUT_PREVIEW</DefineConstants>
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
@@ -53,4 +53,3 @@
     <Resource Include="Assets\nanotwitchleafs.ico" />
   </ItemGroup>
 </Project>
-

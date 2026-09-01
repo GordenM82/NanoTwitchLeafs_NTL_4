@@ -53,6 +53,45 @@ namespace NanoTwitchLeafs.Windows
 		private bool _initialWindowActivationCompleted;
 		private static string DisplayVersion => typeof(AppInfoWindow).Assembly.GetName().Version.ToString(3);
 
+		private static void TryPrepareLayoutPreviewData()
+		{
+#if NTL4_LAYOUT_PREVIEW
+			if (File.Exists(Constants.PREVIEW_DATA_COPY_COMPLETED_PATH) ||
+				File.Exists(Constants.SETTINGS_PATH) ||
+				File.Exists(Constants.TRIGGERS_PATH))
+			{
+				return;
+			}
+
+			bool hasStableSettings = File.Exists(Constants.STABLE_NTL4_SETTINGS_PATH);
+			bool hasStableTriggers = File.Exists(Constants.STABLE_NTL4_TRIGGERS_PATH);
+			if (!hasStableSettings && !hasStableTriggers)
+			{
+				return;
+			}
+
+			try
+			{
+				Directory.CreateDirectory(Constants.PROGRAMFILESFOLDER_PATH);
+				if (hasStableSettings)
+				{
+					File.Copy(Constants.STABLE_NTL4_SETTINGS_PATH, Constants.SETTINGS_PATH, false);
+				}
+
+				if (hasStableTriggers)
+				{
+					File.Copy(Constants.STABLE_NTL4_TRIGGERS_PATH, Constants.TRIGGERS_PATH, false);
+				}
+
+				File.WriteAllText(Constants.PREVIEW_DATA_COPY_COMPLETED_PATH, DateTime.UtcNow.ToString("O"));
+			}
+			catch
+			{
+				// The preview remains usable with blank settings if copying stable data fails.
+			}
+#endif
+		}
+
 		private static void TryPrepareLegacyMigration()
 		{
 #if NTL4
@@ -119,6 +158,7 @@ namespace NanoTwitchLeafs.Windows
 
 		public MainWindow()
 		{
+			TryPrepareLayoutPreviewData();
 			TryPrepareLegacyMigration();
 
 			// Load settings for Language

@@ -2549,5 +2549,23 @@ namespace NanoTwitchLeafs.Properties {
                 return ResourceManager.GetString("Windows_Main_Tabs_Streamlabs_UnLinkStreamlabs_Label", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to NanoTwitchLeafs 4 – Layout Preview.
+        /// </summary>
+        public static string Window_Main_LayoutPreview_Title {
+            get {
+                return ResourceManager.GetString("Window_Main_LayoutPreview_Title", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Functional layout test version.
+        /// </summary>
+        public static string Window_Main_LayoutPreview_Subtitle {
+            get {
+                return ResourceManager.GetString("Window_Main_LayoutPreview_Subtitle", resourceCulture);
+            }
+        }
     }
 }

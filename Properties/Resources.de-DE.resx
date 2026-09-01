@@ -1095,4 +1095,10 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="Window_AppInfo_AiAssistance" xml:space="preserve">
     <value>NTL 4 wurde mit Unterstützung durch KI weiterentwickelt.</value>
   </data>
+  <data name="Window_Main_LayoutPreview_Title" xml:space="preserve">
+    <value>NanoTwitchLeafs 4 – Layout-Vorschau</value>
+  </data>
+  <data name="Window_Main_LayoutPreview_Subtitle" xml:space="preserve">
+    <value>Funktionale Layout-Testversion</value>
+  </data>
 </root>

@@ -26,7 +26,9 @@ namespace NanoTwitchLeafs
 		// Keep the stable 3.x settings and triggers untouched during migration.
 		// This compatibility path must remain available in later releases unless an
 		// equivalent direct importer is provided.
-#if NTL4_PRIVATE_MIGRATION
+#if NTL4_LAYOUT_PREVIEW
+		public static readonly string PROGRAMFILESFOLDER_PATH = Path.Combine(APPDATA_PATH, "NanoTwitchLeafs-4-Layout-Preview");
+#elif NTL4_PRIVATE_MIGRATION
 		public static readonly string PROGRAMFILESFOLDER_PATH = Path.Combine(APPDATA_PATH, "NanoTwitchLeafs-4-Test");
 #elif NTL4
 		public static readonly string PROGRAMFILESFOLDER_PATH = Path.Combine(APPDATA_PATH, "NanoTwitchLeafs-4");
@@ -37,6 +39,10 @@ namespace NanoTwitchLeafs
 
 		// Read-only source paths used by the optional first-start migration from Locxion\'s 3.x release.
 		public static readonly string LEGACY_PROGRAMFILESFOLDER_PATH = Path.Combine(APPDATA_PATH, "NanoTwitchLeafs");
+		public static readonly string STABLE_NTL4_PROGRAMFILESFOLDER_PATH = Path.Combine(APPDATA_PATH, "NanoTwitchLeafs-4");
+		public static readonly string STABLE_NTL4_SETTINGS_PATH = Path.Combine(STABLE_NTL4_PROGRAMFILESFOLDER_PATH, "settings.txt");
+		public static readonly string STABLE_NTL4_TRIGGERS_PATH = Path.Combine(STABLE_NTL4_PROGRAMFILESFOLDER_PATH, "triggers.json");
+		public static readonly string PREVIEW_DATA_COPY_COMPLETED_PATH = Path.Combine(PROGRAMFILESFOLDER_PATH, ".preview-data-copied");
 		public static readonly string LEGACY_SETTINGS_PATH = Path.Combine(LEGACY_PROGRAMFILESFOLDER_PATH, "settings.txt");
 		public static readonly string LEGACY_DATABASE_PATH = Path.Combine(LEGACY_PROGRAMFILESFOLDER_PATH, "nanotwitchleafs.sqlite");
 		public static readonly string LEGACY_MIGRATION_ACCEPTED_PATH = Path.Combine(PROGRAMFILESFOLDER_PATH, ".migration-3x-accepted");
