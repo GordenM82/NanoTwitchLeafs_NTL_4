@@ -41,6 +41,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private readonly AppSettingsController _appSettingsController;
 		private readonly AppSettings _appSettings;
+		private bool _appearanceControlsReady;
 		private readonly TwitchController _twitchController;
 		private readonly NanoController _nanoController;
 		private readonly CommandRepository _commandRepository;
@@ -167,6 +168,7 @@ namespace NanoTwitchLeafs.Windows
 
 			// Set Language before Init of Window
 			Constants.SetCultureInfo(_appSettings.Language);
+			ThemeManager.Apply(_appSettings.Theme, _appSettings.AccentColor);
 
 			// Init Window and Controls
 			InitializeComponent();
@@ -428,7 +430,8 @@ namespace NanoTwitchLeafs.Windows
                 // "Slovak"
             };
 
-				language_Combobox.ItemsSource = languages;
+					language_Combobox.ItemsSource = languages;
+					InitializeAppearanceControls();
 
 				switch (_appSettings.Language)
 				{
@@ -654,6 +657,61 @@ namespace NanoTwitchLeafs.Windows
 			{
 				AppRestart();
 			}
+		}
+
+		private void InitializeAppearanceControls()
+		{
+			_appearanceControlsReady = false;
+			bool german = string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase);
+			chatNavigation_Button.Content = german ? "Chat / Konsole" : "Chat / Console";
+			appearanceHeading_TextBlock.Text = german ? "Darstellung" : "Appearance";
+			themeLabel_TextBlock.Text = german ? "Darstellungsmodus" : "Theme";
+			accentLabel_TextBlock.Text = german ? "Akzentfarbe" : "Accent color";
+			themeLight_Item.Content = german ? "Hell" : "Light";
+			themeDark_Item.Content = german ? "Dunkel" : "Dark";
+			themeSystem_Item.Content = german ? "Systemeinstellung" : "System";
+
+			SelectComboBoxItem(theme_ComboBox, _appSettings.Theme ?? "Light");
+			SelectComboBoxItem(accent_ComboBox, _appSettings.AccentColor ?? "TwitchPurple");
+			_appearanceControlsReady = true;
+		}
+
+		private static void SelectComboBoxItem(ComboBox comboBox, string tag)
+		{
+			foreach (ComboBoxItem item in comboBox.Items)
+			{
+				if (string.Equals(item.Tag?.ToString(), tag, StringComparison.OrdinalIgnoreCase))
+				{
+					comboBox.SelectedItem = item;
+					return;
+				}
+			}
+			comboBox.SelectedIndex = 0;
+		}
+
+		private void Theme_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (!_appearanceControlsReady || theme_ComboBox.SelectedItem is not ComboBoxItem item) return;
+			_appSettings.Theme = item.Tag.ToString();
+			ThemeManager.Apply(_appSettings.Theme, _appSettings.AccentColor);
+			_appSettingsController.SaveSettings(_appSettings);
+		}
+
+		private void Accent_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (!_appearanceControlsReady || accent_ComboBox.SelectedItem is not ComboBoxItem item) return;
+			_appSettings.AccentColor = item.Tag.ToString();
+			ThemeManager.Apply(_appSettings.Theme, _appSettings.AccentColor);
+			_appSettingsController.SaveSettings(_appSettings);
+		}
+
+		private void Navigation_Button_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is not Button button || !int.TryParse(button.Tag?.ToString(), out int page)) return;
+			bool showChat = page < 0;
+			chatconsole_TabControl.Visibility = showChat ? Visibility.Visible : Visibility.Collapsed;
+			settings_TabControl.Visibility = showChat ? Visibility.Collapsed : Visibility.Visible;
+			if (!showChat) settings_TabControl.SelectedIndex = page;
 		}
 
 		private async void SetBaseColor_Button_Click(object sender, RoutedEventArgs e)

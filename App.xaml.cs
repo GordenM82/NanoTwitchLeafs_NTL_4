@@ -23,7 +23,7 @@ namespace NanoTwitchLeafs
 
             // Initialize Logger
             GlobalContext.Properties["LogFile"] = Constants.LOG_PATH;
-            string s = new Uri(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase), "log4net.config")).LocalPath;
+            string s = Path.Combine(AppContext.BaseDirectory, "log4net.config");
             XmlConfigurator.Configure(new FileInfo(s));
             
             try

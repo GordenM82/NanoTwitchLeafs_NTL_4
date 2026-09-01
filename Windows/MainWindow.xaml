@@ -8,7 +8,7 @@
         xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
         mc:Ignorable="d"
         Title="{x:Static p:Resources.Window_Main_LayoutPreview_Title}" Height="780" Width="1400" MinWidth="1080" MinHeight="680"
-        WindowStartupLocation="CenterScreen" Background="{StaticResource NtlBackgroundBrush}"
+        WindowStartupLocation="CenterScreen" Background="{DynamicResource NtlBackgroundBrush}"
         Closing="Window_Closing" Closed="Main_Window_Closed" Loaded="Main_Window_Loaded" ShowActivated="True">
     <Grid>
         <Grid.RowDefinitions>
@@ -16,7 +16,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="#121822" BorderBrush="{StaticResource NtlBorderBrush}" BorderThickness="0,0,0,1">
+        <Border Grid.Row="0" Background="{DynamicResource NtlNavigationBrush}" BorderBrush="{DynamicResource NtlBorderBrush}" BorderThickness="0,0,0,1">
             <Grid Margin="22,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -26,7 +26,7 @@
                     <Image Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" Width="36" Height="36" Margin="0,0,12,0" />
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Text="NanoTwitchLeafs 4" FontSize="20" FontWeight="SemiBold" />
-                        <TextBlock Text="{x:Static p:Resources.Window_Main_LayoutPreview_Subtitle}" Foreground="{StaticResource NtlMutedTextBrush}" FontSize="12" />
+                        <TextBlock Text="{x:Static p:Resources.Window_Main_LayoutPreview_Subtitle}" Foreground="{DynamicResource NtlMutedTextBrush}" FontSize="12" />
                     </StackPanel>
                 </StackPanel>
                 <Border Grid.Column="1" Background="#3C2A65" CornerRadius="12" Padding="12,5" VerticalAlignment="Center">
@@ -35,12 +35,30 @@
             </Grid>
         </Border>
 
-        <Grid Grid.Row="1" Margin="18">
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="430" />
+                <ColumnDefinition Width="220" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-        <TabControl x:Name="settings_TabControl" HorizontalAlignment="Stretch" Grid.Column="1" Margin="14,0,0,54">
+            <Border Grid.Column="0" Background="{DynamicResource NtlNavigationBrush}" BorderBrush="{DynamicResource NtlBorderBrush}" BorderThickness="0,0,1,0">
+                <DockPanel Margin="0,12">
+                    <StackPanel DockPanel.Dock="Bottom" Margin="0,8">
+                        <Separator Margin="18,8" />
+                        <Button Content="{x:Static p:Resources.Window_Main_Tabs_Chat_Button_Info}" Style="{StaticResource NtlNavigationButtonStyle}" Click="AppInfo_Button_Click" />
+                    </StackPanel>
+                    <StackPanel>
+                        <Button x:Name="chatNavigation_Button" Tag="-1" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
+                        <Button Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}" Tag="0" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
+                        <Button Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Title}" Tag="1" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
+                        <Button Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_Title}" Tag="3" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
+                        <Button Content="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Title}" Tag="4" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
+                        <Button Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}" Tag="5" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
+                        <Button Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Tag="2" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+        <TabControl x:Name="settings_TabControl" HorizontalAlignment="Stretch" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed">
+            <TabControl.Resources><Style TargetType="TabItem"><Setter Property="Visibility" Value="Collapsed" /></Style></TabControl.Resources>
             <TabItem x:Name="botLogin_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}" Margin="0,0,-1,0">
                 <Grid Background="{StaticResource NtlSurfaceBrush}">
                     <Grid x:Name="DefaultTwitchLogin_Grid" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="323" Margin="0,10,0,0">
@@ -112,7 +130,25 @@
                     <xctk:ColorPicker x:Name="ColorPicker" Margin="11,174,0,0" IsEnabled="True" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top" Width="257" />
                     <CheckBox x:Name="autoIPRefresh_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh}" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" Click="autoIPRefresh_Checkbox_Click" Padding="4,-1,5,0" />
                     <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Language}" HorizontalAlignment="Left" Margin="5,268,0,0" VerticalAlignment="Top" Padding="5,0" />
-                    <ComboBox x:Name="language_Combobox" Margin="10,291,10,0" VerticalAlignment="Top" SelectionChanged="language_Combobox_SelectionChanged" />
+                    <ComboBox x:Name="language_Combobox" Margin="10,291,0,0" Width="280" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="language_Combobox_SelectionChanged" />
+                    <Border Style="{StaticResource NtlCardStyle}" HorizontalAlignment="Right" VerticalAlignment="Top" Width="360" Margin="0,20,20,0">
+                        <StackPanel>
+                            <TextBlock x:Name="appearanceHeading_TextBlock" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,14" />
+                            <TextBlock x:Name="themeLabel_TextBlock" Margin="0,0,0,5" />
+                            <ComboBox x:Name="theme_ComboBox" SelectionChanged="Theme_ComboBox_SelectionChanged" Margin="0,0,0,14">
+                                <ComboBoxItem x:Name="themeLight_Item" Tag="Light" />
+                                <ComboBoxItem x:Name="themeDark_Item" Tag="Dark" />
+                                <ComboBoxItem x:Name="themeSystem_Item" Tag="System" />
+                            </ComboBox>
+                            <TextBlock x:Name="accentLabel_TextBlock" Margin="0,0,0,5" />
+                            <ComboBox x:Name="accent_ComboBox" SelectionChanged="Accent_ComboBox_SelectionChanged">
+                                <ComboBoxItem Content="Twitch Purple" Tag="TwitchPurple" />
+                                <ComboBoxItem Content="Nanoleaf Green" Tag="NanoleafGreen" />
+                                <ComboBoxItem Content="Windows Blue" Tag="WindowsBlue" />
+                                <ComboBoxItem Content="Coral" Tag="Coral" />
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
                 </Grid>
             </TabItem>
             <TabItem x:Name="Streamlabs_Tabitem"  Header="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_Title}">
@@ -162,7 +198,7 @@
                 </ScrollViewer>
             </TabItem>
         </TabControl>
-        <TabControl x:Name="chatconsole_TabControl" Margin="0" SelectionChanged="ChatConsole_TabControl_SelectionChanged">
+        <TabControl x:Name="chatconsole_TabControl" Grid.Column="1" Margin="20,20,20,76" SelectionChanged="ChatConsole_TabControl_SelectionChanged">
             <TabItem x:Name="chat_Tabitem" Header="{x:Static p:Resources.Window_Main_Tabs_Chat_Title}">
                 <Grid Background="{StaticResource NtlSurfaceBrush}" Margin="0">
                     <Grid.ColumnDefinitions>
@@ -179,8 +215,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="Save_Button" Content="{x:Static p:Resources.Window_Main_Button_Save}" HorizontalAlignment="Left" Margin="14,0,0,4" Width="240" Click="Save_Button_Click" Grid.Column="1" HorizontalContentAlignment="Center" Height="40" VerticalAlignment="Bottom" Background="{StaticResource NtlAccentBrush}" BorderBrush="{StaticResource NtlAccentBrush}" />
-        <Button x:Name="appInfo_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Chat_Button_Info}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,0,4" Width="150" Click="AppInfo_Button_Click" Height="40" VerticalAlignment="Bottom" />
+        <Button x:Name="Save_Button" Content="{x:Static p:Resources.Window_Main_Button_Save}" HorizontalAlignment="Right" Margin="0,0,20,20" Width="220" Click="Save_Button_Click" Grid.Column="1" HorizontalContentAlignment="Center" Height="42" VerticalAlignment="Bottom" Style="{StaticResource NtlPrimaryButtonStyle}" />
         </Grid>
     </Grid>
 </Window>

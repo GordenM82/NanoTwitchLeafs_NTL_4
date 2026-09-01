@@ -25,9 +25,8 @@ namespace NanoTwitchLeafs
 		/// <returns></returns>
 		public static string RandomDataBase64Url(uint length)
 		{
-			RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
 			byte[] bytes = new byte[length];
-			rng.GetBytes(bytes);
+			RandomNumberGenerator.Fill(bytes);
 			return Base64UrlEncodeNoPadding(bytes);
 		}
 

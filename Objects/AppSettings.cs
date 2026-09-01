@@ -22,6 +22,8 @@ namespace NanoTwitchLeafs.Objects
 			Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "de"
 				? "de-DE"
 				: "en-US";
+			Theme = "Light";
+			AccentColor = "TwitchPurple";
 			StreamlabsInformation = new StreamlabsInformation();
 			StreamlabsClientId = "";
 			StreamlabsClientSecret = "";
@@ -171,6 +173,18 @@ namespace NanoTwitchLeafs.Objects
 		{
 			get { return Get(() => Language); }
 			set { Set(() => Language, value); }
+		}
+
+		public string Theme
+		{
+			get { return Get(() => Theme); }
+			set { Set(() => Theme, value); }
+		}
+
+		public string AccentColor
+		{
+			get { return Get(() => AccentColor); }
+			set { Set(() => AccentColor, value); }
 		}
 
 		public string HypeRateId

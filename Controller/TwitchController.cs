@@ -173,7 +173,7 @@ namespace NanoTwitchLeafs.Controller
 			}
 		}
 
-		private void Client_OnConnected(object sender, OnConnectedArgs e)
+		private async void Client_OnConnected(object sender, OnConnectedArgs e)
 		{
 			_firstTryToConnectBotAccount = true;
 			_logger.Debug($"Connected to {e.AutoJoinChannel} with Account {e.BotUsername}.");
@@ -204,7 +204,7 @@ namespace NanoTwitchLeafs.Controller
 				//TwitchPubSubController.Connect(_appSettings);
 			}
 
-			EventSubController.StartAsync();
+			await EventSubController.StartAsync();
 		}
 
 		private void BroadCasterClient_OnConnected(object sender, OnConnectedArgs e)
