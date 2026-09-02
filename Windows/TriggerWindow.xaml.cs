@@ -27,6 +27,7 @@ namespace NanoTwitchLeafs.Windows
         private readonly HypeRateIOController _hypeRateIoController;
         private readonly TriggerLogicController _triggerLogicController;
         public readonly TwitchEventSubController _twitchEventSubController;
+        private bool _isLoadingTriggers;
 
         public TriggerWindow(CommandRepository commandRepository, NanoController nanoController, AppSettings appSettings, AppSettingsController appSettingsController, StreamlabsController streamlabsController, HypeRateIOController hypeRateIoController, TriggerLogicController triggerLogicController, TwitchEventSubController twitchEventSubController = null)
         {
@@ -59,8 +60,10 @@ namespace NanoTwitchLeafs.Windows
 
         private void SafeLoadTrigger()
         {
+            _isLoadingTriggers = true;
             try { LoadTrigger(); }
             catch (Exception ex) { ShowError("Die Trigger konnten nicht geladen werden.", "The triggers could not be loaded.", ex); }
+            finally { _isLoadingTriggers = false; }
         }
 
         private void LoadTrigger()
@@ -158,6 +161,7 @@ namespace NanoTwitchLeafs.Windows
                     Cooldown = triggerSetting.Cooldown.ToString(),
                     VipSubMod = vipsubmod,
                     TargetDevices = targetDevices,
+                    DuplicateText = IsGerman ? "Duplizieren" : "Duplicate",
                 };
 
                 if (triggerListObject.Trigger != TriggerTypeEnum.Command.ToString() && triggerListObject.Trigger != TriggerTypeEnum.Keyword.ToString())
@@ -185,7 +189,7 @@ namespace NanoTwitchLeafs.Windows
 
         private void OnOffSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (!IsLoaded || sender is not Slider slider || !TryGetTrigger(slider, out TriggerSetting triggerSetting)) return;
+            if (_isLoadingTriggers || !IsLoaded || sender is not Slider slider || !TryGetTrigger(slider, out TriggerSetting triggerSetting)) return;
             try
             {
             bool IsActive;
@@ -235,12 +239,18 @@ namespace NanoTwitchLeafs.Windows
             if (sender is FrameworkElement element && TryGetTrigger(element, out TriggerSetting triggerSetting)) OpenTriggerDetails(triggerSetting);
         }
 
+        private void DuplicateButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is FrameworkElement element && TryGetTrigger(element, out TriggerSetting triggerSetting))
+                OpenTriggerDetails(triggerSetting, true);
+        }
+
         private void NewCmd_Button_Click(object sender, RoutedEventArgs e)
         {
             OpenTriggerDetails();
         }
 
-        private async void OpenTriggerDetails(TriggerSetting triggerSetting = null)
+        private async void OpenTriggerDetails(TriggerSetting triggerSetting = null, bool saveAsCopy = false)
         {
             try
             {
@@ -259,7 +269,7 @@ namespace NanoTwitchLeafs.Windows
                 return;
             }
 
-            Window triggerDetailWindow = new TriggerDetailWindow(_appSettings, _appSettingsController, _commandRepository, effectList, _streamlabsController, _hypeRateIoController, triggerSetting, _twitchEventSubController)
+            Window triggerDetailWindow = new TriggerDetailWindow(_appSettings, _appSettingsController, _commandRepository, effectList, _streamlabsController, _hypeRateIoController, triggerSetting, _twitchEventSubController, saveAsCopy)
             {
                 Owner = this
             };
@@ -296,24 +306,27 @@ namespace NanoTwitchLeafs.Windows
                 if (imported == null || imported.Count == 0 || imported.Any(item => item == null || string.IsNullOrWhiteSpace(item.Trigger)))
                     throw new InvalidDataException(IsGerman ? "Die Datei enthält keine gültigen Trigger." : "The file contains no valid triggers.");
 
-                if (File.Exists(Constants.TRIGGERS_PATH))
-                    File.Copy(Constants.TRIGGERS_PATH, Constants.TRIGGERS_PATH + $".before-import-{DateTime.Now:yyyyMMdd-HHmmss}.backup", false);
-
                 MessageBoxResult mode = MessageBox.Show(
                     IsGerman ? "Ja: mit vorhandenen Triggern zusammenführen\nNein: vorhandene Trigger ersetzen" : "Yes: merge with existing triggers\nNo: replace existing triggers",
                     IsGerman ? "Trigger importieren" : "Import triggers", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
                 if (mode == MessageBoxResult.Cancel) return;
 
-                if (mode == MessageBoxResult.No) _commandRepository.ClearAll();
+                if (File.Exists(Constants.TRIGGERS_PATH))
+                    File.Copy(Constants.TRIGGERS_PATH, Constants.TRIGGERS_PATH + $".before-import-{DateTime.Now:yyyyMMdd-HHmmss}.backup", false);
+
+                List<TriggerSetting> replacement = mode == MessageBoxResult.Yes
+                    ? _commandRepository.GetList()
+                    : new List<TriggerSetting>();
                 foreach (TriggerSetting item in imported)
                 {
-                    TriggerSetting existing = mode == MessageBoxResult.Yes ? _commandRepository.GetList().FirstOrDefault(current =>
+                    TriggerSetting existing = mode == MessageBoxResult.Yes ? replacement.FirstOrDefault(current =>
                         string.Equals(current.Trigger, item.Trigger, StringComparison.OrdinalIgnoreCase) &&
                         string.Equals(current.CMD ?? "", item.CMD ?? "", StringComparison.OrdinalIgnoreCase) &&
                         string.Equals(current.ChannelPointsGuid ?? "", item.ChannelPointsGuid ?? "", StringComparison.OrdinalIgnoreCase)) : null;
-                    if (existing != null) { item.ID = existing.ID; _commandRepository.Update(item); }
-                    else { item.ID = 0; _commandRepository.Insert(item); }
+                    if (existing != null) replacement[replacement.IndexOf(existing)] = item;
+                    else replacement.Add(item);
                 }
+                _commandRepository.ReplaceAll(replacement);
                 SafeLoadTrigger();
                 MessageBox.Show(IsGerman ? $"{imported.Count} Trigger wurden importiert." : $"{imported.Count} triggers were imported.");
             }
@@ -324,7 +337,7 @@ namespace NanoTwitchLeafs.Windows
         {
             if (MessageBox.Show(IsGerman ? "Wirklich alle Trigger löschen?" : "Delete all triggers?",
                 IsGerman ? "Trigger leeren" : "Clear triggers", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
-            try { _commandRepository.ClearAll(); SafeLoadTrigger(); }
+            try { _commandRepository.ReplaceAll(Array.Empty<TriggerSetting>()); SafeLoadTrigger(); }
             catch (Exception ex) { ShowError("Die Trigger konnten nicht gelöscht werden.", "The triggers could not be deleted.", ex); }
         }
 

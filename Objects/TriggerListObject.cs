@@ -18,5 +18,6 @@ namespace NanoTwitchLeafs.Objects
         public string Cooldown { get; set; }
         public string VipSubMod { get; set; }
         public string TargetDevices { get; set; }
+        public string DuplicateText { get; set; }
     }
 }

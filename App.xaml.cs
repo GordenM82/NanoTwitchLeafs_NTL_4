@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Threading;
 using log4net.Config;
 
 namespace NanoTwitchLeafs
@@ -15,6 +16,7 @@ namespace NanoTwitchLeafs
     {
         private async void App_Startup(object sender, StartupEventArgs e)
         {
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
 #if NTL4_PRIVATE_MIGRATION
             CopyStableDataForFirstNtl4Start();
 #endif
@@ -58,6 +60,21 @@ namespace NanoTwitchLeafs
 
                 Shutdown(-1);
             }
+        }
+
+        private void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            var logger = LogManager.GetLogger(typeof(App));
+            logger.Error("Unhandled WPF user-interface exception.", e.Exception);
+            CultureInfo culture = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "de"
+                ? CultureInfo.GetCultureInfo("de-DE")
+                : CultureInfo.GetCultureInfo("en-US");
+            MessageBox.Show(
+                (culture.Name == "de-DE" ? "Ein Oberflächenfehler wurde abgefangen. NanoTwitchLeafs bleibt geöffnet. Details stehen in der Logdatei:" : "A user-interface error was caught. NanoTwitchLeafs remains open. Details are available in the log file:") +
+                Environment.NewLine + Constants.LOG_PATH,
+                global::NanoTwitchLeafs.Properties.Resources.ResourceManager.GetString("General_MessageBox_Error_Title", culture),
+                MessageBoxButton.OK, MessageBoxImage.Error);
+            e.Handled = true;
         }
 
 #if NTL4_PRIVATE_MIGRATION

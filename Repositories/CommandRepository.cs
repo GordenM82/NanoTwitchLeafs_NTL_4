@@ -119,5 +119,33 @@ namespace NanoTwitchLeafs.Repositories
 
             _cachedCommands = new List<TriggerSetting>();
         }
+
+        public void ReplaceAll(IEnumerable<TriggerSetting> triggers)
+        {
+            if (triggers == null) throw new ArgumentNullException(nameof(triggers));
+            List<TriggerSetting> replacement = triggers.Where(item => item != null).ToList();
+
+            if (_dbController is JsonTriggerController jsonController)
+            {
+                jsonController.ReplaceAll(replacement);
+                _cachedCommands = _dbController.Load();
+                return;
+            }
+
+            List<TriggerSetting> previous = GetList();
+            try
+            {
+                _dbController.ClearTable();
+                foreach (TriggerSetting trigger in replacement) _dbController.Save(trigger);
+                _cachedCommands = _dbController.Load();
+            }
+            catch
+            {
+                _dbController.ClearTable();
+                foreach (TriggerSetting trigger in previous) _dbController.Save(trigger);
+                _cachedCommands = previous;
+                throw;
+            }
+        }
     }
 }

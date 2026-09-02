@@ -13,7 +13,7 @@
                 <Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListViewItem"><Border x:Name="row" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" Padding="2"><ContentPresenter/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="row" Property="BorderBrush" Value="{DynamicResource NtlAccentBrush}"/></Trigger><Trigger Property="IsSelected" Value="True"><Setter TargetName="row" Property="Background" Value="{DynamicResource NtlAccentSurfaceBrush}"/><Setter TargetName="row" Property="BorderBrush" Value="{DynamicResource NtlAccentBrush}"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
+                <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListViewItem"><Border x:Name="row" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" Padding="2"><GridViewRowPresenter Content="{TemplateBinding Content}" Columns="{Binding View.Columns, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" VerticalAlignment="Center"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="row" Property="BorderBrush" Value="{DynamicResource NtlAccentBrush}"/></Trigger><Trigger Property="IsSelected" Value="True"><Setter TargetName="row" Property="Background" Value="{DynamicResource NtlAccentSurfaceBrush}"/><Setter TargetName="row" Property="BorderBrush" Value="{DynamicResource NtlAccentBrush}"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
                 <Style.Triggers>
                     <Trigger Property="ItemsControl.AlternationIndex"  Value="0">
                         <Setter Property="Background" Value="{DynamicResource NtlSurfaceBrush}" />
@@ -55,6 +55,13 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Width="48" HorizontalAlignment="Center" Content="{x:Static p:Resources.Window_Trigger_Button_Test}" Click="TestButton_Click" HorizontalContentAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="" Width="92">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Width="78" HorizontalAlignment="Center" Content="{Binding DuplicateText}" Click="DuplicateButton_Click" HorizontalContentAlignment="Center" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

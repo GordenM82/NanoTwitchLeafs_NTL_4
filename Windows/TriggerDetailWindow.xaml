@@ -72,7 +72,7 @@
                 </ScrollViewer>
             </DockPanel>
         </GroupBox>
-        <Button x:Name="Save_Button" Content="{x:Static p:Resources.Window_Responses_Button_Save}" Margin="0,0,0,15" Height="25" VerticalAlignment="Bottom" Click="Save_Button_Click" HorizontalAlignment="Center" Padding="5,1" />
+        <Button x:Name="Save_Button" Content="{x:Static p:Resources.Window_Responses_Button_Save}" Margin="0,0,0,12" MinHeight="38" MinWidth="170" VerticalAlignment="Bottom" Click="Save_Button_Click" HorizontalAlignment="Center" />
         <TextBox x:Name="Volume_Textbox" Height="24" Margin="0,327,15,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsEnabled="False" HorizontalAlignment="Right" Width="42" />
         <Label Content="{x:Static p:Resources.Window_TriggerDetail_Label_Volume}" Margin="0,299,5,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Right" Width="75" />
         <Grid x:Name="Channelpoints_Grid" HorizontalAlignment="Center" Height="63" Margin="0,227,0,0" VerticalAlignment="Top" Background="{DynamicResource NtlSurfaceRaisedBrush}" Visibility="Hidden" Width="545">
