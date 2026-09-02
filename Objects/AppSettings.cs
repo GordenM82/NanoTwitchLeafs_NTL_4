@@ -19,9 +19,7 @@ namespace NanoTwitchLeafs.Objects
 			BlacklistEnabled = false;
 			Blacklist = new List<string>();
 			AutoIpRefresh = false;
-			Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "de"
-				? "de-DE"
-				: "en-US";
+			Language = GetDefaultLanguage(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
 			Theme = "Light";
 			AccentColor = "TwitchPurple";
 			StreamlabsInformation = new StreamlabsInformation();
@@ -29,6 +27,17 @@ namespace NanoTwitchLeafs.Objects
 			StreamlabsClientSecret = "";
 			HypeRateApiKey = "";
 		}
+
+		private static string GetDefaultLanguage(string language) => language?.ToLowerInvariant() switch
+		{
+			"de" => "de-DE",
+			"fr" => "fr-FR",
+			"pt" => "pt-BR",
+			"sk" => "sk-SK",
+			"da" => "da-DK",
+			"ru" => "ru-RU",
+			_ => "en-US"
+		};
 
 
 		public string StreamlabsClientId

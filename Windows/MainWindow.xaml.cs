@@ -422,44 +422,22 @@ namespace NanoTwitchLeafs.Windows
 			try
 			{
 				// Fill Language Combobox with available Languages
-				var languages = new List<string>
-			{
-				"Deutsch",
-				"English",
-                // "French",
-                // "Portuguese",
-                // "Slovak"
-            };
+				var languages = new List<ComboBoxItem>
+				{
+					new ComboBoxItem { Content = "Deutsch", Tag = "de-DE" },
+					new ComboBoxItem { Content = "English", Tag = "en-US" },
+					new ComboBoxItem { Content = "Français", Tag = "fr-FR" },
+					new ComboBoxItem { Content = "Português (Brasil)", Tag = "pt-BR" },
+					new ComboBoxItem { Content = "Slovenčina", Tag = "sk-SK" },
+					new ComboBoxItem { Content = "Dansk", Tag = "da-DK" },
+					new ComboBoxItem { Content = "Русский", Tag = "ru-RU" }
+				};
 
 					language_Combobox.ItemsSource = languages;
 					InitializeAppearanceControls();
-
-				switch (_appSettings.Language)
-				{
-					case "de-DE":
-						language_Combobox.SelectedIndex = 0;
-						break;
-
-					case "en-US":
-						language_Combobox.SelectedIndex = 1;
-						break;
-
-					// case "fr-FR":
-					//     language_Combobox.SelectedIndex = 2;
-					//     break;
-					//
-					// case "pt-BR":
-					//     language_Combobox.SelectedIndex = 3;
-					//     break;
-					//
-					// case "sk-SK":
-					//     language_Combobox.SelectedIndex = 4;
-					//     break;
-
-					default:
-						language_Combobox.SelectedIndex = 1;
-						break;
-				}
+				language_Combobox.SelectedItem = languages.FirstOrDefault(item =>
+					string.Equals(item.Tag?.ToString(), _appSettings.Language, StringComparison.OrdinalIgnoreCase))
+					?? languages[1];
 
 				twitchChat_ListBox.ItemsSource = _twitchChat;
 				console_ListBox.ItemsSource = Console;
@@ -616,36 +594,9 @@ namespace NanoTwitchLeafs.Windows
 
 		private void language_Combobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			ComboBox comboBox = (ComboBox)sender;
-			string selectedLanguage = comboBox.SelectedItem.ToString();
-			string selectedLanguageCode;
-
-			switch (selectedLanguage)
-			{
-				case "English":
-					selectedLanguageCode = "en-US";
-					break;
-
-				case "Deutsch":
-					selectedLanguageCode = "de-DE";
-					break;
-
-				// case "French":
-				//     selectedLanguageCode = "fr-FR";
-				//     break;
-				//
-				// case "Portuguese":
-				//     selectedLanguageCode = "pt-BR";
-				//     break;
-				//
-				// case "Slovak":
-				//     selectedLanguageCode = "sk-SK";
-				//     break;
-
-				default:
-					selectedLanguageCode = "en-US";
-					break;
-			}
+			if (sender is not ComboBox comboBox || comboBox.SelectedItem is not ComboBoxItem selectedItem ||
+				string.IsNullOrWhiteSpace(selectedItem.Tag?.ToString())) return;
+			string selectedLanguageCode = selectedItem.Tag.ToString();
 
 			if (selectedLanguageCode == _appSettings.Language)
 			{

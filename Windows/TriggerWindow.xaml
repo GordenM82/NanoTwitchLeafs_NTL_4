@@ -10,6 +10,16 @@
     <Grid>
         <Grid.RowDefinitions><RowDefinition Height="54"/><RowDefinition Height="*"/><RowDefinition Height="58"/></Grid.RowDefinitions>
         <Grid.Resources>
+            <Style x:Key="TriggerColumnHeaderStyle" TargetType="GridViewColumnHeader">
+                <Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}"/><Setter Property="Background" Value="{DynamicResource NtlSurfaceRaisedBrush}"/><Setter Property="BorderBrush" Value="{DynamicResource NtlBorderBrush}"/><Setter Property="BorderThickness" Value="0,0,1,1"/><Setter Property="Padding" Value="8,8"/>
+                <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="GridViewColumnHeader"><Border x:Name="header" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="header" Property="Background" Value="{DynamicResource NtlAccentSurfaceBrush}"/></Trigger><Trigger Property="IsPressed" Value="True"><Setter TargetName="header" Property="BorderBrush" Value="{DynamicResource NtlAccentBrush}"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
+            </Style>
+            <DataTemplate x:Key="SoundCell"><TextBlock Text="{Binding Sound}" TextAlignment="Center" HorizontalAlignment="Stretch"/></DataTemplate>
+            <DataTemplate x:Key="DurationCell"><TextBlock Text="{Binding Duration}" TextAlignment="Center" HorizontalAlignment="Stretch"/></DataTemplate>
+            <DataTemplate x:Key="BrightnessCell"><TextBlock Text="{Binding Brightness}" TextAlignment="Center" HorizontalAlignment="Stretch"/></DataTemplate>
+            <DataTemplate x:Key="AmountCell"><TextBlock Text="{Binding Amount}" TextAlignment="Center" HorizontalAlignment="Stretch"/></DataTemplate>
+            <DataTemplate x:Key="CooldownCell"><TextBlock Text="{Binding Cooldown}" TextAlignment="Center" HorizontalAlignment="Stretch"/></DataTemplate>
+            <DataTemplate x:Key="TargetsCell"><TextBlock Text="{Binding TargetDevices}" TextAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"/></DataTemplate>
             <Style TargetType="ListViewItem">
                 <Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -29,7 +39,7 @@
         <Border Grid.Row="0" BorderBrush="{DynamicResource NtlBorderBrush}" BorderThickness="0,0,0,1" Margin="6,0"><StackPanel VerticalAlignment="Center"><TextBlock x:Name="triggerHeading_TextBlock" FontSize="20" FontWeight="SemiBold"/><TextBlock x:Name="triggerDescription_TextBlock" Foreground="{DynamicResource NtlMutedTextBrush}" FontSize="12"/></StackPanel></Border>
         <ListView Grid.Row="1" x:Name="Trigger_Listview" AlternationCount="2" Margin="6" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <ListView.View>
-                <GridView>
+                <GridView ColumnHeaderContainerStyle="{StaticResource TriggerColumnHeaderStyle}">
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_On}" Width="46">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -46,13 +56,13 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Sound}" Width="100" DisplayMemberBinding="{Binding Sound}" />
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Duration}" Width="80" DisplayMemberBinding="{Binding Duration}" />
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Brightness}" Width="80" DisplayMemberBinding="{Binding Brightness}" />
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Amount}" Width="60" DisplayMemberBinding="{Binding Amount}" />
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Cooldown}" Width="80" DisplayMemberBinding="{Binding Cooldown}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Sound}" Width="100" CellTemplate="{StaticResource SoundCell}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Duration}" Width="80" CellTemplate="{StaticResource DurationCell}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Brightness}" Width="80" CellTemplate="{StaticResource BrightnessCell}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Amount}" Width="60" CellTemplate="{StaticResource AmountCell}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Cooldown}" Width="80" CellTemplate="{StaticResource CooldownCell}" />
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Flags}" Width="130" DisplayMemberBinding="{Binding VipSubMod}" />
-                    <GridViewColumn x:Name="targetDevices_Column" Header="Zielgeräte" Width="140" DisplayMemberBinding="{Binding TargetDevices}" />
+                    <GridViewColumn x:Name="targetDevices_Column" Header="Zielgeräte" Width="140" CellTemplate="{StaticResource TargetsCell}" />
                     <GridViewColumn Header="" Width="48">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

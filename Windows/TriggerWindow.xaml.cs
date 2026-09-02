@@ -351,7 +351,10 @@ namespace NanoTwitchLeafs.Windows
 
         private void ClearCmd_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show(IsGerman ? "Wirklich alle Trigger löschen?" : "Delete all triggers?",
+            int triggerCount = _commandRepository.GetList().Count;
+            if (MessageBox.Show(IsGerman
+                    ? $"Wirklich alle {triggerCount} Trigger dauerhaft löschen?\n\nDieser Vorgang kann nicht rückgängig gemacht werden."
+                    : $"Permanently delete all {triggerCount} triggers?\n\nThis action cannot be undone.",
                 IsGerman ? "Trigger leeren" : "Clear triggers", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
             try { _commandRepository.ReplaceAll(Array.Empty<TriggerSetting>()); SafeLoadTrigger(); }
             catch (Exception ex) { ShowError("Die Trigger konnten nicht gelöscht werden.", "The triggers could not be deleted.", ex); }
