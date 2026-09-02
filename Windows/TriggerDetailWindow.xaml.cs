@@ -190,7 +190,7 @@ namespace NanoTwitchLeafs.Windows
 			}
 
 			Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Foreground = Brushes.Green));
-			Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Content = string.Format(Properties.Resources.Code_TriggerDetail_Label_CPGuid, guid)));
+			Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Text = string.Format(Properties.Resources.Code_TriggerDetail_Label_CPGuid, guid)));
 			_channelPointsGuid = guid;
 		}
 
@@ -286,7 +286,7 @@ namespace NanoTwitchLeafs.Windows
 			if (TriggerSetting.ChannelPointsGuid != null && TriggerSetting.ChannelPointsGuid != "{00000000-0000-0000-0000-000000000000}")
 			{
 				Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Foreground = Brushes.Green));
-				Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Content = string.Format(Properties.Resources.Code_TriggerDetail_Label_CPGuidSet, TriggerSetting.ChannelPointsGuid)));
+				Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Text = string.Format(Properties.Resources.Code_TriggerDetail_Label_CPGuidSet, TriggerSetting.ChannelPointsGuid)));
 			}
 
 			SetControlsEnabled();
