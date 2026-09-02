@@ -46,7 +46,7 @@ namespace NanoTwitchLeafs.Windows
 
 			Constants.SetCultureInfo(_appSettings.Language);
 			InitializeComponent();
-			if (_saveAsCopy) Title = string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase) ? "Trigger duplizieren" : "Duplicate trigger";
+			if (_saveAsCopy) Title = Text("Window_TriggerDetail_Duplicate_Title");
 			Closed += TriggerDetailWindow_Closed;
 			AllDevices_CheckBox.Content = Text("Window_TriggerDetail_TargetDevices_All");
 			DeviceGroup_Label.Content = Text("Window_TriggerDetail_TargetDevices_Group");
@@ -537,9 +537,7 @@ namespace NanoTwitchLeafs.Windows
 			{
 				_logger.Error("Trigger could not be saved.", exception);
 				MessageBox.Show(
-					string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase)
-						? "Der Trigger konnte nicht gespeichert werden. Die vorhandenen Trigger wurden nicht verändert."
-						: "The trigger could not be saved. Existing triggers were not changed.",
+					Text("Window_TriggerDetail_Save_Error"),
 					Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
@@ -882,9 +880,7 @@ namespace NanoTwitchLeafs.Windows
 		{
 			if (Viponly_Checkbox.IsEnabled != true)
 			{
-				Vipsubmod_Textbox.Text = string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase)
-					? "Rollenfilter sind nur für Befehle und Schlüsselwörter verfügbar."
-					: "Role filters are available for commands and keywords only.";
+				Vipsubmod_Textbox.Text = Text("Window_TriggerDetail_RoleFilters_Only");
 				return;
 			}
 			var titles = new List<string>();

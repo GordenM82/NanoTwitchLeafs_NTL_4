@@ -57,14 +57,13 @@ namespace NanoTwitchLeafs.Windows
             SafeLoadTrigger();
         }
 
-        private bool IsGerman => string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase);
-
         private static string Text(string key) => Properties.Resources.ResourceManager.GetString(key) ?? key;
 
-        private void ShowError(string germanMessage, string englishMessage, Exception exception = null)
+        private void ShowError(string resourceKey, Exception exception = null)
         {
-            if (exception != null) _logger.Error(IsGerman ? germanMessage : englishMessage, exception);
-            MessageBox.Show(IsGerman ? germanMessage : englishMessage,
+            string message = Text(resourceKey);
+            if (exception != null) _logger.Error(message, exception);
+            MessageBox.Show(message,
                 Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
@@ -72,7 +71,7 @@ namespace NanoTwitchLeafs.Windows
         {
             _isLoadingTriggers = true;
             try { LoadTrigger(); }
-            catch (Exception ex) { ShowError("Die Trigger konnten nicht geladen werden.", "The triggers could not be loaded.", ex); }
+            catch (Exception ex) { ShowError("Window_Trigger_Error_Load", ex); }
             finally { _isLoadingTriggers = false; }
         }
 
@@ -221,7 +220,7 @@ namespace NanoTwitchLeafs.Windows
             _commandRepository.Update(triggerSetting);
             _logger.Info($"Trigger with the ID {triggerSetting.ID} is now updated to IsActive: {IsActive}.");
             }
-            catch (Exception ex) { ShowError("Der Trigger konnte nicht geändert werden.", "The trigger could not be changed.", ex); SafeLoadTrigger(); }
+            catch (Exception ex) { ShowError("Window_Trigger_Error_Change", ex); SafeLoadTrigger(); }
         }
 
         private void OnOffSlider_PreviewMouseInput(object sender, MouseButtonEventArgs e) => _sliderChangeRequestedByUser = true;
@@ -245,7 +244,7 @@ namespace NanoTwitchLeafs.Windows
         {
             if (sender is not FrameworkElement element || !TryGetTrigger(element, out TriggerSetting triggerSetting)) return;
             try { _commandRepository.Delete(triggerSetting); SafeLoadTrigger(); }
-            catch (Exception ex) { ShowError("Der Trigger konnte nicht gelöscht werden.", "The trigger could not be deleted.", ex); }
+            catch (Exception ex) { ShowError("Window_Trigger_Error_Delete", ex); }
         }
 
 
@@ -253,7 +252,7 @@ namespace NanoTwitchLeafs.Windows
         {
             if (sender is not FrameworkElement element || !TryGetTrigger(element, out TriggerSetting triggerSetting)) return;
             try { _triggerLogicController.AddToQueue(new QueueObject(triggerSetting, "Test")); }
-            catch (Exception ex) { ShowError("Der Trigger konnte nicht getestet werden.", "The trigger could not be tested.", ex); }
+            catch (Exception ex) { ShowError("Window_Trigger_Error_Test", ex); }
         }
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
@@ -278,7 +277,7 @@ namespace NanoTwitchLeafs.Windows
             {
             if (_appSettings.NanoSettings?.NanoLeafDevices == null || _appSettings.NanoSettings.NanoLeafDevices.Count == 0)
             {
-                ShowError("Bitte zuerst ein Nanoleaf-Gerät verbinden.", "Please connect a Nanoleaf device first.");
+                ShowError("Window_Trigger_Error_ConnectDevice");
                 return;
             }
 
@@ -297,7 +296,7 @@ namespace NanoTwitchLeafs.Windows
             triggerDetailWindow.Closed += TriggerDetailWindow_Closed;
             triggerDetailWindow.Show();
             }
-            catch (Exception ex) { ShowError("Die Trigger-Details konnten nicht geöffnet werden.", "The trigger details could not be opened.", ex); }
+            catch (Exception ex) { ShowError("Window_Trigger_Error_OpenDetails", ex); }
         }
 
         private void TriggerDetailWindow_Closed(object sender, EventArgs e)
@@ -312,9 +311,9 @@ namespace NanoTwitchLeafs.Windows
                 var dialog = new SaveFileDialog { Filter = "JSON (*.json)|*.json", FileName = $"NanoTwitchLeafs-triggers-{DateTime.Now:yyyy-MM-dd}.json" };
                 if (dialog.ShowDialog(Window.GetWindow(Trigger_Listview)) != true) return;
                 File.WriteAllText(dialog.FileName, JsonConvert.SerializeObject(_commandRepository.GetList(), Formatting.Indented));
-                MessageBox.Show(IsGerman ? "Trigger wurden exportiert." : "Triggers were exported.");
+                MessageBox.Show(Text("Window_Trigger_Export_Success"));
             }
-            catch (Exception ex) { ShowError("Die Trigger konnten nicht exportiert werden.", "The triggers could not be exported.", ex); }
+            catch (Exception ex) { ShowError("Window_Trigger_Error_Export", ex); }
         }
 
         private void ImportCmd_Button_Click(object sender, RoutedEventArgs e)
@@ -325,11 +324,11 @@ namespace NanoTwitchLeafs.Windows
                 if (dialog.ShowDialog(Window.GetWindow(Trigger_Listview)) != true) return;
                 var imported = JsonConvert.DeserializeObject<List<TriggerSetting>>(File.ReadAllText(dialog.FileName));
                 if (imported == null || imported.Count == 0 || imported.Any(item => item == null || string.IsNullOrWhiteSpace(item.Trigger)))
-                    throw new InvalidDataException(IsGerman ? "Die Datei enthält keine gültigen Trigger." : "The file contains no valid triggers.");
+                    throw new InvalidDataException(Text("Window_Trigger_Import_Invalid"));
 
                 MessageBoxResult mode = MessageBox.Show(
-                    IsGerman ? "Ja: mit vorhandenen Triggern zusammenführen\nNein: vorhandene Trigger ersetzen" : "Yes: merge with existing triggers\nNo: replace existing triggers",
-                    IsGerman ? "Trigger importieren" : "Import triggers", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                    Text("Window_Trigger_Import_Mode"), Text("Window_Trigger_Import_Title"),
+                    MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
                 if (mode == MessageBoxResult.Cancel) return;
 
                 if (File.Exists(Constants.TRIGGERS_PATH))
@@ -349,20 +348,18 @@ namespace NanoTwitchLeafs.Windows
                 }
                 _commandRepository.ReplaceAll(replacement);
                 SafeLoadTrigger();
-                MessageBox.Show(IsGerman ? $"{imported.Count} Trigger wurden importiert." : $"{imported.Count} triggers were imported.");
+                MessageBox.Show(string.Format(Text("Window_Trigger_Import_Success"), imported.Count));
             }
-            catch (Exception ex) { ShowError("Die Trigger konnten nicht importiert werden.", "The triggers could not be imported.", ex); }
+            catch (Exception ex) { ShowError("Window_Trigger_Error_Import", ex); }
         }
 
         private void ClearCmd_Button_Click(object sender, RoutedEventArgs e)
         {
             int triggerCount = _commandRepository.GetList().Count;
-            if (MessageBox.Show(IsGerman
-                    ? $"Wirklich alle {triggerCount} Trigger dauerhaft löschen?\n\nDieser Vorgang kann nicht rückgängig gemacht werden."
-                    : $"Permanently delete all {triggerCount} triggers?\n\nThis action cannot be undone.",
-                IsGerman ? "Trigger leeren" : "Clear triggers", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+            if (MessageBox.Show(string.Format(Text("Window_Trigger_Clear_Confirm"), triggerCount),
+                Text("Window_Trigger_Clear_Title"), MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
             try { _commandRepository.ReplaceAll(Array.Empty<TriggerSetting>()); SafeLoadTrigger(); }
-            catch (Exception ex) { ShowError("Die Trigger konnten nicht gelöscht werden.", "The triggers could not be deleted.", ex); }
+            catch (Exception ex) { ShowError("Window_Trigger_Error_Clear", ex); }
         }
 
     }

@@ -425,16 +425,16 @@ namespace NanoTwitchLeafs.Windows
 				var languages = new List<ComboBoxItem>
 				{
 					new ComboBoxItem { Content = "Deutsch", Tag = "de-DE" },
-					new ComboBoxItem { Content = "English", Tag = "en-US" },
-					new ComboBoxItem { Content = "Dansk", Tag = "da-DK" },
-					new ComboBoxItem { Content = "Español", Tag = "es-ES" },
-					new ComboBoxItem { Content = "Français", Tag = "fr-FR" },
-					new ComboBoxItem { Content = "Italiano", Tag = "it-IT" },
-					new ComboBoxItem { Content = "Nederlands", Tag = "nl-NL" },
-					new ComboBoxItem { Content = "Polski", Tag = "pl-PL" },
-					new ComboBoxItem { Content = "Português (Brasil)", Tag = "pt-BR" },
-					new ComboBoxItem { Content = "Slovenčina", Tag = "sk-SK" },
-					new ComboBoxItem { Content = "Русский", Tag = "ru-RU" }
+					new ComboBoxItem { Content = "English – Englisch", Tag = "en-US" },
+					new ComboBoxItem { Content = "Dansk – Dänisch", Tag = "da-DK" },
+					new ComboBoxItem { Content = "Español – Spanisch", Tag = "es-ES" },
+					new ComboBoxItem { Content = "Français – Französisch", Tag = "fr-FR" },
+					new ComboBoxItem { Content = "Italiano – Italienisch", Tag = "it-IT" },
+					new ComboBoxItem { Content = "Nederlands – Niederländisch", Tag = "nl-NL" },
+					new ComboBoxItem { Content = "Polski – Polnisch", Tag = "pl-PL" },
+					new ComboBoxItem { Content = "Português (Brasil) – Portugiesisch", Tag = "pt-BR" },
+					new ComboBoxItem { Content = "Slovenčina – Slowakisch", Tag = "sk-SK" },
+					new ComboBoxItem { Content = "Русский – Russisch", Tag = "ru-RU" }
 				};
 
 					language_Combobox.ItemsSource = languages;
@@ -990,7 +990,7 @@ namespace NanoTwitchLeafs.Windows
 			catch (Exception ex)
 			{
 				_logger.Error("Trigger manager could not be opened.", ex);
-				MessageBox.Show(string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase) ? "Die Triggerverwaltung konnte nicht geöffnet werden." : "The trigger manager could not be opened.", Properties.Resources.General_MessageBox_Error_Title);
+				MessageBox.Show(Properties.Resources.ResourceManager.GetString("Window_Main_TriggerManager_Open_Error"), Properties.Resources.General_MessageBox_Error_Title);
 			}
 		}
 
