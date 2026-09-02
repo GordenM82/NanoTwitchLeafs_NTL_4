@@ -74,7 +74,7 @@
     <value>Skaber:</value>
   </data>
   <data name="Window_AppInfo_Button_Feedback" xml:space="preserve">
-    <value>Send Feedback</value>
+    <value>Send feedback</value>
   </data>
   <data name="General_MessageBox_Error_Title" xml:space="preserve">
     <value>Fejl!</value>
@@ -216,7 +216,7 @@ Vi holder øje med dig ... Kappa!</value>
     <value>Altiver Chat svar</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Checkbox_Whisper" xml:space="preserve">
-    <value>Whisper Mode</value>
+    <value>Hvisketilstand</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Label_Chat" xml:space="preserve">
     <value>Chat:</value>
@@ -476,7 +476,7 @@ Dette erstattes med Time in Seconds - hvor længe effekten ændres på Nanoleafs
     <value>Aktiver Trigger</value>
   </data>
   <data name="Window_TriggerDetail_Label_TriggerType" xml:space="preserve">
-    <value>Trigger Type</value>
+    <value>Udløsertype</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_Command" xml:space="preserve">
     <value>Kommando</value>
@@ -1128,7 +1128,7 @@ De oprindelige data blev ikke ændret. Se loggen for detaljer.
   </data>
   <data name="Code_Main_MessageBox_TriggerMigration_Title" xml:space="preserve">
     <value>
-NanoTwitchLeafs 4 – Trigger import
+NanoTwitchLeafs 4 – Import af udløsere
 </value>
   </data>
   <data name="Code_Update_MessageBox_Disabled" xml:space="preserve">
@@ -1459,4 +1459,5 @@ Importer
     <value>
 Eksporter</value>
   </data>
+  <data name="Window_Main_Navigation_Chat" xml:space="preserve"><value>Chat / Konsol</value></data><data name="Window_Main_Navigation_Triggers" xml:space="preserve"><value>Udløsere</value></data><data name="Window_Main_Navigation_Integrations" xml:space="preserve"><value>Integrationer</value></data><data name="Window_Main_Appearance_Heading" xml:space="preserve"><value>Udseende</value></data><data name="Window_Main_Appearance_Theme" xml:space="preserve"><value>Tema</value></data><data name="Window_Main_Appearance_Accent" xml:space="preserve"><value>Accentfarve</value></data><data name="Window_Main_Appearance_Light" xml:space="preserve"><value>Lys</value></data><data name="Window_Main_Appearance_Dark" xml:space="preserve"><value>Mørk</value></data><data name="Window_Main_Appearance_System" xml:space="preserve"><value>System</value></data>
 </root>

@@ -1389,4 +1389,5 @@ Importovať
     <value>
 Exportovať</value>
   </data>
+  <data name="Window_Main_Navigation_Chat" xml:space="preserve"><value>Chat / Konzola</value></data><data name="Window_Main_Navigation_Triggers" xml:space="preserve"><value>Spúšťače</value></data><data name="Window_Main_Navigation_Integrations" xml:space="preserve"><value>Integrácie</value></data><data name="Window_Main_Appearance_Heading" xml:space="preserve"><value>Vzhľad</value></data><data name="Window_Main_Appearance_Theme" xml:space="preserve"><value>Motív</value></data><data name="Window_Main_Appearance_Accent" xml:space="preserve"><value>Farba zvýraznenia</value></data><data name="Window_Main_Appearance_Light" xml:space="preserve"><value>Svetlý</value></data><data name="Window_Main_Appearance_Dark" xml:space="preserve"><value>Tmavý</value></data><data name="Window_Main_Appearance_System" xml:space="preserve"><value>Systém</value></data>
 </root>

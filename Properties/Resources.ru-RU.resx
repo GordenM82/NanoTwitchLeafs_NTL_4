@@ -1211,4 +1211,5 @@ I tried to change myself but I couldn't :P</comment>
   <data name="Window_Trigger_Button_Export" xml:space="preserve">
     <value>Экспорт</value>
   </data>
+  <data name="Window_Main_Navigation_Chat" xml:space="preserve"><value>Чат / Консоль</value></data><data name="Window_Main_Navigation_Triggers" xml:space="preserve"><value>Триггеры</value></data><data name="Window_Main_Navigation_Integrations" xml:space="preserve"><value>Интеграции</value></data><data name="Window_Main_Appearance_Heading" xml:space="preserve"><value>Оформление</value></data><data name="Window_Main_Appearance_Theme" xml:space="preserve"><value>Тема</value></data><data name="Window_Main_Appearance_Accent" xml:space="preserve"><value>Цвет акцента</value></data><data name="Window_Main_Appearance_Light" xml:space="preserve"><value>Светлая</value></data><data name="Window_Main_Appearance_Dark" xml:space="preserve"><value>Тёмная</value></data><data name="Window_Main_Appearance_System" xml:space="preserve"><value>Системная</value></data>
 </root>

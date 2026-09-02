@@ -1869,4 +1869,5 @@ Importeren
     <value>
 Exporteren</value>
   </data>
+  <data name="Window_Main_Navigation_Chat" xml:space="preserve"><value>Chat / Console</value></data><data name="Window_Main_Navigation_Triggers" xml:space="preserve"><value>Triggers</value></data><data name="Window_Main_Navigation_Integrations" xml:space="preserve"><value>Integraties</value></data><data name="Window_Main_Appearance_Heading" xml:space="preserve"><value>Weergave</value></data><data name="Window_Main_Appearance_Theme" xml:space="preserve"><value>Thema</value></data><data name="Window_Main_Appearance_Accent" xml:space="preserve"><value>Accentkleur</value></data><data name="Window_Main_Appearance_Light" xml:space="preserve"><value>Licht</value></data><data name="Window_Main_Appearance_Dark" xml:space="preserve"><value>Donker</value></data><data name="Window_Main_Appearance_System" xml:space="preserve"><value>Systeem</value></data>
 </root>

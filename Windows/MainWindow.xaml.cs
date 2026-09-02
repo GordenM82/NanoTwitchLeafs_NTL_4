@@ -618,16 +618,15 @@ namespace NanoTwitchLeafs.Windows
 		private void InitializeAppearanceControls()
 		{
 			_appearanceControlsReady = false;
-			bool german = string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase);
-			chatNavigation_Button.Content = german ? "Chat / Konsole" : "Chat / Console";
-			triggerNavigation_Button.Content = german ? "Trigger" : "Triggers";
-			integrationsNavigation_Button.Content = german ? "Integrationen" : "Integrations";
-			appearanceHeading_TextBlock.Text = german ? "Darstellung" : "Appearance";
-			themeLabel_TextBlock.Text = german ? "Darstellungsmodus" : "Theme";
-			accentLabel_TextBlock.Text = german ? "Akzentfarbe" : "Accent color";
-			themeLight_Item.Content = german ? "Hell" : "Light";
-			themeDark_Item.Content = german ? "Dunkel" : "Dark";
-			themeSystem_Item.Content = german ? "Systemeinstellung" : "System";
+			chatNavigation_Button.Content = Properties.Resources.ResourceManager.GetString("Window_Main_Navigation_Chat");
+			triggerNavigation_Button.Content = Properties.Resources.ResourceManager.GetString("Window_Main_Navigation_Triggers");
+			integrationsNavigation_Button.Content = Properties.Resources.ResourceManager.GetString("Window_Main_Navigation_Integrations");
+			appearanceHeading_TextBlock.Text = Properties.Resources.ResourceManager.GetString("Window_Main_Appearance_Heading");
+			themeLabel_TextBlock.Text = Properties.Resources.ResourceManager.GetString("Window_Main_Appearance_Theme");
+			accentLabel_TextBlock.Text = Properties.Resources.ResourceManager.GetString("Window_Main_Appearance_Accent");
+			themeLight_Item.Content = Properties.Resources.ResourceManager.GetString("Window_Main_Appearance_Light");
+			themeDark_Item.Content = Properties.Resources.ResourceManager.GetString("Window_Main_Appearance_Dark");
+			themeSystem_Item.Content = Properties.Resources.ResourceManager.GetString("Window_Main_Appearance_System");
 
 			SelectComboBoxItem(theme_ComboBox, _appSettings.Theme ?? "Light");
 			SelectComboBoxItem(accent_ComboBox, _appSettings.AccentColor ?? "TwitchPurple");

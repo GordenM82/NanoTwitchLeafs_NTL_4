@@ -1126,4 +1126,13 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
   <data name="Window_Trigger_Action_Delete" xml:space="preserve"><value>Delete</value></data>
   <data name="Window_Trigger_Button_Import" xml:space="preserve"><value>Import</value></data>
   <data name="Window_Trigger_Button_Export" xml:space="preserve"><value>Export</value></data>
+  <data name="Window_Main_Navigation_Chat" xml:space="preserve"><value>Chat / Console</value></data>
+  <data name="Window_Main_Navigation_Triggers" xml:space="preserve"><value>Triggers</value></data>
+  <data name="Window_Main_Navigation_Integrations" xml:space="preserve"><value>Integrations</value></data>
+  <data name="Window_Main_Appearance_Heading" xml:space="preserve"><value>Appearance</value></data>
+  <data name="Window_Main_Appearance_Theme" xml:space="preserve"><value>Theme</value></data>
+  <data name="Window_Main_Appearance_Accent" xml:space="preserve"><value>Accent color</value></data>
+  <data name="Window_Main_Appearance_Light" xml:space="preserve"><value>Light</value></data>
+  <data name="Window_Main_Appearance_Dark" xml:space="preserve"><value>Dark</value></data>
+  <data name="Window_Main_Appearance_System" xml:space="preserve"><value>System</value></data>
 </root>

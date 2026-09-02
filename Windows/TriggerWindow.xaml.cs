@@ -173,7 +173,7 @@ namespace NanoTwitchLeafs.Windows
                     Cooldown = triggerSetting.Cooldown.ToString(),
                     VipSubMod = vipsubmod,
                     TargetDevices = targetDevices,
-                    DuplicateText = IsGerman ? "Duplizieren" : "Duplicate",
+                    DuplicateText = Text("Window_Trigger_Action_Copy"),
                 };
 
                 if (triggerListObject.Trigger != TriggerTypeEnum.Command.ToString() && triggerListObject.Trigger != TriggerTypeEnum.Keyword.ToString())

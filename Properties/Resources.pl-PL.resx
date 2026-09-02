@@ -1869,4 +1869,5 @@ Importuj
     <value>
 Eksportuj</value>
   </data>
+  <data name="Window_Main_Navigation_Chat" xml:space="preserve"><value>Czat / Konsola</value></data><data name="Window_Main_Navigation_Triggers" xml:space="preserve"><value>Wyzwalacze</value></data><data name="Window_Main_Navigation_Integrations" xml:space="preserve"><value>Integracje</value></data><data name="Window_Main_Appearance_Heading" xml:space="preserve"><value>Wygląd</value></data><data name="Window_Main_Appearance_Theme" xml:space="preserve"><value>Motyw</value></data><data name="Window_Main_Appearance_Accent" xml:space="preserve"><value>Kolor akcentu</value></data><data name="Window_Main_Appearance_Light" xml:space="preserve"><value>Jasny</value></data><data name="Window_Main_Appearance_Dark" xml:space="preserve"><value>Ciemny</value></data><data name="Window_Main_Appearance_System" xml:space="preserve"><value>System</value></data>
 </root>

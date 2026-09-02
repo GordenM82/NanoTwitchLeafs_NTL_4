@@ -515,7 +515,7 @@ Dieser Platzhalter wird mit dem Namen des Effekts ersetzt, der auf den Nanoleafs
 Dieser Platzhalter wird mit der Zeit in Sekunden, also wie lange der Effekt auf den Nanoleafs angezeigt wird ersetzt.</value>
   </data>
   <data name="Window_TriggerDetail_Title" xml:space="preserve">
-    <value>Trigger Details</value>
+    <value>Trigger-Details</value>
   </data>
   <data name="Window_TriggerDetail_Slider_Text" xml:space="preserve">
     <value>Trigger aktiviert</value>
@@ -1124,4 +1124,13 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="Window_Trigger_Action_Delete" xml:space="preserve"><value>Lösch.</value></data>
   <data name="Window_Trigger_Button_Import" xml:space="preserve"><value>Importieren</value></data>
   <data name="Window_Trigger_Button_Export" xml:space="preserve"><value>Exportieren</value></data>
+  <data name="Window_Main_Navigation_Chat" xml:space="preserve"><value>Chat / Konsole</value></data>
+  <data name="Window_Main_Navigation_Triggers" xml:space="preserve"><value>Trigger</value></data>
+  <data name="Window_Main_Navigation_Integrations" xml:space="preserve"><value>Integrationen</value></data>
+  <data name="Window_Main_Appearance_Heading" xml:space="preserve"><value>Darstellung</value></data>
+  <data name="Window_Main_Appearance_Theme" xml:space="preserve"><value>Darstellungsmodus</value></data>
+  <data name="Window_Main_Appearance_Accent" xml:space="preserve"><value>Akzentfarbe</value></data>
+  <data name="Window_Main_Appearance_Light" xml:space="preserve"><value>Hell</value></data>
+  <data name="Window_Main_Appearance_Dark" xml:space="preserve"><value>Dunkel</value></data>
+  <data name="Window_Main_Appearance_System" xml:space="preserve"><value>Systemeinstellung</value></data>
 </root>
