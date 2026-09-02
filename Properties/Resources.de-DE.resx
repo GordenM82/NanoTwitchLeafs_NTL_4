@@ -1115,4 +1115,13 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="Window_TriggerHelp_Options_Body" xml:space="preserve"><value>Die Dauer legt fest, wie lange der Effekt bei unterstützten Trigger-Typen aktiv bleibt. Menge ist der erforderliche Mindestwert für Bits, Geschenkbomben, HypeRate oder Spenden. Helligkeit erlaubt 0 bis 100. Die Abklingzeit verhindert, dass derselbe Befehl oder dasselbe Schlüsselwort zu schnell erneut ausgelöst wird.</value></data>
   <data name="Window_TriggerHelp_Targets_Title" xml:space="preserve"><value>Zielgeräte und Gruppen</value></data>
   <data name="Window_TriggerHelp_Targets_Body" xml:space="preserve"><value>Alle Nanoleafs wendet den Trigger auf jedes verbundene Gerät an. Entferne den Haken, um einzelne Geräte auszuwählen. Gerätegruppen sind optionale Vorlagen: Lege zuerst über Gruppen verwalten eine Gruppe an, wähle sie danach im Dropdown aus und übernimm sie.</value></data>
+  <data name="Window_Trigger_Heading" xml:space="preserve"><value>Trigger verwalten</value></data>
+  <data name="Window_Trigger_Description" xml:space="preserve"><value>Trigger testen, bearbeiten, duplizieren oder sichern</value></data>
+  <data name="Window_Trigger_Header_TargetDevices" xml:space="preserve"><value>Zielgeräte</value></data>
+  <data name="Window_Trigger_Action_Test" xml:space="preserve"><value>Test</value></data>
+  <data name="Window_Trigger_Action_Copy" xml:space="preserve"><value>Kopie</value></data>
+  <data name="Window_Trigger_Action_Edit" xml:space="preserve"><value>Edit</value></data>
+  <data name="Window_Trigger_Action_Delete" xml:space="preserve"><value>Lösch.</value></data>
+  <data name="Window_Trigger_Button_Import" xml:space="preserve"><value>Importieren</value></data>
+  <data name="Window_Trigger_Button_Export" xml:space="preserve"><value>Exportieren</value></data>
 </root>

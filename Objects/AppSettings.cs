@@ -32,6 +32,10 @@ namespace NanoTwitchLeafs.Objects
 		{
 			"de" => "de-DE",
 			"fr" => "fr-FR",
+			"es" => "es-ES",
+			"it" => "it-IT",
+			"nl" => "nl-NL",
+			"pl" => "pl-PL",
 			"pt" => "pt-BR",
 			"sk" => "sk-SK",
 			"da" => "da-DK",

@@ -426,10 +426,14 @@ namespace NanoTwitchLeafs.Windows
 				{
 					new ComboBoxItem { Content = "Deutsch", Tag = "de-DE" },
 					new ComboBoxItem { Content = "English", Tag = "en-US" },
+					new ComboBoxItem { Content = "Dansk", Tag = "da-DK" },
+					new ComboBoxItem { Content = "Español", Tag = "es-ES" },
 					new ComboBoxItem { Content = "Français", Tag = "fr-FR" },
+					new ComboBoxItem { Content = "Italiano", Tag = "it-IT" },
+					new ComboBoxItem { Content = "Nederlands", Tag = "nl-NL" },
+					new ComboBoxItem { Content = "Polski", Tag = "pl-PL" },
 					new ComboBoxItem { Content = "Português (Brasil)", Tag = "pt-BR" },
 					new ComboBoxItem { Content = "Slovenčina", Tag = "sk-SK" },
-					new ComboBoxItem { Content = "Dansk", Tag = "da-DK" },
 					new ComboBoxItem { Content = "Русский", Tag = "ru-RU" }
 				};
 

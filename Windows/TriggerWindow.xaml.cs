@@ -44,17 +44,22 @@ namespace NanoTwitchLeafs.Windows
             Constants.SetCultureInfo(_appSettings.Language);
             InitializeComponent();
 
-            bool german = string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase);
-            triggerHeading_TextBlock.Text = german ? "Trigger verwalten" : "Manage triggers";
-            triggerDescription_TextBlock.Text = german ? "Trigger testen, bearbeiten, duplizieren oder sichern" : "Test, edit, duplicate or back up triggers";
-            targetDevices_Column.Header = german ? "Zielgeräte" : "Target devices";
-            importCmd_Button.Content = german ? "Importieren" : "Import";
-            exportCmd_Button.Content = german ? "Exportieren" : "Export";
+            triggerHeading_TextBlock.Text = Text("Window_Trigger_Heading");
+            triggerDescription_TextBlock.Text = Text("Window_Trigger_Description");
+            targetDevices_Column.Header = Text("Window_Trigger_Header_TargetDevices");
+            test_Column.Header = Text("Window_Trigger_Action_Test");
+            duplicate_Column.Header = Text("Window_Trigger_Action_Copy");
+            edit_Column.Header = Text("Window_Trigger_Action_Edit");
+            delete_Column.Header = Text("Window_Trigger_Action_Delete");
+            importCmd_Button.Content = Text("Window_Trigger_Button_Import");
+            exportCmd_Button.Content = Text("Window_Trigger_Button_Export");
 
             SafeLoadTrigger();
         }
 
         private bool IsGerman => string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase);
+
+        private static string Text(string key) => Properties.Resources.ResourceManager.GetString(key) ?? key;
 
         private void ShowError(string germanMessage, string englishMessage, Exception exception = null)
         {
