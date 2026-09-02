@@ -21,6 +21,7 @@ TARGETS = {
     "sk": ("Resources.sk-SK.resx", False),
 }
 PLACEHOLDER = re.compile(r"(https?://\S+|\{\d+(?::[^}]+)?\}|%\w|\\[nrt])")
+SEPARATOR = re.compile(r"ZZZNTLSEP\s*(\d+)\s*ZZZ", re.IGNORECASE)
 
 
 def protect(text):
@@ -53,6 +54,49 @@ def translate(translator, text):
             time.sleep(2 ** attempt)
 
 
+def translate_many(translator, entries):
+    results = {}
+    batch = []
+    batch_length = 0
+
+    def flush():
+        nonlocal batch, batch_length
+        if not batch:
+            return
+        protected = []
+        placeholders = {}
+        for index, text in batch:
+            value, values = protect(text)
+            protected.append((index, value))
+            placeholders[index] = values
+        payload = ""
+        for position, (index, value) in enumerate(protected):
+            if position:
+                payload += f"\nZZZNTLSEP{index}ZZZ\n"
+            payload += value
+        translated = translate(translator, payload)
+        parts = SEPARATOR.split(translated)
+        if len(parts) != len(batch) * 2 - 1:
+            for index, text in batch:
+                results[index] = translate(translator, text)
+        else:
+            current_index = batch[0][0]
+            results[current_index] = restore(parts[0], placeholders[current_index])
+            for offset in range(1, len(parts), 2):
+                current_index = int(parts[offset])
+                results[current_index] = restore(parts[offset + 1], placeholders[current_index])
+        batch = []
+        batch_length = 0
+
+    for index, text in entries:
+        if batch and batch_length + len(text) > 3500:
+            flush()
+        batch.append((index, text))
+        batch_length += len(text) + 24
+    flush()
+    return results
+
+
 def values_by_name(tree):
     return {node.attrib["name"]: node.find("value") for node in tree.getroot().findall("data")}
 
@@ -67,6 +111,8 @@ for language, (filename, create) in TARGETS.items():
     target_values = values_by_name(tree)
     translator = GoogleTranslator(source="en", target=language)
 
+    pending = []
+    targets = []
     for name, source_value in source_values.items():
         if source_value is None:
             continue
@@ -79,7 +125,12 @@ for language, (filename, create) in TARGETS.items():
         elif not create and (target_value.text or "").strip():
             continue
 
-        target_value.text = translate(translator, source_value.text or "")
+        targets.append(target_value)
+        pending.append((len(targets) - 1, source_value.text or ""))
+
+    translated_values = translate_many(translator, pending)
+    for index, target_value in enumerate(targets):
+        target_value.text = translated_values[index]
 
     ET.indent(tree, space="  ")
     tree.write(target_path, encoding="utf-8", xml_declaration=True)
