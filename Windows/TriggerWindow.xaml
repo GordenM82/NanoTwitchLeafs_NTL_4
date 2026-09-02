@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="{x:Static p:Resources.Window_Trigger_Title}" Height="760" Width="1500" MinHeight="560" MinWidth="1000" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterOwner" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}">
     <Grid>
+        <Grid.RowDefinitions><RowDefinition Height="54"/><RowDefinition Height="*"/><RowDefinition Height="58"/></Grid.RowDefinitions>
         <Grid.Resources>
             <Style TargetType="ListViewItem">
                 <Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}" />
@@ -25,13 +26,14 @@
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
-        <ListView x:Name="Trigger_Listview" AlternationCount="2" Margin="6,6,6,58" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+        <Border Grid.Row="0" BorderBrush="{DynamicResource NtlBorderBrush}" BorderThickness="0,0,0,1" Margin="6,0"><StackPanel VerticalAlignment="Center"><TextBlock x:Name="triggerHeading_TextBlock" FontSize="20" FontWeight="SemiBold"/><TextBlock x:Name="triggerDescription_TextBlock" Foreground="{DynamicResource NtlMutedTextBrush}" FontSize="12"/></StackPanel></Border>
+        <ListView Grid.Row="1" x:Name="Trigger_Listview" AlternationCount="2" Margin="6" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_On}" Width="46">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Slider  Value="{Binding OnOffSliderValue}" Background="{Binding OnOffSliderBackground}" Tag="{Binding OnOffSliderTag}" Width="30" HorizontalAlignment="Center" SmallChange="1" Minimum="0" Maximum="1" ValueChanged="OnOffSlider_ValueChanged" />
+                                <Slider Value="{Binding OnOffSliderValue, Mode=OneTime}" Background="{Binding OnOffSliderBackground}" Tag="{Binding OnOffSliderTag}" Width="30" HorizontalAlignment="Center" SmallChange="1" Minimum="0" Maximum="1" PreviewMouseLeftButtonDown="OnOffSlider_PreviewMouseInput" PreviewMouseLeftButtonUp="OnOffSlider_PreviewMouseInputFinished" PreviewKeyDown="OnOffSlider_PreviewKeyInput" ValueChanged="OnOffSlider_ValueChanged" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -50,39 +52,39 @@
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Amount}" Width="60" DisplayMemberBinding="{Binding Amount}" />
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Cooldown}" Width="80" DisplayMemberBinding="{Binding Cooldown}" />
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Flags}" Width="130" DisplayMemberBinding="{Binding VipSubMod}" />
-                    <GridViewColumn Header="Zielgeräte" Width="140" DisplayMemberBinding="{Binding TargetDevices}" />
-                    <GridViewColumn Header="" Width="62">
+                    <GridViewColumn x:Name="targetDevices_Column" Header="Zielgeräte" Width="140" DisplayMemberBinding="{Binding TargetDevices}" />
+                    <GridViewColumn Header="" Width="74">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Width="48" HorizontalAlignment="Center" Content="{x:Static p:Resources.Window_Trigger_Button_Test}" Click="TestButton_Click" HorizontalContentAlignment="Center" />
+                                <Button Width="64" Padding="6,6" HorizontalAlignment="Center" Content="{x:Static p:Resources.Window_Trigger_Button_Test}" Click="TestButton_Click" HorizontalContentAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="" Width="106">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Width="96" Padding="6,6" HorizontalAlignment="Center" Content="{Binding DuplicateText}" Click="DuplicateButton_Click" HorizontalContentAlignment="Center" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn Header="" Width="92">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Width="78" HorizontalAlignment="Center" Content="{Binding DuplicateText}" Click="DuplicateButton_Click" HorizontalContentAlignment="Center" />
+                                <Button Width="82" Padding="6,6" HorizontalAlignment="Center" Content="{x:Static p:Resources.Window_Trigger_Button_Edit}" Click="EditButton_Click" HorizontalContentAlignment="Center" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="" Width="62">
+                    <GridViewColumn Header="" Width="86">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Width="48" HorizontalAlignment="Center" Content="{x:Static p:Resources.Window_Trigger_Button_Edit}" Click="EditButton_Click" HorizontalContentAlignment="Center" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="" Width="62">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Width="48" HorizontalAlignment="Center" Content="{x:Static p:Resources.Window_Trigger_Button_Delete}" Click="DeleteButton_Click" HorizontalContentAlignment="Center" />
+                                <Button Width="76" Padding="6,6" HorizontalAlignment="Center" Content="{x:Static p:Resources.Window_Trigger_Button_Delete}" Click="DeleteButton_Click" HorizontalContentAlignment="Center" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Grid VerticalAlignment="Bottom" Margin="10"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+        <Grid Grid.Row="2" VerticalAlignment="Center" Margin="10,6"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
             <Button x:Name="newCmd_Button" Content="{x:Static p:Resources.Window_Trigger_Button_New}" Width="130" Click="NewCmd_Button_Click" Margin="0,0,8,0" />
             <Button x:Name="importCmd_Button" Grid.Column="1" Content="Importieren" Width="130" Click="ImportCmd_Button_Click" Margin="0,0,8,0" />
             <Button x:Name="exportCmd_Button" Grid.Column="2" Content="Exportieren" Width="130" Click="ExportCmd_Button_Click" />

@@ -719,7 +719,7 @@ Wenn du nur einer bestimmten Gruppe den Zugang zu einem Befehl oder Schlüsselwo
     <value>Flags</value>
   </data>
   <data name="Window_Trigger_Button_Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>Bearbeiten</value>
   </data>
   <data name="Window_Trigger_Button_Delete" xml:space="preserve">
     <value>Löschen</value>

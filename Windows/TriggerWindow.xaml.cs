@@ -13,6 +13,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Input;
 
 namespace NanoTwitchLeafs.Windows
 {
@@ -28,6 +29,7 @@ namespace NanoTwitchLeafs.Windows
         private readonly TriggerLogicController _triggerLogicController;
         public readonly TwitchEventSubController _twitchEventSubController;
         private bool _isLoadingTriggers;
+        private bool _sliderChangeRequestedByUser;
 
         public TriggerWindow(CommandRepository commandRepository, NanoController nanoController, AppSettings appSettings, AppSettingsController appSettingsController, StreamlabsController streamlabsController, HypeRateIOController hypeRateIoController, TriggerLogicController triggerLogicController, TwitchEventSubController twitchEventSubController = null)
         {
@@ -43,6 +45,9 @@ namespace NanoTwitchLeafs.Windows
             InitializeComponent();
 
             bool german = string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase);
+            triggerHeading_TextBlock.Text = german ? "Trigger verwalten" : "Manage triggers";
+            triggerDescription_TextBlock.Text = german ? "Trigger testen, bearbeiten, duplizieren oder sichern" : "Test, edit, duplicate or back up triggers";
+            targetDevices_Column.Header = german ? "Zielgeräte" : "Target devices";
             importCmd_Button.Content = german ? "Importieren" : "Import";
             exportCmd_Button.Content = german ? "Exportieren" : "Export";
 
@@ -65,6 +70,8 @@ namespace NanoTwitchLeafs.Windows
             catch (Exception ex) { ShowError("Die Trigger konnten nicht geladen werden.", "The triggers could not be loaded.", ex); }
             finally { _isLoadingTriggers = false; }
         }
+
+        public void RefreshTriggerList() => SafeLoadTrigger();
 
         private void LoadTrigger()
         {
@@ -189,7 +196,8 @@ namespace NanoTwitchLeafs.Windows
 
         private void OnOffSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (_isLoadingTriggers || !IsLoaded || sender is not Slider slider || !TryGetTrigger(slider, out TriggerSetting triggerSetting)) return;
+            if (_isLoadingTriggers || !_sliderChangeRequestedByUser || sender is not Slider slider || !slider.IsLoaded || !TryGetTrigger(slider, out TriggerSetting triggerSetting)) return;
+            _sliderChangeRequestedByUser = false;
             try
             {
             bool IsActive;
@@ -209,6 +217,15 @@ namespace NanoTwitchLeafs.Windows
             _logger.Info($"Trigger with the ID {triggerSetting.ID} is now updated to IsActive: {IsActive}.");
             }
             catch (Exception ex) { ShowError("Der Trigger konnte nicht geändert werden.", "The trigger could not be changed.", ex); SafeLoadTrigger(); }
+        }
+
+        private void OnOffSlider_PreviewMouseInput(object sender, MouseButtonEventArgs e) => _sliderChangeRequestedByUser = true;
+
+        private void OnOffSlider_PreviewMouseInputFinished(object sender, MouseButtonEventArgs e) => _sliderChangeRequestedByUser = false;
+
+        private void OnOffSlider_PreviewKeyInput(object sender, KeyEventArgs e)
+        {
+            _sliderChangeRequestedByUser = e.Key is Key.Left or Key.Right or Key.Up or Key.Down or Key.Home or Key.End or Key.PageUp or Key.PageDown;
         }
 
         private bool TryGetTrigger(FrameworkElement element, out TriggerSetting triggerSetting)
@@ -269,10 +286,9 @@ namespace NanoTwitchLeafs.Windows
                 return;
             }
 
-            Window triggerDetailWindow = new TriggerDetailWindow(_appSettings, _appSettingsController, _commandRepository, effectList, _streamlabsController, _hypeRateIoController, triggerSetting, _twitchEventSubController, saveAsCopy)
-            {
-                Owner = this
-            };
+            Window triggerDetailWindow = new TriggerDetailWindow(_appSettings, _appSettingsController, _commandRepository, effectList, _streamlabsController, _hypeRateIoController, triggerSetting, _twitchEventSubController, saveAsCopy);
+            Window hostWindow = Window.GetWindow(Trigger_Listview) ?? Application.Current?.MainWindow;
+            if (hostWindow != null) triggerDetailWindow.Owner = hostWindow;
             triggerDetailWindow.Closed += TriggerDetailWindow_Closed;
             triggerDetailWindow.Show();
             }
@@ -289,7 +305,7 @@ namespace NanoTwitchLeafs.Windows
             try
             {
                 var dialog = new SaveFileDialog { Filter = "JSON (*.json)|*.json", FileName = $"NanoTwitchLeafs-triggers-{DateTime.Now:yyyy-MM-dd}.json" };
-                if (dialog.ShowDialog(this) != true) return;
+                if (dialog.ShowDialog(Window.GetWindow(Trigger_Listview)) != true) return;
                 File.WriteAllText(dialog.FileName, JsonConvert.SerializeObject(_commandRepository.GetList(), Formatting.Indented));
                 MessageBox.Show(IsGerman ? "Trigger wurden exportiert." : "Triggers were exported.");
             }
@@ -301,7 +317,7 @@ namespace NanoTwitchLeafs.Windows
             try
             {
                 var dialog = new OpenFileDialog { Filter = "JSON (*.json)|*.json" };
-                if (dialog.ShowDialog(this) != true) return;
+                if (dialog.ShowDialog(Window.GetWindow(Trigger_Listview)) != true) return;
                 var imported = JsonConvert.DeserializeObject<List<TriggerSetting>>(File.ReadAllText(dialog.FileName));
                 if (imported == null || imported.Count == 0 || imported.Any(item => item == null || string.IsNullOrWhiteSpace(item.Trigger)))
                     throw new InvalidDataException(IsGerman ? "Die Datei enthält keine gültigen Trigger." : "The file contains no valid triggers.");

@@ -50,7 +50,7 @@
                         <Button x:Name="chatNavigation_Button" Tag="-1" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
                         <Button Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}" Tag="0" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
                         <Button Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Title}" Tag="1" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
-                        <Button x:Name="triggerNavigation_Button" Style="{StaticResource NtlNavigationButtonStyle}" Click="TriggerNavigation_Button_Click" />
+                        <Button x:Name="triggerNavigation_Button" Tag="6" Style="{StaticResource NtlNavigationButtonStyle}" Click="TriggerNavigation_Button_Click" />
                         <Button x:Name="integrationsNavigation_Button" Tag="3" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
                         <Button Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Tag="2" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
                     </StackPanel>
@@ -112,7 +112,7 @@
                         <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Misc}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
                         <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_SetEffect}" Margin="0,0,0,5"/>
                         <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><Button x:Name="LoadEffects_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_LoadEffects}" Click="LoadEffects_Button_Click" Margin="0,0,8,0"/><ComboBox x:Name="Effects_ComboBox" Grid.Column="1" Margin="0,0,8,0"/><Button x:Name="SetBaseEffect_Button" Grid.Column="2" Content="{x:Static p:Resources.General_Button_OK}" Click="SetBaseEffect_Button_Click"/></Grid>
-                        <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><xctk:ColorPicker x:Name="ColorPicker" Height="34"/><Button x:Name="SetBaseColor_Button" Grid.Column="1" Content="{x:Static p:Resources.General_Button_OK}" Click="SetBaseColor_Button_Click" Margin="8,0,0,0"/></Grid>
+                        <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><xctk:ColorPicker x:Name="ColorPicker" Height="36" Background="{DynamicResource NtlInputBrush}" Foreground="{DynamicResource NtlTextBrush}" BorderBrush="{DynamicResource NtlBorderBrush}" DropDownBackground="{DynamicResource NtlSurfaceRaisedBrush}" DropDownBorderBrush="{DynamicResource NtlBorderBrush}"/><Button x:Name="SetBaseColor_Button" Grid.Column="1" Content="{x:Static p:Resources.General_Button_OK}" Click="SetBaseColor_Button_Click" Margin="8,0,0,0"/></Grid>
                         <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="64"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_ResetBrightness}" VerticalAlignment="Center"/><TextBox x:Name="brightnessReset_TextBox" Grid.Column="1" Text="50" HorizontalContentAlignment="Center" Margin="8,0"/><Button x:Name="resetBrightness_Button" Grid.Column="2" Content="{x:Static p:Resources.General_Button_OK}" Click="ResetBrightness_Button_Click"/></Grid>
                         <CheckBox x:Name="autoIPRefresh_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh}" Click="autoIPRefresh_Checkbox_Click"/>
                         <CheckBox x:Name="debugCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Debug}" Click="DebugCmd_Checkbox_Click"/>
@@ -204,6 +204,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
+        <ContentControl x:Name="triggerManager_Host" Grid.Column="1" Margin="20" Visibility="Collapsed" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
         <Button x:Name="Save_Button" Content="{x:Static p:Resources.Window_Main_Button_Save}" HorizontalAlignment="Right" Margin="0,0,20,20" Width="220" Click="Save_Button_Click" Grid.Column="1" HorizontalContentAlignment="Center" Height="42" VerticalAlignment="Bottom" Style="{StaticResource NtlPrimaryButtonStyle}" />
         </Grid>
     </Grid>

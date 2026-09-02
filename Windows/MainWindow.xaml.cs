@@ -52,6 +52,7 @@ namespace NanoTwitchLeafs.Windows
 		private readonly TaskbarIcon _tbi = new TaskbarIcon();
 		private readonly TwitchEventSubController _twitchEventSubController;
 		private bool _initialWindowActivationCompleted;
+		private TriggerWindow _embeddedTriggerManager;
 		private static string DisplayVersion => typeof(AppInfoWindow).Assembly.GetName().Version.ToString(3);
 
 		private static void TryPrepareLayoutPreviewData()
@@ -713,6 +714,8 @@ namespace NanoTwitchLeafs.Windows
 			if (sender is not Button button || !int.TryParse(button.Tag?.ToString(), out int page)) return;
 			bool showChat = page < 0;
 			bool showIntegrations = page >= 3 && page <= 5;
+			triggerManager_Host.Visibility = Visibility.Collapsed;
+			Save_Button.Visibility = Visibility.Visible;
 			chatconsole_TabControl.Visibility = showChat ? Visibility.Visible : Visibility.Collapsed;
 			settings_TabControl.Visibility = showChat ? Visibility.Collapsed : Visibility.Visible;
 			integrationTabs_Panel.Visibility = showIntegrations ? Visibility.Visible : Visibility.Collapsed;
@@ -1002,33 +1005,33 @@ namespace NanoTwitchLeafs.Windows
 
 		private void NanoCmd_Button_Click(object sender, RoutedEventArgs e)
 		{
-			OpenTriggerManager();
+			ShowEmbeddedTriggerManager();
 		}
 
 		private void TriggerNavigation_Button_Click(object sender, RoutedEventArgs e)
 		{
-			OpenTriggerManager(true);
+			ShowEmbeddedTriggerManager();
 		}
 
-		private void OpenTriggerManager(bool markNavigation = false)
+		private void ShowEmbeddedTriggerManager()
 		{
 			try
 			{
-			TriggerWindow triggerWindow = new TriggerWindow(_commandRepository, _nanoController, _appSettings, _appSettingsController, _streamlabsController, _hypeRatecontroller, _triggerLogicController, _twitchEventSubController)
-			{
-				Owner = this
-			};
-
-			if (!CheckForDuplicateWindow(triggerWindow))
-			{
-				if (markNavigation)
+				if (_embeddedTriggerManager == null)
 				{
-					triggerNavigation_Button.SetResourceReference(BackgroundProperty, "NtlAccentSurfaceBrush");
-					triggerNavigation_Button.FontWeight = FontWeights.SemiBold;
-					triggerWindow.Closed += (_, _) => { triggerNavigation_Button.Background = System.Windows.Media.Brushes.Transparent; triggerNavigation_Button.ClearValue(FontWeightProperty); };
+					_embeddedTriggerManager = new TriggerWindow(_commandRepository, _nanoController, _appSettings, _appSettingsController, _streamlabsController, _hypeRatecontroller, _triggerLogicController, _twitchEventSubController);
+					UIElement triggerContent = _embeddedTriggerManager.Content as UIElement;
+					_embeddedTriggerManager.Content = null;
+					triggerManager_Host.Content = triggerContent;
 				}
-				triggerWindow.Show();
-			}
+				else _embeddedTriggerManager.RefreshTriggerList();
+
+				chatconsole_TabControl.Visibility = Visibility.Collapsed;
+				settings_TabControl.Visibility = Visibility.Collapsed;
+				integrationTabs_Panel.Visibility = Visibility.Collapsed;
+				Save_Button.Visibility = Visibility.Collapsed;
+				triggerManager_Host.Visibility = Visibility.Visible;
+				UpdateNavigationState(6);
 			}
 			catch (Exception ex)
 			{

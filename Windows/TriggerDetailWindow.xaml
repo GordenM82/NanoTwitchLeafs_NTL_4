@@ -80,7 +80,7 @@
         </Grid>
         <RadioButton x:Name="Effect_RadioButton" GroupName="Effect" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_Effect}" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top" Click="EffectRadioButton_Click" IsChecked="True" />
         <RadioButton x:Name="Color_RadioButton" GroupName="Effect" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_Color}" HorizontalAlignment="Left" Margin="298,173,0,0" VerticalAlignment="Top" Click="EffectRadioButton_Click" RenderTransformOrigin="-0.511,0.622" />
-        <xctk:ColorPicker x:Name="ColorPicker" Margin="305,190,10,0" IsEnabled="False" Height="22" VerticalAlignment="Top" />
+        <xctk:ColorPicker x:Name="ColorPicker" Margin="305,190,10,0" IsEnabled="False" Height="32" VerticalAlignment="Top" Background="{DynamicResource NtlInputBrush}" Foreground="{DynamicResource NtlTextBrush}" BorderBrush="{DynamicResource NtlBorderBrush}" DropDownBackground="{DynamicResource NtlSurfaceRaisedBrush}" DropDownBorderBrush="{DynamicResource NtlBorderBrush}" />
         <RadioButton x:Name="HypeRate_RadioButton" GroupName="Trigger" Content="HypeRate" HorizontalAlignment="Left" Margin="10,125,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
         <RadioButton x:Name="Donation_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_Donation}" HorizontalAlignment="Left" Margin="231,85,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
         <RadioButton x:Name="UserColor_RadioButton" GroupName="Trigger" Content="{x:Static p:Resources.Window_TriggerDetail_RadioButton_UserColor}" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Click="TriggerRadioButton_Click" />
