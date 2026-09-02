@@ -1,13 +1,3 @@
-<Window x:Class="NanoTwitchLeafs.Windows.TriggerHelpWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NanoTwitchLeafs.Windows"
-        xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
-        mc:Ignorable="d"
-        Title="{x:Static p:Resources.Window_TriggerHelp_Title}" Height="691" Width="880.7" ResizeMode="NoResize">
-    <Grid>
-        <TextBlock Margin="10,10,10,0" TextWrapping="Wrap"><Label Content="{x:Static p:Resources.Window_TriggerHelp_Text}" /></TextBlock>
-    </Grid>
+<Window x:Class="NanoTwitchLeafs.Windows.TriggerHelpWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:p="clr-namespace:NanoTwitchLeafs.Properties" Title="{x:Static p:Resources.Window_TriggerHelp_Title}" Height="720" Width="900" MinHeight="520" MinWidth="640" ResizeMode="CanResize" WindowStartupLocation="CenterOwner" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}">
+ <Grid Margin="18"><Border Style="{StaticResource NtlCardStyle}" Padding="20"><ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_Text}" TextWrapping="Wrap" Foreground="{DynamicResource NtlTextBrush}" FontSize="14" LineHeight="22"/></ScrollViewer></Border></Grid>
 </Window>

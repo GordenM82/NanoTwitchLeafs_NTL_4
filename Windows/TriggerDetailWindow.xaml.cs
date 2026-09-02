@@ -29,6 +29,7 @@ namespace NanoTwitchLeafs.Windows
 		private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerWindow));
 		private readonly TwitchEventSubController _twitchEventSubController;
 		private readonly bool _saveAsCopy;
+		private bool _updatingTargetDevices;
 
 		private string _channelPointsGuid;
 		private TriggerSetting TriggerSetting { get; set; }
@@ -83,14 +84,17 @@ namespace NanoTwitchLeafs.Windows
 
 			foreach (NanoLeafDevice device in _appSettings.NanoSettings.NanoLeafDevices)
 			{
-				TargetDevices_ItemsControl.Items.Add(new CheckBox
+				var deviceCheckBox = new CheckBox
 				{
 					Content = device.PublicName,
 					Tag = device.DeviceName,
 					IsChecked = true,
 					Margin = new Thickness(5, 2, 15, 2),
 					MinWidth = 145
-				});
+				};
+				deviceCheckBox.Checked += TargetDeviceCheckBox_Changed;
+				deviceCheckBox.Unchecked += TargetDeviceCheckBox_Changed;
+				TargetDevices_ItemsControl.Items.Add(deviceCheckBox);
 			}
 
 			UpdateTargetDeviceControls();
@@ -116,9 +120,12 @@ namespace NanoTwitchLeafs.Windows
 				return;
 
 			var groupDevices = new HashSet<string>(group.DeviceNames ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
+			_updatingTargetDevices = true;
 			AllDevices_CheckBox.IsChecked = false;
 			foreach (CheckBox checkBox in TargetDevices_ItemsControl.Items.OfType<CheckBox>())
 				checkBox.IsChecked = groupDevices.Contains(checkBox.Tag as string);
+			_updatingTargetDevices = false;
+			SynchronizeAllDevicesCheckBox();
 		}
 
 		private void ManageDeviceGroups_Button_Click(object sender, RoutedEventArgs e)
@@ -131,6 +138,8 @@ namespace NanoTwitchLeafs.Windows
 
 		private void AllDevices_CheckBox_Changed(object sender, RoutedEventArgs e)
 		{
+			if (_updatingTargetDevices)
+				return;
 			UpdateTargetDeviceControls();
 		}
 
@@ -139,13 +148,27 @@ namespace NanoTwitchLeafs.Windows
 			if (TargetDevices_ItemsControl == null)
 				return;
 
-			bool allDevices = AllDevices_CheckBox.IsChecked == true;
+			if (AllDevices_CheckBox.IsChecked != true)
+				return;
+
+			_updatingTargetDevices = true;
 			foreach (CheckBox checkBox in TargetDevices_ItemsControl.Items.OfType<CheckBox>())
-			{
-				checkBox.IsEnabled = !allDevices;
-				if (allDevices)
-					checkBox.IsChecked = true;
-			}
+				checkBox.IsChecked = true;
+			_updatingTargetDevices = false;
+		}
+
+		private void TargetDeviceCheckBox_Changed(object sender, RoutedEventArgs e)
+		{
+			if (!_updatingTargetDevices)
+				SynchronizeAllDevicesCheckBox();
+		}
+
+		private void SynchronizeAllDevicesCheckBox()
+		{
+			var deviceCheckBoxes = TargetDevices_ItemsControl.Items.OfType<CheckBox>().ToList();
+			_updatingTargetDevices = true;
+			AllDevices_CheckBox.IsChecked = deviceCheckBoxes.Count > 0 && deviceCheckBoxes.All(checkBox => checkBox.IsChecked == true);
+			_updatingTargetDevices = false;
 		}
 
 		private string GetSelectedTargetDeviceNames()
@@ -182,11 +205,13 @@ namespace NanoTwitchLeafs.Windows
 				(TriggerSetting.TargetDeviceNames ?? string.Empty)
 					.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
 			bool allDevices = selectedDeviceNames.Count == 0;
+			_updatingTargetDevices = true;
 			AllDevices_CheckBox.IsChecked = allDevices;
 			foreach (CheckBox checkBox in TargetDevices_ItemsControl.Items.OfType<CheckBox>())
 			{
 				checkBox.IsChecked = allDevices || selectedDeviceNames.Contains(checkBox.Tag as string);
 			}
+			_updatingTargetDevices = false;
 			UpdateTargetDeviceControls();
 
 			// Set On/Off Slider State
@@ -854,6 +879,13 @@ namespace NanoTwitchLeafs.Windows
 
 		private void Checkbox_Click(object sender, RoutedEventArgs e)
 		{
+			if (Viponly_Checkbox.IsEnabled != true)
+			{
+				Vipsubmod_Textbox.Text = string.Equals(_appSettings.Language, "de-DE", StringComparison.OrdinalIgnoreCase)
+					? "Rollenfilter sind nur für Befehle und Schlüsselwörter verfügbar."
+					: "Role filters are available for commands and keywords only.";
+				return;
+			}
 			var titles = new List<string>();
 			if (Viponly_Checkbox.IsChecked == true)
 				titles.Add("VIP");
@@ -1081,6 +1113,8 @@ namespace NanoTwitchLeafs.Windows
 				ColorPicker.IsEnabled = false;
 				Effect_ComboBox.IsEnabled = false;
 			}
+
+			Checkbox_Click(null, null);
 		}
 
 		private void EffectRadioButton_Click(object sender, RoutedEventArgs e)
