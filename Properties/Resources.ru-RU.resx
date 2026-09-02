@@ -1,110 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
+<?xml version='1.0' encoding='utf-8'?>
+<root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:schema id="root">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xs:element name="root" ns1:IsDataSet="true">
+      <xs:complexType>
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="metadata">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="name" use="required" type="xsd:string" />
+              <xs:attribute name="type" type="xsd:string" />
+              <xs:attribute name="mimetype" type="xsd:string" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="assembly">
+            <xs:complexType>
+              <xs:attribute name="alias" type="xsd:string" />
+              <xs:attribute name="name" type="xsd:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="data">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" ns1:Ordinal="1" />
+                <xs:element name="comment" type="xsd:string" minOccurs="0" ns1:Ordinal="2" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" ns1:Ordinal="1" />
+              <xs:attribute name="type" type="xsd:string" ns1:Ordinal="3" />
+              <xs:attribute name="mimetype" type="xsd:string" ns1:Ordinal="4" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="resheader">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" ns1:Ordinal="1" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -494,354 +435,780 @@
     <value>выключать</value>
   </data>
   <data name="Code_Responses_ComboBox_Times_Minutes" xml:space="preserve">
-    <value />
+    <value>Минуты</value>
   </data>
   <data name="Code_Responses_ConnectMessage" xml:space="preserve">
-    <value />
+    <value>Привет, ребята! Я бот и буду управлять вашими светильниками NanoLeaf! Для получения помощи напишите «!nano help».</value>
   </data>
   <data name="Code_Responses_CommandResponse" xml:space="preserve">
-    <value />
+    <value>Пользователь {username} изменил эффект NanoLeaf на {effect}.</value>
   </data>
   <data name="Code_Responses_CommandDurationResponse" xml:space="preserve">
-    <value />
+    <value>Пользователь {username} изменил эффект NanoLeaf на {effect} на {duration} секунд.</value>
   </data>
   <data name="Code_Responses_KeywordResponse" xml:space="preserve">
-    <value />
+    <value>Пользователь {username} произнес волшебное слово и изменил эффект NanoLeaf на {effect}.</value>
   </data>
   <data name="Window_ResponsesHelp_Title" xml:space="preserve">
-    <value />
+    <value>Ответы Помощь</value>
     <comment>???</comment>
   </data>
   <data name="Window_ResponsesHelp_Text" xml:space="preserve">
-    <value />
+    <value>Вы можете использовать различные переменные-заполнители для своих ответных сообщений:
+
+Вы можете выбрать таймер на 10 или 60 минут для повторяющегося сообщения.
+В более поздней версии вы можете полностью отключить его.
+
+{имя пользователя}
+Оно будет заменено именем пользователя, вызвавшего изменение.
+
+{эффект}
+Оно будет заменено именем эффекта, которое будет отображаться на NanoLeafs.
+
+{duration} — работает только над «Автовосстановлением эффекта по команде».
+Это будет заменено на Время в секундах — как долго будет меняться эффект на Нанолистах.</value>
   </data>
   <data name="Window_TriggerDetail_Title" xml:space="preserve">
-    <value />
+    <value>Детали триггера</value>
   </data>
   <data name="Window_TriggerDetail_Slider_Text" xml:space="preserve">
-    <value />
+    <value>Включить триггер</value>
   </data>
   <data name="Window_TriggerDetail_Label_TriggerType" xml:space="preserve">
-    <value />
+    <value>Тип триггера</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_Command" xml:space="preserve">
-    <value />
+    <value>Команда</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_Keyword" xml:space="preserve">
-    <value />
+    <value>Ключевое слово</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_NewFollower" xml:space="preserve">
-    <value />
+    <value>Новый последователь</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_NewSubscriber" xml:space="preserve">
-    <value />
+    <value>Новый подписчик</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_Host" xml:space="preserve">
-    <value />
+    <value>Хозяин</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_Raid" xml:space="preserve">
-    <value />
+    <value>Рейд</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_Resub" xml:space="preserve">
-    <value />
+    <value>Повторная подписка</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_Bits" xml:space="preserve">
-    <value />
+    <value>Биты</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_ChannelPoints" xml:space="preserve">
-    <value />
+    <value>Очки канала</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_GiftSub" xml:space="preserve">
-    <value />
+    <value>Подарочный подписчик</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_AnonGiftSub" xml:space="preserve">
-    <value />
+    <value>Анонимный подарок подписчику</value>
   </data>
   <data name="Window_TriggerDetail_Label_Effect" xml:space="preserve">
-    <value />
+    <value>Эффект</value>
   </data>
   <data name="Window_TriggerDetail_Label_SoundEffect" xml:space="preserve">
-    <value />
+    <value>Звуковой эффект</value>
   </data>
   <data name="Window_TriggerDetail_Button_SelectFile" xml:space="preserve">
-    <value />
+    <value>Выберите файл</value>
   </data>
   <data name="Window_TriggerDetail_Label_Options" xml:space="preserve">
-    <value />
+    <value>Параметры</value>
   </data>
   <data name="Window_TriggerDetail_Label_Amount" xml:space="preserve">
-    <value />
+    <value>Количество</value>
   </data>
   <data name="Window_TriggerDetail_Label_Duration" xml:space="preserve">
-    <value />
+    <value>Продолжительность</value>
   </data>
   <data name="Window_TriggerDetail_Label_Brightness" xml:space="preserve">
-    <value />
+    <value>Яркость</value>
   </data>
   <data name="Window_TriggerDetail_Label_Cooldown" xml:space="preserve">
-    <value />
+    <value>Остывать</value>
   </data>
   <data name="Window_TriggerDetail_Checkbox_Vip" xml:space="preserve">
-    <value />
+    <value>Только VIP-персоны</value>
   </data>
   <data name="Window_TriggerDetail_Checkbox_Sub" xml:space="preserve">
-    <value />
+    <value>Только субтитры</value>
   </data>
   <data name="Window_TriggerDetail_Checkbox_Mod" xml:space="preserve">
-    <value />
+    <value>Только модератор</value>
   </data>
   <data name="Window_TriggerDetail_Label_CmdKeyword" xml:space="preserve">
-    <value />
+    <value>Команда/ключевое слово</value>
   </data>
   <data name="Window_TriggerDetail_Label_Volume" xml:space="preserve">
-    <value />
+    <value>Объем</value>
   </data>
   <data name="Window_TriggerDetail_Label_NoRewardDetected" xml:space="preserve">
-    <value />
+    <value>Награда в виде очков канала не обнаружена!
+Пожалуйста, активируйте желаемую награду прямо сейчас!</value>
   </data>
   <data name="Code_TriggerDetail_Label_CPGuid" xml:space="preserve">
-    <value />
+    <value>Награда за обнаруженные баллы канала с идентификатором
+{0}
+Активируйте еще раз, чтобы изменить/обновить награду!</value>
   </data>
   <data name="Code_TriggerDetail_Label_CPGuidSet" xml:space="preserve">
-    <value />
+    <value>Награда с идентификатором {0} установлена.
+Активируйте еще раз, чтобы изменить/обновить награду!</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_NoRewardDetected" xml:space="preserve">
-    <value />
+    <value>Пожалуйста, погасите одно вознаграждение в виде очков канала через чат Twitch со своей учетной записью стримера, прежде чем сохранять!</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_NoEffectSelected" xml:space="preserve">
-    <value />
+    <value>Пожалуйста, выберите эффект для вашего триггера!
+Не может быть пустым!</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_CmdBoxEmpty" xml:space="preserve">
-    <value />
+    <value>Пожалуйста, введите команду/ключевое слово для вашего триггера! Не может быть пустым!</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_BrightnessValue" xml:space="preserve">
-    <value />
+    <value>Пожалуйста, введите значение яркости от 0 до 100!
+Не может быть пустым!</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_VolumeValue" xml:space="preserve">
-    <value />
+    <value>Пожалуйста, введите значение объема от 0 до 100! Не может быть пустым!</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_AmountValue" xml:space="preserve">
-    <value />
+    <value>Пожалуйста, введите значение суммы, даже если вы его не используете! Не может быть пустым или отрицательным!</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_DurationValue" xml:space="preserve">
-    <value />
+    <value>Пожалуйста, введите значение продолжительности, даже если вы его не используете! Не может быть пустым или отрицательным!</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_CooldownValue" xml:space="preserve">
-    <value />
+    <value>Пожалуйста, введите значение перезарядки! Введите 0, чтобы отключить перезарядку триггера! Не может быть пустым!</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_SoundfileFormat" xml:space="preserve">
-    <value />
+    <value>Вы можете использовать только звуковые файлы .wav или .mp3!</value>
   </data>
   <data name="Code_TriggerDetail_Label_VipSubMod" xml:space="preserve">
-    <value />
+    <value>Чтобы использовать этот триггер, пользователь должен быть {0}.</value>
   </data>
   <data name="Code_TriggerDetail_Label_NothingSpecial" xml:space="preserve">
-    <value />
+    <value>ничего особенного</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_CPNoConnection" xml:space="preserve">
-    <value />
+    <value>Если вы хотите создать/изменить триггер Channelpoints, сначала подключитесь к чату Twitch!</value>
   </data>
   <data name="Window_TriggerHelp_Title" xml:space="preserve">
-    <value />
+    <value>Справка по триггеру</value>
   </data>
   <data name="Window_TriggerHelp_Text" xml:space="preserve">
-    <value />
+    <value>Триггер:
+
+Это «Тип» события, которое, ну... запускает триггер.
+Для таких событий Twitch, как «новый подписчик» или «новый подписчик», требуется указать продолжительность в секундах.
+Если вы получаете, например, нового последователя и у вас есть триггер, определенный с 10 секундами: NanoLeaf изменится на желаемый
+Эффект и вернитесь к предыдущему эффекту через 10 секунд. Поля «Команда» и «Стоимость» для этого типа триггера отключены.
+Чтобы использовать баллы канала Twitch, вам необходимо перейти на панель управления Twitch (https://dashboard.twitch.tv/u/yourtwitchname/community/channel-points)).
+и создавать собственные награды. Чтобы связать вознаграждение с триггером, просто активируйте желаемое вознаграждение с помощью своей учетной записи стримера!
+User Color берет цвет Twitch пользователя и окрашивает одну случайную панель Nanoleaf в этот цвет!
+Команда/ключевое слово:
+Если вы решите позволить зрителям поиграть с вашими светильниками NanoLeaf Lights, попробуйте использовать тип триггера «Команда» или «Ключевое слово»!
+Команда:
+Команда выглядит следующим образом: !command
+У вас есть префикс типа ! и команда. Вы можете изменить префикс на вкладке «Вход в систему бота».
+Сообщение от средства просмотра должно быть точно таким же, как команда. Если вы определяете !test как команду и средство просмотра
+напишите в чате !test123 или даже !test 123, триггер не активируется!
+(Пожалуйста, напишите в поле имя команды БЕЗ префикса.)
+Ключевое слово:
+В отличие от команды ключевое слово может быть отдельным сообщением, частью слова или даже частью целого предложения.
+Если вы определяете ключевое слово «тест». Триггер активируется при нажатии «test», «test123», «hellotestitsme» или даже «This is a Test»!
+Вы даже можете добавить несколько ключевых слов для одного эффекта. Просто разделите их запятой - "огонь,пламя,ад" - "вода,море,океан"
+Эффект/Цвет:
+Это список эффектов, полученный непосредственно с вашего устройства NanoLeaf. Если вы создаете новые эффекты с помощью мобильного приложения NanoLeafs,
+новые эффекты активируются в тот момент, когда вы открываете окно сведений о триггере!
+Вы также можете выбрать сплошной цвет в палитре цветов.
+Звуковой файл:
+Нажмите кнопку «Выбрать» и выберите звуковой файл, который следует воспроизвести с помощью этого триггера. (допускаются форматы .mp3 и .wav)
+Чтобы удалить, просто удалите путь в текстовом поле.
+Сумма:
+Вы можете определить несколько триггеров с разными минимальными пределами.
+Если вы создадите триггер Bits/Donation/Heartrate со значением 100, например… приветствие в 99 Bits ничего не даст. Если кто-то поддержит 100+ Bits... Эффект сработает.
+Таким образом, вы можете сделать несколько триггеров, например, для 50+, 100+, 200+ и т. д. Биты/пожертвования/сердечный ритм и уровень HypeTrain.
+Продолжительность и время восстановления:
+Длительность и время восстановления в секундах. Время восстановления считается для каждого триггера индивидуально.
+Яркость:
+Вы можете указать яркость в % для каждого триггера. Значения могут быть от 0 до 100.
+VIP|Подписка|Только мод:
+Если вы хотите предоставить ТОЛЬКО VIP-персонам, подписчикам или модераторам возможность использовать эту команду или ключевое слово!</value>
     <comment>The link on the dashboard is in german even in the english locale. It should be something like: https://dashboard.twitch.tv/u/yourtwitchname/community/channel-points
 I tried to change myself but I couldn't :P</comment>
   </data>
   <data name="Window_Trigger_Title" xml:space="preserve">
-    <value />
+    <value>Курок</value>
   </data>
   <data name="Window_Trigger_Header_On" xml:space="preserve">
-    <value />
+    <value>Активный</value>
   </data>
   <data name="Window_Trigger_Header_Trigger" xml:space="preserve">
-    <value />
+    <value>Курок</value>
   </data>
   <data name="Window_Trigger_Header_Effect" xml:space="preserve">
-    <value />
+    <value>Эффект</value>
   </data>
   <data name="Window_Trigger_Header_Sound" xml:space="preserve">
-    <value />
+    <value>Звук?</value>
   </data>
   <data name="Window_Trigger_Header_Duration" xml:space="preserve">
-    <value />
+    <value>Продолжительность</value>
   </data>
   <data name="Window_Trigger_Header_Brightness" xml:space="preserve">
-    <value />
+    <value>Яркость</value>
   </data>
   <data name="Window_Trigger_Header_Amount" xml:space="preserve">
-    <value />
+    <value>Количество</value>
   </data>
   <data name="Window_Trigger_Header_Cooldown" xml:space="preserve">
-    <value />
+    <value>Остывать</value>
   </data>
   <data name="Window_Trigger_Header_Flags" xml:space="preserve">
-    <value />
+    <value>Флаги</value>
   </data>
   <data name="Window_Trigger_Button_Edit" xml:space="preserve">
-    <value />
+    <value>Редактировать</value>
   </data>
   <data name="Window_Trigger_Button_Delete" xml:space="preserve">
-    <value />
+    <value>Удалить</value>
   </data>
   <data name="Window_Trigger_Button_New" xml:space="preserve">
-    <value />
+    <value>Новый</value>
   </data>
   <data name="Window_Trigger_Button_Clear" xml:space="preserve">
-    <value />
+    <value>Прозрачный</value>
   </data>
   <data name="Code_Trigger_MessageBox_EffectList" xml:space="preserve">
-    <value />
+    <value>Соединение не удалось! Не удалось получить список эффектов!</value>
   </data>
   <data name="Code_Nano_MessageBox_PairingError" xml:space="preserve">
-    <value />
+    <value>Ошибка при сопряжении с устройством!</value>
   </data>
   <data name="Code_Nano_MessageBox_DeviceNotFound" xml:space="preserve">
-    <value />
+    <value>Устройство с именем {0} не обнаружено в вашей сети!
+Пожалуйста, убедитесь, что устройство включено и находится в сети!
+Пожалуйста, проверьте консоль или файл журнала на предмет IP-адреса.</value>
   </data>
   <data name="Code_Nano_MessageBox_UniqueName" xml:space="preserve">
-    <value />
+    <value>Пожалуйста, выберите уникальное имя для вашего устройства Nanoleaf!</value>
   </data>
   <data name="Code_Nano_MessageBox_CurrentEffect" xml:space="preserve">
-    <value />
+    <value>Ошибка при получении текущего эффекта от «{0}»!</value>
   </data>
   <data name="Code_Nano_MessageBox_CurrentHue" xml:space="preserve">
-    <value />
+    <value>Ошибка при получении текущего оттенка от «{0}»!</value>
   </data>
   <data name="Code_Nano_MessageBox_CurrentSaturation" xml:space="preserve">
-    <value />
+    <value>Ошибка при получении текущей насыщенности от «{0}»!</value>
   </data>
   <data name="Code_Nano_MessageBox_CurrentColorTemp" xml:space="preserve">
-    <value />
+    <value>Ошибка при получении текущей цветовой температуры от «{0}»!</value>
   </data>
   <data name="Code_Nano_MessageBox_CurrentBrightness" xml:space="preserve">
-    <value />
+    <value>Ошибка при получении текущей яркости от «{0}»!</value>
   </data>
   <data name="Code_Nano_MessageBox_CurrentState" xml:space="preserve">
-    <value />
+    <value>Ошибка при получении текущего состояния от «{0}»!</value>
   </data>
   <data name="Code_TriggerLogic_ChatMessage_TriggerNotActive" xml:space="preserve">
-    <value />
+    <value>Извини! Триггер в настоящее время не активирован!</value>
   </data>
   <data name="Code_TriggerLogic_ChatMessage_ModOnly" xml:space="preserve">
-    <value />
+    <value>Извини! Это команда только модератора!</value>
   </data>
   <data name="Code_TriggerLogic_ChatMessage_Cooldown" xml:space="preserve">
-    <value />
+    <value>Извини! Это на перезарядке!</value>
   </data>
   <data name="Code_TriggerLogic_ChatMessage_VipOnly" xml:space="preserve">
-    <value />
+    <value>Извини! Это команда только для VIP!</value>
   </data>
   <data name="Code_TriggerLogic_ChatMessage_SubOnly" xml:space="preserve">
-    <value />
+    <value>Извини! Это команда только для подписчиков!</value>
   </data>
   <data name="Code_TriggerLogic_ChatMessage_ActiveCommands" xml:space="preserve">
-    <value />
+    <value>Активные команды:</value>
   </data>
   <data name="Code_TriggerLogic_ChatMessage_NoActiveCommands" xml:space="preserve">
-    <value />
+    <value>Сейчас нет активных команд!</value>
   </data>
   <data name="Code_Twitch_MessageBox_LoginIncorrect" xml:space="preserve">
-    <value />
+    <value>Убедитесь, что имя пользователя, канал и AuthToken указаны правильно.</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Label_Language" xml:space="preserve">
-    <value />
+    <value>Язык:</value>
   </data>
   <data name="Code_Main_MessageBox_Restart_Title" xml:space="preserve">
-    <value />
+    <value>Перезапустить сейчас?</value>
   </data>
   <data name="Code_Main_MessageBox_Restart" xml:space="preserve">
-    <value />
+    <value>Изменения требуют перезапуска приложения... Перезапустить сейчас?</value>
   </data>
   <data name="General_Label_Translator" xml:space="preserve">
-    <value />
+    <value>Переведено Locxion</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_Effect" xml:space="preserve">
-    <value />
+    <value>Эффект</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_Color" xml:space="preserve">
-    <value />
+    <value>Цвет</value>
   </data>
   <data name="Window_TriggerDetail_ColorPicker_Error" xml:space="preserve">
-    <value />
+    <value>Пожалуйста, выберите цвет с помощью палитры цветов!</value>
   </data>
   <data name="Window_AppInfo_Button_License" xml:space="preserve">
-    <value />
+    <value>Информация о лицензии</value>
   </data>
   <data name="Window_TwitchLink_Title" xml:space="preserve">
-    <value />
+    <value>Привяжите свою учетную запись Twitch</value>
   </data>
   <data name="Window_TwitchLink_Tab_Setup" xml:space="preserve">
-    <value />
+    <value>Параметры настройки</value>
   </data>
   <data name="Window_TwitchLink_Single_Help" xml:space="preserve">
-    <value />
+    <value>Единая учетная запись – настройка вещательной компании
+(рекомендуется)
+
+Используйте свою учетную запись вещателя Twitch
+подключиться к чату и послушать
+к сообщениям и событиям Twitch.
+
+Плюсы:
+- Простая и быстрая установка.
+Против:
+- Ваш аккаунт будет публиковать сообщения автоматически
+Сообщения в чат.</value>
   </data>
   <data name="Window_TwitchLink_Double_Help" xml:space="preserve">
-    <value />
+    <value>Двойной аккаунт – настройка бота
+(Расширенный)
+
+Используйте отдельную учетную запись бота для управления чатом.
+Сообщения и подключение вашего вещателя
+Аккаунт в фоновом режиме для событий Twitch.
+
+Плюсы:
+- Отделите автоматические сообщения на дополнительную учетную запись.
+Против:
+- Вам нужна дополнительная учетная запись Twitch.</value>
   </data>
   <data name="Window_TwitchLink_Tab_Broadcaster" xml:space="preserve">
-    <value />
+    <value>Вещатель</value>
   </data>
   <data name="Window_TwitchLink_Button_Link" xml:space="preserve">
-    <value />
+    <value>Связать аккаунт</value>
   </data>
   <data name="Window_TwitchLink_Broadcaster_Permissions_Text" xml:space="preserve">
-    <value />
+    <value>Для вашей учетной записи вещателя нам нужны некоторые разрешения:
+- Читайте и пишите в своем чате Twitch.
+- Прочитайте и напишите в своем шепоте.
+- Чтение битовой информации для вашего канала.
+- Прочтите информацию о подписчиках вашего канала.
+- Чтение и запись погашений Channelpoint для вашего канала.
+- Прочтите информацию о Hypetrain для вашего канала.
+
+
+Чтобы подключить свою учетную запись вещателя:
+
+Убедитесь, что вы вошли в Twitch под своей учетной записью вещателя.
+а затем нажмите кнопку ниже.</value>
   </data>
   <data name="Window_TwitchLink_Textbox_Broadcaster" xml:space="preserve">
-    <value />
+    <value>Имя пользователя вещателя</value>
   </data>
   <data name="Window_TwitchLink_Tab_Bot" xml:space="preserve">
-    <value />
+    <value>Бот</value>
   </data>
   <data name="Window_TwitchLink_Label_ClickNext" xml:space="preserve">
-    <value />
+    <value>Ссылка успешна! Нажмите Далее &gt;&gt;&gt;</value>
   </data>
   <data name="Window_TwitchLink_Bot_Permissions_Text" xml:space="preserve">
-    <value />
+    <value>Для вашей учетной записи бота нам нужны некоторые разрешения:
+- Читайте и пишите в своем чате Twitch.
+- Прочитайте и напишите в своем шепоте.
+
+
+
+Чтобы подключить аккаунт бота:
+
+Пожалуйста, введите имя пользователя бота Twitch и убедитесь, что вы вошли в систему.
+Подключитесь к своей учетной записи бота, а затем нажмите кнопку ниже.</value>
   </data>
   <data name="General_Button_Next" xml:space="preserve">
-    <value />
+    <value>Следующий</value>
   </data>
   <data name="General_Button_Back" xml:space="preserve">
-    <value />
+    <value>Назад</value>
   </data>
   <data name="Window_TwitchLink_Tab_ConnectionTest" xml:space="preserve">
-    <value />
+    <value>Тест соединения</value>
   </data>
   <data name="Window_TwitchLink_Progress_1" xml:space="preserve">
-    <value />
+    <value>Подключитесь к Твичу</value>
   </data>
   <data name="Window_TwitchLink_Progress_2" xml:space="preserve">
-    <value />
+    <value>Присоединиться к каналу</value>
   </data>
   <data name="Window_TwitchLink_Progress_3" xml:space="preserve">
-    <value />
+    <value>Отправить сообщение</value>
   </data>
   <data name="Window_TwitchLink_Progress_4" xml:space="preserve">
-    <value />
+    <value>Отключить</value>
   </data>
   <data name="Window_TwitchLink_Progress_5" xml:space="preserve">
-    <value />
+    <value>Сделанный</value>
   </data>
   <data name="Window_TwitchLink_Finished_Text" xml:space="preserve">
-    <value />
+    <value>Ура \о/ вы завершили настройку Twitch!
+Теперь вы можете сохранить настройки и начать
+создайте свой первый триггер!</value>
   </data>
   <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text" xml:space="preserve">
-    <value />
+    <value>Аккаунт Twitch не подключен!</value>
   </data>
   <data name="Window_Main_Tabs_TwitchLogin_LinkButton_Text" xml:space="preserve">
-    <value />
+    <value>Привязать аккаунт Twitch</value>
   </data>
   <data name="Window_Main_Tabs_TwitchLogin_UnlinkButton_Text" xml:space="preserve">
-    <value />
+    <value>Отвязать учетную запись Twitch</value>
   </data>
   <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text2" xml:space="preserve">
-    <value />
+    <value>Подключено к каналу Twitch</value>
   </data>
   <data name="Window_Responses_StartupMessage_CheckBox" xml:space="preserve">
     <value>Сообщение при запуске активно</value>
+  </data>
+  <data name="Window_Main_Tabs_Streamlabs_Title" xml:space="preserve">
+    <value>Стримлабс</value>
+  </data>
+  <data name="Windows_Main_Tabs_Streamlabs_LinkStreamlabs_Label" xml:space="preserve">
+    <value>Привязать аккаунт Streamlabs</value>
+  </data>
+  <data name="Windows_Main_Tabs_Streamlabs_UnLinkStreamlabs_Label" xml:space="preserve">
+    <value>Отвязать учетную запись Streamlabs</value>
+  </data>
+  <data name="Windows_Main_Tabs_Streamlabs_Linktext_Textblock1" xml:space="preserve">
+    <value>Аккаунт Streamlabs не подключен!</value>
+  </data>
+  <data name="Windows_Main_Tabs_Streamlabs_Linktext_Textblock2" xml:space="preserve">
+    <value>Подключено к аккаунту</value>
+  </data>
+  <data name="Window_Main_Tabs_Streamlabs_BottomText_Texblock" xml:space="preserve">
+    <value>Подключите свою учетную запись Streamlabs
+использовать триггер пожертвования</value>
+  </data>
+  <data name="Windows_Main_Tabs_Hyperate_Disconnect_Button" xml:space="preserve">
+    <value>Отключить</value>
+  </data>
+  <data name="Windows_Main_Tabs_Hyperate_Heartrate_Label" xml:space="preserve">
+    <value>Частота сердечных сокращений:</value>
+  </data>
+  <data name="Windows_Main_Tabs_Hyperate_Title" xml:space="preserve">
+    <value>HypeRate</value>
+  </data>
+  <data name="Window_AppInfo_Associated_Label" xml:space="preserve">
+    <value>NanoTwitchLeafs не является официальным приложением Twitch или Nanoleaf и не связан ни с одной из компаний.</value>
+  </data>
+  <data name="General_MessageBox_HypeRate_Error_Message" xml:space="preserve">
+    <value>Не удалось подключиться к сокету HypeRateIO!</value>
+  </data>
+  <data name="Window_Main_Tabs_Streamlabs_ConnectButton_Text" xml:space="preserve">
+    <value>Подключиться к серверу</value>
+  </data>
+  <data name="Window_Main_Tabs_Streamlabs_DisconnectButton_Text" xml:space="preserve">
+    <value>Отключиться от сервера</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_UserColor" xml:space="preserve">
+    <value>Пользовательский цвет</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Donation" xml:space="preserve">
+    <value>Пожертвование</value>
+  </data>
+  <data name="Window_TriggerDetail_VipSubMod_Label_Text" xml:space="preserve">
+    <value>Пользователь не должен быть особенным, чтобы использовать этот триггер!</value>
+  </data>
+  <data name="Window_TwitchLink_Tab_Test_Almostdone_Text" xml:space="preserve">
+    <value>Почти готово!
+
+Теперь мы проверим ваше подключение к чату и сервисам Twitch!</value>
+  </data>
+  <data name="Window_TwitchLink_Tab_Test_ConTestDone_Text" xml:space="preserve">
+    <value>Проверка подключения завершена! Ура</value>
+  </data>
+  <data name="General_MessageBox_GeneralErrorCrash_Text" xml:space="preserve">
+    <value>Произошла ошибка. Пожалуйста, перезапустите приложение, создайте проблему на Github и предоставьте свой файл журнала!</value>
+  </data>
+  <data name="General_MessageBox_GeneralError_Text" xml:space="preserve">
+    <value>Произошла ошибка. Пожалуйста, создайте проблему на Github и предоставьте свой файл журнала!</value>
+  </data>
+  <data name="Window_Main_Tabs_HypeRate_MessageBox_EnterID_Text" xml:space="preserve">
+    <value>Пожалуйста, введите свой идентификатор HypeRate</value>
+  </data>
+  <data name="General_MessageBox_WMPinstalled_Error_Text" xml:space="preserve">
+    <value>Убедитесь, что проигрыватель Windows Media установлен и включен!</value>
+  </data>
+  <data name="Window_NotifyContextMenu_Button_Show_Text" xml:space="preserve">
+    <value>Показывать</value>
+  </data>
+  <data name="Code_PubSub_MessageBox_ConnectError" xml:space="preserve">
+    <value>Не удалось подключиться к сервису PubSub! Пожалуйста, повторно привяжите свою учетную запись Twitch!</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_GiftBomb" xml:space="preserve">
+    <value>Подарочная бомба</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_AnonGiftBomb" xml:space="preserve">
+    <value>Анонимная подарочная бомба</value>
+  </data>
+  <data name="Window_Trigger_Header_Command" xml:space="preserve">
+    <value>Команда/ключевое слово</value>
+  </data>
+  <data name="Code_Devices_Messagebox_SelectDevice" xml:space="preserve">
+    <value>Пожалуйста, выберите устройство!</value>
+  </data>
+  <data name="Window_Trigger_Button_Test" xml:space="preserve">
+    <value>Тест</value>
+  </data>
+  <data name="Windows_Main_Tabs_ApiSettings_Title" xml:space="preserve">
+    <value>Настройки API</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_HypeTrain" xml:space="preserve">
+    <value>ХайпТрейн</value>
+  </data>
+  <data name="Code_Main_MessageBox_LegacyMigration_Text" xml:space="preserve">
+    <value>Обнаружены данные из существующей установки NanoTwitchLeafs 3.x.
+
+Импортировать настройки и триггеры в NanoTwitchLeafs 4? Перед импортом создается резервная копия. Исходные данные не будут изменены.</value>
+  </data>
+  <data name="Code_Main_MessageBox_LegacyMigration_Title" xml:space="preserve">
+    <value>NanoTwitchLeafs 4 – Импорт данных</value>
+  </data>
+  <data name="Code_Main_MessageBox_LegacyMigration_Error" xml:space="preserve">
+    <value>Не удалось подготовить импорт данных. Существующие данные не были изменены.</value>
+  </data>
+  <data name="Code_Main_MessageBox_TriggerInitialization_Error" xml:space="preserve">
+    <value>Контроллер триггера не удалось инициализировать.</value>
+  </data>
+  <data name="Code_Main_MessageBox_TwitchConnection_Error" xml:space="preserve">
+    <value>Соединение Twitch не удалось открыть.</value>
+  </data>
+  <data name="General_LogFile_Label" xml:space="preserve">
+    <value>Файл журнала</value>
+  </data>
+  <data name="Code_Main_MessageBox_TriggerMigration_Error" xml:space="preserve">
+    <value>Существующие триггеры не удалось импортировать в новый формат.
+
+Исходные данные не были изменены. Подробности смотрите в журнале.</value>
+  </data>
+  <data name="Code_Main_MessageBox_TriggerMigration_Title" xml:space="preserve">
+    <value>NanoTwitchLeafs 4 – импорт триггера</value>
+  </data>
+  <data name="Code_Update_MessageBox_Disabled" xml:space="preserve">
+    <value>Автоматические обновления отключены для этой настроенной версии, поэтому NTL не будет случайно заменен другим официальным выпуском.</value>
+  </data>
+  <data name="Code_App_MessageBox_StartupError_Text" xml:space="preserve">
+    <value>NanoTwitchLeafs не удалось запустить полностью.</value>
+  </data>
+  <data name="Code_App_MessageBox_StartupError_Title" xml:space="preserve">
+    <value>NanoTwitchLeafs — ошибка запуска</value>
+  </data>
+  <data name="Code_Twitch_MessageBox_DeviceCode_Text" xml:space="preserve">
+    <value>Twitch открыт в вашем браузере.
+
+Авторизуйте соединение там. Если код не заполняется автоматически, используйте:
+
+{0}
+
+Затем нажмите «ОК».</value>
+  </data>
+  <data name="Code_Twitch_MessageBox_DeviceCode_Title" xml:space="preserve">
+    <value>Подключить Твич</value>
+  </data>
+  <data name="Code_HypeRate_MessageBox_MissingApiKey" xml:space="preserve">
+    <value>Ключ API HypeRate еще не настроен.</value>
+  </data>
+  <data name="Code_TwitchLink_Status_Connected" xml:space="preserve">
+    <value>Подключен к сети Twitch.</value>
+  </data>
+  <data name="Code_TwitchLink_Status_Joining" xml:space="preserve">
+    <value>Присоединение к каналу Twitch:</value>
+  </data>
+  <data name="Code_TwitchLink_Status_Joined" xml:space="preserve">
+    <value>Присоединился к каналу Twitch: {0}.</value>
+  </data>
+  <data name="Code_TwitchLink_Status_TestMessage" xml:space="preserve">
+    <value>Отправка тестового сообщения в чат.</value>
+  </data>
+  <data name="Window_DeviceGroups_Title" xml:space="preserve">
+    <value>Группы устройств Nanoleaf</value>
+  </data>
+  <data name="Window_DeviceGroups_Groups" xml:space="preserve">
+    <value>Группы</value>
+  </data>
+  <data name="Window_DeviceGroups_Edit" xml:space="preserve">
+    <value>Изменить группу</value>
+  </data>
+  <data name="Window_DeviceGroups_Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="Window_DeviceGroups_Devices" xml:space="preserve">
+    <value>Нанолисты в этой группе</value>
+  </data>
+  <data name="Window_DeviceGroups_New" xml:space="preserve">
+    <value>Новая группа</value>
+  </data>
+  <data name="Window_DeviceGroups_Save" xml:space="preserve">
+    <value>Сохранить группу</value>
+  </data>
+  <data name="Window_DeviceGroups_Delete" xml:space="preserve">
+    <value>Удалить группу</value>
+  </data>
+  <data name="Window_DeviceGroups_Close" xml:space="preserve">
+    <value>Закрывать</value>
+  </data>
+  <data name="Code_DeviceGroups_MessageBox_NameRequired" xml:space="preserve">
+    <value>Введите название группы.</value>
+  </data>
+  <data name="Code_DeviceGroups_MessageBox_DeviceRequired" xml:space="preserve">
+    <value>Выберите хотя бы один Nanoleaf.</value>
+  </data>
+  <data name="Code_DeviceGroups_MessageBox_Duplicate" xml:space="preserve">
+    <value>Группа с таким названием уже существует.</value>
+  </data>
+  <data name="Code_DeviceGroups_MessageBox_DeleteConfirm" xml:space="preserve">
+    <value>Удалить группу «{0}»?</value>
+  </data>
+  <data name="Window_TriggerDetail_TargetDevices_All" xml:space="preserve">
+    <value>Все Нанолисты</value>
+  </data>
+  <data name="Window_TriggerDetail_TargetDevices_Group" xml:space="preserve">
+    <value>Группа:</value>
+  </data>
+  <data name="Window_TriggerDetail_TargetDevices_Apply" xml:space="preserve">
+    <value>Применять</value>
+  </data>
+  <data name="Window_TriggerDetail_TargetDevices_Manage" xml:space="preserve">
+    <value>Управление группами…</value>
+  </data>
+  <data name="Window_TriggerDetail_TargetDevices_NoGroups" xml:space="preserve">
+    <value>Группы пока не созданы</value>
+  </data>
+  <data name="Window_TriggerDetail_TargetDevices_Header" xml:space="preserve">
+    <value>Целевые устройства (доступен {0})</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_TargetRequired" xml:space="preserve">
+    <value>Выберите хотя бы одно целевое устройство Nanoleaf.</value>
+  </data>
+  <data name="Window_Trigger_TargetDevices_All" xml:space="preserve">
+    <value>Все</value>
+  </data>
+  <data name="Window_Trigger_TargetDevices_Unavailable" xml:space="preserve">
+    <value>Недоступно</value>
+  </data>
+  <data name="Window_AppInfo_OriginalDeveloper" xml:space="preserve">
+    <value>Оригинальный разработчик:</value>
+  </data>
+  <data name="Window_AppInfo_Ntl4Maintainer" xml:space="preserve">
+    <value>Разработка НТЛ 4:</value>
+  </data>
+  <data name="Window_AppInfo_Discord" xml:space="preserve">
+    <value>НТЛ Дискорд</value>
+  </data>
+  <data name="Window_AppInfo_GithubOriginal" xml:space="preserve">
+    <value>GitHub — оригинальная версия</value>
+  </data>
+  <data name="Window_AppInfo_GithubNtl4" xml:space="preserve">
+    <value>GitHub — НТЛ 4</value>
+  </data>
+  <data name="Window_AppInfo_FeedbackOriginal" xml:space="preserve">
+    <value>Обратная связь – оригинальная версия</value>
+  </data>
+  <data name="Window_AppInfo_FeedbackNtl4" xml:space="preserve">
+    <value>Обратная связь – НТЛ 4</value>
+  </data>
+  <data name="Window_AppInfo_AiAssistance" xml:space="preserve">
+    <value>NTL 4 был разработан при помощи искусственного интеллекта.</value>
+  </data>
+  <data name="Window_Main_LayoutPreview_Title" xml:space="preserve">
+    <value>NanoTwitchLeafs 4 – Предварительный просмотр макета</value>
+  </data>
+  <data name="Window_Main_LayoutPreview_Subtitle" xml:space="preserve">
+    <value>Тестовая версия функционального макета</value>
+  </data>
+  <data name="Window_TriggerHelp_Heading" xml:space="preserve">
+    <value>Вызвать помощь</value>
+  </data>
+  <data name="Window_TriggerHelp_Intro" xml:space="preserve">
+    <value>Как события, эффекты, фильтры и целевые устройства работают вместе.</value>
+  </data>
+  <data name="Window_TriggerHelp_Types_Title" xml:space="preserve">
+    <value>Типы триггеров</value>
+  </data>
+  <data name="Window_TriggerHelp_Types_Body" xml:space="preserve">
+    <value>Команды и ключевые слова реагируют на сообщения чата. События Twitch, такие как подписчики, подписки, рейды, биты и очки канала, реагируют автоматически при подключении соответствующего сервиса. Пожертвования Streamlabs и HypeRate требуют их интеграции.</value>
+  </data>
+  <data name="Window_TriggerHelp_Chat_Title" xml:space="preserve">
+    <value>Команды и ключевые слова</value>
+  </data>
+  <data name="Window_TriggerHelp_Chat_Body" xml:space="preserve">
+    <value>Введите команду без префикса, например help вместо !help. Команда должна соответствовать полной команде чата. Ключевое слово может встречаться в любом месте сообщения. Разделяйте несколько ключевых слов запятыми. Фильтры VIP, подписчиков и модераторов доступны только для команд и ключевых слов.</value>
+  </data>
+  <data name="Window_TriggerHelp_ChannelPoints_Title" xml:space="preserve">
+    <value>Награды за баллы канала</value>
+  </data>
+  <data name="Window_TriggerHelp_ChannelPoints_Body" xml:space="preserve">
+    <value>Создайте вознаграждение на панели управления Twitch, подключите NTL к Twitch и активируйте вознаграждение один раз. NTL определяет его идентификатор и связывает его с триггером. Используйте его еще раз, если хотите назначить другую награду.</value>
+  </data>
+  <data name="Window_TriggerHelp_Effect_Title" xml:space="preserve">
+    <value>Эффект, цвет и звук</value>
+  </data>
+  <data name="Window_TriggerHelp_Effect_Body" xml:space="preserve">
+    <value>Выберите эффект Nanoleaf или фиксированный цвет. Пользовательский цвет использует цвет Twitch средства просмотра. Дополнительные звуковые файлы должны быть в формате MP3 или WAV; том становится доступным после выбора файла.</value>
+  </data>
+  <data name="Window_TriggerHelp_Options_Title" xml:space="preserve">
+    <value>Длительность, количество и время восстановления</value>
+  </data>
+  <data name="Window_TriggerHelp_Options_Body" xml:space="preserve">
+    <value>Продолжительность определяет, как долго эффект остается активным, если тип триггера поддерживает его. Сумма — это необходимый минимум для битов, подарочных бомб, HypeRate или пожертвований. Яркость принимает значения от 0 до 100. Время восстановления предотвращает слишком раннее повторное срабатывание той же команды или ключевого слова.</value>
+  </data>
+  <data name="Window_TriggerHelp_Targets_Title" xml:space="preserve">
+    <value>Целевые устройства и группы</value>
+  </data>
+  <data name="Window_TriggerHelp_Targets_Body" xml:space="preserve">
+    <value>Все Nanoleafs применяют триггер к каждому сопряженному устройству. Снимите флажок, чтобы выбрать отдельные устройства. Группы устройств являются необязательными предустановками: сначала создайте группу с помощью «Управление группами», затем выберите ее из раскрывающегося списка и примените.</value>
+  </data>
+  <data name="Window_Trigger_Heading" xml:space="preserve">
+    <value>Управление триггерами</value>
+  </data>
+  <data name="Window_Trigger_Description" xml:space="preserve">
+    <value>Тестируйте, редактируйте, дублируйте или резервируйте триггеры</value>
+  </data>
+  <data name="Window_Trigger_Header_TargetDevices" xml:space="preserve">
+    <value>Целевые устройства</value>
+  </data>
+  <data name="Window_Trigger_Action_Test" xml:space="preserve">
+    <value>Тест</value>
+  </data>
+  <data name="Window_Trigger_Action_Copy" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="Window_Trigger_Action_Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="Window_Trigger_Action_Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Window_Trigger_Button_Import" xml:space="preserve">
+    <value>Импорт</value>
+  </data>
+  <data name="Window_Trigger_Button_Export" xml:space="preserve">
+    <value>Экспорт</value>
   </data>
 </root>
