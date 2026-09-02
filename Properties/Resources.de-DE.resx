@@ -1101,4 +1101,18 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="Window_Main_LayoutPreview_Subtitle" xml:space="preserve">
     <value>Funktionale Layout-Testversion</value>
   </data>
+  <data name="Window_TriggerHelp_Heading" xml:space="preserve"><value>Trigger-Hilfe</value></data>
+  <data name="Window_TriggerHelp_Intro" xml:space="preserve"><value>So arbeiten Ereignisse, Effekte, Filter und Zielgeräte zusammen.</value></data>
+  <data name="Window_TriggerHelp_Types_Title" xml:space="preserve"><value>Trigger-Typen</value></data>
+  <data name="Window_TriggerHelp_Types_Body" xml:space="preserve"><value>Befehle und Schlüsselwörter reagieren auf Chatnachrichten. Twitch-Ereignisse wie Follower, Abonnements, Raids, Bits und Kanalpunkte reagieren automatisch, wenn der entsprechende Dienst verbunden ist. Streamlabs-Spenden und HypeRate benötigen ihre jeweilige Integration.</value></data>
+  <data name="Window_TriggerHelp_Chat_Title" xml:space="preserve"><value>Befehle und Schlüsselwörter</value></data>
+  <data name="Window_TriggerHelp_Chat_Body" xml:space="preserve"><value>Gib einen Befehl ohne Vorzeichen ein, beispielsweise help statt !help. Ein Befehl muss vollständig übereinstimmen. Ein Schlüsselwort darf an beliebiger Stelle einer Nachricht stehen. Mehrere Schlüsselwörter werden durch Kommas getrennt. VIP-, Abonnenten- und Moderatorenfilter sind nur für Befehle und Schlüsselwörter verfügbar.</value></data>
+  <data name="Window_TriggerHelp_ChannelPoints_Title" xml:space="preserve"><value>Kanalpunkte-Belohnungen</value></data>
+  <data name="Window_TriggerHelp_ChannelPoints_Body" xml:space="preserve"><value>Erstelle die Belohnung im Twitch-Dashboard, verbinde NTL mit Twitch und löse die Belohnung einmal ein. NTL erkennt ihre ID und ordnet sie dem Trigger zu. Löse eine andere Belohnung erneut ein, wenn du die Zuordnung ändern möchtest.</value></data>
+  <data name="Window_TriggerHelp_Effect_Title" xml:space="preserve"><value>Effekt, Farbe und Sound</value></data>
+  <data name="Window_TriggerHelp_Effect_Body" xml:space="preserve"><value>Wähle entweder einen Nanoleaf-Effekt oder eine feste Farbe. Benutzerfarbe verwendet die Twitch-Farbe des Zuschauers. Optionale Sounddateien müssen MP3 oder WAV sein; die Lautstärke wird nach der Dateiauswahl verfügbar.</value></data>
+  <data name="Window_TriggerHelp_Options_Title" xml:space="preserve"><value>Dauer, Menge und Abklingzeit</value></data>
+  <data name="Window_TriggerHelp_Options_Body" xml:space="preserve"><value>Die Dauer legt fest, wie lange der Effekt bei unterstützten Trigger-Typen aktiv bleibt. Menge ist der erforderliche Mindestwert für Bits, Geschenkbomben, HypeRate oder Spenden. Helligkeit erlaubt 0 bis 100. Die Abklingzeit verhindert, dass derselbe Befehl oder dasselbe Schlüsselwort zu schnell erneut ausgelöst wird.</value></data>
+  <data name="Window_TriggerHelp_Targets_Title" xml:space="preserve"><value>Zielgeräte und Gruppen</value></data>
+  <data name="Window_TriggerHelp_Targets_Body" xml:space="preserve"><value>Alle Nanoleafs wendet den Trigger auf jedes verbundene Gerät an. Entferne den Haken, um einzelne Geräte auszuwählen. Gerätegruppen sind optionale Vorlagen: Lege zuerst über Gruppen verwalten eine Gruppe an, wähle sie danach im Dropdown aus und übernimm sie.</value></data>
 </root>

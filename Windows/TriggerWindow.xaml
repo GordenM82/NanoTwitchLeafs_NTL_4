@@ -53,31 +53,31 @@
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Cooldown}" Width="80" DisplayMemberBinding="{Binding Cooldown}" />
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Flags}" Width="130" DisplayMemberBinding="{Binding VipSubMod}" />
                     <GridViewColumn x:Name="targetDevices_Column" Header="Zielgeräte" Width="140" DisplayMemberBinding="{Binding TargetDevices}" />
-                    <GridViewColumn Header="" Width="74">
+                    <GridViewColumn Header="" Width="48">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Width="64" Padding="6,6" HorizontalAlignment="Center" Content="{x:Static p:Resources.Window_Trigger_Button_Test}" Click="TestButton_Click" HorizontalContentAlignment="Center" />
+                                <Button Width="38" Height="34" Padding="0" HorizontalAlignment="Center" ToolTip="{x:Static p:Resources.Window_Trigger_Button_Test}" Click="TestButton_Click"><TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16" Text="&#xE768;"/></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="" Width="106">
+                    <GridViewColumn Header="" Width="48">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Width="96" Padding="6,6" HorizontalAlignment="Center" Content="{Binding DuplicateText}" Click="DuplicateButton_Click" HorizontalContentAlignment="Center" />
+                                <Button Width="38" Height="34" Padding="0" HorizontalAlignment="Center" ToolTip="{Binding DuplicateText}" Click="DuplicateButton_Click"><TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16" Text="&#xE8C8;"/></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="" Width="92">
+                    <GridViewColumn Header="" Width="48">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Width="82" Padding="6,6" HorizontalAlignment="Center" Content="{x:Static p:Resources.Window_Trigger_Button_Edit}" Click="EditButton_Click" HorizontalContentAlignment="Center" />
+                                <Button Width="38" Height="34" Padding="0" HorizontalAlignment="Center" ToolTip="{x:Static p:Resources.Window_Trigger_Button_Edit}" Click="EditButton_Click"><TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16" Text="&#xE70F;"/></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="" Width="86">
+                    <GridViewColumn Header="" Width="48">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Width="76" Padding="6,6" HorizontalAlignment="Center" Content="{x:Static p:Resources.Window_Trigger_Button_Delete}" Click="DeleteButton_Click" HorizontalContentAlignment="Center" />
+                                <Button Width="38" Height="34" Padding="0" HorizontalAlignment="Center" ToolTip="{x:Static p:Resources.Window_Trigger_Button_Delete}" Click="DeleteButton_Click"><TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16" Text="&#xE74D;"/></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

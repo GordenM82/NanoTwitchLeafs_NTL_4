@@ -262,7 +262,7 @@ namespace NanoTwitchLeafs.Controller
 		/// <param name="message"></param>
 		public void SendMessageToChat(string message)
 		{
-			if (!Client.IsConnected)
+			if (Client is null || !Client.IsConnected || string.IsNullOrWhiteSpace(message))
 				return;
 			Client.SendMessage(_appSettings.ChannelName, message);
 			_logger.Info($"-> {message}");

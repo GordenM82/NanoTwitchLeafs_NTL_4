@@ -108,6 +108,7 @@ namespace NanoTwitchLeafs.Windows
 				.ToList();
 			bool hasGroups = _appSettings.NanoSettings.DeviceGroups.Count > 0;
 			DeviceGroup_ComboBox.IsEnabled = hasGroups;
+			ApplyDeviceGroup_Button.IsEnabled = hasGroups;
 			NoDeviceGroups_TextBlock.Visibility = hasGroups ? Visibility.Collapsed : Visibility.Visible;
 			if (hasGroups)
 				DeviceGroup_ComboBox.SelectedIndex = 0;

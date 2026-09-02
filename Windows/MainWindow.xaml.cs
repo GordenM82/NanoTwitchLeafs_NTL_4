@@ -952,21 +952,21 @@ namespace NanoTwitchLeafs.Windows
 		private void ParseValuesIntoAppSettings()
 		{
 			// Bot Settings
-			_appSettings.WhisperMode = (bool)whisperMode_Checkbox.IsChecked;
+			_appSettings.WhisperMode = whisperMode_Checkbox.IsChecked == true;
 			_appSettings.CommandPrefix = commandPrefix_TextBox.Text;
-			_appSettings.ChatResponse = (bool)response_CheckBox.IsChecked;
+			_appSettings.ChatResponse = response_CheckBox.IsChecked == true;
 
 			// Nano Settings
-			_appSettings.NanoSettings.TriggerEnabled = (bool)nanoCmd_Checkbox.IsChecked;
-			_appSettings.NanoSettings.CooldownEnabled = (bool)nanoCooldown_Checkbox.IsChecked;
-			_appSettings.NanoSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
-			_appSettings.NanoSettings.ChangeBackOnCommand = (bool)commandRestore_CheckBox.IsChecked;
-			_appSettings.NanoSettings.ChangeBackOnKeyword = (bool)keywordRestore_Checkbox.IsChecked;
+			_appSettings.NanoSettings.TriggerEnabled = nanoCmd_Checkbox.IsChecked == true;
+			_appSettings.NanoSettings.CooldownEnabled = nanoCooldown_Checkbox.IsChecked == true;
+			_appSettings.NanoSettings.Cooldown = int.TryParse(nanoCooldown_TextBox.Text, out int cooldown) && cooldown >= 0 ? cooldown : 0;
+			_appSettings.NanoSettings.ChangeBackOnCommand = commandRestore_CheckBox.IsChecked == true;
+			_appSettings.NanoSettings.ChangeBackOnKeyword = keywordRestore_Checkbox.IsChecked == true;
 
 			// App Settings
-			_appSettings.AutoIpRefresh = (bool)autoIPRefresh_Checkbox.IsChecked;
-			_appSettings.DebugEnabled = (bool)debugCmd_Checkbox.IsChecked;
-			_appSettings.AutoConnect = (bool)autoConnect_Checkbox.IsChecked;
+			_appSettings.AutoIpRefresh = autoIPRefresh_Checkbox.IsChecked == true;
+			_appSettings.DebugEnabled = debugCmd_Checkbox.IsChecked == true;
+			_appSettings.AutoConnect = autoConnect_Checkbox.IsChecked == true;
 
 
 			// Hype Rate
@@ -1183,18 +1183,29 @@ namespace NanoTwitchLeafs.Windows
 
 		private void NanoCooldown_TextBox_TextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
 		{
-			_appSettings.NanoSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
+			if (int.TryParse(nanoCooldown_TextBox.Text, out int cooldown) && cooldown >= 0)
+				_appSettings.NanoSettings.Cooldown = cooldown;
 		}
 
 		private void NanoCooldown_TextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			_appSettings.NanoSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
+			if (!int.TryParse(nanoCooldown_TextBox.Text, out int cooldown) || cooldown < 0)
+			{
+				cooldown = 0;
+				nanoCooldown_TextBox.Text = "0";
+			}
+			_appSettings.NanoSettings.Cooldown = cooldown;
 		}
 
 		private void NanoCooldown_Checkbox_Click(object sender, RoutedEventArgs e)
 		{
-			_appSettings.NanoSettings.CooldownEnabled = (bool)nanoCooldown_Checkbox.IsChecked;
-			_appSettings.NanoSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
+			_appSettings.NanoSettings.CooldownEnabled = nanoCooldown_Checkbox.IsChecked == true;
+			if (!int.TryParse(nanoCooldown_TextBox.Text, out int cooldown) || cooldown < 0)
+			{
+				cooldown = 0;
+				nanoCooldown_TextBox.Text = "0";
+			}
+			_appSettings.NanoSettings.Cooldown = cooldown;
 
 			if (_appSettings.NanoSettings.CooldownEnabled)
 			{
@@ -1442,7 +1453,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void SendChatResponse(string message)
 		{
-			if (!_appSettings.ChatResponse)
+			if (!_appSettings.ChatResponse || _twitchController == null || string.IsNullOrWhiteSpace(message))
 			{
 				return;
 			}
