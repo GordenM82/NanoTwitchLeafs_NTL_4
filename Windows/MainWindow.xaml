@@ -7,7 +7,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.Window_Main_LayoutPreview_Title}" Height="780" Width="1400" MinWidth="1080" MinHeight="680"
+        Title="{x:Static p:Resources.Window_Main_LayoutPreview_Title}" Height="780" Width="1440" MinWidth="1120" MinHeight="680"
         WindowStartupLocation="CenterScreen" Background="{DynamicResource NtlBackgroundBrush}"
         Closing="Window_Closing" Closed="Main_Window_Closed" Loaded="Main_Window_Loaded" ShowActivated="True">
     <Grid>
@@ -37,7 +37,7 @@
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="188" />
+                <ColumnDefinition Width="168" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" Background="{DynamicResource NtlNavigationBrush}" BorderBrush="{DynamicResource NtlBorderBrush}" BorderThickness="0,0,1,0">
