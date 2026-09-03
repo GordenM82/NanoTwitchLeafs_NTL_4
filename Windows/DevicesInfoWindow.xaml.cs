@@ -23,6 +23,7 @@ namespace NanoTwitchLeafs.Windows
             _appSettingsController = appSettingsController ?? throw new ArgumentNullException(nameof(appSettingsController));
             Constants.SetCultureInfo(_appSettings.Language);
             InitializeComponent();
+            deviceGroups_Button.Content = Properties.Resources.ResourceManager.GetString("Window_DeviceGroups_Title");
             InitializeData();
         }
 

@@ -76,6 +76,16 @@ def main() -> int:
     if unknown_references:
         errors.append(f"resource references without neutral value: {', '.join(unknown_references)}")
 
+    designer = (PROPERTIES / "Resources.Designer.cs").read_text(encoding="utf-8-sig")
+    missing_designer_properties = sorted(key for key in XAML_RESOURCE.findall(
+        "\n".join(path.read_text(encoding="utf-8-sig") for path in ROOT.rglob("*.xaml"))
+    ) if not re.search(rf"public static string\s+{re.escape(key)}\b", designer))
+    if missing_designer_properties:
+        errors.append(
+            "XAML static resources without generated property: "
+            + ", ".join(sorted(set(missing_designer_properties)))
+        )
+
     main_window_code = (ROOT / "Windows" / "MainWindow.xaml.cs").read_text(encoding="utf-8-sig")
     actual_cultures = LANGUAGE_ENTRY.findall(main_window_code)
     if actual_cultures != SELECTABLE_CULTURES:
