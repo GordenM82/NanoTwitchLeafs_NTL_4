@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -55,6 +56,22 @@ namespace NanoTwitchLeafs.Windows
 		private TriggerWindow _embeddedTriggerManager;
 		private AppInfoWindow _embeddedAppInfo;
 		private static string DisplayVersion => typeof(AppInfoWindow).Assembly.GetName().Version.ToString(3);
+		private static string PreviewBadgeText
+		{
+			get
+			{
+				var attribute = typeof(AppInfoWindow).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+				string informationalVersion = attribute?.InformationalVersion ?? string.Empty;
+				const string marker = "layout-preview.";
+				int markerIndex = informationalVersion.IndexOf(marker, StringComparison.OrdinalIgnoreCase);
+				string previewNumber = markerIndex >= 0
+					? informationalVersion.Substring(markerIndex + marker.Length).Split('+')[0]
+					: string.Empty;
+				return string.IsNullOrWhiteSpace(previewNumber)
+					? $"{DisplayVersion} PREVIEW"
+					: $"{DisplayVersion} PREVIEW {previewNumber}";
+			}
+		}
 
 		private static void TryPrepareLayoutPreviewData()
 		{
@@ -174,6 +191,7 @@ namespace NanoTwitchLeafs.Windows
 
 			// Init Window and Controls
 			InitializeComponent();
+			previewBadge_TextBlock.Text = PreviewBadgeText;
 
 
 #if !DEBUG

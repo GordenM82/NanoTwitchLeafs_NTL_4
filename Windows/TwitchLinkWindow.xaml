@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.Window_TwitchLink_Title}" Height="450" Width="800" ResizeMode="NoResize" Closing="TwitchLink_Window_Closing">
+        Title="{x:Static p:Resources.Window_TwitchLink_Title}" Height="450" Width="800" ResizeMode="NoResize" Closing="TwitchLink_Window_Closing" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}">
     <Grid>
         <TabControl Margin="10">
             <TabControl.Resources>
@@ -14,7 +14,7 @@
                 </Style>
             </TabControl.Resources>
             <TabItem x:Name="Setup_TabItem" Header="{x:Static p:Resources.Window_TwitchLink_Tab_Setup}" IsEnabled="False">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="{DynamicResource NtlSurfaceBrush}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
@@ -26,7 +26,7 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="ConnectBroadcaster_TabItem" Header="{x:Static p:Resources.Window_TwitchLink_Tab_Broadcaster}" IsEnabled="False">
-                <Grid x:Name="Broadcaster_Picture" Background="#FFE5E5E5">
+                <Grid x:Name="Broadcaster_Picture" Background="{DynamicResource NtlSurfaceBrush}">
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="234" Width="440" Text="{x:Static p:Resources.Window_TwitchLink_Broadcaster_Permissions_Text}" />
                     <Button x:Name="LinkBroadcaster_Button" Content="{x:Static p:Resources.Window_TwitchLink_Button_Link}" HorizontalAlignment="Left" Margin="105,277,0,0" VerticalAlignment="Top" Width="180" Click="LinkBroadcaster_Button_Click" />
                     <Button x:Name="BCBack_Button" Content="{x:Static p:Resources.General_Button_Back}" HorizontalAlignment="Left" Margin="10,0,0,9" VerticalAlignment="Bottom" Width="75" Click="BCBack_Button_Click" />
@@ -37,7 +37,7 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="ConnectBot_TabItem" Header="{x:Static p:Resources.Window_TwitchLink_Tab_Bot}" IsEnabled="False" Height="22" Margin="0,-2,0,0" VerticalAlignment="Bottom">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="{DynamicResource NtlSurfaceBrush}">
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="234" Width="440" Text="{x:Static p:Resources.Window_TwitchLink_Bot_Permissions_Text}" />
                     <Button x:Name="LinkBot_Button" Content="{x:Static p:Resources.Window_TwitchLink_Button_Link}" HorizontalAlignment="Left" Margin="105,277,0,0" VerticalAlignment="Top" Width="180" Click="LinkBot_Button_Click" />
                     <Button x:Name="BotBack_Button" Content="{x:Static p:Resources.General_Button_Back}" HorizontalAlignment="Left" Margin="10,0,0,9" VerticalAlignment="Bottom" Width="75" Click="BotBack_Button_Click" />
@@ -48,7 +48,7 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="Test_TabItem" Header="{x:Static p:Resources.Window_TwitchLink_Tab_ConnectionTest}" IsEnabled="False" GotFocus="Test_TabItem_GotFocus">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="{DynamicResource NtlSurfaceBrush}">
                     <Button x:Name="TestBack_Button" Content="{x:Static p:Resources.General_Button_Back}" HorizontalAlignment="Left" Margin="10,0,0,9" VerticalAlignment="Bottom" Width="75" Click="TestBack_Button_Click" />
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="62" Width="354"><Run Text="{x:Static p:Resources.Window_TwitchLink_Tab_Test_Almostdone_Text}" /></TextBlock>
                     <Button x:Name="TestNext_Button" Content="{x:Static p:Resources.General_Button_Next}" HorizontalAlignment="Left" Margin="681,0,0,9" VerticalAlignment="Bottom" Width="75" Click="TestNext_Button_Click" IsEnabled="False" />
@@ -75,7 +75,7 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="Done_TabItem" Header="{x:Static p:Resources.Window_TwitchLink_Progress_5}" IsEnabled="False">
-                <Grid Background="#FFE5E5E5">
+                <Grid Background="{DynamicResource NtlSurfaceBrush}">
                     <Button Content="{x:Static p:Resources.General_Button_Back}" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="75" />
                     <Button x:Name="SaveSettings_Button" Content="{x:Static p:Resources.Window_Main_Button_Save}" HorizontalAlignment="Center" Margin="0,0,0,10" VerticalAlignment="Bottom" Width="175" Click="SaveSettings_Button_Click" />
                     <TextBlock HorizontalAlignment="Center" Height="79" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="309" TextAlignment="Center" Text="{x:Static p:Resources.Window_TwitchLink_Finished_Text}" />

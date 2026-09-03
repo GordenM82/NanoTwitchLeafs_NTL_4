@@ -8,7 +8,7 @@
         xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
         mc:Ignorable="d"
         Title="{x:Static p:Resources.Window_Main_LayoutPreview_Title}" Height="780" Width="1440" MinWidth="1120" MinHeight="680"
-        WindowStartupLocation="CenterScreen" Background="{DynamicResource NtlBackgroundBrush}"
+        WindowStartupLocation="CenterScreen" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}"
         Closing="Window_Closing" Closed="Main_Window_Closed" Loaded="Main_Window_Loaded" ShowActivated="True">
     <Grid>
         <Grid.RowDefinitions>
@@ -30,7 +30,7 @@
                     </StackPanel>
                 </StackPanel>
                 <Border Grid.Column="1" Background="#3C2A65" CornerRadius="12" Padding="12,5" VerticalAlignment="Center">
-                    <TextBlock Text="4.1.0 PREVIEW" Foreground="White" FontSize="11" FontWeight="SemiBold" />
+                    <TextBlock x:Name="previewBadge_TextBlock" Foreground="White" FontSize="11" FontWeight="SemiBold" />
                 </Border>
             </Grid>
         </Border>
@@ -74,7 +74,7 @@
                         <Button x:Name="DisconnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Disconnect}" Click="DisconnectChat_Button_Click" IsEnabled="False" Margin="80,0,80,0" />
                     </StackPanel></Border>
                     <Grid x:Name="ConnectedTwitchLogin_Grid" Visibility="Hidden"/>
-                    <Grid Margin="0,16,0,12"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="80"/></Grid.ColumnDefinitions><Label Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Label_Prefix}"/><TextBox x:Name="commandPrefix_TextBox" Grid.Column="1" Text="!" HorizontalContentAlignment="Center" LostFocus="commandPrefix_TextBox_LostFocus" /></Grid>
+                    <Grid HorizontalAlignment="Center" Margin="0,16,0,12"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="68"/></Grid.ColumnDefinitions><Label Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Label_Prefix}" Margin="0,0,10,0"/><TextBox x:Name="commandPrefix_TextBox" Grid.Column="1" Text="!" HorizontalContentAlignment="Center" LostFocus="commandPrefix_TextBox_LostFocus" /></Grid>
                     <TextBlock x:Name="help_TextBlock" Text="Help Command TextBlock" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" />
                 </StackPanel></ScrollViewer>
             </TabItem>

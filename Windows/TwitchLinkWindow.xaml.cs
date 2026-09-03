@@ -49,13 +49,13 @@ namespace NanoTwitchLeafs.Windows
 		private void TextBlock_MouseEnter(object sender, MouseEventArgs e)
 		{
 			var textBlock = (TextBlock)sender;
-			textBlock.Background = Brushes.DarkGray;
+			textBlock.SetResourceReference(TextBlock.BackgroundProperty, "NtlAccentSurfaceBrush");
 		}
 
 		private void TextBlock_MouseLeave(object sender, MouseEventArgs e)
 		{
 			var textBlock = (TextBlock)sender;
-			textBlock.Background = new SolidColorBrush(Color.FromRgb(0xE5, 0xE5, 0xE5));
+			textBlock.SetResourceReference(TextBlock.BackgroundProperty, "NtlSurfaceBrush");
 		}
 
 		private void Double_TextBlock_MouseDown(object sender, MouseButtonEventArgs e)

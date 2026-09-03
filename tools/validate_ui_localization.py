@@ -45,6 +45,16 @@ def main() -> int:
     neutral = read_resx(PROPERTIES / "Resources.resx")
     neutral_keys = set(neutral)
 
+    wpf_namespace = "{http://schemas.microsoft.com/winfx/2006/xaml/presentation}"
+    for path in sorted((ROOT / "Windows").glob("*.xaml")):
+        window = ET.parse(path).getroot()
+        if window.tag != f"{wpf_namespace}Window":
+            continue
+        if window.get("Background") != "{DynamicResource NtlBackgroundBrush}":
+            errors.append(f"{path.name}: window background is not theme-aware")
+        if window.get("Foreground") != "{DynamicResource NtlTextBrush}":
+            errors.append(f"{path.name}: window foreground is not theme-aware")
+
     for culture in RESOURCE_CULTURES:
         path = PROPERTIES / f"Resources.{culture}.resx"
         if not path.exists():
