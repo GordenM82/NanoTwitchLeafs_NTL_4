@@ -53,6 +53,7 @@ namespace NanoTwitchLeafs.Windows
 		private readonly TwitchEventSubController _twitchEventSubController;
 		private bool _initialWindowActivationCompleted;
 		private TriggerWindow _embeddedTriggerManager;
+		private AppInfoWindow _embeddedAppInfo;
 		private static string DisplayVersion => typeof(AppInfoWindow).Assembly.GetName().Version.ToString(3);
 
 		private static void TryPrepareLayoutPreviewData()
@@ -669,6 +670,7 @@ namespace NanoTwitchLeafs.Windows
 			bool showChat = page < 0;
 			bool showIntegrations = page >= 3 && page <= 5;
 			triggerManager_Host.Visibility = Visibility.Collapsed;
+			appInfo_Host.Visibility = Visibility.Collapsed;
 			Save_Button.Visibility = Visibility.Visible;
 			chatconsole_TabControl.Visibility = showChat ? Visibility.Visible : Visibility.Collapsed;
 			settings_TabControl.Visibility = showChat ? Visibility.Collapsed : Visibility.Visible;
@@ -711,6 +713,17 @@ namespace NanoTwitchLeafs.Windows
 					integrationButton.ClearValue(BackgroundProperty);
 					integrationButton.ClearValue(FontWeightProperty);
 				}
+			}
+
+			if (page == 7)
+			{
+				infoNavigation_Button.SetResourceReference(BackgroundProperty, "NtlAccentSurfaceBrush");
+				infoNavigation_Button.FontWeight = FontWeights.SemiBold;
+			}
+			else
+			{
+				infoNavigation_Button.Background = System.Windows.Media.Brushes.Transparent;
+				infoNavigation_Button.ClearValue(FontWeightProperty);
 			}
 		}
 
@@ -888,7 +901,22 @@ namespace NanoTwitchLeafs.Windows
 
 		private void Open_Dir_Button_Click(object sender, RoutedEventArgs e)
 		{
-			Process.Start(Constants.PROGRAMFILESFOLDER_PATH);
+			try
+			{
+				Directory.CreateDirectory(Constants.PROGRAMFILESFOLDER_PATH);
+				Process.Start(new ProcessStartInfo
+				{
+					FileName = "explorer.exe",
+					Arguments = $"\"{Constants.PROGRAMFILESFOLDER_PATH}\"",
+					UseShellExecute = true
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.Error("Could not open the program data directory.", ex);
+				MessageBox.Show(Properties.Resources.General_MessageBox_GeneralError_Text,
+					Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
+			}
 		}
 
 
@@ -982,6 +1010,7 @@ namespace NanoTwitchLeafs.Windows
 
 				chatconsole_TabControl.Visibility = Visibility.Collapsed;
 				settings_TabControl.Visibility = Visibility.Collapsed;
+				appInfo_Host.Visibility = Visibility.Collapsed;
 				integrationTabs_Panel.Visibility = Visibility.Collapsed;
 				Save_Button.Visibility = Visibility.Collapsed;
 				triggerManager_Host.Visibility = Visibility.Visible;
@@ -1039,14 +1068,28 @@ namespace NanoTwitchLeafs.Windows
 
 		private void AppInfo_Button_Click(object sender, RoutedEventArgs e)
 		{
-			AppInfoWindow appInfoWindow = new AppInfoWindow(_appSettings, _appSettingsController)
+			try
 			{
-				Owner = this
-			};
-
-			if (!CheckForDuplicateWindow(appInfoWindow))
+				if (_embeddedAppInfo == null)
+				{
+					_embeddedAppInfo = new AppInfoWindow(_appSettings, _appSettingsController);
+					UIElement infoContent = _embeddedAppInfo.Content as UIElement;
+					_embeddedAppInfo.Content = null;
+					appInfo_Host.Content = infoContent;
+				}
+				chatconsole_TabControl.Visibility = Visibility.Collapsed;
+				settings_TabControl.Visibility = Visibility.Collapsed;
+				integrationTabs_Panel.Visibility = Visibility.Collapsed;
+				triggerManager_Host.Visibility = Visibility.Collapsed;
+				Save_Button.Visibility = Visibility.Collapsed;
+				appInfo_Host.Visibility = Visibility.Visible;
+				UpdateNavigationState(7);
+			}
+			catch (Exception ex)
 			{
-				appInfoWindow.Show();
+				_logger.Error("Program information could not be opened.", ex);
+				MessageBox.Show(Properties.Resources.General_MessageBox_GeneralError_Text,
+					Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 

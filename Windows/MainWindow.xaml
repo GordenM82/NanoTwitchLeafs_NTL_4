@@ -44,7 +44,7 @@
                 <DockPanel Margin="0,12">
                     <StackPanel DockPanel.Dock="Bottom" Margin="0,8">
                         <Separator Margin="18,8" />
-                        <Button Content="{x:Static p:Resources.Window_Main_Tabs_Chat_Button_Info}" Style="{StaticResource NtlNavigationButtonStyle}" Click="AppInfo_Button_Click" />
+                        <Button x:Name="infoNavigation_Button" Tag="7" Content="{x:Static p:Resources.Window_Main_Tabs_Chat_Button_Info}" Style="{StaticResource NtlNavigationButtonStyle}" Click="AppInfo_Button_Click" />
                     </StackPanel>
                     <StackPanel x:Name="navigationButtons_Panel">
                         <Button x:Name="chatNavigation_Button" Tag="-1" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
@@ -96,10 +96,8 @@
             </TabItem>
             <TabItem Header="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Margin="1,0,-1,0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="{DynamicResource NtlSurfaceBrush}">
-                  <Grid MaxWidth="1040" HorizontalAlignment="Center" Margin="12">
-                    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="380"/></Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0" TextElement.FontSize="14" Margin="0,0,12,0">
-                      <Border Style="{StaticResource NtlCardStyle}" Margin="0,0,0,8"><StackPanel>
+                  <WrapPanel MaxWidth="1120" HorizontalAlignment="Center" Margin="8" TextElement.FontSize="14">
+                    <Border Style="{StaticResource NtlCardStyle}" Width="340" VerticalAlignment="Top" Margin="6"><StackPanel>
                         <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_General}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,6"/>
                         <CheckBox x:Name="autoConnect_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Autoconnect}" Click="AutoConnect_Checkbox_Click" Margin="0,0,0,8"/>
                         <Separator Margin="0,0,0,8"/>
@@ -107,8 +105,8 @@
                         <Grid Margin="0,3"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><CheckBox x:Name="response_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Responses}" Click="Response_CheckBox_Click"/><Button x:Name="responses_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_Edit}" Click="Responses_Button_Click"/></Grid>
                         <CheckBox x:Name="whisperMode_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Whisper}" Margin="0,3"/>
                         <Grid Margin="0,3"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><CheckBox x:Name="blacklist_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Blocklist}" Click="blacklist_CheckBox_Click"/><Button x:Name="blacklist_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_Edit}" Click="blacklist_Button_Click"/></Grid>
-                      </StackPanel></Border>
-                      <Border Style="{StaticResource NtlCardStyle}" Margin="0,0,0,8"><StackPanel>
+                    </StackPanel></Border>
+                    <Border Style="{StaticResource NtlCardStyle}" Width="340" VerticalAlignment="Top" Margin="6"><StackPanel>
                         <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Misc}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
                         <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_SetEffect}" Margin="0,0,0,5"/>
                         <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><Button x:Name="LoadEffects_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_LoadEffects}" Click="LoadEffects_Button_Click" Margin="0,0,8,0"/><ComboBox x:Name="Effects_ComboBox" Grid.Column="1" Margin="0,0,8,0"/><Button x:Name="SetBaseEffect_Button" Grid.Column="2" Content="{x:Static p:Resources.General_Button_OK}" Click="SetBaseEffect_Button_Click"/></Grid>
@@ -117,10 +115,9 @@
                         <CheckBox x:Name="autoIPRefresh_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh}" Click="autoIPRefresh_Checkbox_Click"/>
                         <CheckBox x:Name="debugCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Debug}" Click="DebugCmd_Checkbox_Click"/>
                         <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Language}" Margin="0,10,0,5"/><ComboBox x:Name="language_Combobox" MaxDropDownHeight="420" MinWidth="280" SelectionChanged="language_Combobox_SelectionChanged"/>
-                      </StackPanel></Border>
-                      <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><Button x:Name="Open_Dir_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_OpenDebugDir}" Click="Open_Dir_Button_Click" Margin="0,0,6,0"/><Button x:Name="CheckForUpdate_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_UpdateCheck}" Click="CheckForUpdate_Button_Click" Margin="6,0,0,0"/></Grid>
-                    </StackPanel>
-                    <Border Grid.Column="1" Style="{StaticResource NtlCardStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <Grid Margin="0,12,0,0"><Grid.RowDefinitions><RowDefinition/><RowDefinition/></Grid.RowDefinitions><Button x:Name="Open_Dir_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_OpenDebugDir}" Click="Open_Dir_Button_Click" Margin="0,0,0,6"/><Button x:Name="CheckForUpdate_Button" Grid.Row="1" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_UpdateCheck}" Click="CheckForUpdate_Button_Click"/></Grid>
+                    </StackPanel></Border>
+                    <Border Style="{StaticResource NtlCardStyle}" Width="320" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="6">
                         <StackPanel>
                             <TextBlock x:Name="appearanceHeading_TextBlock" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,14" />
                             <TextBlock x:Name="themeLabel_TextBlock" Margin="0,0,0,5" />
@@ -138,7 +135,7 @@
                             </ComboBox>
                         </StackPanel>
                     </Border>
-                  </Grid>
+                  </WrapPanel>
                 </ScrollViewer>
             </TabItem>
             <TabItem x:Name="Streamlabs_Tabitem"  Header="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_Title}">
@@ -205,6 +202,7 @@
             </TabItem>
         </TabControl>
         <ContentControl x:Name="triggerManager_Host" Grid.Column="1" Margin="20" Visibility="Collapsed" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+        <ContentControl x:Name="appInfo_Host" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
         <Button x:Name="Save_Button" Content="{x:Static p:Resources.Window_Main_Button_Save}" HorizontalAlignment="Right" Margin="0,0,20,20" Width="220" Click="Save_Button_Click" Grid.Column="1" HorizontalContentAlignment="Center" Height="42" VerticalAlignment="Bottom" Style="{StaticResource NtlPrimaryButtonStyle}" />
         </Grid>
     </Grid>
