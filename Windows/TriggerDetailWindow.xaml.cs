@@ -808,11 +808,15 @@ namespace NanoTwitchLeafs.Windows
 
 		private void TriggerHelp_Button_Click(object sender, RoutedEventArgs e)
 		{
-			TriggerHelpWindow triggerHelpWindow = new TriggerHelpWindow(_appSettings.Language)
+			if (Application.Current.MainWindow is MainWindow mainWindow)
 			{
-				Owner = this
-			};
-			triggerHelpWindow.Show();
+				Hide();
+				mainWindow.ShowHelp(MainWindow.HelpTopic.Trigger, () =>
+				{
+					Show();
+					Activate();
+				});
+			}
 		}
 
 		#region Ui Stuff

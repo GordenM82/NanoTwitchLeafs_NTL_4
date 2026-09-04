@@ -38,11 +38,15 @@ namespace NanoTwitchLeafs.Windows
 
         private void ResponseHelp_Button_Click(object sender, RoutedEventArgs e)
         {
-            ResponsesHelpWindow responsesHelpWindow = new ResponsesHelpWindow(_appSettings.Language)
+            if (Application.Current.MainWindow is MainWindow mainWindow)
             {
-                Owner = this
-            };
-            responsesHelpWindow.Show();
+                Hide();
+                mainWindow.ShowHelp(MainWindow.HelpTopic.ChatResponses, () =>
+                {
+                    Show();
+                    Activate();
+                });
+            }
         }
 
         #endregion

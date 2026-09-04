@@ -55,6 +55,20 @@ namespace NanoTwitchLeafs.Windows
 		private bool _initialWindowActivationCompleted;
 		private TriggerWindow _embeddedTriggerManager;
 		private AppInfoWindow _embeddedAppInfo;
+		private int _currentPage = -1;
+		private int _helpReturnPage = -1;
+		private Action _helpReturnAction;
+
+		public enum HelpTopic
+		{
+			General,
+			Nano,
+			Trigger,
+			ChatResponses,
+			Devices,
+			Twitch,
+			Integrations
+		}
 		private static string DisplayVersion => typeof(AppInfoWindow).Assembly.GetName().Version.ToString(3);
 		private static string PreviewBadgeText
 		{
@@ -685,10 +699,16 @@ namespace NanoTwitchLeafs.Windows
 		private void Navigation_Button_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is not Button button || !int.TryParse(button.Tag?.ToString(), out int page)) return;
+			ShowMainPage(page);
+		}
+
+		private void ShowMainPage(int page)
+		{
 			bool showChat = page < 0;
 			bool showIntegrations = page >= 3 && page <= 5;
 			triggerManager_Host.Visibility = Visibility.Collapsed;
 			appInfo_Host.Visibility = Visibility.Collapsed;
+			helpPanel.Visibility = Visibility.Collapsed;
 			Save_Button.Visibility = Visibility.Visible;
 			chatconsole_TabControl.Visibility = showChat ? Visibility.Visible : Visibility.Collapsed;
 			settings_TabControl.Visibility = showChat ? Visibility.Collapsed : Visibility.Visible;
@@ -697,6 +717,7 @@ namespace NanoTwitchLeafs.Windows
 				? new Thickness(20, 68, 20, 76)
 				: new Thickness(20, 20, 20, 76);
 			if (!showChat) settings_TabControl.SelectedIndex = page;
+			_currentPage = page;
 			UpdateNavigationState(page);
 		}
 
@@ -743,6 +764,48 @@ namespace NanoTwitchLeafs.Windows
 				infoNavigation_Button.Background = System.Windows.Media.Brushes.Transparent;
 				infoNavigation_Button.ClearValue(FontWeightProperty);
 			}
+
+			if (page == 8)
+			{
+				helpNavigation_Button.SetResourceReference(BackgroundProperty, "NtlAccentSurfaceBrush");
+				helpNavigation_Button.FontWeight = FontWeights.SemiBold;
+			}
+			else
+			{
+				helpNavigation_Button.Background = System.Windows.Media.Brushes.Transparent;
+				helpNavigation_Button.ClearValue(FontWeightProperty);
+			}
+		}
+
+		private void HelpNavigation_Button_Click(object sender, RoutedEventArgs e) => ShowHelp(HelpTopic.General);
+
+		public void ShowHelp(HelpTopic topic, Action returnAction = null)
+		{
+			if (_currentPage != 8) _helpReturnPage = _currentPage;
+			_helpReturnAction = returnAction;
+			chatconsole_TabControl.Visibility = Visibility.Collapsed;
+			settings_TabControl.Visibility = Visibility.Collapsed;
+			integrationTabs_Panel.Visibility = Visibility.Collapsed;
+			triggerManager_Host.Visibility = Visibility.Collapsed;
+			appInfo_Host.Visibility = Visibility.Collapsed;
+			Save_Button.Visibility = Visibility.Collapsed;
+			helpPanel.Visibility = Visibility.Visible;
+			help_TabControl.SelectedIndex = (int)topic;
+			_currentPage = 8;
+			UpdateNavigationState(8);
+			Show();
+			Activate();
+		}
+
+		private void HelpBack_Button_Click(object sender, RoutedEventArgs e)
+		{
+			int returnPage = _helpReturnPage;
+			Action returnAction = _helpReturnAction;
+			_helpReturnAction = null;
+			if (returnPage == 6) ShowEmbeddedTriggerManager();
+			else if (returnPage == 7) ShowEmbeddedAppInfo();
+			else ShowMainPage(returnPage == 8 ? -1 : returnPage);
+			returnAction?.Invoke();
 		}
 
 		private async void SetBaseColor_Button_Click(object sender, RoutedEventArgs e)
@@ -1029,9 +1092,11 @@ namespace NanoTwitchLeafs.Windows
 				chatconsole_TabControl.Visibility = Visibility.Collapsed;
 				settings_TabControl.Visibility = Visibility.Collapsed;
 				appInfo_Host.Visibility = Visibility.Collapsed;
+				helpPanel.Visibility = Visibility.Collapsed;
 				integrationTabs_Panel.Visibility = Visibility.Collapsed;
 				Save_Button.Visibility = Visibility.Collapsed;
 				triggerManager_Host.Visibility = Visibility.Visible;
+				_currentPage = 6;
 				UpdateNavigationState(6);
 			}
 			catch (Exception ex)
@@ -1086,6 +1151,11 @@ namespace NanoTwitchLeafs.Windows
 
 		private void AppInfo_Button_Click(object sender, RoutedEventArgs e)
 		{
+			ShowEmbeddedAppInfo();
+		}
+
+		private void ShowEmbeddedAppInfo()
+		{
 			try
 			{
 				if (_embeddedAppInfo == null)
@@ -1099,8 +1169,10 @@ namespace NanoTwitchLeafs.Windows
 				settings_TabControl.Visibility = Visibility.Collapsed;
 				integrationTabs_Panel.Visibility = Visibility.Collapsed;
 				triggerManager_Host.Visibility = Visibility.Collapsed;
+				helpPanel.Visibility = Visibility.Collapsed;
 				Save_Button.Visibility = Visibility.Collapsed;
 				appInfo_Host.Visibility = Visibility.Visible;
+				_currentPage = 7;
 				UpdateNavigationState(7);
 			}
 			catch (Exception ex)
@@ -1255,7 +1327,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void AutoRestoreHelp_Button_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBox.Show(Properties.Resources.Code_Main_MessageBox_AutoRestore, Properties.Resources.General_MessageBox_Hint_Title);
+			ShowHelp(HelpTopic.Nano);
 		}
 
 		private void EventReset_Button_Click(object sender, RoutedEventArgs e)
