@@ -58,6 +58,7 @@ namespace NanoTwitchLeafs.Windows
 		private int _currentPage = -1;
 		private int _helpReturnPage = -1;
 		private Action _helpReturnAction;
+		private bool _helpReturnFollowsSelectedTopic;
 
 		public enum HelpTopic
 		{
@@ -777,12 +778,16 @@ namespace NanoTwitchLeafs.Windows
 			}
 		}
 
-		private void HelpNavigation_Button_Click(object sender, RoutedEventArgs e) => ShowHelp(HelpTopic.General);
+		private void HelpNavigation_Button_Click(object sender, RoutedEventArgs e)
+		{
+			ShowHelp(HelpTopic.General, null, true);
+		}
 
-		public void ShowHelp(HelpTopic topic, Action returnAction = null)
+		public void ShowHelp(HelpTopic topic, Action returnAction = null, bool returnToSelectedTopic = false)
 		{
 			if (_currentPage != 8) _helpReturnPage = _currentPage;
 			_helpReturnAction = returnAction;
+			_helpReturnFollowsSelectedTopic = returnToSelectedTopic;
 			chatconsole_TabControl.Visibility = Visibility.Collapsed;
 			settings_TabControl.Visibility = Visibility.Collapsed;
 			integrationTabs_Panel.Visibility = Visibility.Collapsed;
@@ -791,10 +796,37 @@ namespace NanoTwitchLeafs.Windows
 			Save_Button.Visibility = Visibility.Collapsed;
 			helpPanel.Visibility = Visibility.Visible;
 			help_TabControl.SelectedIndex = (int)topic;
+			if (_helpReturnFollowsSelectedTopic) _helpReturnPage = GetPageForHelpTopic(topic);
 			_currentPage = 8;
 			UpdateNavigationState(8);
 			Show();
 			Activate();
+		}
+
+		private void Help_TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (!_helpReturnFollowsSelectedTopic || help_TabControl.SelectedIndex < 0) return;
+			_helpReturnPage = GetPageForHelpTopic((HelpTopic)help_TabControl.SelectedIndex);
+		}
+
+		private static int GetPageForHelpTopic(HelpTopic topic)
+		{
+			switch (topic)
+			{
+				case HelpTopic.Nano:
+				case HelpTopic.Devices:
+					return 1;
+				case HelpTopic.Trigger:
+					return 6;
+				case HelpTopic.Twitch:
+					return 0;
+				case HelpTopic.Integrations:
+					return 3;
+				case HelpTopic.General:
+				case HelpTopic.ChatResponses:
+				default:
+					return 2;
+			}
 		}
 
 		private void HelpBack_Button_Click(object sender, RoutedEventArgs e)
@@ -802,6 +834,7 @@ namespace NanoTwitchLeafs.Windows
 			int returnPage = _helpReturnPage;
 			Action returnAction = _helpReturnAction;
 			_helpReturnAction = null;
+			_helpReturnFollowsSelectedTopic = false;
 			if (returnPage == 6) ShowEmbeddedTriggerManager();
 			else if (returnPage == 7) ShowEmbeddedAppInfo();
 			else ShowMainPage(returnPage == 8 ? -1 : returnPage);
@@ -1519,6 +1552,7 @@ namespace NanoTwitchLeafs.Windows
 			HypeRateApiKey_Textbox.IsEnabled = true;
 
 			help_TextBlock.Text = string.Format(Properties.Resources.Code_Main_Label_NanoHelpText, _appSettings.CommandPrefix);
+			generalCommandHelp_TextBlock.Text = string.Format(Properties.Resources.Code_Main_Label_NanoHelpText, _appSettings.CommandPrefix);
 		}
 
 		private void _twitchController_OnConsoleMessageReceived(string message)

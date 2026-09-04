@@ -139,7 +139,7 @@
     <value>Fehler!</value>
   </data>
   <data name="General_MessageBox_EnterUsername" xml:space="preserve">
-    <value>Bitte gib einen Twitch Benutzernamen ein!</value>
+    <value>Bitte gib einen Twitch-Benutzernamen ein.</value>
   </data>
   <data name="General_MessageBox_UsernameExists" xml:space="preserve">
     <value>Benutzername schon vorhanden!</value>
@@ -152,10 +152,10 @@
 Wir beobachten dich! ... Kappa!</value>
   </data>
   <data name="General_Blacklist_MessageBox_AddedUserX" xml:space="preserve">
-    <value>Benutzer '{0}' wurde zur Blacklist hinzu gefügt!</value>
+    <value>Benutzer „{0}“ wurde zur Blockliste hinzugefügt.</value>
   </data>
   <data name="General_Blacklist_MessageBox_RemovedUserX" xml:space="preserve">
-    <value>Benutzer '{0}' wurde von der Blacklist entfernt!</value>
+    <value>Benutzer „{0}“ wurde von der Blockliste entfernt.</value>
   </data>
   <data name="Window_Devices_Title" xml:space="preserve">
     <value>Verbundene Geräte</value>
@@ -176,7 +176,7 @@ Wir beobachten dich! ... Kappa!</value>
     <value>Möchtest du wirklich das Gerät {0} entfernen?</value>
   </data>
   <data name="Code_Devices_MessageBox_RemoveConfirm_Title" xml:space="preserve">
-    <value>Nanoleaf Gerät entfernen</value>
+    <value>Nanoleaf-Gerät entfernen</value>
   </data>
   <data name="General_MessageBox_Sucess_Title" xml:space="preserve">
     <value>Yay!</value>
@@ -185,16 +185,16 @@ Wir beobachten dich! ... Kappa!</value>
     <value>Geräte aktualisiert!</value>
   </data>
   <data name="Window_NanoDeviceInput_Title" xml:space="preserve">
-    <value>Benenne dein Nanoleaf Gerät</value>
+    <value>Nanoleaf-Gerät benennen</value>
   </data>
   <data name="Window_NanoDeviceInput_Text" xml:space="preserve">
     <value>Nenne dein Gerät zum Beispiel 'Wohnzimmer' oder 'Wand links'</value>
   </data>
   <data name="Window_Loading_Title" xml:space="preserve">
-    <value>Läd ...</value>
+    <value>Lädt …</value>
   </data>
   <data name="Window_Loading_Text" xml:space="preserve">
-    <value>Läd ... Bitte warten</value>
+    <value>Lädt … Bitte warten.</value>
   </data>
   <data name="Window_Main_Title" xml:space="preserve">
     <value>NanoTwitchLeafs</value>
@@ -257,10 +257,10 @@ Wir beobachten dich! ... Kappa!</value>
     <value>Keine Abklingzeit für Moderatoren</value>
   </data>
   <data name="Window_Main_Tabs_Nano_Button_ManageDevices" xml:space="preserve">
-    <value>Geräte Übersicht</value>
+    <value>Geräteübersicht</value>
   </data>
   <data name="Window_Main_Tabs_Nano_Button_RestartQueue" xml:space="preserve">
-    <value>Warteliste neustart</value>
+    <value>Warteliste neu starten</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Title" xml:space="preserve">
     <value>Einstellungen</value>
@@ -290,7 +290,7 @@ Wir beobachten dich! ... Kappa!</value>
     <value>Verbinden beim Start</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Button_OpenDebugDir" xml:space="preserve">
-    <value>Debug Verzeichnis</value>
+    <value>Debug-Verzeichnis</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Label_ResetBrightness" xml:space="preserve">
     <value>Setze Helligkeit auf</value>
@@ -308,7 +308,7 @@ Wir beobachten dich! ... Kappa!</value>
     <value>Abrufen</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh" xml:space="preserve">
-    <value>Geräte IP-Adressen automatisch aktualisieren</value>
+    <value>Geräte-IP-Adressen automatisch aktualisieren</value>
   </data>
   <data name="Window_Main_Tabs_Chat_Title" xml:space="preserve">
     <value>Chat</value>
@@ -326,11 +326,11 @@ Wir beobachten dich! ... Kappa!</value>
     <value>Info</value>
   </data>
   <data name="Code_Main_MessageBox_BetaTitle" xml:space="preserve">
-    <value>Dies ist eine Beta Version!</value>
+    <value>Dies ist eine Beta-Version.</value>
   </data>
   <data name="Code_Main_MessageBox_Beta" xml:space="preserve">
-    <value>Bitte denke daran das es sich hierbei um eine Beta Version handelt!
-Bei Problemen und/oder Feedback bitte im Discord Channel für die Beta melden!</value>
+    <value>Bitte denke daran, dass es sich hierbei um eine Beta-Version handelt.
+Melde Probleme oder Feedback bitte im Discord-Kanal für die Beta.</value>
   </data>
   <data name="Code_Main_MessageBox_InstanceCheck" xml:space="preserve">
     <value>Es läuft bereits eine Instanz von NanoTwitchLeafs!
@@ -343,10 +343,10 @@ Bitte überprüfe den SystemTray in der Taskleiste!</value>
     <value>Hinweis</value>
   </data>
   <data name="Code_Main_MessageBox_PairDevice" xml:space="preserve">
-    <value>Bitte füge zu erst ein Gerät hinzu bevor du die Trigger aktivierst!</value>
+    <value>Bitte füge zuerst ein Gerät hinzu, bevor du die Trigger aktivierst.</value>
   </data>
   <data name="Code_Main_MessageBox_StreamerAccount" xml:space="preserve">
-    <value>Bitte logge dich diesmal mit deinem 'Streamer' Account ein!</value>
+    <value>Bitte melde dich mit deinem Streamer-Konto an.</value>
   </data>
   <data name="General_MessageBox_SomethingWrong" xml:space="preserve">
     <value>Etwas ist schief gelaufen!
@@ -359,49 +359,49 @@ Bitte schau in die Logdatei für mehr Infos!</value>
     <value>Oh ...</value>
   </data>
   <data name="Code_Main_ChatMessage_CooldownON" xml:space="preserve">
-    <value>Nanoleaf Abklingzeit aktiviert! Abklingzeit wurde auf {0} Sekunden gesetzt!</value>
+    <value>Nanoleaf-Abklingzeit aktiviert. Die Abklingzeit wurde auf {0} Sekunden gesetzt.</value>
   </data>
   <data name="Code_Main_ChatMessage_CooldownOFF" xml:space="preserve">
-    <value>Nanoleaf Abklingzeit wurde deaktiviert!</value>
+    <value>Die Nanoleaf-Abklingzeit wurde deaktiviert.</value>
   </data>
   <data name="Code_Main_MessageBox_AutoRestore" xml:space="preserve">
-    <value>Wenn diese aktiviert sind, wird die App nach den X Sekunden zum vorherigen Effekt zurück wechseln. Kann im Trigger Fenster eingestellt werden.</value>
+    <value>Wenn diese Optionen aktiviert sind, wechselt die App nach der festgelegten Dauer zum vorherigen Effekt zurück. Die Dauer kann im Trigger-Fenster eingestellt werden.</value>
   </data>
   <data name="Code_Main_MessageBox_Value0100" xml:space="preserve">
-    <value>Bitte gibt eine Zahl zwischen 0 und 100 ein!</value>
+    <value>Bitte gib eine Zahl zwischen 0 und 100 ein.</value>
   </data>
   <data name="Code_Main_MessageBox_EmptyPrefix" xml:space="preserve">
     <value>Das darf nicht leer sein!</value>
   </data>
   <data name="Code_Main_Label_NanoHelpText" xml:space="preserve">
-    <value>Schreibe '{0}nano help' für eine Liste mit Befehlen!</value>
+    <value>Schreibe „{0}nano help“, um eine Liste der Befehle anzuzeigen.</value>
   </data>
   <data name="Code_Main_MessageBox_EmptyFields" xml:space="preserve">
     <value>Bitte fülle alle Felder aus!</value>
   </data>
   <data name="Code_Main_MessageBox_WrongFormatChannel" xml:space="preserve">
-    <value>Bitte gib bei Kanal nur deinen Twitch Kanalnamen ein!</value>
+    <value>Bitte gib unter „Kanal“ nur deinen Twitch-Kanalnamen ein.</value>
   </data>
   <data name="Code_Main_MessageBox_ConTestFail" xml:space="preserve">
-    <value>Verbindungs Test fehlgeschlagen!</value>
+    <value>Verbindungstest fehlgeschlagen.</value>
   </data>
   <data name="Code_Main_MessageBox_AdressNull" xml:space="preserve">
-    <value>Geräte Adresse nicht gefunden!</value>
+    <value>Geräteadresse nicht gefunden.</value>
   </data>
   <data name="Code_Main_MessageBox_UpdateOrRepair" xml:space="preserve">
     <value>Bitte aktualisiere oder verbinde das Gerät erneut!</value>
   </data>
   <data name="Code_Main_MessageBox_ControllerInfoNull" xml:space="preserve">
-    <value>Geräte Info von {0} konnten nicht abgerufen werden!</value>
+    <value>Die Geräteinformationen von {0} konnten nicht abgerufen werden.</value>
   </data>
   <data name="Code_Main_MessageBox_UndefinedEffect_Title" xml:space="preserve">
     <value>Unbekannter Effekt erkannt!</value>
   </data>
   <data name="Code_Main_MessageBox_UndefinedEffect" xml:space="preserve">
-    <value>Bitte stelle sicher das du keinen 'Dynamischen' oder 'Shuffle' Effekt benutzt!</value>
+    <value>Bitte stelle sicher, dass du keinen dynamischen Effekt oder Shuffle-Effekt verwendest.</value>
   </data>
   <data name="Code_Main_MessageBox_ConFail" xml:space="preserve">
-    <value>Konnte nicht zu Gerät verbinden! Siehe Konsole oder Log-Datei für Infos!</value>
+    <value>Die Verbindung zum Gerät konnte nicht hergestellt werden. Weitere Informationen findest du in der Konsole oder Protokolldatei.</value>
   </data>
   <data name="Code_Main_MessageBox_NoDevice" xml:space="preserve">
     <value>Bitte verbinde mindestens ein Gerät.</value>
@@ -413,7 +413,7 @@ Bitte schau in die Logdatei für mehr Infos!</value>
     <value>Automatisch Erkennen</value>
   </data>
   <data name="Window_Pairing_Label_IpAdress" xml:space="preserve">
-    <value>Ip Adresse:</value>
+    <value>IP-Adresse:</value>
   </data>
   <data name="Window_Pairing_Button_Manual" xml:space="preserve">
     <value>Manuelle Verbindung</value>
@@ -431,31 +431,31 @@ Bitte schau in die Logdatei für mehr Infos!</value>
     <value>nicht verbunden</value>
   </data>
   <data name="Code_Pairing_MessageBox_DeviceNotFound" xml:space="preserve">
-    <value>Gerät nicht gefunden. Versuchs nochmal oder benutze manuelle Verbindung!</value>
+    <value>Gerät nicht gefunden. Versuche es erneut oder verwende die manuelle Verbindung.</value>
   </data>
   <data name="Code_Pairing_MessageBox_PairingError" xml:space="preserve">
-    <value>Verbindung mit dem Gerät nicht möglich! Siehe Konsole oder Log-Datei für mehr Infos!</value>
+    <value>Die Verbindung zum Gerät konnte nicht hergestellt werden. Weitere Informationen findest du in der Konsole oder Protokolldatei.</value>
   </data>
   <data name="Code_Pairing_MessageBox_MultiDeviceDetected" xml:space="preserve">
-    <value>Mehr als ein Nanoleaf Gerät gefunden. Bitte wähle aus der Liste und benutze Manuelle Verbindung!</value>
+    <value>Mehr als ein Nanoleaf-Gerät gefunden. Bitte wähle ein Gerät aus der Liste aus und verwende die manuelle Verbindung.</value>
   </data>
   <data name="Code_Pairing_MessageBox_ValidIP" xml:space="preserve">
-    <value>Bitte gebe eine gültige IP-Adresse ein!</value>
+    <value>Bitte gib eine gültige IP-Adresse ein.</value>
   </data>
   <data name="Code_Pairing_MessageBox_AlreadyCon" xml:space="preserve">
     <value>Dieses Gerät ist bereits verbunden!</value>
   </data>
   <data name="General_Label_NanoleafDevice" xml:space="preserve">
-    <value>Nanoleaf Gerät</value>
+    <value>Nanoleaf-Gerät</value>
   </data>
   <data name="Code_Pairing_MessageBox_PairingSucessfull" xml:space="preserve">
     <value>Verbinden erfolgreich!</value>
   </data>
   <data name="Code_Pairing_MessageBox_PairingEffects" xml:space="preserve">
-    <value>Bitte stelle sicher das auf allen verbundenen Geräten die gleichen Effekte installiert sind!</value>
+    <value>Bitte stelle sicher, dass auf allen verbundenen Geräten dieselben Effekte installiert sind.</value>
   </data>
   <data name="Window_Responses_Title" xml:space="preserve">
-    <value>Chat Antworten</value>
+    <value>Chatantworten</value>
   </data>
   <data name="Window_Responses_Label_ConnectMessage" xml:space="preserve">
     <value>Verbindungs Nachricht:</value>
@@ -497,7 +497,7 @@ Bitte schau in die Logdatei für mehr Infos!</value>
     <value>{username} sagt ein magisches Wort und wechselt den Effekt zu {effect}.</value>
   </data>
   <data name="Window_ResponsesHelp_Title" xml:space="preserve">
-    <value>Chat Antworten Hilfe</value>
+    <value>Hilfe zu Chatantworten</value>
   </data>
   <data name="Window_ResponsesHelp_Text" xml:space="preserve">
     <value>Du kannst Platzhalter Variablen für die Antwort Nachrichten verwenden:
@@ -521,7 +521,7 @@ Dieser Platzhalter wird mit der Zeit in Sekunden, also wie lange der Effekt auf 
     <value>Trigger aktiviert</value>
   </data>
   <data name="Window_TriggerDetail_Label_TriggerType" xml:space="preserve">
-    <value>Trigger Typ</value>
+    <value>Trigger-Typ</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_Command" xml:space="preserve">
     <value>Befehl</value>
@@ -548,13 +548,13 @@ Dieser Platzhalter wird mit der Zeit in Sekunden, also wie lange der Effekt auf 
     <value>Bits</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_ChannelPoints" xml:space="preserve">
-    <value>Kanal Punkte</value>
+    <value>Kanalpunkte</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_GiftSub" xml:space="preserve">
-    <value>Geschenk Sub</value>
+    <value>Geschenk-Abo</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_AnonGiftSub" xml:space="preserve">
-    <value>Anonymer Geschenk Sub</value>
+    <value>Anonymes Geschenk-Abo</value>
   </data>
   <data name="Window_TriggerDetail_Label_Effect" xml:space="preserve">
     <value>Effekt</value>
@@ -613,10 +613,10 @@ Löse erneut eine Belohnung zum ändern ein!</value>
 Darf nicht leer sein!</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_NoRewardDetected" xml:space="preserve">
-    <value>Bitte löse eine Kanalpunkte-Belohnung via Twitch Chat mit deinem Streamer Account ein!</value>
+    <value>Bitte löse vor dem Speichern eine Kanalpunkte-Belohnung im Twitch-Chat mit deinem Streamer-Konto ein.</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_CmdBoxEmpty" xml:space="preserve">
-    <value>Bitte gib einen Befehlsnamen oder Schlüsselwort ein! Darf nicht leer sein!</value>
+    <value>Bitte gib einen Befehlsnamen oder ein Schlüsselwort ein. Das Feld darf nicht leer sein.</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_BrightnessValue" xml:space="preserve">
     <value>Bitte gib einen Wert zwischen 0 und 100 bei der Helligkeit an!
@@ -626,16 +626,16 @@ Darf nicht leer oder negativ sein!</value>
     <value>Bitte gib einen Wert zwischen 0 und 100 bei der Lautstärke an! Darf nicht leer oder negativ sein!</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_AmountValue" xml:space="preserve">
-    <value>Bitte gib bei Menge einen Wert an! Darf nicht leer oder negativ sein!</value>
+    <value>Bitte gib für die Menge einen Wert ein. Das Feld darf nicht leer und der Wert nicht negativ sein.</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_DurationValue" xml:space="preserve">
-    <value>Bitte gib einen Wert bei der Dauer an! Darf nicht leer oder negativ sein!</value>
+    <value>Bitte gib für die Dauer einen Wert ein. Das Feld darf nicht leer und der Wert nicht negativ sein.</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_CooldownValue" xml:space="preserve">
-    <value>Bitte gib einen Wert bei der Abklingzeit an! Gib 0 ein um den Trigger Cooldown nicht zu verwenden. Darf nicht leer oder negativ sein!</value>
+    <value>Bitte gib für die Abklingzeit einen Wert ein. Verwende 0, um die Trigger-Abklingzeit zu deaktivieren. Das Feld darf nicht leer und der Wert nicht negativ sein.</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_SoundfileFormat" xml:space="preserve">
-    <value>Du kannst nur eine .wav oder .mp3 Datei auswählen!</value>
+    <value>Du kannst nur eine WAV- oder MP3-Datei auswählen.</value>
   </data>
   <data name="Code_TriggerDetail_Label_VipSubMod" xml:space="preserve">
     <value>Der Benutzer muss {0} sein um den Trigger benutzen zu können.</value>
@@ -644,7 +644,7 @@ Darf nicht leer oder negativ sein!</value>
     <value>nichts besonderes</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_CPNoConnection" xml:space="preserve">
-    <value>Bitte verbinde dich zuerst mit dem Twitch Chat bevor du Kanalpunkte Trigger ändern kannst!</value>
+    <value>Bitte verbinde dich zuerst mit dem Twitch-Chat, bevor du Kanalpunkte-Trigger erstellst oder bearbeitest.</value>
   </data>
   <data name="Window_TriggerHelp_Title" xml:space="preserve">
     <value>Trigger Hilfe</value>
@@ -731,36 +731,36 @@ Wenn du nur einer bestimmten Gruppe den Zugang zu einem Befehl oder Schlüsselwo
     <value>Leeren</value>
   </data>
   <data name="Code_Trigger_MessageBox_EffectList" xml:space="preserve">
-    <value>Verbindung fehlgeschlagen! Effekt Liste konnte nicht geladen werden!</value>
+    <value>Verbindung fehlgeschlagen. Die Effektliste konnte nicht geladen werden.</value>
   </data>
   <data name="Code_Nano_MessageBox_PairingError" xml:space="preserve">
     <value>Fehler beim Verbinden des Geräts!</value>
   </data>
   <data name="Code_Nano_MessageBox_DeviceNotFound" xml:space="preserve">
-    <value>Das Gerät mit dem Namen {0} wurden nicht im Netzwerk gefunden!
-Bitte stelle sicher dass das Gerät Strom hat und eingeschaltet ist.
-Bitte siehe Konsole oder Logdatei für Infos.</value>
+    <value>Das Gerät mit dem Namen {0} wurde nicht im Netzwerk gefunden.
+Bitte stelle sicher, dass das Gerät mit Strom versorgt und eingeschaltet ist.
+Weitere Informationen findest du in der Konsole oder Protokolldatei.</value>
   </data>
   <data name="Code_Nano_MessageBox_UniqueName" xml:space="preserve">
-    <value>Bitte wähle einen Eindeutigen Namen für dein Gerät!</value>
+    <value>Bitte wähle einen eindeutigen Namen für dein Gerät.</value>
   </data>
   <data name="Code_Nano_MessageBox_CurrentEffect" xml:space="preserve">
-    <value>Fehler beim laden des Effekts von '{0}'!</value>
+    <value>Fehler beim Laden des Effekts von „{0}“.</value>
   </data>
   <data name="Code_Nano_MessageBox_CurrentHue" xml:space="preserve">
-    <value>Fehler beim laden des Hue von '{0}'!</value>
+    <value>Fehler beim Laden des Farbtons von „{0}“.</value>
   </data>
   <data name="Code_Nano_MessageBox_CurrentSaturation" xml:space="preserve">
-    <value>Fehler beim laden der Sättigung von '{0}'!</value>
+    <value>Fehler beim Laden der Sättigung von „{0}“.</value>
   </data>
   <data name="Code_Nano_MessageBox_CurrentColorTemp" xml:space="preserve">
-    <value>Fehler beim laden der Farb Temperatur von '{0}'!</value>
+    <value>Fehler beim Laden der Farbtemperatur von „{0}“.</value>
   </data>
   <data name="Code_Nano_MessageBox_CurrentBrightness" xml:space="preserve">
-    <value>Fehler beim laden der Helligkeit von '{0}'!</value>
+    <value>Fehler beim Laden der Helligkeit von „{0}“.</value>
   </data>
   <data name="Code_Nano_MessageBox_CurrentState" xml:space="preserve">
-    <value>Fehler beim laden des Status von '{0}'!</value>
+    <value>Fehler beim Laden des Status von „{0}“.</value>
   </data>
   <data name="Code_TriggerLogic_ChatMessage_TriggerNotActive" xml:space="preserve">
     <value>Tut mir leid! Die Trigger sind momentan ausgeschaltet!</value>
@@ -772,7 +772,7 @@ Bitte siehe Konsole oder Logdatei für Infos.</value>
     <value>Tut mir leid! Das geht noch nicht!</value>
   </data>
   <data name="Code_TriggerLogic_ChatMessage_VipOnly" xml:space="preserve">
-    <value>Tut mir leid! Das das können nur Vips!</value>
+    <value>Tut mir leid, das können nur VIPs.</value>
   </data>
   <data name="Code_TriggerLogic_ChatMessage_SubOnly" xml:space="preserve">
     <value>Tut mir leid! Das können nur Subs!</value>
@@ -781,7 +781,7 @@ Bitte siehe Konsole oder Logdatei für Infos.</value>
     <value>Aktive Befehle:</value>
   </data>
   <data name="Code_TriggerLogic_ChatMessage_NoActiveCommands" xml:space="preserve">
-    <value>Im moment sind keine Befehle aktiv!</value>
+    <value>Im Moment sind keine Befehle aktiv.</value>
   </data>
   <data name="Code_Twitch_MessageBox_LoginIncorrect" xml:space="preserve">
     <value>Bitte überprüfe deinen Benutzernamen, Kanal und Auth Token.</value>
@@ -808,7 +808,7 @@ Bitte siehe Konsole oder Logdatei für Infos.</value>
     <value>Farbe</value>
   </data>
   <data name="Window_TriggerDetail_ColorPicker_Error" xml:space="preserve">
-    <value>Bitte wähle eine Farbe mit dem Farbenpicker aus!</value>
+    <value>Bitte wähle eine Farbe mit dem Farbwähler aus.</value>
   </data>
   <data name="Window_AppInfo_Button_License" xml:space="preserve">
     <value>Lizenz Informationen</value>
@@ -849,7 +849,7 @@ Con:
 - Es wird ein extra Twitch Acounnt benötigt.</value>
   </data>
   <data name="Window_TwitchLink_Tab_Broadcaster" xml:space="preserve">
-    <value>Streamer Account</value>
+    <value>Streamer-Konto</value>
   </data>
   <data name="Window_TwitchLink_Broadcaster_Permissions_Text" xml:space="preserve">
     <value>Für deinen Streamer Account benötigen wir folgende Berechtigungen:
@@ -891,7 +891,7 @@ Um deinen Bot Account zu verbinden:
 Stelle sicher das du in deinem Browser mit deinem Bot Account eingeloggt bist und klicke den Knopf weiter unten.</value>
   </data>
   <data name="Window_TwitchLink_Tab_ConnectionTest" xml:space="preserve">
-    <value>Verbindungs Test</value>
+    <value>Verbindungstest</value>
   </data>
   <data name="Window_TwitchLink_Progress_1" xml:space="preserve">
     <value>Verbinde zu Twitch</value>
@@ -914,13 +914,13 @@ Du kannst nun die Einstellungen speichern und mit dem
 erstellen deines ersten Triggers beginnen!</value>
   </data>
   <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text" xml:space="preserve">
-    <value>Kein Twitch Account verbunden!</value>
+    <value>Kein Twitch-Konto verbunden.</value>
   </data>
   <data name="Window_Main_Tabs_TwitchLogin_LinkButton_Text" xml:space="preserve">
-    <value>Verbinde Twitch Account</value>
+    <value>Twitch-Konto verbinden</value>
   </data>
   <data name="Window_Main_Tabs_TwitchLogin_UnlinkButton_Text" xml:space="preserve">
-    <value>Trenne Twitch Account</value>
+    <value>Twitch-Konto trennen</value>
   </data>
   <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text2" xml:space="preserve">
     <value>Verbunden mit Kanal </value>
@@ -935,10 +935,10 @@ erstellen deines ersten Triggers beginnen!</value>
     <value>Startnachricht aktiv</value>
   </data>
   <data name="Windows_Main_Tabs_Streamlabs_LinkStreamlabs_Label" xml:space="preserve">
-    <value>Verbinde Streamlabs Account</value>
+    <value>Streamlabs-Konto verbinden</value>
   </data>
   <data name="Windows_Main_Tabs_Streamlabs_UnLinkStreamlabs_Label" xml:space="preserve">
-    <value>Entferne Streamlabs Account</value>
+    <value>Streamlabs-Konto trennen</value>
   </data>
   <data name="Windows_Main_Tabs_Streamlabs_Linktext_Textblock2" xml:space="preserve">
     <value>Verbunden mit Account</value>
@@ -954,7 +954,7 @@ um Donation Trigger zu nutzen</value>
     <value>Streamlabs</value>
   </data>
   <data name="Windows_Main_Tabs_Streamlabs_Linktext_Textblock1" xml:space="preserve">
-    <value>Kein Streamlabs Account verbunden!</value>
+    <value>Kein Streamlabs-Konto verbunden.</value>
   </data>
   <data name="Windows_Main_Tabs_Hyperate_Heartrate_Label" xml:space="preserve">
     <value>Pulsschlag:</value>
@@ -989,32 +989,32 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
     <value>Verbindungstest war erfolgreich! YaY</value>
   </data>
   <data name="General_MessageBox_GeneralError_Text" xml:space="preserve">
-    <value>Ein Fehler ist aufgetreten! Bitte erstelle in Issue auf Github!</value>
+    <value>Ein Fehler ist aufgetreten. Bitte erstelle ein Issue auf GitHub.</value>
   </data>
   <data name="General_MessageBox_GeneralErrorCrash_Text" xml:space="preserve">
-    <value>Ein Fehler ist aufgetreten! Bitte starte die App neu und erstelle ein Issue auf Github!</value>
+    <value>Ein Fehler ist aufgetreten. Bitte starte die App neu und erstelle ein Issue auf GitHub.</value>
   </data>
   <data name="Window_Main_Tabs_HypeRate_MessageBox_EnterID_Text" xml:space="preserve">
     <value>Bitte gib deine HypeRate ID ein</value>
   </data>
   <data name="General_MessageBox_WMPinstalled_Error_Text" xml:space="preserve">
-    <value>Bitte stelle sicher das Windows Media Player installiert und aktiviert ist!</value>
+    <value>Bitte stelle sicher, dass der Windows Media Player installiert und aktiviert ist.</value>
   </data>
   <data name="Window_TriggerDetail_VipSubMod_Label_Text" xml:space="preserve">
-    <value>Der Benutzer muss nichts besonderes sein um diesen Trigger benutzen zu können!</value>
+    <value>Für die Verwendung dieses Triggers ist keine besondere Benutzerrolle erforderlich.</value>
     <value>The User has to be nothing Special to use this Trigger!</value>
   </data>
   <data name="Window_NotifyContextMenu_Button_Show_Text" xml:space="preserve">
     <value>Anzeigen</value>
   </data>
   <data name="Code_PubSub_MessageBox_ConnectError" xml:space="preserve">
-    <value>Konnte nicht zum PubSub Service verbinden! Bitte verbinde deinen Twitch Account erneut!</value>
+    <value>Die Verbindung zum PubSub-Dienst konnte nicht hergestellt werden. Bitte verbinde dein Twitch-Konto erneut.</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_GiftBomb" xml:space="preserve">
-    <value>Geschenk Bombe</value>
+    <value>Geschenkbombe</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_AnonGiftBomb" xml:space="preserve">
-    <value>Anonyme Geschenk Bombe</value>
+    <value>Anonyme Geschenkbombe</value>
   </data>
   <data name="Window_Trigger_Header_Command" xml:space="preserve">
     <value>Befehl/Schlüsselwort</value>
@@ -1026,7 +1026,7 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
     <value>Test</value>
   </data>
   <data name="Windows_Main_Tabs_ApiSettings_Title" xml:space="preserve">
-    <value>API Einstellungen</value>
+    <value>API-Einstellungen</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_HypeTrain" xml:space="preserve">
     <value>HypeTrain</value>
@@ -1114,7 +1114,7 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="Window_TriggerHelp_Options_Title" xml:space="preserve"><value>Dauer, Menge und Abklingzeit</value></data>
   <data name="Window_TriggerHelp_Options_Body" xml:space="preserve"><value>Die Dauer legt fest, wie lange der Effekt bei unterstützten Trigger-Typen aktiv bleibt. Menge ist der erforderliche Mindestwert für Bits, Geschenkbomben, HypeRate oder Spenden. Helligkeit erlaubt 0 bis 100. Die Abklingzeit verhindert, dass derselbe Befehl oder dasselbe Schlüsselwort zu schnell erneut ausgelöst wird.</value></data>
   <data name="Window_TriggerHelp_Targets_Title" xml:space="preserve"><value>Zielgeräte und Gruppen</value></data>
-  <data name="Window_TriggerHelp_Targets_Body" xml:space="preserve"><value>Alle Nanoleafs wendet den Trigger auf jedes verbundene Gerät an. Entferne den Haken, um einzelne Geräte auszuwählen. Gerätegruppen sind optionale Vorlagen: Lege zuerst über Gruppen verwalten eine Gruppe an, wähle sie danach im Dropdown aus und übernimm sie.</value></data>
+  <data name="Window_TriggerHelp_Targets_Body" xml:space="preserve"><value>„Alle Nanoleafs“ wenden den Trigger auf allen verbundenen Geräten an. Entferne den Haken, um einzelne Geräte auszuwählen. Gerätegruppen sind optionale Vorlagen: Lege zuerst über „Gruppen verwalten“ eine Gruppe an, wähle sie anschließend im Dropdown-Menü aus und übernimm sie.</value></data>
   <data name="Window_Trigger_Heading" xml:space="preserve"><value>Trigger verwalten</value></data>
   <data name="Window_Trigger_Description" xml:space="preserve"><value>Trigger testen, bearbeiten, duplizieren oder sichern</value></data>
   <data name="Window_Trigger_Header_TargetDevices" xml:space="preserve"><value>Zielgeräte</value></data>

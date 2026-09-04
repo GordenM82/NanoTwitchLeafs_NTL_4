@@ -346,7 +346,7 @@ Please check your System Tray on your Taskbar!</value>
     <value>Please Pair Device before enabling the Triggers!</value>
   </data>
   <data name="Code_Main_MessageBox_StreamerAccount" xml:space="preserve">
-    <value>Please make sure that you use your 'Streamer' Twitch Account!</value>
+    <value>Please make sure that you use your Twitch streamer account.</value>
   </data>
   <data name="General_MessageBox_SomethingWrong" xml:space="preserve">
     <value>Something went wrong! 
@@ -366,16 +366,16 @@ Please check Log for Errors!</value>
     <value>NanoLeaf Cooldown disabled!</value>
   </data>
   <data name="Code_Main_MessageBox_AutoRestore" xml:space="preserve">
-    <value>If you check these, the App will change back to the previous Effect after the X Seconds, configured in the Trigger Window.</value>
+    <value>When these options are enabled, the app returns to the previous effect after the configured duration. The duration can be set in the trigger window.</value>
   </data>
   <data name="Code_Main_MessageBox_Value0100" xml:space="preserve">
     <value>Value has to be between 0 and 100!</value>
   </data>
   <data name="Code_Main_MessageBox_EmptyPrefix" xml:space="preserve">
-    <value>This Box can not be Empty!</value>
+    <value>This field cannot be empty.</value>
   </data>
   <data name="Code_Main_Label_NanoHelpText" xml:space="preserve">
-    <value>Write '{0}nano help' for a List of Commands!</value>
+    <value>Type “{0}nano help” to display a list of commands.</value>
   </data>
   <data name="Code_Main_MessageBox_EmptyFields" xml:space="preserve">
     <value>Please fill out all Input Fields!</value>
@@ -384,7 +384,7 @@ Please check Log for Errors!</value>
     <value>Please enter only the Twitch Channel Name without https://twitch.tv/ !</value>
   </data>
   <data name="Code_Main_MessageBox_ConTestFail" xml:space="preserve">
-    <value>Connection Test failed!</value>
+    <value>Connection test failed.</value>
   </data>
   <data name="Code_Main_MessageBox_AdressNull" xml:space="preserve">
     <value>No Controller Address found!</value>
@@ -414,7 +414,7 @@ Please check Log for Errors!</value>
     <value>Auto Detect</value>
   </data>
   <data name="Window_Pairing_Label_IpAdress" xml:space="preserve">
-    <value>Ip Adress:</value>
+    <value>IP address:</value>
   </data>
   <data name="Window_Pairing_Button_Manual" xml:space="preserve">
     <value>Manual Connect</value>
@@ -613,7 +613,7 @@ Redeem again to change/update the Reward!</value>
 Reedem again to change/update the Reward!</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_NoRewardDetected" xml:space="preserve">
-    <value>Please reedem one Channel Points Rewards via your Twitch Chat with your Streamer Account before saving!</value>
+    <value>Please redeem a channel points reward in Twitch chat with your streamer account before saving.</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_NoEffectSelected" xml:space="preserve">
     <value>Please select an Effect for your Trigger!
@@ -630,13 +630,13 @@ Can not be Empty!</value>
     <value>Please enter a Volume Value between 0 and 100! Can not be Empty!</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_AmountValue" xml:space="preserve">
-    <value>Please enter a Amount Value even if you dont use it! Can not be Empty or Negative!</value>
+    <value>Please enter an amount, even if it is not used. The field cannot be empty and the value cannot be negative.</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_DurationValue" xml:space="preserve">
-    <value>Please enter a Duration Value even if you dont use it! Can not be Empty or Negative!</value>
+    <value>Please enter a duration, even if it is not used. The field cannot be empty and the value cannot be negative.</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_CooldownValue" xml:space="preserve">
-    <value>Please enter a Cooldown Value!Enter 0 to disable the Trigger Cooldown! Can not be Empty!</value>
+    <value>Please enter a cooldown value. Enter 0 to disable the trigger cooldown. The field cannot be empty.</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_SoundfileFormat" xml:space="preserve">
     <value>You can only use .wav or .mp3 Soundfiles!</value>
@@ -648,7 +648,7 @@ Can not be Empty!</value>
     <value>nothing special</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_CPNoConnection" xml:space="preserve">
-    <value>If you want to Create/Edit Channelpoints Trigger, please connect to Twitch Chat first!</value>
+    <value>To create or edit a channel points trigger, connect to Twitch chat first.</value>
   </data>
   <data name="Window_TriggerHelp_Title" xml:space="preserve">
     <value>Trigger Help</value>
@@ -995,10 +995,10 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
     <value>Connection Test done! YaY</value>
   </data>
   <data name="General_MessageBox_GeneralErrorCrash_Text" xml:space="preserve">
-    <value>An Error occurred. Please restart the App and create an Issue on Github and provide your Logfile!</value>
+    <value>An error occurred. Please restart the app, create an issue on GitHub and include your log file.</value>
   </data>
   <data name="General_MessageBox_GeneralError_Text" xml:space="preserve">
-    <value>An Error occurred. Please create an Issue on Github and provide your Logfile!</value>
+    <value>An error occurred. Please create an issue on GitHub and include your log file.</value>
   </data>
   <data name="Window_Main_Tabs_HypeRate_MessageBox_EnterID_Text" xml:space="preserve">
     <value>Please enter your HypeRate ID</value>
@@ -1116,7 +1116,7 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
   <data name="Window_TriggerHelp_Options_Title" xml:space="preserve"><value>Duration, amount and cooldown</value></data>
   <data name="Window_TriggerHelp_Options_Body" xml:space="preserve"><value>Duration controls how long the effect remains active when the trigger type supports it. Amount is the required minimum for bits, gift bombs, HypeRate or donations. Brightness accepts 0 to 100. Cooldown prevents the same command or keyword from being triggered again too soon.</value></data>
   <data name="Window_TriggerHelp_Targets_Title" xml:space="preserve"><value>Target devices and groups</value></data>
-  <data name="Window_TriggerHelp_Targets_Body" xml:space="preserve"><value>All Nanoleafs applies the trigger to every paired device. Clear it to select individual devices. Device groups are optional presets: create a group first with Manage groups, then select it from the dropdown and apply it.</value></data>
+  <data name="Window_TriggerHelp_Targets_Body" xml:space="preserve"><value>“All Nanoleafs” applies the trigger to every paired device. Clear the checkbox to select individual devices. Device groups are optional presets: first create a group with “Manage groups”, then select it from the dropdown menu and apply it.</value></data>
   <data name="Window_Trigger_Heading" xml:space="preserve"><value>Manage triggers</value></data>
   <data name="Window_Trigger_Description" xml:space="preserve"><value>Test, edit, duplicate or back up triggers</value></data>
   <data name="Window_Trigger_Header_TargetDevices" xml:space="preserve"><value>Target devices</value></data>
