@@ -55,6 +55,9 @@ namespace NanoTwitchLeafs.Windows
 		private bool _initialWindowActivationCompleted;
 		private TriggerWindow _embeddedTriggerManager;
 		private AppInfoWindow _embeddedAppInfo;
+		private Responses _embeddedResponses;
+		private DevicesInfoWindow _embeddedDevices;
+		private DeviceGroupsWindow _embeddedDeviceGroups;
 		private int _currentPage = -1;
 		private int _helpReturnPage = -1;
 		private Action _helpReturnAction;
@@ -709,6 +712,7 @@ namespace NanoTwitchLeafs.Windows
 			bool showIntegrations = page >= 3 && page <= 5;
 			triggerManager_Host.Visibility = Visibility.Collapsed;
 			appInfo_Host.Visibility = Visibility.Collapsed;
+			management_Host.Visibility = Visibility.Collapsed;
 			helpPanel.Visibility = Visibility.Collapsed;
 			Save_Button.Visibility = Visibility.Visible;
 			chatconsole_TabControl.Visibility = showChat ? Visibility.Visible : Visibility.Collapsed;
@@ -793,6 +797,7 @@ namespace NanoTwitchLeafs.Windows
 			integrationTabs_Panel.Visibility = Visibility.Collapsed;
 			triggerManager_Host.Visibility = Visibility.Collapsed;
 			appInfo_Host.Visibility = Visibility.Collapsed;
+			management_Host.Visibility = Visibility.Collapsed;
 			Save_Button.Visibility = Visibility.Collapsed;
 			helpPanel.Visibility = Visibility.Visible;
 			help_TabControl.SelectedIndex = (int)topic;
@@ -1125,6 +1130,7 @@ namespace NanoTwitchLeafs.Windows
 				chatconsole_TabControl.Visibility = Visibility.Collapsed;
 				settings_TabControl.Visibility = Visibility.Collapsed;
 				appInfo_Host.Visibility = Visibility.Collapsed;
+				management_Host.Visibility = Visibility.Collapsed;
 				helpPanel.Visibility = Visibility.Collapsed;
 				integrationTabs_Panel.Visibility = Visibility.Collapsed;
 				Save_Button.Visibility = Visibility.Collapsed;
@@ -1202,6 +1208,7 @@ namespace NanoTwitchLeafs.Windows
 				settings_TabControl.Visibility = Visibility.Collapsed;
 				integrationTabs_Panel.Visibility = Visibility.Collapsed;
 				triggerManager_Host.Visibility = Visibility.Collapsed;
+				management_Host.Visibility = Visibility.Collapsed;
 				helpPanel.Visibility = Visibility.Collapsed;
 				Save_Button.Visibility = Visibility.Collapsed;
 				appInfo_Host.Visibility = Visibility.Visible;
@@ -1375,16 +1382,26 @@ namespace NanoTwitchLeafs.Windows
 
 		private void Responses_Button_Click(object sender, RoutedEventArgs e)
 		{
-			Responses responsesWindow = new Responses(_appSettings, _appSettingsController)
-			{
-				Owner = this
-			};
-
-			if (!CheckForDuplicateWindow(responsesWindow))
-			{
-				responsesWindow.Show();
-			}
+			ShowEmbeddedResponses();
 		}
+
+		private void ShowEmbeddedResponses()
+		{
+			if (_embeddedResponses == null)
+			{
+				_embeddedResponses = new Responses(_appSettings, _appSettingsController);
+				UIElement content = _embeddedResponses.Content as UIElement;
+				_embeddedResponses.Content = null;
+				_embeddedResponses.Tag = content;
+				_embeddedResponses.ConfigureEmbedded(() => ShowMainPage(2),
+					() => ShowHelp(HelpTopic.ChatResponses, RestoreEmbeddedResponses));
+			}
+			else _embeddedResponses.RefreshContent();
+			ShowManagementContent(_embeddedResponses.Tag as UIElement, 2);
+		}
+
+		private void RestoreEmbeddedResponses() =>
+			ShowManagementContent(_embeddedResponses?.Tag as UIElement, 2);
 
 		private void AutoConnect_Checkbox_Click(object sender, RoutedEventArgs e)
 		{
@@ -1402,15 +1419,63 @@ namespace NanoTwitchLeafs.Windows
 		private void ShowDevices_Button_Click(object sender, RoutedEventArgs e)
 		{
 			_logger.Info("Show Device Info");
-			DevicesInfoWindow devicesInfoWindow = new DevicesInfoWindow(_nanoController, _appSettings, _appSettingsController)
-			{
-				Owner = this
-			};
+			ShowEmbeddedDevices();
+		}
 
-			if (!CheckForDuplicateWindow(devicesInfoWindow))
+		private void ShowEmbeddedDevices()
+		{
+			if (_embeddedDevices == null)
 			{
-				devicesInfoWindow.Show();
+				_embeddedDevices = new DevicesInfoWindow(_nanoController, _appSettings, _appSettingsController);
+				UIElement content = _embeddedDevices.Content as UIElement;
+				_embeddedDevices.Content = null;
+				_embeddedDevices.Tag = content;
+				_embeddedDevices.ConfigureEmbedded(() => ShowMainPage(1),
+					() => ShowEmbeddedDeviceGroups(ShowEmbeddedDevices),
+					() => ShowHelp(HelpTopic.Devices, RestoreEmbeddedDevices));
 			}
+			else
+			{
+				_embeddedDevices.InitializeData();
+			}
+			ShowManagementContent(_embeddedDevices.Tag as UIElement, 1);
+		}
+
+		private void RestoreEmbeddedDevices() =>
+			ShowManagementContent(_embeddedDevices?.Tag as UIElement, 1);
+
+		public void ShowEmbeddedDeviceGroups(Action returnAction = null)
+		{
+			if (_embeddedDeviceGroups == null)
+			{
+				_embeddedDeviceGroups = new DeviceGroupsWindow(_appSettings, _appSettingsController);
+				UIElement content = _embeddedDeviceGroups.Content as UIElement;
+				_embeddedDeviceGroups.Content = null;
+				_embeddedDeviceGroups.Tag = content;
+			}
+			_embeddedDeviceGroups.ConfigureEmbedded(returnAction ?? ShowEmbeddedDevices,
+				() => ShowHelp(HelpTopic.Devices, RestoreEmbeddedDeviceGroups));
+			_embeddedDeviceGroups.RefreshContent();
+			ShowManagementContent(_embeddedDeviceGroups.Tag as UIElement, 1);
+		}
+
+		private void RestoreEmbeddedDeviceGroups() =>
+			ShowManagementContent(_embeddedDeviceGroups?.Tag as UIElement, 1);
+
+		private void ShowManagementContent(UIElement content, int navigationPage)
+		{
+			if (content == null) return;
+			management_Host.Content = content;
+			chatconsole_TabControl.Visibility = Visibility.Collapsed;
+			settings_TabControl.Visibility = Visibility.Collapsed;
+			integrationTabs_Panel.Visibility = Visibility.Collapsed;
+			triggerManager_Host.Visibility = Visibility.Collapsed;
+			appInfo_Host.Visibility = Visibility.Collapsed;
+			helpPanel.Visibility = Visibility.Collapsed;
+			Save_Button.Visibility = Visibility.Collapsed;
+			management_Host.Visibility = Visibility.Visible;
+			_currentPage = navigationPage;
+			UpdateNavigationState(navigationPage);
 		}
 
 		private void FaqLink_Button_Click(object sender, RoutedEventArgs e)

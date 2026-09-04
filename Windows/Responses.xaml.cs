@@ -1,5 +1,6 @@
 using NanoTwitchLeafs.Controller;
 using NanoTwitchLeafs.Objects;
+using System;
 using System.Windows;
 
 namespace NanoTwitchLeafs.Windows
@@ -11,6 +12,9 @@ namespace NanoTwitchLeafs.Windows
     {
         private readonly AppSettings _appSettings;
         private readonly AppSettingsController _appSettingsController;
+        private bool _isEmbedded;
+        private Action _closeRequested;
+        private Action _helpRequested;
 
         public Responses(AppSettings appSettings, AppSettingsController appSettingsController)
         {
@@ -33,11 +37,18 @@ namespace NanoTwitchLeafs.Windows
         {
             SaveStrings();
             _appSettingsController.SaveSettings(_appSettings);
-            Close();
+            if (_isEmbedded) _closeRequested?.Invoke();
+            else Close();
         }
 
         private void ResponseHelp_Button_Click(object sender, RoutedEventArgs e)
         {
+            if (_isEmbedded)
+            {
+                _helpRequested?.Invoke();
+                return;
+            }
+
             if (Application.Current.MainWindow is MainWindow mainWindow)
             {
                 Hide();
@@ -52,6 +63,15 @@ namespace NanoTwitchLeafs.Windows
         #endregion
 
         #region Methods
+
+        public void ConfigureEmbedded(Action closeRequested, Action helpRequested)
+        {
+            _isEmbedded = true;
+            _closeRequested = closeRequested;
+            _helpRequested = helpRequested;
+        }
+
+        public void RefreshContent() => LoadStrings();
 
         private void SaveStrings()
         {

@@ -131,6 +131,18 @@ namespace NanoTwitchLeafs.Windows
 
 		private void ManageDeviceGroups_Button_Click(object sender, RoutedEventArgs e)
 		{
+			if (Application.Current.MainWindow is MainWindow mainWindow)
+			{
+				Hide();
+				mainWindow.ShowEmbeddedDeviceGroups(() =>
+				{
+					RefreshDeviceGroups();
+					Show();
+					Activate();
+				});
+				return;
+			}
+
 			var window = new DeviceGroupsWindow(_appSettings, _appSettingsController) { Owner = this };
 			window.ShowDialog();
 

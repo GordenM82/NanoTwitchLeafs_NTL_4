@@ -204,6 +204,7 @@
         </TabControl>
         <ContentControl x:Name="triggerManager_Host" Grid.Column="1" Margin="20" Visibility="Collapsed" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
         <ContentControl x:Name="appInfo_Host" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+        <ContentControl x:Name="management_Host" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
         <Grid x:Name="helpPanel" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed">
             <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
             <Grid Margin="6,0,6,10">

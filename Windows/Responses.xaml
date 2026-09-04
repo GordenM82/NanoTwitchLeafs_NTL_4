@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="{x:Static p:Resources.Window_Responses_Title}" Height="500" Width="820" MinHeight="440" MinWidth="620" ResizeMode="CanResize" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}">
     <Grid Margin="18">
-        <Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-        <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel>
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <TextBlock Text="{x:Static p:Resources.Window_Responses_Title}" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,12" />
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto"><StackPanel>
             <CheckBox x:Name="StartupMessage_CheckBox" Content="{x:Static p:Resources.Window_Responses_StartupMessage_CheckBox}" Margin="0,0,0,12" />
             <Label Content="{x:Static p:Resources.Window_Responses_Label_ConnectMessage}" Padding="0,0,0,4" />
             <TextBox x:Name="connectMessage_TextBox" TextWrapping="Wrap" AcceptsReturn="True" MinHeight="54" Margin="0,0,0,10" />
@@ -19,7 +20,7 @@
             <Label Content="{x:Static p:Resources.Window_Response_Label_KeywordResponse}" Padding="0,0,0,4" />
             <TextBox x:Name="keywordResponse_TextBox" TextWrapping="Wrap" AcceptsReturn="True" MinHeight="54" />
         </StackPanel></ScrollViewer>
-        <Grid Grid.Row="1" Margin="0,14,0,0"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+        <Grid Grid.Row="2" Margin="0,14,0,0"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
             <Button x:Name="resetResponse_Button" Content="{x:Static p:Resources.Window_Responses_Button_Reset}" MinWidth="120" Click="Button_Click" Margin="0,0,8,0" />
             <Button x:Name="responseHelp_Button" Grid.Column="1" Content="{x:Static p:Resources.General_Button_Help}" MinWidth="90" Click="ResponseHelp_Button_Click" />
             <Button x:Name="saveAndClose_Button" Grid.Column="3" Content="{x:Static p:Resources.Window_Responses_Button_Save}" Style="{StaticResource NtlPrimaryButtonStyle}" MinWidth="170" Click="SaveAndClose_Button_Click" />
