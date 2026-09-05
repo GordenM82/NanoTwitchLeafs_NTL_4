@@ -30,7 +30,8 @@ Die öffentliche Version **4.0.1** steht unter [Releases](https://github.com/Gor
 - Einlösung benutzerdefinierter Kanalpunkte
 - HypeTrain-Ereignisse über Twitch EventSub v2
 - HypeRate-Anbindung
-- Streamlabs-Spendenereignisse
+- Spendenereignisse über Streamlabs und StreamElements mit wählbarer Quelle pro Trigger
+- integrierte Twitch-Benutzer-Blocklist im Twitch-Bereich
 - Steuerung mehrerer Nanoleaf-Geräte
 - freie Auswahl der Zielgeräte für jeden Trigger
 - beliebige Kombinationen mehrerer Nanoleafs
@@ -148,7 +149,8 @@ Public version **4.0.1** is available from [Releases](https://github.com/GordenM
 - custom channel-point redemptions
 - Hype Train events through Twitch EventSub v2
 - HypeRate integration
-- Streamlabs donation events
+- donation events through Streamlabs and StreamElements with a selectable source per trigger
+- Twitch-user blocklist integrated into the Twitch section
 - control of multiple Nanoleaf devices
 - per-trigger target-device selection
 - arbitrary combinations of multiple Nanoleaf devices

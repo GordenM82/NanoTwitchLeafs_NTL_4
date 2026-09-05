@@ -53,6 +53,10 @@ namespace NanoTwitchLeafs.Windows
 			ApplyDeviceGroup_Button.Content = Text("Window_TriggerDetail_TargetDevices_Apply");
 			ManageDeviceGroups_Button.Content = Text("Window_TriggerDetail_TargetDevices_Manage");
 			NoDeviceGroups_TextBlock.Text = Text("Window_TriggerDetail_TargetDevices_NoGroups");
+			DonationProvider_Label.Content = Text("P22_DonationProvider_Label");
+			if (DonationProvider_ComboBox.Items[0] is ComboBoxItem allProviders)
+				allProviders.Content = Text("P22_DonationProvider_All");
+			DonationProvider_ComboBox.SelectedIndex = 0;
 			InitializeTargetDevices();
 
 			if (_twitchEventSubController != null && _twitchEventSubController.IsConnected)
@@ -214,6 +218,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void InitData()
 		{
+			SelectDonationProvider(TriggerSetting.DonationProvider);
 			var selectedDeviceNames = new HashSet<string>(
 				(TriggerSetting.TargetDeviceNames ?? string.Empty)
 					.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
@@ -279,7 +284,8 @@ namespace NanoTwitchLeafs.Windows
 			}
 
 			// Check for Streamlabs Websocket Connection
-			if (_streamLabsController == null || !_streamLabsController._IsSocketConnected)
+			if ((_streamLabsController == null || !_streamLabsController._IsSocketConnected) &&
+				(_appSettings.StreamElements == null || !_appSettings.StreamElements.Enabled))
 			{
 				Donation_RadioButton.IsEnabled = false;
 			}
@@ -502,6 +508,7 @@ namespace NanoTwitchLeafs.Windows
 					Subonly_Checkbox.IsEnabled = false;
 					Modonly_Checkbox.IsEnabled = false;
 					Cooldown_Textbox.IsEnabled = false;
+					DonationProvider_Grid.Visibility = Visibility.Visible;
 					break;
 
 				case "UsernameColor":
@@ -730,6 +737,7 @@ namespace NanoTwitchLeafs.Windows
 				VipOnly = Viponly_Checkbox.IsChecked == true,
 				ModeratorOnly = Modonly_Checkbox.IsChecked == true,
 				SubscriberOnly = Subonly_Checkbox.IsChecked == true,
+				DonationProvider = (DonationProvider_ComboBox.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "All",
 				TargetDeviceNames = GetSelectedTargetDeviceNames()
 			};
 
@@ -892,6 +900,20 @@ namespace NanoTwitchLeafs.Windows
 
 		private static string Text(string key) => Properties.Resources.ResourceManager.GetString(key);
 
+		private void SelectDonationProvider(string provider)
+		{
+			string selectedProvider = string.IsNullOrWhiteSpace(provider) ? "All" : provider;
+			foreach (ComboBoxItem item in DonationProvider_ComboBox.Items)
+			{
+				if (string.Equals(item.Tag?.ToString(), selectedProvider, StringComparison.OrdinalIgnoreCase))
+				{
+					DonationProvider_ComboBox.SelectedItem = item;
+					return;
+				}
+			}
+			DonationProvider_ComboBox.SelectedIndex = 0;
+		}
+
 		private void Checkbox_Click(object sender, RoutedEventArgs e)
 		{
 			if (Viponly_Checkbox.IsEnabled != true)
@@ -916,6 +938,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void TriggerRadioButton_Click(object sender, RoutedEventArgs e)
 		{
+			DonationProvider_Grid.Visibility = Donation_RadioButton.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
 			if (Cmd_RadioButton.IsChecked == true)
 			{
 				CommandKeyword_Textbox.IsEnabled = true;
@@ -1110,6 +1133,7 @@ namespace NanoTwitchLeafs.Windows
 				Subonly_Checkbox.IsEnabled = false;
 				Modonly_Checkbox.IsEnabled = false;
 				Cooldown_Textbox.IsEnabled = false;
+				DonationProvider_Grid.Visibility = Visibility.Visible;
 			}
 
 			if (UserColor_RadioButton.IsChecked == true)

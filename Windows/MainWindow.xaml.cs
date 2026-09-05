@@ -12,11 +12,13 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -47,6 +49,7 @@ namespace NanoTwitchLeafs.Windows
 		private readonly NanoController _nanoController;
 		private readonly CommandRepository _commandRepository;
 		private readonly StreamlabsController _streamlabsController;
+		private readonly StreamElementsController _streamElementsController;
 		private readonly TriggerLogicController _triggerLogicController;
 		private readonly HypeRateIOController _hypeRatecontroller;
 		private readonly UpdateController _updateController;
@@ -71,7 +74,8 @@ namespace NanoTwitchLeafs.Windows
 			ChatResponses,
 			Devices,
 			Twitch,
-			Integrations
+			Integrations,
+			StreamElements
 		}
 		private static string DisplayVersion => typeof(AppInfoWindow).Assembly.GetName().Version.ToString(3);
 		private static string PreviewBadgeText
@@ -202,6 +206,8 @@ namespace NanoTwitchLeafs.Windows
 			// Load settings for Language
 			_appSettingsController = new AppSettingsController();
 			_appSettings = _appSettingsController.LoadSettings();
+			_appSettings.StreamElements ??= new StreamElementsSettings();
+			_appSettings.Blacklist ??= new List<string>();
 
 			// Set Language before Init of Window
 			Constants.SetCultureInfo(_appSettings.Language);
@@ -308,12 +314,15 @@ namespace NanoTwitchLeafs.Windows
 
 			_logger.Info("Initialize Streamlabs Controller");
 			_streamlabsController = new StreamlabsController(_appSettings);
+			_logger.Info("Initialize StreamElements Controller");
+			_streamElementsController = new StreamElementsController(_appSettings);
+			_streamElementsController.ConnectionStateChanged += StreamElementsController_ConnectionStateChanged;
 
 			try
 			{
 				//This has to be Last!
 				_logger.Info("Initialize Trigger Logic Controller");
-				_triggerLogicController = new TriggerLogicController(_appSettings, _twitchController, _commandRepository, _nanoController, _twitchEventSubController, _streamlabsController, _hypeRatecontroller);
+				_triggerLogicController = new TriggerLogicController(_appSettings, _twitchController, _commandRepository, _nanoController, _twitchEventSubController, _streamlabsController, _streamElementsController, _hypeRatecontroller);
 			}
 			catch (Exception ex)
 			{
@@ -358,6 +367,11 @@ namespace NanoTwitchLeafs.Windows
 			else
 			{
 				_logger.Info("Auto Connect not enabled!");
+			}
+			if (_appSettings.StreamElements.Enabled && _appSettings.StreamElements.AutoConnect && !string.IsNullOrWhiteSpace(_appSettings.StreamElements.Token))
+			{
+				_logger.Info("[Auto Connection] Try to connect to StreamElements ...");
+				_ = _streamElementsController.ConnectAsync();
 			}
 
 		}
@@ -475,7 +489,8 @@ namespace NanoTwitchLeafs.Windows
 				};
 
 					language_Combobox.ItemsSource = languages;
-					InitializeAppearanceControls();
+				InitializeAppearanceControls();
+				InitializeP22Texts();
 				language_Combobox.SelectedItem = languages.FirstOrDefault(item =>
 					string.Equals(item.Tag?.ToString(), _appSettings.Language, StringComparison.OrdinalIgnoreCase))
 					?? languages[1];
@@ -501,6 +516,7 @@ namespace NanoTwitchLeafs.Windows
 				autoIPRefresh_Checkbox.IsChecked = _appSettings.AutoIpRefresh;
 				debugCmd_Checkbox.IsChecked = _appSettings.DebugEnabled;
 				blacklist_CheckBox.IsChecked = _appSettings.BlacklistEnabled;
+				RefreshBlocklist();
 
 				DebugCmd_Checkbox_Click(this, null);
 
@@ -529,6 +545,11 @@ namespace NanoTwitchLeafs.Windows
 				StreamlabsClientId_Textbox.Text = _appSettings.StreamlabsClientId;
 				StreamlabsClientSecret_Textbox.Password = _appSettings.StreamlabsClientSecret;
 				HypeRateApiKey_Textbox.Password = _appSettings.HypeRateApiKey;
+				streamElementsEnabled_CheckBox.IsChecked = _appSettings.StreamElements.Enabled;
+				streamElementsAutoConnect_CheckBox.IsChecked = _appSettings.StreamElements.AutoConnect;
+				streamElementsToken_PasswordBox.Password = _appSettings.StreamElements.Token ?? string.Empty;
+				SelectComboBoxItem(streamElementsTokenType_ComboBox, _appSettings.StreamElements.TokenType ?? "jwt");
+				UpdateStreamElementsStatus(_streamElementsController.IsConnected, _appSettings.StreamElements.LastConnectionError);
 
 				ChangeEnabledUi();
 			}
@@ -581,16 +602,6 @@ namespace NanoTwitchLeafs.Windows
 				_appSettings.BlacklistEnabled = false;
 				_logger.Info("Blacklist disabled!");
 			}
-		}
-
-		private void blacklist_Button_Click(object sender, RoutedEventArgs e)
-		{
-			_logger.Info("Show Blacklist Window");
-			BlacklistWindow blacklistWindow = new BlacklistWindow(_appSettingsController, _appSettings)
-			{
-				Owner = this
-			};
-			blacklistWindow.Show();
 		}
 
 		private void CheckForUpdate_Button_Click(object sender, RoutedEventArgs e)
@@ -669,6 +680,156 @@ namespace NanoTwitchLeafs.Windows
 			SelectComboBoxItem(accent_ComboBox, _appSettings.AccentColor ?? "TwitchPurple");
 			_appearanceControlsReady = true;
 			UpdateNavigationState(-1);
+		}
+
+		private static string Text(string key) => Properties.Resources.ResourceManager.GetString(key) ?? key;
+
+		private void InitializeP22Texts()
+		{
+			blocklistHeading_TextBlock.Text = Text("P22_Blocklist_Heading");
+			blocklistDescription_TextBlock.Text = Text("P22_Blocklist_Description");
+			blacklist_CheckBox.Content = Text("P22_Blocklist_Enable");
+			blocklistAdd_Button.Content = Text("P22_Blocklist_Add");
+			blocklistRemove_Button.Content = Text("P22_Blocklist_Remove");
+			blocklistClear_Button.Content = Text("P22_Blocklist_Clear");
+			blocklistSearch_TextBox.ToolTip = Text("P22_Blocklist_Search");
+			blocklistHelpHeading_TextBlock.Text = Text("P22_Blocklist_Heading");
+			blocklistHelpBody_TextBlock.Text = Text("P22_Blocklist_Help");
+			streamElementsHelp_TabItem.Header = "StreamElements";
+			streamElementsDescription_TextBlock.Text = Text("P22_StreamElements_Description");
+			streamElementsEnabled_CheckBox.Content = Text("P22_StreamElements_Enable");
+			streamElementsAutoConnect_CheckBox.Content = Text("P22_StreamElements_AutoConnect");
+			streamElementsTokenType_Label.Text = Text("P22_StreamElements_TokenType");
+			streamElementsToken_Label.Text = Text("P22_StreamElements_Token");
+			streamElementsConnect_Button.Content = Text("P22_StreamElements_Connect");
+			streamElementsDisconnect_Button.Content = Text("P22_StreamElements_Disconnect");
+			streamElementsTestHeading_TextBlock.Text = Text("P22_StreamElements_TestHeading");
+			streamElementsTest_Button.Content = Text("P22_StreamElements_Test");
+			streamElementsHelpBody_TextBlock.Text = Text("P22_StreamElements_Help");
+		}
+
+		private void RefreshBlocklist()
+		{
+			if (blocklist_ListBox == null) return;
+			string filter = blocklistSearch_TextBox?.Text?.Trim() ?? string.Empty;
+			blocklist_ListBox.ItemsSource = (_appSettings.Blacklist ?? new List<string>())
+				.Where(name => string.IsNullOrEmpty(filter) || name.Contains(filter, StringComparison.OrdinalIgnoreCase))
+				.OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
+				.ToList();
+			blocklistRemove_Button.IsEnabled = blocklist_ListBox.SelectedItem != null;
+			blocklistClear_Button.IsEnabled = _appSettings.Blacklist?.Count > 0;
+		}
+
+		private void BlocklistAdd_Button_Click(object sender, RoutedEventArgs e)
+		{
+			string username = (blocklistInput_TextBox.Text ?? string.Empty).Trim().TrimStart('@').ToLowerInvariant();
+			if (string.IsNullOrWhiteSpace(username))
+			{
+				MessageBox.Show(Properties.Resources.General_MessageBox_EnterUsername, Properties.Resources.General_MessageBox_Error_Title);
+				return;
+			}
+			_appSettings.Blacklist ??= new List<string>();
+			if (_appSettings.Blacklist.Any(item => item.Equals(username, StringComparison.OrdinalIgnoreCase)))
+			{
+				MessageBox.Show(Properties.Resources.General_MessageBox_UsernameExists, Properties.Resources.General_MessageBox_Error_Title);
+				return;
+			}
+			_appSettings.Blacklist.Add(username);
+			blocklistInput_TextBox.Clear();
+			_appSettingsController.SaveSettings(_appSettings);
+			_logger.Info(string.Format(Properties.Resources.General_Blacklist_MessageBox_AddedUserX, username));
+			RefreshBlocklist();
+		}
+
+		private void BlocklistRemove_Button_Click(object sender, RoutedEventArgs e)
+		{
+			if (blocklist_ListBox.SelectedItem is not string username) return;
+			_appSettings.Blacklist.RemoveAll(item => item.Equals(username, StringComparison.OrdinalIgnoreCase));
+			_appSettingsController.SaveSettings(_appSettings);
+			_logger.Info(string.Format(Properties.Resources.General_Blacklist_MessageBox_RemovedUserX, username));
+			RefreshBlocklist();
+		}
+
+		private void BlocklistClear_Button_Click(object sender, RoutedEventArgs e)
+		{
+			if (_appSettings.Blacklist == null || _appSettings.Blacklist.Count == 0) return;
+			if (MessageBox.Show(Text("P22_Blocklist_ConfirmClear"), Text("P22_Blocklist_Heading"), MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+			_appSettings.Blacklist.Clear();
+			_appSettingsController.SaveSettings(_appSettings);
+			RefreshBlocklist();
+		}
+
+		private void BlocklistInput_TextBox_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter) BlocklistAdd_Button_Click(sender, e);
+		}
+
+		private void BlocklistSearch_TextBox_TextChanged(object sender, TextChangedEventArgs e) => RefreshBlocklist();
+		private void Blocklist_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) => blocklistRemove_Button.IsEnabled = blocklist_ListBox.SelectedItem != null;
+		private void BlocklistHelp_Button_Click(object sender, RoutedEventArgs e) => ShowHelp(HelpTopic.Twitch);
+		private void StreamElementsHelp_Button_Click(object sender, RoutedEventArgs e) => ShowHelp(HelpTopic.StreamElements);
+
+		private void ReadStreamElementsControls()
+		{
+			_appSettings.StreamElements.Enabled = streamElementsEnabled_CheckBox.IsChecked == true;
+			_appSettings.StreamElements.AutoConnect = streamElementsAutoConnect_CheckBox.IsChecked == true;
+			_appSettings.StreamElements.Token = streamElementsToken_PasswordBox.Password?.Trim() ?? string.Empty;
+			_appSettings.StreamElements.TokenType = (streamElementsTokenType_ComboBox.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "jwt";
+		}
+
+		private async void StreamElementsConnect_Button_Click(object sender, RoutedEventArgs e)
+		{
+			ReadStreamElementsControls();
+			_appSettingsController.SaveSettings(_appSettings);
+			streamElementsConnect_Button.IsEnabled = false;
+			bool connected = await _streamElementsController.ConnectAsync();
+			if (!connected) streamElementsConnect_Button.IsEnabled = true;
+		}
+
+		private async void StreamElementsDisconnect_Button_Click(object sender, RoutedEventArgs e)
+		{
+			await _streamElementsController.DisconnectAsync();
+		}
+
+		private void StreamElementsController_ConnectionStateChanged(bool connected, string detail)
+		{
+			Dispatcher.BeginInvoke(new Action(() =>
+			{
+				UpdateStreamElementsStatus(connected, detail);
+				if (connected) _appSettingsController.SaveSettings(_appSettings);
+			}));
+		}
+
+		private void UpdateStreamElementsStatus(bool connected, string detail)
+		{
+			streamElementsConnect_Button.IsEnabled = !connected;
+			streamElementsDisconnect_Button.IsEnabled = connected;
+			if (connected)
+			{
+				string suffix = string.IsNullOrWhiteSpace(detail) ? string.Empty : $" ({detail})";
+				streamElementsStatus_TextBlock.Text = string.Format(Text("P22_StreamElements_StatusConnected"), suffix);
+				streamElementsStatus_TextBlock.SetResourceReference(ForegroundProperty, "NtlSuccessBrush");
+			}
+			else if (!string.IsNullOrWhiteSpace(detail) && detail != "disconnected" && detail != "not-configured")
+			{
+				streamElementsStatus_TextBlock.Text = string.Format(Text("P22_StreamElements_StatusError"), detail);
+				streamElementsStatus_TextBlock.Foreground = System.Windows.Media.Brushes.IndianRed;
+			}
+			else
+			{
+				streamElementsStatus_TextBlock.Text = Text("P22_StreamElements_StatusDisconnected");
+				streamElementsStatus_TextBlock.SetResourceReference(ForegroundProperty, "NtlMutedTextBrush");
+			}
+		}
+
+		private void StreamElementsTest_Button_Click(object sender, RoutedEventArgs e)
+		{
+			if (!double.TryParse(streamElementsTestAmount_TextBox.Text, NumberStyles.Float, CultureInfo.CurrentCulture, out double amount) || amount < 0)
+			{
+				MessageBox.Show(Text("P22_StreamElements_InvalidAmount"), Properties.Resources.General_MessageBox_Error_Title);
+				return;
+			}
+			_streamElementsController.SimulateDonation(amount, streamElementsTestUser_TextBox.Text);
 		}
 
 		private static void SelectComboBoxItem(ComboBox comboBox, string tag)
@@ -1068,6 +1229,7 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings.AutoIpRefresh = autoIPRefresh_Checkbox.IsChecked == true;
 			_appSettings.DebugEnabled = debugCmd_Checkbox.IsChecked == true;
 			_appSettings.AutoConnect = autoConnect_Checkbox.IsChecked == true;
+			_appSettings.BlacklistEnabled = blacklist_CheckBox.IsChecked == true;
 
 
 			// Hype Rate
@@ -1077,6 +1239,7 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings.StreamlabsClientId = StreamlabsClientId_Textbox.Text;
 			_appSettings.StreamlabsClientSecret = StreamlabsClientSecret_Textbox.Password;
 			_appSettings.HypeRateApiKey = HypeRateApiKey_Textbox.Password;
+			ReadStreamElementsControls();
 		}
 
 		private void SendMessage_Button_Click(object sender, RoutedEventArgs e)
@@ -1290,6 +1453,16 @@ namespace NanoTwitchLeafs.Windows
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
+			try
+			{
+				ReadStreamElementsControls();
+				_appSettingsController.SaveSettings(_appSettings);
+				_streamElementsController?.Dispose();
+			}
+			catch (Exception ex)
+			{
+				_logger.Warn("Could not close StreamElements cleanly.", ex);
+			}
 		}
 
 		private void Application_Exit(object sender, ExitEventArgs e)

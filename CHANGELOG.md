@@ -4,6 +4,17 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 22 (5. September 2026)
+
+- Blocklist vollständig in den Twitch-Bereich des Hauptfensters integriert, ohne eigenen Seitennavigationspunkt
+- Hinzufügen, Suchen, Entfernen und vollständiges Leeren der Blocklist ergänzt
+- StreamElements-Tips über die Astro-WebSocket-Verbindung integriert; eine eigene Client-ID oder ein Client-Secret ist nicht erforderlich
+- StreamElements-Einstellungen mit automatischer Verbindung, Statusanzeige, sicherem Tokenfeld und lokalem Testereignis ergänzt
+- vorhandenen Spenden-Trigger um die Quellenwahl Alle, Streamlabs oder StreamElements erweitert; bestehende Trigger bleiben mit „Alle“ kompatibel
+- eigenen Hilfereiter für StreamElements und Blocklist-Hilfe im Twitch-Hilfebereich ergänzt
+- StreamElements-Zugangsdaten bleiben Bestandteil der per Windows-DPAPI verschlüsselten NTL-Einstellungen und werden aus Diagnosefehlern entfernt
+- automatisierte P22-Regressionsprüfung und Preview-22-Windows-Artefakt ergänzt
+
 ## NanoTwitchLeafs 4.0.1 – Fehlerbehebungen (31. August 2026)
 
 - Abstürze beim Öffnen von NTL-Discord, GitHub und Feedback aus dem Informationsfenster behoben
@@ -114,6 +125,17 @@ NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 u
 ---
 
 ## English
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 22 (5 September 2026)
+
+- embedded the complete blocklist in the main window's Twitch section without adding a side-navigation entry
+- added blocklist add, search, remove, and clear-all actions
+- integrated StreamElements tips through the Astro WebSocket connection without requiring a custom client ID or client secret
+- added StreamElements settings with automatic connection, status display, protected token entry, and a local test event
+- extended the existing donation trigger with All, Streamlabs, and StreamElements source choices while keeping existing triggers compatible through the All default
+- added dedicated StreamElements help and blocklist guidance in the Twitch help section
+- kept StreamElements credentials inside the Windows-DPAPI-encrypted NTL settings and redacted them from diagnostic errors
+- added automated P22 regression checks and the Preview 22 Windows artifact
 
 ## NanoTwitchLeafs 4.0.1 – bug fixes (31 August 2026)
 

@@ -52,7 +52,7 @@ namespace NanoTwitchLeafs.Controller
 		
 
 		public TriggerLogicController(AppSettings settings, TwitchController twitchController, CommandRepository commandRepository,
-									  NanoController nanoController, TwitchEventSubController twitchEventSubController, StreamlabsController streamLabsController, HypeRateIOController hypeRateIoController)
+									  NanoController nanoController, TwitchEventSubController twitchEventSubController, StreamlabsController streamLabsController, StreamElementsController streamElementsController, HypeRateIOController hypeRateIoController)
 		{
 			_appSettings = settings;
 			_twitchController = twitchController;
@@ -74,6 +74,7 @@ namespace NanoTwitchLeafs.Controller
 			_twitchEventSubController.OnHypeTrainProgress += OnHypeTrainProgress;
 			hypeRateIoController.OnHeartRateRecieved += HypeRateIoControllerOnHeartRateReceived;
 			streamLabsController.OnDonationRecieved += StreamLabsControllerOnDonationReceived;
+			streamElementsController.OnDonationRecieved += StreamElementsControllerOnDonationReceived;
 			RunQueueHandler();
 			RunCooldownHandler();
 		}
@@ -130,17 +131,24 @@ namespace NanoTwitchLeafs.Controller
 			
 		}
 
-		private void StreamLabsControllerOnDonationReceived(double amount, string username)
+		private void StreamLabsControllerOnDonationReceived(DonationEvent donation)
 		{
-			_logger.Debug($"Received Donation from Stream Labs Server. Username: {username} - Amount: {amount}");
-			HandleDonations(amount, username);
+			HandleDonations(donation);
 		}
 
-		private void HandleDonations(double amount, string username)
+		private void StreamElementsControllerOnDonationReceived(DonationEvent donation)
 		{
+			HandleDonations(donation);
+		}
+
+		private void HandleDonations(DonationEvent donation)
+		{
+			if (donation == null)
+				return;
+			_logger.Info($"Donation received from {donation.Provider}: {donation.Amount:0.##} {donation.Currency}; donor={(donation.IsAnonymous ? "anonymous" : "provided")}");
 			QueueObject queueObject = null;
 			var donationTrigger = _commandRepository.GetList()
-				.Where(x => x.Trigger == "Donation")
+				.Where(x => x.Trigger == "Donation" && DonationProviderMatches(x.DonationProvider, donation.Provider))
 				.OrderBy(x => x.Amount)
 				.ToList();
 
@@ -151,16 +159,23 @@ namespace NanoTwitchLeafs.Controller
 					continue;
 				}
 				// Check if the amount of the donation are higher than this trigger requires.
-				if (amount < trigger.Amount)
+				if (donation.Amount < trigger.Amount)
 					break;
 
-				queueObject = new QueueObject(trigger, username);
+				queueObject = new QueueObject(trigger, donation.Username);
 			}
 
 			if (queueObject != null)
 			{
 				AddToQueue(queueObject);
 			}
+		}
+
+		internal static bool DonationProviderMatches(string configuredProvider, string eventProvider)
+		{
+			return string.IsNullOrWhiteSpace(configuredProvider) ||
+				configuredProvider.Equals("All", StringComparison.OrdinalIgnoreCase) ||
+				configuredProvider.Equals(eventProvider, StringComparison.OrdinalIgnoreCase);
 		}
 
 		private void HypeRateIoControllerOnHeartRateReceived(int heartRate)

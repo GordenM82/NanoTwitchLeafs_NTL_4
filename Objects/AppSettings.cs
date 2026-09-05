@@ -23,6 +23,7 @@ namespace NanoTwitchLeafs.Objects
 			Theme = "Light";
 			AccentColor = "TwitchPurple";
 			StreamlabsInformation = new StreamlabsInformation();
+			StreamElements = new StreamElementsSettings();
 			StreamlabsClientId = "";
 			StreamlabsClientSecret = "";
 			HypeRateApiKey = "";
@@ -66,6 +67,12 @@ namespace NanoTwitchLeafs.Objects
 		{
 			get { return Get(() => StreamlabsInformation); }
 			set { Set(() => StreamlabsInformation, value); }
+		}
+
+		public StreamElementsSettings StreamElements
+		{
+			get { return Get(() => StreamElements); }
+			set { Set(() => StreamElements, value); }
 		}
 
 		public DateTimeOffset LastValidation

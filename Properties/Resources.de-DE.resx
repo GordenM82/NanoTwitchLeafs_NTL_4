@@ -1153,4 +1153,29 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="Window_TriggerDetail_Save_Error" xml:space="preserve"><value>Der Trigger konnte nicht gespeichert werden. Die vorhandenen Trigger wurden nicht verändert.</value></data>
   <data name="Window_TriggerDetail_RoleFilters_Only" xml:space="preserve"><value>Rollenfilter sind nur für Befehle und Schlüsselwörter verfügbar.</value></data>
   <data name="Window_Main_TriggerManager_Open_Error" xml:space="preserve"><value>Die Triggerverwaltung konnte nicht geöffnet werden.</value></data>
+  <data name="P22_Blocklist_Heading" xml:space="preserve"><value>Blocklist</value></data>
+  <data name="P22_Blocklist_Description" xml:space="preserve"><value>Ignoriert Trigger-Ereignisse der aufgeführten Twitch-Benutzer. Die Liste wird hier im Twitch-Bereich verwaltet.</value></data>
+  <data name="P22_Blocklist_Enable" xml:space="preserve"><value>Blocklist aktivieren</value></data>
+  <data name="P22_Blocklist_Add" xml:space="preserve"><value>Hinzufügen</value></data>
+  <data name="P22_Blocklist_Remove" xml:space="preserve"><value>Auswahl entfernen</value></data>
+  <data name="P22_Blocklist_Clear" xml:space="preserve"><value>Alle entfernen</value></data>
+  <data name="P22_Blocklist_Search" xml:space="preserve"><value>Blocklist durchsuchen</value></data>
+  <data name="P22_Blocklist_ConfirmClear" xml:space="preserve"><value>Alle Einträge aus der Blocklist entfernen?</value></data>
+  <data name="P22_Blocklist_Help" xml:space="preserve"><value>Die Blocklist verhindert, dass aufgeführte Twitch-Benutzer Befehle, Schlüsselwörter und Twitch-Ereignis-Trigger aktivieren. Gib einen Twitch-Benutzernamen ohne @ ein und wähle „Hinzufügen“. Die Suche filtert nur die sichtbare Liste. Entfernen oder Leeren wirkt sofort.</value></data>
+  <data name="P22_StreamElements_Description" xml:space="preserve"><value>Verbindet StreamElements-Tips mit dem vorhandenen Spenden-Trigger. Eine Client-ID oder ein Client-Secret ist nicht erforderlich.</value></data>
+  <data name="P22_StreamElements_Enable" xml:space="preserve"><value>StreamElements verwenden</value></data>
+  <data name="P22_StreamElements_AutoConnect" xml:space="preserve"><value>Beim Start von NTL automatisch verbinden</value></data>
+  <data name="P22_StreamElements_TokenType" xml:space="preserve"><value>Token-Typ</value></data>
+  <data name="P22_StreamElements_Token" xml:space="preserve"><value>JWT oder Overlay-Token</value></data>
+  <data name="P22_StreamElements_Connect" xml:space="preserve"><value>Speichern und verbinden</value></data>
+  <data name="P22_StreamElements_Disconnect" xml:space="preserve"><value>Trennen</value></data>
+  <data name="P22_StreamElements_StatusDisconnected" xml:space="preserve"><value>Status: Nicht verbunden</value></data>
+  <data name="P22_StreamElements_StatusConnected" xml:space="preserve"><value>Status: Verbunden{0}</value></data>
+  <data name="P22_StreamElements_StatusError" xml:space="preserve"><value>Status: Verbindung fehlgeschlagen – {0}</value></data>
+  <data name="P22_StreamElements_TestHeading" xml:space="preserve"><value>Lokale Testspende</value></data>
+  <data name="P22_StreamElements_Test" xml:space="preserve"><value>Spende testen</value></data>
+  <data name="P22_StreamElements_InvalidAmount" xml:space="preserve"><value>Bitte einen gültigen, nicht negativen Testbetrag eingeben.</value></data>
+  <data name="P22_StreamElements_Help" xml:space="preserve"><value>Öffne das StreamElements-Dashboard, wähle im Profilmenü den richtigen verknüpften Twitch-Kanal und kopiere dessen JWT oder Overlay-Token. Aktiviere StreamElements, füge das Token ein und wähle „Speichern und verbinden“. NTL abonniert ausschließlich abgeschlossene Kanal-Tips und übergibt sie an den vorhandenen Spenden-Trigger. Im Spenden-Trigger kannst du Alle, Streamlabs oder StreamElements als Anbieter wählen. Tokens werden mit den verschlüsselten NTL-Einstellungen gespeichert und aus Diagnosemeldungen entfernt.</value></data>
+  <data name="P22_DonationProvider_Label" xml:space="preserve"><value>Spendenanbieter</value></data>
+  <data name="P22_DonationProvider_All" xml:space="preserve"><value>Alle verbundenen Spendendienste</value></data>
 </root>

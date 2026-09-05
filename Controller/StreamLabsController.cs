@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace NanoTwitchLeafs.Controller
 {
-	public delegate void OnDonationRecieved(double amount, string username);
+	public delegate void OnDonationRecieved(DonationEvent donation);
 
 	public class StreamlabsController
 	{
@@ -65,7 +65,15 @@ namespace NanoTwitchLeafs.Controller
 			{
 				var amount = Convert.ToDouble(eventObj.message[0].amount.ToString());
 				var username = eventObj.message[0].from.ToString();
-				OnDonationRecieved?.Invoke(amount, username);
+				OnDonationRecieved?.Invoke(new DonationEvent
+				{
+					Provider = "Streamlabs",
+					Amount = amount,
+					Username = username,
+					Currency = eventObj.message[0].currency?.ToString() ?? string.Empty,
+					Message = eventObj.message[0].message?.ToString() ?? string.Empty,
+					EventId = eventObj.message[0]._id?.ToString() ?? string.Empty
+				});
 			}
 		}
 
