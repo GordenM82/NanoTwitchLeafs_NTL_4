@@ -4,6 +4,14 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 25 (5. September 2026)
+
+- Blocklist-Verwaltung im Hauptfenster hinter einer kompakten Twitch-Zusammenfassung
+- kompaktere Twitch-/Nano-Seiten mit Scrollen als Reserve bei kleinen Fenstern und Skalierung
+- Konsolensuche, Stufenfilter/-farben, Leeren, Logzugriff, Auto-Scroll, Kopieren und bereinigtes Support-Protokoll
+- Wiederherstellung von Fenstergröße, Position und maximiertem Zustand mit Bildschirmprüfung
+- Hinweise auf ungespeicherte Änderungen, Toastmeldungen sowie Escape-/Strg+F-Navigation
+
 ## NanoTwitchLeafs 4.1.0 Layout-Vorschau 24 (5. September 2026)
 
 - Triggerübersicht um eine kombinierte Suche über Typ, Befehl, Effekt, Sound, Anbieter und Zielgeräte erweitert

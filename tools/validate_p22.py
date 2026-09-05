@@ -36,9 +36,11 @@ def main() -> int:
     # The blocklist belongs to the existing Twitch view, never to side navigation.
     twitch_start = main_xaml.find('x:Name="botLogin_TabItem"')
     twitch_end = main_xaml.find('x:Name="nanoConfig_TabItem"')
-    blocklist_at = main_xaml.find('x:Name="blocklist_ListBox"')
+    blocklist_at = main_xaml.find('x:Name="blocklistSummaryHeading_TextBlock"')
     navigation_end = main_xaml.find('x:Name="settings_TabControl"')
-    require(twitch_start < blocklist_at < twitch_end, "blocklist is not embedded in the Twitch tab", errors)
+    require(twitch_start < blocklist_at < twitch_end, "blocklist summary is not embedded in the Twitch tab", errors)
+    require('x:Name="blocklistPanel"' in main_xaml and 'x:Name="blocklistBack_Button"' in main_xaml,
+            "main-window blocklist management view is missing", errors)
     require("blocklist" not in main_xaml[:navigation_end].lower(), "blocklist leaked into side navigation", errors)
     require("new BlacklistWindow" not in main_code, "legacy standalone blocklist window is still opened", errors)
 

@@ -1506,4 +1506,29 @@ Eksporter</value>
   <data name="P24_Warning_MissingEffect" xml:space="preserve"><value>No Nanoleaf effect is selected.</value></data>
   <data name="P24_Warning_MissingSound" xml:space="preserve"><value>The configured sound file no longer exists.</value></data>
   <data name="P24_Trigger_Help" xml:space="preserve"><value>Use search and the status/type filters to narrow the trigger list. Orange warning symbols identify missing devices, effects, or sound files; point at the symbol for details. Double-click a row to edit it. Reset filters restores the full list.</value></data>
+  <data name="P25_Blocklist_Manage" xml:space="preserve"><value>Manage blocklist</value></data>
+  <data name="P25_Blocklist_StatusActive" xml:space="preserve"><value>Active · {0} entries</value></data>
+  <data name="P25_Blocklist_StatusInactive" xml:space="preserve"><value>Inactive · {0} entries</value></data>
+  <data name="P25_Back" xml:space="preserve"><value>Back</value></data>
+  <data name="P25_Console_Search" xml:space="preserve"><value>Search console</value></data>
+  <data name="P25_Console_SupportLog" xml:space="preserve"><value>Create support log</value></data>
+  <data name="P25_Console_CopySelected" xml:space="preserve"><value>Copy selected</value></data>
+  <data name="P25_Console_CopyVisible" xml:space="preserve"><value>Copy all visible</value></data>
+  <data name="P25_Console_All" xml:space="preserve"><value>All levels</value></data>
+  <data name="P25_Console_Info" xml:space="preserve"><value>Information</value></data>
+  <data name="P25_Console_Warnings" xml:space="preserve"><value>Warnings</value></data>
+  <data name="P25_Console_Errors" xml:space="preserve"><value>Errors</value></data>
+  <data name="P25_Console_Debug" xml:space="preserve"><value>Debug</value></data>
+  <data name="P25_Console_Count" xml:space="preserve"><value>{0} of {1} entries</value></data>
+  <data name="P25_Toast_ConsoleCleared" xml:space="preserve"><value>Console cleared.</value></data>
+  <data name="P25_Toast_Copied" xml:space="preserve"><value>Console entries copied.</value></data>
+  <data name="P25_Toast_SupportCreated" xml:space="preserve"><value>Sanitized support log created.</value></data>
+  <data name="P25_Toast_BlocklistAdded" xml:space="preserve"><value>@{0} was added to the blocklist.</value></data>
+  <data name="P25_Toast_BlocklistRemoved" xml:space="preserve"><value>Entry removed from the blocklist.</value></data>
+  <data name="P25_Toast_BlocklistCleared" xml:space="preserve"><value>Blocklist cleared.</value></data>
+  <data name="P25_Toast_TestTriggered" xml:space="preserve"><value>Local test donation triggered.</value></data>
+  <data name="P25_Toast_SettingsSaved" xml:space="preserve"><value>Settings saved.</value></data>
+  <data name="P25_Unsaved" xml:space="preserve"><value>Unsaved changes</value></data>
+  <data name="P25_Unsaved_Close" xml:space="preserve"><value>Save your changes before closing?</value></data>
+  <data name="P25_Unsaved_Title" xml:space="preserve"><value>Unsaved changes</value></data>
 </root>

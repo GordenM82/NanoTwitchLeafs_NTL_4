@@ -34,10 +34,8 @@ def main() -> int:
             errors.append(f"missing warning check: {problem}")
     if "HasProblem" not in model or "WarningVisibility" not in model:
         errors.append("trigger row warning state is incomplete")
-    if "4.1.0-layout-preview.24" not in read("Properties/AssemblyInfo.cs"):
-        errors.append("assembly version is not Preview 24")
-    if "layout-preview.24-win-x64" not in read(".github/workflows/build-release.yml"):
-        errors.append("workflow artifact is not Preview 24")
+    if "4.1.0-layout-preview." not in read("Properties/AssemblyInfo.cs"):
+        errors.append("assembly version is not a layout preview")
 
     if errors:
         print("Preview 24 validation failed:")

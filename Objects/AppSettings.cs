@@ -22,6 +22,8 @@ namespace NanoTwitchLeafs.Objects
 			Language = GetDefaultLanguage(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
 			Theme = "Light";
 			AccentColor = "TwitchPurple";
+			WindowWidth = 1440;
+			WindowHeight = 780;
 			StreamlabsInformation = new StreamlabsInformation();
 			StreamElements = new StreamElementsSettings();
 			StreamlabsClientId = "";
@@ -206,6 +208,12 @@ namespace NanoTwitchLeafs.Objects
 			get { return Get(() => AccentColor); }
 			set { Set(() => AccentColor, value); }
 		}
+
+		public double WindowLeft { get { return Get(() => WindowLeft); } set { Set(() => WindowLeft, value); } }
+		public double WindowTop { get { return Get(() => WindowTop); } set { Set(() => WindowTop, value); } }
+		public double WindowWidth { get { return Get(() => WindowWidth); } set { Set(() => WindowWidth, value); } }
+		public double WindowHeight { get { return Get(() => WindowHeight); } set { Set(() => WindowHeight, value); } }
+		public bool WindowMaximized { get { return Get(() => WindowMaximized); } set { Set(() => WindowMaximized, value); } }
 
 		public string HypeRateId
 		{

@@ -1198,4 +1198,29 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="P24_Warning_MissingEffect" xml:space="preserve"><value>Es ist kein Nanoleaf-Effekt ausgewählt.</value></data>
   <data name="P24_Warning_MissingSound" xml:space="preserve"><value>Die eingestellte Sounddatei ist nicht mehr vorhanden.</value></data>
   <data name="P24_Trigger_Help" xml:space="preserve"><value>Mit der Suche und den Status-/Typfiltern kannst du die Triggerliste eingrenzen. Orange Warnsymbole kennzeichnen fehlende Geräte, Effekte oder Sounddateien; zeige mit der Maus darauf, um Details zu sehen. Ein Doppelklick auf eine Zeile öffnet die Bearbeitung. „Filter zurücksetzen“ stellt die vollständige Liste wieder her.</value></data>
+  <data name="P25_Blocklist_Manage" xml:space="preserve"><value>Blocklist verwalten</value></data>
+  <data name="P25_Blocklist_StatusActive" xml:space="preserve"><value>Aktiv · {0} Einträge</value></data>
+  <data name="P25_Blocklist_StatusInactive" xml:space="preserve"><value>Inaktiv · {0} Einträge</value></data>
+  <data name="P25_Back" xml:space="preserve"><value>Zurück</value></data>
+  <data name="P25_Console_Search" xml:space="preserve"><value>Konsole durchsuchen</value></data>
+  <data name="P25_Console_SupportLog" xml:space="preserve"><value>Support-Protokoll erstellen</value></data>
+  <data name="P25_Console_CopySelected" xml:space="preserve"><value>Auswahl kopieren</value></data>
+  <data name="P25_Console_CopyVisible" xml:space="preserve"><value>Alle sichtbaren kopieren</value></data>
+  <data name="P25_Console_All" xml:space="preserve"><value>Alle Stufen</value></data>
+  <data name="P25_Console_Info" xml:space="preserve"><value>Informationen</value></data>
+  <data name="P25_Console_Warnings" xml:space="preserve"><value>Warnungen</value></data>
+  <data name="P25_Console_Errors" xml:space="preserve"><value>Fehler</value></data>
+  <data name="P25_Console_Debug" xml:space="preserve"><value>Debug</value></data>
+  <data name="P25_Console_Count" xml:space="preserve"><value>{0} von {1} Einträgen</value></data>
+  <data name="P25_Toast_ConsoleCleared" xml:space="preserve"><value>Konsole geleert.</value></data>
+  <data name="P25_Toast_Copied" xml:space="preserve"><value>Konsoleneinträge kopiert.</value></data>
+  <data name="P25_Toast_SupportCreated" xml:space="preserve"><value>Bereinigtes Support-Protokoll wurde erstellt.</value></data>
+  <data name="P25_Toast_BlocklistAdded" xml:space="preserve"><value>@{0} wurde zur Blocklist hinzugefügt.</value></data>
+  <data name="P25_Toast_BlocklistRemoved" xml:space="preserve"><value>Eintrag wurde aus der Blocklist entfernt.</value></data>
+  <data name="P25_Toast_BlocklistCleared" xml:space="preserve"><value>Blocklist wurde geleert.</value></data>
+  <data name="P25_Toast_TestTriggered" xml:space="preserve"><value>Lokale Testspende wurde ausgelöst.</value></data>
+  <data name="P25_Toast_SettingsSaved" xml:space="preserve"><value>Einstellungen gespeichert.</value></data>
+  <data name="P25_Unsaved" xml:space="preserve"><value>Ungespeicherte Änderungen</value></data>
+  <data name="P25_Unsaved_Close" xml:space="preserve"><value>Änderungen vor dem Schließen speichern?</value></data>
+  <data name="P25_Unsaved_Title" xml:space="preserve"><value>Ungespeicherte Änderungen</value></data>
 </root>

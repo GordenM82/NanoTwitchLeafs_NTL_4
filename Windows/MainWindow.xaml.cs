@@ -15,11 +15,15 @@ using System.IO;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NanoTwitchLeafs.Enums;
@@ -37,7 +41,7 @@ namespace NanoTwitchLeafs.Windows
 	public partial class MainWindow : Window
 	{
 		private readonly List<string> _twitchChat = new List<string>();
-		private static readonly ObservableCollection<string> Console = new ObservableCollection<string>();
+		private static readonly ObservableCollection<ConsoleLogEntry> Console = new ObservableCollection<ConsoleLogEntry>();
 		private LoadingWindow _loadingWindow;
 
 		private readonly ILog _logger = LogManager.GetLogger(typeof(MainWindow));
@@ -54,6 +58,8 @@ namespace NanoTwitchLeafs.Windows
 		private readonly HypeRateIOController _hypeRatecontroller;
 		private readonly UpdateController _updateController;
 		private bool _consoleAutoScroll = true;
+		private ICollectionView _consoleView;
+		private readonly DispatcherTimer _toastTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
 		private readonly TaskbarIcon _tbi = new TaskbarIcon();
 		private readonly TwitchEventSubController _twitchEventSubController;
 		private bool _initialWindowActivationCompleted;
@@ -66,6 +72,9 @@ namespace NanoTwitchLeafs.Windows
 		private int _helpReturnPage = -1;
 		private Action _helpReturnAction;
 		private bool _helpReturnFollowsSelectedTopic;
+		private bool _settingsTrackingReady;
+		private bool _settingsDirty;
+		private bool _shutdownCompleted;
 
 		public enum HelpTopic
 		{
@@ -217,6 +226,7 @@ namespace NanoTwitchLeafs.Windows
 			// Init Window and Controls
 			InitializeComponent();
 			previewBadge_TextBlock.Text = PreviewBadgeText;
+			_toastTimer.Tick += (_, _) => { _toastTimer.Stop(); toast_Border.Visibility = Visibility.Collapsed; };
 
 
 #if !DEBUG
@@ -351,6 +361,8 @@ namespace NanoTwitchLeafs.Windows
 #endif
 			// attach property change event to configuration object and its subsequent elements if any derived NotifyObject
 			_appSettings.AttachPropertyChanged(_appSettings_PropertyChanged);
+			ConfigureSettingsChangeTracking();
+			_settingsTrackingReady = true;
 
 			if (_appSettings.AutoIpRefresh)
 			{
@@ -391,7 +403,7 @@ namespace NanoTwitchLeafs.Windows
 				return;
 
 			_initialWindowActivationCompleted = true;
-			WindowState = WindowState.Normal;
+			RestoreWindowPlacement();
 			ShowInTaskbar = true;
 			Show();
 			Activate();
@@ -400,6 +412,28 @@ namespace NanoTwitchLeafs.Windows
 			Topmost = true;
 			Topmost = false;
 			Focus();
+		}
+
+		private void RestoreWindowPlacement()
+		{
+			if (_appSettings.WindowWidth >= MinWidth) Width = Math.Min(_appSettings.WindowWidth, SystemParameters.VirtualScreenWidth);
+			if (_appSettings.WindowHeight >= MinHeight) Height = Math.Min(_appSettings.WindowHeight, SystemParameters.VirtualScreenHeight);
+			if (_appSettings.WindowLeft != 0 || _appSettings.WindowTop != 0)
+			{
+				Left = Math.Max(SystemParameters.VirtualScreenLeft, Math.Min(_appSettings.WindowLeft, SystemParameters.VirtualScreenLeft + SystemParameters.VirtualScreenWidth - Width));
+				Top = Math.Max(SystemParameters.VirtualScreenTop, Math.Min(_appSettings.WindowTop, SystemParameters.VirtualScreenTop + SystemParameters.VirtualScreenHeight - Height));
+			}
+			WindowState = _appSettings.WindowMaximized ? WindowState.Maximized : WindowState.Normal;
+		}
+
+		private void SaveWindowPlacement()
+		{
+			System.Windows.Rect bounds = WindowState == WindowState.Normal ? new System.Windows.Rect(Left, Top, Width, Height) : RestoreBounds;
+			_appSettings.WindowLeft = bounds.Left;
+			_appSettings.WindowTop = bounds.Top;
+			_appSettings.WindowWidth = bounds.Width;
+			_appSettings.WindowHeight = bounds.Height;
+			_appSettings.WindowMaximized = WindowState == WindowState.Maximized;
 		}
 
 		private void ItemShow_Click(object sender, RoutedEventArgs e)
@@ -460,9 +494,30 @@ namespace NanoTwitchLeafs.Windows
 			this.WindowState = WindowState.Normal;
 		}
 
+		private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Escape && blocklistPanel.Visibility == Visibility.Visible)
+			{
+				ShowMainPage(0);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.Escape && helpPanel.Visibility == Visibility.Visible)
+			{
+				HelpBack_Button_Click(sender, e);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.F && Keyboard.Modifiers.HasFlag(ModifierKeys.Control) &&
+				chatconsole_TabControl.Visibility == Visibility.Visible && chatconsole_TabControl.SelectedIndex == 1)
+			{
+				consoleSearch_TextBox.Focus();
+				consoleSearch_TextBox.SelectAll();
+				e.Handled = true;
+			}
+		}
+
 		private void _appSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			_appSettingsController.SaveSettings(_appSettings);
+			MarkSettingsDirty();
 		}
 
 		#endregion
@@ -497,7 +552,11 @@ namespace NanoTwitchLeafs.Windows
 					?? languages[1];
 
 				twitchChat_ListBox.ItemsSource = _twitchChat;
-				console_ListBox.ItemsSource = Console;
+				_consoleView = CollectionViewSource.GetDefaultView(Console);
+				_consoleView.Filter = ConsoleEntryMatchesFilter;
+				console_ListBox.ItemsSource = _consoleView;
+				consoleLevelFilter_ComboBox.SelectedIndex = 0;
+				UpdateConsoleResultCount();
 
 				// Bot Settings
 				whisperMode_Checkbox.IsChecked = _appSettings.WhisperMode;
@@ -571,21 +630,72 @@ namespace NanoTwitchLeafs.Windows
 
 		private void Logger_OnAppenderMessage(Level level, DateTime logTime, string message)
 		{
-			Logger_OnMessage($"[{logTime.ToShortTimeString()}][{level}] {message}");
+			Logger_OnMessage(level?.Name ?? "INFO", $"[{logTime.ToShortTimeString()}][{level}] {message}");
 		}
 
-		private void Logger_OnMessage(string message)
+		private void Logger_OnMessage(string level, string message)
 		{
 			if (console_ListBox == null)
 				return;
 
 			console_ListBox.Dispatcher.Invoke(() =>
 			{
-				Console.Add(message);
-				console_ListBox.Items.Refresh();
+				Console.Add(new ConsoleLogEntry { Level = NormalizeLogLevel(level), Message = message });
+				_consoleView?.Refresh();
+				UpdateConsoleResultCount();
 				if (_consoleAutoScroll)
 					UpdateScrollBar(console_ListBox);
 			});
+		}
+
+		private static string NormalizeLogLevel(string level)
+		{
+			if (string.Equals(level, "FATAL", StringComparison.OrdinalIgnoreCase)) return "ERROR";
+			if (string.Equals(level, "WARNING", StringComparison.OrdinalIgnoreCase)) return "WARN";
+			return string.IsNullOrWhiteSpace(level) ? "INFO" : level.ToUpperInvariant();
+		}
+
+		private void ConfigureSettingsChangeTracking()
+		{
+			foreach (TextBox textBox in new[] { commandPrefix_TextBox, nanoCooldown_TextBox, hypeRateId_Textbox, StreamlabsClientId_Textbox })
+				textBox.TextChanged += SettingsControl_Changed;
+			foreach (PasswordBox passwordBox in new[] { StreamlabsClientSecret_Textbox, HypeRateApiKey_Textbox, streamElementsToken_PasswordBox })
+				passwordBox.PasswordChanged += SettingsControl_Changed;
+			foreach (CheckBox checkBox in new[]
+			{
+				autoConnect_Checkbox, response_CheckBox, whisperMode_Checkbox, nanoCmd_Checkbox,
+				nanoCooldown_Checkbox, nanoCooldownIgnore_Checkbox, commandRestore_CheckBox,
+				keywordRestore_Checkbox, autoIPRefresh_Checkbox, debugCmd_Checkbox,
+				streamElementsEnabled_CheckBox, streamElementsAutoConnect_CheckBox
+			}) checkBox.Click += SettingsControl_Changed;
+			streamElementsTokenType_ComboBox.SelectionChanged += SettingsControl_Changed;
+		}
+
+		private void SettingsControl_Changed(object sender, RoutedEventArgs e) => MarkSettingsDirty();
+
+		private void MarkSettingsDirty()
+		{
+			if (!_settingsTrackingReady || _settingsDirty) return;
+			_settingsDirty = true;
+			unsavedChanges_TextBlock.Text = Text("P25_Unsaved");
+			unsavedChanges_TextBlock.Visibility = Visibility.Visible;
+			Save_Button.ToolTip = Text("P25_Unsaved");
+		}
+
+		private void MarkSettingsSaved()
+		{
+			_settingsDirty = false;
+			unsavedChanges_TextBlock.Visibility = Visibility.Collapsed;
+			Save_Button.ToolTip = null;
+		}
+
+		private void ShowToast(string message)
+		{
+			if (string.IsNullOrWhiteSpace(message)) return;
+			toast_TextBlock.Text = message;
+			toast_Border.Visibility = Visibility.Visible;
+			_toastTimer.Stop();
+			_toastTimer.Start();
 		}
 
 		#endregion
@@ -604,6 +714,8 @@ namespace NanoTwitchLeafs.Windows
 				_appSettings.BlacklistEnabled = false;
 				_logger.Info("Blacklist disabled!");
 			}
+			_appSettingsController.SaveSettings(_appSettings);
+			RefreshBlocklistSummary();
 		}
 
 		private void CheckForUpdate_Button_Click(object sender, RoutedEventArgs e)
@@ -658,6 +770,9 @@ namespace NanoTwitchLeafs.Windows
 			}
 
 			_appSettings.Language = selectedLanguageCode;
+			ParseValuesIntoAppSettings();
+			_appSettingsController.SaveSettings(_appSettings);
+			MarkSettingsSaved();
 
 			if (MessageBox.Show(Properties.Resources.Code_Main_MessageBox_Restart, Properties.Resources.Code_Main_MessageBox_Restart_Title, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
@@ -695,6 +810,9 @@ namespace NanoTwitchLeafs.Windows
 			blocklistRemove_Button.Content = Text("P22_Blocklist_Remove");
 			blocklistClear_Button.Content = Text("P22_Blocklist_Clear");
 			blocklistSearch_TextBox.ToolTip = Text("P22_Blocklist_Search");
+			blocklistSummaryHeading_TextBlock.Text = Text("P22_Blocklist_Heading");
+			blocklistManage_Button.Content = Text("P25_Blocklist_Manage");
+			blocklistBack_Button.Content = Text("P25_Back");
 			blocklistHelpHeading_TextBlock.Text = Text("P22_Blocklist_Heading");
 			blocklistHelpBody_TextBlock.Text = Text("P22_Blocklist_Help");
 			streamElementsHelp_TabItem.Header = "StreamElements";
@@ -711,6 +829,15 @@ namespace NanoTwitchLeafs.Windows
 			consoleClear_Button.Content = Text("P23_Console_Clear");
 			consoleOpenLog_Button.Content = Text("P23_Console_OpenLog");
 			consoleAutoScroll_CheckBox.Content = Text("P23_Console_AutoScroll");
+			consoleSearch_TextBox.ToolTip = Text("P25_Console_Search");
+			consoleSupportLog_Button.Content = Text("P25_Console_SupportLog");
+			consoleCopySelected_MenuItem.Header = Text("P25_Console_CopySelected");
+			consoleCopyVisible_MenuItem.Header = Text("P25_Console_CopyVisible");
+			SetComboBoxItemContent(consoleLevelFilter_ComboBox, "All", Text("P25_Console_All"));
+			SetComboBoxItemContent(consoleLevelFilter_ComboBox, "INFO", Text("P25_Console_Info"));
+			SetComboBoxItemContent(consoleLevelFilter_ComboBox, "WARN", Text("P25_Console_Warnings"));
+			SetComboBoxItemContent(consoleLevelFilter_ComboBox, "ERROR", Text("P25_Console_Errors"));
+			SetComboBoxItemContent(consoleLevelFilter_ComboBox, "DEBUG", Text("P25_Console_Debug"));
 			p24TriggerHelpHeading_TextBlock.Text = Text("P24_Trigger_Search");
 			p24TriggerHelpBody_TextBlock.Text = Text("P24_Trigger_Help");
 		}
@@ -725,7 +852,37 @@ namespace NanoTwitchLeafs.Windows
 				.ToList();
 			blocklistRemove_Button.IsEnabled = blocklist_ListBox.SelectedItem != null;
 			blocklistClear_Button.IsEnabled = _appSettings.Blacklist?.Count > 0;
+			RefreshBlocklistSummary();
 		}
+
+		private void RefreshBlocklistSummary()
+		{
+			if (blocklistSummaryStatus_TextBlock == null) return;
+			blocklistSummaryStatus_TextBlock.Text = string.Format(
+				_appSettings.BlacklistEnabled ? Text("P25_Blocklist_StatusActive") : Text("P25_Blocklist_StatusInactive"),
+				_appSettings.Blacklist?.Count ?? 0);
+		}
+
+		private void BlocklistManage_Button_Click(object sender, RoutedEventArgs e) => ShowEmbeddedBlocklist();
+
+		private void ShowEmbeddedBlocklist()
+		{
+			RefreshBlocklist();
+			chatconsole_TabControl.Visibility = Visibility.Collapsed;
+			settings_TabControl.Visibility = Visibility.Collapsed;
+			integrationTabs_Panel.Visibility = Visibility.Collapsed;
+			triggerManager_Host.Visibility = Visibility.Collapsed;
+			appInfo_Host.Visibility = Visibility.Collapsed;
+			management_Host.Visibility = Visibility.Collapsed;
+			helpPanel.Visibility = Visibility.Collapsed;
+			Save_Button.Visibility = Visibility.Collapsed;
+			blocklistPanel.Visibility = Visibility.Visible;
+			_currentPage = 0;
+			UpdateNavigationState(0);
+			Dispatcher.BeginInvoke(new Action(() => blocklistInput_TextBox.Focus()));
+		}
+
+		private void BlocklistBack_Button_Click(object sender, RoutedEventArgs e) => ShowMainPage(0);
 
 		private void BlocklistAdd_Button_Click(object sender, RoutedEventArgs e)
 		{
@@ -746,6 +903,7 @@ namespace NanoTwitchLeafs.Windows
 			_appSettingsController.SaveSettings(_appSettings);
 			_logger.Info(string.Format(Properties.Resources.General_Blacklist_MessageBox_AddedUserX, username));
 			RefreshBlocklist();
+			ShowToast(string.Format(Text("P25_Toast_BlocklistAdded"), username));
 		}
 
 		private void BlocklistRemove_Button_Click(object sender, RoutedEventArgs e)
@@ -755,6 +913,7 @@ namespace NanoTwitchLeafs.Windows
 			_appSettingsController.SaveSettings(_appSettings);
 			_logger.Info(string.Format(Properties.Resources.General_Blacklist_MessageBox_RemovedUserX, username));
 			RefreshBlocklist();
+			ShowToast(Text("P25_Toast_BlocklistRemoved"));
 		}
 
 		private void BlocklistClear_Button_Click(object sender, RoutedEventArgs e)
@@ -764,6 +923,7 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings.Blacklist.Clear();
 			_appSettingsController.SaveSettings(_appSettings);
 			RefreshBlocklist();
+			ShowToast(Text("P25_Toast_BlocklistCleared"));
 		}
 
 		private void BlocklistInput_TextBox_KeyDown(object sender, KeyEventArgs e)
@@ -773,7 +933,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void BlocklistSearch_TextBox_TextChanged(object sender, TextChangedEventArgs e) => RefreshBlocklist();
 		private void Blocklist_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) => blocklistRemove_Button.IsEnabled = blocklist_ListBox.SelectedItem != null;
-		private void BlocklistHelp_Button_Click(object sender, RoutedEventArgs e) => ShowHelp(HelpTopic.Twitch);
+		private void BlocklistHelp_Button_Click(object sender, RoutedEventArgs e) => ShowHelp(HelpTopic.Twitch, ShowEmbeddedBlocklist);
 		private void StreamElementsHelp_Button_Click(object sender, RoutedEventArgs e) => ShowHelp(HelpTopic.StreamElements);
 
 		private void ReadStreamElementsControls()
@@ -837,6 +997,7 @@ namespace NanoTwitchLeafs.Windows
 				return;
 			}
 			_streamElementsController.SimulateDonation(amount, streamElementsTestUser_TextBox.Text);
+			ShowToast(Text("P25_Toast_TestTriggered"));
 		}
 
 		private static void SelectComboBoxItem(ComboBox comboBox, string tag)
@@ -852,12 +1013,17 @@ namespace NanoTwitchLeafs.Windows
 			comboBox.SelectedIndex = 0;
 		}
 
+		private static void SetComboBoxItemContent(ComboBox comboBox, string tag, string content)
+		{
+			foreach (ComboBoxItem item in comboBox.Items)
+				if (string.Equals(item.Tag?.ToString(), tag, StringComparison.OrdinalIgnoreCase)) item.Content = content;
+		}
+
 		private void Theme_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (!_appearanceControlsReady || theme_ComboBox.SelectedItem is not ComboBoxItem item) return;
 			_appSettings.Theme = item.Tag.ToString();
 			ThemeManager.Apply(_appSettings.Theme, _appSettings.AccentColor);
-			_appSettingsController.SaveSettings(_appSettings);
 		}
 
 		private void Accent_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -865,7 +1031,6 @@ namespace NanoTwitchLeafs.Windows
 			if (!_appearanceControlsReady || accent_ComboBox.SelectedItem is not ComboBoxItem item) return;
 			_appSettings.AccentColor = item.Tag.ToString();
 			ThemeManager.Apply(_appSettings.Theme, _appSettings.AccentColor);
-			_appSettingsController.SaveSettings(_appSettings);
 		}
 
 		private void Navigation_Button_Click(object sender, RoutedEventArgs e)
@@ -882,6 +1047,7 @@ namespace NanoTwitchLeafs.Windows
 			appInfo_Host.Visibility = Visibility.Collapsed;
 			management_Host.Visibility = Visibility.Collapsed;
 			helpPanel.Visibility = Visibility.Collapsed;
+			blocklistPanel.Visibility = Visibility.Collapsed;
 			Save_Button.Visibility = Visibility.Visible;
 			chatconsole_TabControl.Visibility = showChat ? Visibility.Visible : Visibility.Collapsed;
 			settings_TabControl.Visibility = showChat ? Visibility.Collapsed : Visibility.Visible;
@@ -966,6 +1132,7 @@ namespace NanoTwitchLeafs.Windows
 			triggerManager_Host.Visibility = Visibility.Collapsed;
 			appInfo_Host.Visibility = Visibility.Collapsed;
 			management_Host.Visibility = Visibility.Collapsed;
+			blocklistPanel.Visibility = Visibility.Collapsed;
 			Save_Button.Visibility = Visibility.Collapsed;
 			helpPanel.Visibility = Visibility.Visible;
 			help_TabControl.SelectedIndex = (int)topic;
@@ -1081,7 +1248,8 @@ namespace NanoTwitchLeafs.Windows
 		}
 		private void Main_Window_Closed(object sender, EventArgs e)
 		{
-			Window_Closing(null, null);
+			_toastTimer.Stop();
+			_tbi?.Dispose();
 		}
 
 		private void StreamlabsConnectButton_Click(object sender, RoutedEventArgs e)
@@ -1214,8 +1382,8 @@ namespace NanoTwitchLeafs.Windows
 
 			// Save all
 			_appSettingsController.SaveSettings(_appSettings);
-
-			MessageBox.Show(Properties.Resources.General_MessageBox_SettingsSaved, Properties.Resources.General_MessageBox_Sucess_Title, MessageBoxButton.OK, MessageBoxImage.Information);
+			MarkSettingsSaved();
+			ShowToast(Text("P25_Toast_SettingsSaved"));
 		}
 
 		private void ParseValuesIntoAppSettings()
@@ -1301,6 +1469,7 @@ namespace NanoTwitchLeafs.Windows
 				settings_TabControl.Visibility = Visibility.Collapsed;
 				appInfo_Host.Visibility = Visibility.Collapsed;
 				management_Host.Visibility = Visibility.Collapsed;
+				blocklistPanel.Visibility = Visibility.Collapsed;
 				helpPanel.Visibility = Visibility.Collapsed;
 				integrationTabs_Panel.Visibility = Visibility.Collapsed;
 				Save_Button.Visibility = Visibility.Collapsed;
@@ -1379,6 +1548,7 @@ namespace NanoTwitchLeafs.Windows
 				integrationTabs_Panel.Visibility = Visibility.Collapsed;
 				triggerManager_Host.Visibility = Visibility.Collapsed;
 				management_Host.Visibility = Visibility.Collapsed;
+				blocklistPanel.Visibility = Visibility.Collapsed;
 				helpPanel.Visibility = Visibility.Collapsed;
 				Save_Button.Visibility = Visibility.Collapsed;
 				appInfo_Host.Visibility = Visibility.Visible;
@@ -1444,7 +1614,50 @@ namespace NanoTwitchLeafs.Windows
 		private void ConsoleClear_Button_Click(object sender, RoutedEventArgs e)
 		{
 			Console.Clear();
-			console_ListBox.Items.Refresh();
+			_consoleView?.Refresh();
+			UpdateConsoleResultCount();
+			ShowToast(Text("P25_Toast_ConsoleCleared"));
+		}
+
+		private bool ConsoleEntryMatchesFilter(object value)
+		{
+			if (value is not ConsoleLogEntry entry) return false;
+			string search = consoleSearch_TextBox?.Text?.Trim() ?? string.Empty;
+			string level = (consoleLevelFilter_ComboBox?.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "All";
+			return (level == "All" || entry.Level == level) &&
+				(string.IsNullOrWhiteSpace(search) || entry.Message?.Contains(search, StringComparison.OrdinalIgnoreCase) == true);
+		}
+
+		private void ConsoleFilter_Changed(object sender, RoutedEventArgs e)
+		{
+			_consoleView?.Refresh();
+			UpdateConsoleResultCount();
+			if (_consoleAutoScroll) UpdateScrollBar(console_ListBox);
+		}
+
+		private void UpdateConsoleResultCount()
+		{
+			if (consoleResultCount_TextBlock == null) return;
+			int visible = _consoleView?.Cast<object>().Count() ?? Console.Count;
+			consoleResultCount_TextBlock.Text = string.Format(Text("P25_Console_Count"), visible, Console.Count);
+		}
+
+		private void ConsoleCopySelected_MenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			CopyConsoleEntries(console_ListBox.SelectedItems.Cast<ConsoleLogEntry>());
+		}
+
+		private void ConsoleCopyVisible_MenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			CopyConsoleEntries((_consoleView?.Cast<ConsoleLogEntry>()) ?? Enumerable.Empty<ConsoleLogEntry>());
+		}
+
+		private void CopyConsoleEntries(IEnumerable<ConsoleLogEntry> entries)
+		{
+			string text = string.Join(Environment.NewLine, entries.Select(entry => entry.Message));
+			if (string.IsNullOrWhiteSpace(text)) return;
+			try { Clipboard.SetText(text); ShowToast(Text("P25_Toast_Copied")); }
+			catch (Exception ex) { _logger.Warn("Could not copy console entries.", ex); }
 		}
 
 		private void ConsoleOpenLog_Button_Click(object sender, RoutedEventArgs e)
@@ -1466,6 +1679,49 @@ namespace NanoTwitchLeafs.Windows
 				MessageBox.Show(Properties.Resources.General_MessageBox_GeneralError_Text,
 					Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+		}
+
+		private void ConsoleSupportLog_Button_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				string supportDirectory = Path.Combine(Constants.PROGRAMFILESFOLDER_PATH, "Support");
+				Directory.CreateDirectory(supportDirectory);
+				string destination = Path.Combine(supportDirectory, $"NanoTwitchLeafs-support-{DateTime.Now:yyyyMMdd-HHmmss}.log");
+				string source = File.Exists(Constants.LOG_PATH) ? File.ReadAllText(Constants.LOG_PATH) : string.Empty;
+				string header = $"NanoTwitchLeafs {PreviewBadgeText}{Environment.NewLine}Created: {DateTimeOffset.Now:O}{Environment.NewLine}{Environment.NewLine}";
+				File.WriteAllText(destination, header + SanitizeSupportLog(source), Encoding.UTF8);
+				Process.Start(new ProcessStartInfo { FileName = "explorer.exe", Arguments = $"/select,\"{destination}\"", UseShellExecute = true });
+				ShowToast(Text("P25_Toast_SupportCreated"));
+			}
+			catch (Exception ex)
+			{
+				_logger.Error("Could not create the sanitized support log.", ex);
+				MessageBox.Show(Properties.Resources.General_MessageBox_GeneralError_Text,
+					Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
+
+		private string SanitizeSupportLog(string content)
+		{
+			string sanitized = content ?? string.Empty;
+			var secrets = new[]
+			{
+				_appSettings.BotAuthObject?.Access_Token, _appSettings.BotAuthObject?.Refresh_Token,
+				_appSettings.BroadcasterAuthObject?.Access_Token, _appSettings.BroadcasterAuthObject?.Refresh_Token,
+				_appSettings.StreamElements?.Token, _appSettings.StreamlabsClientId,
+				_appSettings.StreamlabsClientSecret, _appSettings.StreamlabsInformation?.StreamlabsAToken,
+				_appSettings.StreamlabsInformation?.StreamlabsSocketToken, _appSettings.HypeRateApiKey,
+				_appSettings.BotName, _appSettings.ChannelName
+			}.Concat((_appSettings.NanoSettings?.NanoLeafDevices ?? new List<NanoLeafDevice>()).Select(device => device.Token));
+			foreach (string secret in secrets.Where(value => !string.IsNullOrWhiteSpace(value) && value.Length >= 4).Distinct())
+				sanitized = sanitized.Replace(secret, "[REDACTED]", StringComparison.Ordinal);
+			string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+			if (!string.IsNullOrWhiteSpace(userProfile))
+				sanitized = sanitized.Replace(userProfile, "%USERPROFILE%", StringComparison.OrdinalIgnoreCase);
+			sanitized = Regex.Replace(sanitized, @"(?i)(Bearer\s+)[A-Za-z0-9._~+/=-]+", "$1[REDACTED]");
+			sanitized = Regex.Replace(sanitized, @"(?i)((?:access|refresh)[_ -]?token|api[_ -]?key|client[_ -]?secret|authorization|jwt)(\s*[:=]\s*)([^\s,;]+)", "$1$2[REDACTED]");
+			return sanitized;
 		}
 
 		private void ConsoleAutoScroll_CheckBox_Changed(object sender, RoutedEventArgs e)
@@ -1494,11 +1750,34 @@ namespace NanoTwitchLeafs.Windows
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
+			if (_shutdownCompleted) return;
 			try
 			{
-				ReadStreamElementsControls();
-				_appSettingsController.SaveSettings(_appSettings);
+				if (_settingsDirty && e != null)
+				{
+					MessageBoxResult result = MessageBox.Show(Text("P25_Unsaved_Close"), Text("P25_Unsaved_Title"),
+						MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+					if (result == MessageBoxResult.Cancel)
+					{
+						e.Cancel = true;
+						return;
+					}
+					if (result == MessageBoxResult.Yes)
+					{
+						ParseValuesIntoAppSettings();
+						SaveWindowPlacement();
+						_appSettingsController.SaveSettings(_appSettings);
+						MarkSettingsSaved();
+					}
+				}
+				else
+				{
+					ReadStreamElementsControls();
+					SaveWindowPlacement();
+					_appSettingsController.SaveSettings(_appSettings);
+				}
 				_streamElementsController?.Dispose();
+				_shutdownCompleted = true;
 			}
 			catch (Exception ex)
 			{
@@ -1685,6 +1964,7 @@ namespace NanoTwitchLeafs.Windows
 			integrationTabs_Panel.Visibility = Visibility.Collapsed;
 			triggerManager_Host.Visibility = Visibility.Collapsed;
 			appInfo_Host.Visibility = Visibility.Collapsed;
+			blocklistPanel.Visibility = Visibility.Collapsed;
 			helpPanel.Visibility = Visibility.Collapsed;
 			Save_Button.Visibility = Visibility.Collapsed;
 			management_Host.Visibility = Visibility.Visible;
