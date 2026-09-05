@@ -86,13 +86,15 @@ jobs:
           Existing 4.x data under `%APPDATA%\NanoTwitchLeafs-4` is reused. Backing up this folder before important updates is recommended.
           '@ | Set-Content release-notes.md
 
-      - name: Create stable release
+      - name: Create or update stable release
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
-        run: >-
-          gh release create v4.1.0
-          "artifacts/NanoTwitchLeafs-4.1.0-win-x64.zip"
-          --title "NanoTwitchLeafs 4.1.0"
-          --notes-file release-notes.md
-          --target main
+        run: |
+          if (gh release view v4.1.0 2>$null) {
+            gh release upload v4.1.0 "artifacts/NanoTwitchLeafs-4.1.0-win-x64.zip" --clobber
+            gh release edit v4.1.0 --title "NanoTwitchLeafs 4.1.0" --notes-file release-notes.md --latest
+          }
+          else {
+            gh release create v4.1.0 "artifacts/NanoTwitchLeafs-4.1.0-win-x64.zip" --title "NanoTwitchLeafs 4.1.0" --notes-file release-notes.md --target main --latest
+          }
