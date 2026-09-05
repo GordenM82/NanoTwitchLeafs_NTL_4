@@ -4,6 +4,46 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.1.0 – stabile öffentliche Version (5. September 2026)
+
+Version 4.1.0 fasst die in 30 Entwicklungsschritten umgesetzte und praktisch geprüfte Modernisierung der vollständigen Oberfläche zusammen.
+
+### Neue Oberfläche und Navigation
+
+- Hauptfenster mit zentraler Seitennavigation für Chat/Konsole, Twitch, Nano, Trigger, Integrationen, Einstellungen, Hilfe und Info vollständig neu aufgebaut
+- Trigger-, Antworten-, Geräte-, Gerätegruppen- und Blocklist-Verwaltung in das Hauptfenster integriert
+- Hell-, Dunkel- und Systemdesign sowie wählbare Akzentfarben auf alle aktiven Fenster und Dialoge angewendet
+- Bedienung, Fokusführung, Escape-Rückkehr, `Strg+F`, Toastmeldungen und Hinweise bei ungespeicherten Änderungen vereinheitlicht
+- Hilfewege und Entwickler-/Projektinformationen neu strukturiert und sprachlich überarbeitet
+
+### Trigger, Twitch und Nanoleaf
+
+- Triggerübersicht mit kombinierter Suche, Status- und Typfiltern, Trefferanzahl und Filterrücksetzung erweitert
+- Warnungen für fehlende Geräte, Effekte und Sounddateien sowie Tooltips für gekürzte Werte und Spaltenüberschriften ergänzt
+- Trigger können erstellt, getestet, bearbeitet, dupliziert, importiert, exportiert und gelöscht werden
+- Triggerbearbeitung und JSON-Speicherung gegen ungültige Eingaben, unvollständige Daten und fehlende Dienste abgesichert
+- Nanoleaf-Mehrgeräteauswahl, Gerätegruppen und Wiederherstellung des vorherigen Zustands in die neue Oberfläche übernommen
+- Twitch-Ereignisse, Kanalpunkte und HypeTrain EventSub v2 bleiben vollständig unterstützt
+
+### Integrationen und Blocklist
+
+- StreamElements-Tips über Astro WebSocket ohne eigene Client-ID integriert
+- StreamElements-Reiter mit Aktivierung, JWT-/Overlay-Token, automatischer Verbindung, Status, Hilfe und lokaler Testspende ergänzt
+- bestehender Spenden-Trigger um die Quellen Alle, Streamlabs und StreamElements erweitert
+- Twitch-Blocklist mit Aktivierung, Hinzufügen, Suche, Entfernen und vollständigem Leeren direkt im Twitch-Bereich ergänzt
+- StreamElements-Tokens per Windows DPAPI geschützt und aus Diagnoseausgaben entfernt
+
+### Konsole, Fenster und Stabilität
+
+- Konsole um Suche, Stufenfilter, Farben, Trefferanzahl, Kopieren, Leeren, Logzugriff und umschaltbares Auto-Scrollen erweitert
+- bereinigtes Support-Protokoll ohne Tokens, API-Schlüssel, Benutzernamen und persönlichen Windows-Profilpfad ergänzt
+- Fenstergröße, Position und maximierter Zustand werden gespeichert und monitorgebunden wiederhergestellt
+- Oberfläche bei 100 %, 125 % und 150 % Windows-Skalierung sowie im Mehrmonitorbetrieb geprüft
+- vertikale und horizontale Scrollleisten vollständig bedienbar und designabhängig gestaltet
+- beschädigte oder unvollständige Einstellungen werden normalisiert und als Sicherung erhalten
+- HypeRate-Verarbeitung und Triggerwarteschlange gegen ungültige Daten und Threadfehler abgesichert
+- automatisierte Regressionstests P22 bis P30 sowie Lokalisierungs- und Windows-x64-Buildprüfungen ergänzt
+
 ## NanoTwitchLeafs 4.1.0 Layout-Vorschau 30 (5. September 2026)
 
 - Hauptfenster beim Wiederherstellen auf die Arbeitsfläche eines einzelnen Monitors begrenzt
@@ -80,6 +120,112 @@
 - eigenen Hilfereiter für StreamElements und Blocklist-Hilfe im Twitch-Hilfebereich ergänzt
 - StreamElements-Zugangsdaten bleiben Bestandteil der per Windows-DPAPI verschlüsselten NTL-Einstellungen und werden aus Diagnosefehlern entfernt
 - automatisierte P22-Regressionsprüfung und Preview-22-Windows-Artefakt ergänzt
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 21 (4. September 2026)
+
+- Antworten-, Geräte- und Gerätegruppenverwaltung in das Hauptfenster eingebettet
+- Rückkehrwege aus eingebetteten Verwaltungsbereichen vereinheitlicht
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 20 (4. September 2026)
+
+- Hilfe-Rückkehr auf den tatsächlich aufrufenden Bereich korrigiert
+- Grammatik, Zeichensetzung, Zielgeräte- und Befehlshilfen überarbeitet
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 19 (4. September 2026)
+
+- vollständigen Hilfebereich mit thematischen Reitern in das Hauptfenster eingebettet
+- kontextbezogene Hilfeschaltflächen mit passenden Reiterzielen verbunden
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 18 (3. September 2026)
+
+- vollständige Designprüfung aller aktiven Fenster für Hell, Dunkel und System durchgeführt
+- Eingabe-, Dialog-, Listen-, Info-, Pairing- und Anmeldefenster an das gemeinsame Farbsystem angepasst
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 17 (3. September 2026)
+
+- Info-Seite, Navigation und externe Projekt-/Feedbackwege modernisiert
+- ursprünglichen Entwickler und NTL-4-Weiterentwicklung klarer getrennt dargestellt
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 16 (3. September 2026)
+
+- Geräte- und Gerätegruppenansichten an die neue Oberfläche angepasst
+- automatische Vollständigkeitsprüfung der auswählbaren Sprachressourcen eingeführt
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 15 (3. September 2026)
+
+- sprachliche Qualitätsrunde für alle vorhandenen Übersetzungen durchgeführt
+- Deutsch (Österreich) und französische Fallback-Ressourcen ergänzt
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 14 (2. September 2026)
+
+- neue Oberflächen- und Triggertexte in Dänisch, Spanisch, Französisch, Italienisch, Niederländisch, Polnisch, Portugiesisch, Russisch und Slowakisch ergänzt
+- Übersetzungsworkflow abgesichert und sämtliche Sprachdateien vervollständigt
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 13 (2. September 2026)
+
+- Sprachumschaltung und Triggerdarstellung weiter vereinheitlicht
+- Triggertexte, Beschriftungen und Designressourcen nachgebessert
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 12 (2. September 2026)
+
+- Triggerbearbeitung gegen ungültige Zahlen, fehlende Dienste und Speicherfehler abgesichert
+- lokalisierte Triggerhilfe, Gerätegruppenaktualisierung und Sounddateifilter ergänzt
+- Speichern ersetzt Triggerdaten atomarer, ohne vorhandene Daten vorzeitig zu leeren
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 11 (2. September 2026)
+
+- Triggereditor und zugehörige Hilfeseite überarbeitet
+- Kanalpunktstatus, Eingabefelder und Fensteraufteilung korrigiert
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 10 (2. September 2026)
+
+- Triggerverwaltung als eigener Navigationsbereich in das Hauptfenster eingebettet
+- Triggeraktionen, Zielgeräteanzeige und bewusst durch Nutzer ausgelöste Aktivumschaltung stabilisiert
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 9 (2. September 2026)
+
+- JSON-Triggerdaten, Laden, Speichern und Repository-Zugriffe stabilisiert
+- Triggerbearbeitung, Duplizieren und kulturunabhängige Zahleneingaben abgesichert
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 8 (2. September 2026)
+
+- Triggerverwaltung für die neue Oberfläche vergrößert und neu strukturiert
+- Testen, Bearbeiten, Duplizieren und Zielgeräteanzeige verbessert
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 7 (2. September 2026)
+
+- Haupt- und Triggeroberfläche kompakter und einheitlich themenfähig gestaltet
+- Triggerdetail- und Übersichtsfenster an das moderne Design angepasst
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 6 (1. September 2026)
+
+- Streamlabs-, HypeRate- und API-Seiten für das neue Hauptfenster neu aufgebaut
+- Integrationsnavigation und Verbindungsbereiche vereinheitlicht
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 5 (1. September 2026)
+
+- Einstellungsseite vollständig neu angeordnet
+- Sprache, Design, Akzentfarbe und allgemeine Optionen übersichtlicher zusammengeführt
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 4 (1. September 2026)
+
+- linke Seitennavigation und Seitenwechsel weiterentwickelt
+- Größen, Abstände und aktive Navigationszustände vereinheitlicht
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 3 (1. September 2026)
+
+- Hauptfenster, Kopfbereich, Info-Darstellung und Navigationsdetails verfeinert
+- Plattformkennzeichnung und Windows-Unterstützung präzisiert
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 2 (1. September 2026)
+
+- moderne Oberfläche funktional mit Twitch-, Nano-, Einstellungs- und Integrationslogik verbunden
+- dynamisches Designsystem, Akzentfarben und erste neue Info-Seite ergänzt
+
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 1 (1. September 2026)
+
+- erste funktionale Vorschau der vollständig modernisierten WPF-Oberfläche erstellt
+- Kopfbereich, moderne Bedienelemente und separate Testdatenhaltung eingeführt
 
 ## NanoTwitchLeafs 4.0.1 – Fehlerbehebungen (31. August 2026)
 
@@ -192,6 +338,68 @@ NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 u
 
 ## English
 
+## NanoTwitchLeafs 4.1.0 – stable public release (5 September 2026)
+
+Version 4.1.0 delivers the complete interface modernization developed and practically tested across 30 layout previews.
+
+### New interface and navigation
+
+- rebuilt the main window around central navigation for Chat/Console, Twitch, Nano, Triggers, Integrations, Settings, Help, and Info
+- embedded trigger, response, device, device-group, and blocklist management in the main window
+- applied Light, Dark, and System themes plus selectable accent colors to all active windows and dialogs
+- unified keyboard operation, focus, Escape navigation, `Ctrl+F`, toast messages, and unsaved-change warnings
+- restructured contextual help and project/developer information
+
+### Triggers, integrations, and support
+
+- added combined trigger search, status/category filters, result counts, missing-resource warnings, and complete-value tooltips
+- retained create, test, edit, duplicate, import, export, and delete actions with safer JSON persistence and input handling
+- integrated StreamElements tips through Astro WebSocket with token protection, automatic connection, help, and a local test donation
+- extended donation triggers with All, Streamlabs, and StreamElements provider choices
+- embedded complete Twitch-user blocklist management in the Twitch section
+- expanded the console with search, level filters/colors, copy, clear, log access, auto-scroll, and a sanitized support log
+
+### Windows, scaling, and stability
+
+- stores and restores window size, position, maximized state, and the selected monitor
+- constrains main and child windows to one monitor's taskbar-aware work area
+- tested the interface at 100%, 125%, and 150% Windows scaling and in multi-monitor use
+- repaired draggable vertical and horizontal scrollbars with theme-aware interaction states
+- normalizes incomplete settings, preserves damaged files as backups, and hardens HypeRate and trigger-queue processing
+- added automated P22–P30 regression, localization, and Windows x64 build validation
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 30 (5 September 2026)
+
+- constrained restored main windows and active child windows to a single taskbar-aware monitor work area
+- restored removed-monitor positions to the nearest available screen and added monitor/DPI diagnostics
+- repaired vertical and horizontal WPF scrollbars with proper `PART_Track`, drag, hover, and pressed behavior
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 29 (5 September 2026)
+
+- fine-tuned automatic-scroll alignment and aligned the trigger page with the shared outer content edge
+- added full tooltips for column headers and truncated trigger-table values
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 28 (5 September 2026)
+
+- improved focus indication, initial focus, Escape return, disabled-control explanations, and trigger content bounds
+- normalized incomplete settings and preserved invalid settings as backups
+- hardened malformed HypeRate messages and trigger-queue UI-thread updates
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 27 (5 September 2026)
+
+- aligned the console toolbar, added its visible search hint, and balanced trigger columns
+- localized target-device and import/export labels
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 26 (5 September 2026)
+
+- applied Light/Dark/System styling to console colors, warnings, context menus, and scrollbars
+- compacted Twitch and trigger content and centered the information-page title and developer details
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 25 (5 September 2026)
+
+- moved blocklist management behind a compact Twitch summary in the main window
+- added complete console search/filter/support actions, window-placement persistence, dirty warnings, toasts, Escape, and `Ctrl+F`
+
 ## NanoTwitchLeafs 4.1.0 Layout Preview 24 (5 September 2026)
 
 - added combined trigger search across type, command, effect, sound, provider, and target devices
@@ -221,6 +429,95 @@ NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 u
 - added dedicated StreamElements help and blocklist guidance in the Twitch help section
 - kept StreamElements credentials inside the Windows-DPAPI-encrypted NTL settings and redacted them from diagnostic errors
 - added automated P22 regression checks and the Preview 22 Windows artifact
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 21 (4 September 2026)
+
+- embedded response, device, and device-group management in the main window
+- unified return navigation from embedded management areas
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 20 (4 September 2026)
+
+- corrected contextual help return targets and revised grammar, punctuation, target-device, and command guidance
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 19 (4 September 2026)
+
+- embedded the complete tabbed help area in the main window and connected contextual help buttons
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 18 (3 September 2026)
+
+- completed the Light, Dark, and System theme audit across active input, list, info, pairing, and sign-in windows
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 17 (3 September 2026)
+
+- modernized Info, navigation, external project links, and separate original/continued-development credits
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 16 (3 September 2026)
+
+- adapted device and device-group views and introduced automatic selectable-language resource validation
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 15 (3 September 2026)
+
+- completed a language-quality pass and added Austrian German and French fallback resources
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 14 (2 September 2026)
+
+- completed Danish, Spanish, French, Italian, Dutch, Polish, Portuguese, Russian, and Slovak interface resources
+- secured the translation workflow and resource completeness
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 13 (2 September 2026)
+
+- unified language switching, trigger presentation, labels, and theme resources
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 12 (2 September 2026)
+
+- hardened trigger editing against invalid numbers, missing services, and save failures
+- added localized trigger help, immediate device-group refresh, sound filters, and safer replacement saves
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 11 (2 September 2026)
+
+- revised the trigger editor/help and corrected channel-point status, inputs, and window layout
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 10 (2 September 2026)
+
+- embedded trigger management as its own navigation area and stabilized user-requested activation changes
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 9 (2 September 2026)
+
+- stabilized JSON trigger loading, saving, repository access, duplication, and culture-independent numeric input
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 8 (2 September 2026)
+
+- enlarged and restructured trigger management and improved test, edit, duplicate, and target-device actions
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 7 (2 September 2026)
+
+- compacted the main and trigger interfaces and applied the shared modern theme
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 6 (1 September 2026)
+
+- rebuilt Streamlabs, HypeRate, API, integration-navigation, and connection pages
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 5 (1 September 2026)
+
+- rebuilt Settings around language, theme, accent, and general options
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 4 (1 September 2026)
+
+- developed the left navigation, page switching, spacing, sizes, and active states
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 3 (1 September 2026)
+
+- refined the main header, Info presentation, navigation details, and Windows platform declaration
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 2 (1 September 2026)
+
+- connected the modern interface to Twitch, Nano, Settings, and integration logic
+- added dynamic themes, accent colors, and the first new Info page
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 1 (1 September 2026)
+
+- created the first functional preview of the fully modernized WPF interface
+- introduced the header, modern controls, and separate preview data storage
 
 ## NanoTwitchLeafs 4.0.1 – bug fixes (31 August 2026)
 

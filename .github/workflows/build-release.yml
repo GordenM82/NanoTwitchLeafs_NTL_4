@@ -58,6 +58,9 @@ jobs:
       - name: Validate Preview 30 monitor and scrollbar handling
         run: python tools/validate_p30.py
 
+      - name: Validate 4.1.0 release state
+        run: python tools/validate_release_410.py
+
       - name: Restore
         run: dotnet restore NanoTwitchLeafs.Modern.csproj
 
@@ -67,21 +70,21 @@ jobs:
           --configuration Release
           --runtime win-x64
           --self-contained true
-          --output artifacts/NanoTwitchLeafs-4.1.0-layout-preview.30-win-x64
+          --output artifacts/NanoTwitchLeafs-4.1.0-win-x64
 
       - name: Remove development-only files
         shell: pwsh
         run: |
-          Remove-Item "artifacts/NanoTwitchLeafs-4.1.0-layout-preview.30-win-x64/*.pdb" -Force -ErrorAction SilentlyContinue
+          Remove-Item "artifacts/NanoTwitchLeafs-4.1.0-win-x64/*.pdb" -Force -ErrorAction SilentlyContinue
 
       - name: Create release ZIP
         shell: pwsh
         run: |
-          Compress-Archive -Path "artifacts/NanoTwitchLeafs-4.1.0-layout-preview.30-win-x64/*" -DestinationPath "artifacts/NanoTwitchLeafs-4.1.0-layout-preview.30-win-x64.zip"
+          Compress-Archive -Path "artifacts/NanoTwitchLeafs-4.1.0-win-x64/*" -DestinationPath "artifacts/NanoTwitchLeafs-4.1.0-win-x64.zip"
 
       - name: Upload release ZIP
         uses: actions/upload-artifact@v6
         with:
-          name: NanoTwitchLeafs-4.1.0-layout-preview.30-win-x64
-          path: artifacts/NanoTwitchLeafs-4.1.0-layout-preview.30-win-x64.zip
+          name: NanoTwitchLeafs-4.1.0-win-x64
+          path: artifacts/NanoTwitchLeafs-4.1.0-win-x64.zip
           if-no-files-found: error

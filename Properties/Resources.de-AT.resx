@@ -1095,11 +1095,11 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="Window_AppInfo_AiAssistance" xml:space="preserve">
     <value>NTL 4 wurde mit Unterstützung durch KI weiterentwickelt.</value>
   </data>
-  <data name="Window_Main_LayoutPreview_Title" xml:space="preserve">
-    <value>NanoTwitchLeafs 4 – Layout-Vorschau</value>
+  <data name="Window_Main_Modern_Title" xml:space="preserve">
+    <value>NanoTwitchLeafs 4</value>
   </data>
-  <data name="Window_Main_LayoutPreview_Subtitle" xml:space="preserve">
-    <value>Funktionale Layout-Testversion</value>
+  <data name="Window_Main_Modern_Subtitle" xml:space="preserve">
+    <value>Twitch- und Nanoleaf-Automatisierung</value>
   </data>
   <data name="Window_TriggerHelp_Heading" xml:space="preserve"><value>Trigger-Hilfe</value></data>
   <data name="Window_TriggerHelp_Intro" xml:space="preserve"><value>So arbeiten Ereignisse, Effekte, Filter und Zielgeräte zusammen.</value></data>

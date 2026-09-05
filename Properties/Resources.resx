@@ -1097,11 +1097,11 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
   <data name="Window_AppInfo_AiAssistance" xml:space="preserve">
     <value>NTL 4 was developed with AI assistance.</value>
   </data>
-  <data name="Window_Main_LayoutPreview_Title" xml:space="preserve">
-    <value>NanoTwitchLeafs 4 – Layout Preview</value>
+  <data name="Window_Main_Modern_Title" xml:space="preserve">
+    <value>NanoTwitchLeafs 4</value>
   </data>
-  <data name="Window_Main_LayoutPreview_Subtitle" xml:space="preserve">
-    <value>Functional layout test version</value>
+  <data name="Window_Main_Modern_Subtitle" xml:space="preserve">
+    <value>Twitch and Nanoleaf automation</value>
   </data>
   <data name="Window_TriggerHelp_Heading" xml:space="preserve"><value>Trigger help</value></data>
   <data name="Window_TriggerHelp_Intro" xml:space="preserve"><value>How events, effects, filters and target devices work together.</value></data>

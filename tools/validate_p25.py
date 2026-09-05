@@ -23,7 +23,7 @@ def main():
     for prop in ("WindowLeft", "WindowTop", "WindowWidth", "WindowHeight", "WindowMaximized"):
         if prop not in settings: errors.append(f"missing window placement property: {prop}")
     if 'Height="145"' not in xaml: errors.append("Nano status area was not compacted")
-    if "4.1.0-layout-preview." not in read("Properties/AssemblyInfo.cs"): errors.append("assembly version is not a layout preview")
+    if 'AssemblyInformationalVersion("4.1.0' not in read("Properties/AssemblyInfo.cs"): errors.append("assembly version is not 4.1.0")
     if errors:
         print("Preview 25 validation failed:")
         for error in errors: print(f"- {error}")

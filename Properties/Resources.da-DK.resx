@@ -1337,14 +1337,14 @@ Feedback – NTL 4
 NTL 4 blev udviklet med AI-assistance.
 </value>
   </data>
-  <data name="Window_Main_LayoutPreview_Title" xml:space="preserve">
+  <data name="Window_Main_Modern_Title" xml:space="preserve">
     <value>
-NanoTwitchLeafs 4 – Layout-forhåndsvisning
+NanoTwitchLeafs 4
 </value>
   </data>
-  <data name="Window_Main_LayoutPreview_Subtitle" xml:space="preserve">
+  <data name="Window_Main_Modern_Subtitle" xml:space="preserve">
     <value>
-Funktionel layout testversion
+Twitch- og Nanoleaf-automatisering
 </value>
   </data>
   <data name="Window_TriggerHelp_Heading" xml:space="preserve">

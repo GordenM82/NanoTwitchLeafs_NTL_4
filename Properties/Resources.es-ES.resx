@@ -1747,14 +1747,14 @@ Comentarios – NTL 4
 NTL 4 fue desarrollado con asistencia de IA.
 </value>
   </data>
-  <data name="Window_Main_LayoutPreview_Title" xml:space="preserve">
+  <data name="Window_Main_Modern_Title" xml:space="preserve">
     <value>
-NanoTwitchLeafs 4 – Vista previa del diseño
+NanoTwitchLeafs 4
 </value>
   </data>
-  <data name="Window_Main_LayoutPreview_Subtitle" xml:space="preserve">
+  <data name="Window_Main_Modern_Subtitle" xml:space="preserve">
     <value>
-Versión de prueba de diseño funcional
+Automatización de Twitch y Nanoleaf
 </value>
   </data>
   <data name="Window_TriggerHelp_Heading" xml:space="preserve">

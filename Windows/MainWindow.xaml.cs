@@ -90,61 +90,7 @@ namespace NanoTwitchLeafs.Windows
 			StreamElements
 		}
 		private static string DisplayVersion => typeof(AppInfoWindow).Assembly.GetName().Version.ToString(3);
-		private static string PreviewBadgeText
-		{
-			get
-			{
-				var attribute = typeof(AppInfoWindow).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
-				string informationalVersion = attribute?.InformationalVersion ?? string.Empty;
-				const string marker = "layout-preview.";
-				int markerIndex = informationalVersion.IndexOf(marker, StringComparison.OrdinalIgnoreCase);
-				string previewNumber = markerIndex >= 0
-					? informationalVersion.Substring(markerIndex + marker.Length).Split('+')[0]
-					: string.Empty;
-				return string.IsNullOrWhiteSpace(previewNumber)
-					? $"{DisplayVersion} PREVIEW"
-					: $"{DisplayVersion} PREVIEW {previewNumber}";
-			}
-		}
-
-		private static void TryPrepareLayoutPreviewData()
-		{
-#if NTL4_LAYOUT_PREVIEW
-			if (File.Exists(Constants.PREVIEW_DATA_COPY_COMPLETED_PATH) ||
-				File.Exists(Constants.SETTINGS_PATH) ||
-				File.Exists(Constants.TRIGGERS_PATH))
-			{
-				return;
-			}
-
-			bool hasStableSettings = File.Exists(Constants.STABLE_NTL4_SETTINGS_PATH);
-			bool hasStableTriggers = File.Exists(Constants.STABLE_NTL4_TRIGGERS_PATH);
-			if (!hasStableSettings && !hasStableTriggers)
-			{
-				return;
-			}
-
-			try
-			{
-				Directory.CreateDirectory(Constants.PROGRAMFILESFOLDER_PATH);
-				if (hasStableSettings)
-				{
-					File.Copy(Constants.STABLE_NTL4_SETTINGS_PATH, Constants.SETTINGS_PATH, false);
-				}
-
-				if (hasStableTriggers)
-				{
-					File.Copy(Constants.STABLE_NTL4_TRIGGERS_PATH, Constants.TRIGGERS_PATH, false);
-				}
-
-				File.WriteAllText(Constants.PREVIEW_DATA_COPY_COMPLETED_PATH, DateTime.UtcNow.ToString("O"));
-			}
-			catch
-			{
-				// The preview remains usable with blank settings if copying stable data fails.
-			}
-#endif
-		}
+		private static string VersionBadgeText => DisplayVersion;
 
 		private static void TryPrepareLegacyMigration()
 		{
@@ -212,7 +158,6 @@ namespace NanoTwitchLeafs.Windows
 
 		public MainWindow()
 		{
-			TryPrepareLayoutPreviewData();
 			TryPrepareLegacyMigration();
 
 			// Load settings for Language
@@ -227,7 +172,7 @@ namespace NanoTwitchLeafs.Windows
 
 			// Init Window and Controls
 			InitializeComponent();
-			previewBadge_TextBlock.Text = PreviewBadgeText;
+			versionBadge_TextBlock.Text = VersionBadgeText;
 			_toastTimer.Tick += (_, _) => { _toastTimer.Stop(); toast_Border.Visibility = Visibility.Collapsed; };
 
 
@@ -1710,7 +1655,7 @@ namespace NanoTwitchLeafs.Windows
 				Directory.CreateDirectory(supportDirectory);
 				string destination = Path.Combine(supportDirectory, $"NanoTwitchLeafs-support-{DateTime.Now:yyyyMMdd-HHmmss}.log");
 				string source = File.Exists(Constants.LOG_PATH) ? File.ReadAllText(Constants.LOG_PATH) : string.Empty;
-				string header = $"NanoTwitchLeafs {PreviewBadgeText}{Environment.NewLine}Created: {DateTimeOffset.Now:O}{Environment.NewLine}{Environment.NewLine}";
+				string header = $"NanoTwitchLeafs {VersionBadgeText}{Environment.NewLine}Created: {DateTimeOffset.Now:O}{Environment.NewLine}{Environment.NewLine}";
 				File.WriteAllText(destination, header + SanitizeSupportLog(source), Encoding.UTF8);
 				Process.Start(new ProcessStartInfo { FileName = "explorer.exe", Arguments = $"/select,\"{destination}\"", UseShellExecute = true });
 				ShowToast(Text("P25_Toast_SupportCreated"));

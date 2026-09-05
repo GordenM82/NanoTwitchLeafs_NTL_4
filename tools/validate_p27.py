@@ -18,7 +18,7 @@ def main():
         if old in trigger: errors.append(f"hard-coded trigger text remains: {old}")
     for marker in ('x:Key="TriggerCell"','x:Key="CommandCell"','delete_Column'):
         if marker not in trigger: errors.append(f"balanced trigger column missing: {marker}")
-    if "4.1.0-layout-preview." not in read("Properties/AssemblyInfo.cs"): errors.append("assembly version is not a layout preview")
+    if 'AssemblyInformationalVersion("4.1.0' not in read("Properties/AssemblyInfo.cs"): errors.append("assembly version is not 4.1.0")
     if errors:
         print("Preview 27 validation failed:")
         for error in errors: print(f"- {error}")

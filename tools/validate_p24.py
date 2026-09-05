@@ -34,8 +34,8 @@ def main() -> int:
             errors.append(f"missing warning check: {problem}")
     if "HasProblem" not in model or "WarningVisibility" not in model:
         errors.append("trigger row warning state is incomplete")
-    if "4.1.0-layout-preview." not in read("Properties/AssemblyInfo.cs"):
-        errors.append("assembly version is not a layout preview")
+    if 'AssemblyInformationalVersion("4.1.0' not in read("Properties/AssemblyInfo.cs"):
+        errors.append("assembly version is not 4.1.0")
 
     if errors:
         print("Preview 24 validation failed:")

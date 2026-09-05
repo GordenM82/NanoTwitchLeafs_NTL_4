@@ -1747,14 +1747,14 @@ Feedback – NTL 4
 NTL 4 è stato sviluppato con l'assistenza dell'intelligenza artificiale.
 </value>
   </data>
-  <data name="Window_Main_LayoutPreview_Title" xml:space="preserve">
+  <data name="Window_Main_Modern_Title" xml:space="preserve">
     <value>
-NanoTwitchLeafs 4 – Anteprima del layout
+NanoTwitchLeafs 4
 </value>
   </data>
-  <data name="Window_Main_LayoutPreview_Subtitle" xml:space="preserve">
+  <data name="Window_Main_Modern_Subtitle" xml:space="preserve">
     <value>
-Versione di prova del layout funzionale
+Automazione di Twitch e Nanoleaf
 </value>
   </data>
   <data name="Window_TriggerHelp_Heading" xml:space="preserve">

@@ -35,10 +35,6 @@ def main():
             errors.append(f"owned-window placement missing: {path}")
     if "monitorDescription" not in main_code or "PixelsPerInchX" not in placement:
         errors.append("monitor/DPI diagnostics are missing")
-    if "4.1.0-layout-preview.30" not in read("Properties/AssemblyInfo.cs"):
-        errors.append("assembly version is not Preview 30")
-    if "layout-preview.30-win-x64" not in read(".github/workflows/build-release.yml"):
-        errors.append("workflow artifact is not Preview 30")
 
     if errors:
         print("Preview 30 validation failed:")

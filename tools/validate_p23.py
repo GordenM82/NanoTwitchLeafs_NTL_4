@@ -49,8 +49,8 @@ def main() -> int:
     if 'TextWrapping="Wrap"' not in xaml[xaml.find('x:Name="console_Tabitem"'):]:
         errors.append("console line wrapping is missing")
 
-    if "4.1.0-layout-preview." not in read("Properties/AssemblyInfo.cs"):
-        errors.append("assembly preview version is missing")
+    if 'AssemblyInformationalVersion("4.1.0' not in read("Properties/AssemblyInfo.cs"):
+        errors.append("assembly 4.1.0 version is missing")
 
     if errors:
         print("Preview 23 validation failed:")

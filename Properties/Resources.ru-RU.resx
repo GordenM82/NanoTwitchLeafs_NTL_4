@@ -1136,11 +1136,11 @@ I tried to change myself but I couldn't :P</comment>
   <data name="Window_AppInfo_AiAssistance" xml:space="preserve">
     <value>NTL 4 был разработан при помощи искусственного интеллекта.</value>
   </data>
-  <data name="Window_Main_LayoutPreview_Title" xml:space="preserve">
-    <value>NanoTwitchLeafs 4 – Предварительный просмотр макета</value>
+  <data name="Window_Main_Modern_Title" xml:space="preserve">
+    <value>NanoTwitchLeafs 4</value>
   </data>
-  <data name="Window_Main_LayoutPreview_Subtitle" xml:space="preserve">
-    <value>Тестовая версия функционального макета</value>
+  <data name="Window_Main_Modern_Subtitle" xml:space="preserve">
+    <value>Автоматизация Twitch и Nanoleaf</value>
   </data>
   <data name="Window_TriggerHelp_Heading" xml:space="preserve">
     <value>Вызвать помощь</value>

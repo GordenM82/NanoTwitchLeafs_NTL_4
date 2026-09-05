@@ -1747,14 +1747,14 @@ Feedback – NTL 4
 NTL 4 is ontwikkeld met AI-hulp.
 </value>
   </data>
-  <data name="Window_Main_LayoutPreview_Title" xml:space="preserve">
+  <data name="Window_Main_Modern_Title" xml:space="preserve">
     <value>
-NanoTwitchLeafs 4 – Lay-outvoorbeeld
+NanoTwitchLeafs 4
 </value>
   </data>
-  <data name="Window_Main_LayoutPreview_Subtitle" xml:space="preserve">
+  <data name="Window_Main_Modern_Subtitle" xml:space="preserve">
     <value>
-Functionele lay-out testversie
+Twitch- en Nanoleaf-automatisering
 </value>
   </data>
   <data name="Window_TriggerHelp_Heading" xml:space="preserve">

@@ -61,8 +61,8 @@ def main() -> int:
     require('configuredProvider.Equals("All"' in logic, "legacy triggers do not default to all providers", errors)
     require("TriggerSetting.DonationProvider" in trigger_code, "provider selection is not persisted", errors)
 
-    require("4.1.0-layout-preview." in read("Properties/AssemblyInfo.cs"),
-            "assembly informational preview version is missing", errors)
+    require('AssemblyInformationalVersion("4.1.0' in read("Properties/AssemblyInfo.cs"),
+            "assembly informational 4.1.0 version is missing", errors)
 
     if errors:
         print("Preview 22 validation failed:")

@@ -2553,18 +2553,18 @@ namespace NanoTwitchLeafs.Properties {
         /// <summary>
         ///   Looks up a localized string similar to NanoTwitchLeafs 4 – Layout Preview.
         /// </summary>
-        public static string Window_Main_LayoutPreview_Title {
+        public static string Window_Main_Modern_Title {
             get {
-                return ResourceManager.GetString("Window_Main_LayoutPreview_Title", resourceCulture);
+                return ResourceManager.GetString("Window_Main_Modern_Title", resourceCulture);
             }
         }
 
         /// <summary>
         ///   Looks up a localized string similar to Functional layout test version.
         /// </summary>
-        public static string Window_Main_LayoutPreview_Subtitle {
+        public static string Window_Main_Modern_Subtitle {
             get {
-                return ResourceManager.GetString("Window_Main_LayoutPreview_Subtitle", resourceCulture);
+                return ResourceManager.GetString("Window_Main_Modern_Subtitle", resourceCulture);
             }
         }
 
