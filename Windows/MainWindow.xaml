@@ -240,7 +240,7 @@
                         <Button x:Name="consoleClear_Button" Grid.Column="2" Click="ConsoleClear_Button_Click" Margin="0,0,8,0" VerticalAlignment="Stretch"/>
                         <Button x:Name="consoleOpenLog_Button" Grid.Column="3" Click="ConsoleOpenLog_Button_Click" Margin="0,0,8,0" VerticalAlignment="Stretch"/>
                         <Button x:Name="consoleSupportLog_Button" Grid.Column="4" Click="ConsoleSupportLog_Button_Click" Margin="0,0,12,0" VerticalAlignment="Stretch"/>
-                        <CheckBox x:Name="consoleAutoScroll_CheckBox" Grid.Column="5" IsChecked="True" Checked="ConsoleAutoScroll_CheckBox_Changed" Unchecked="ConsoleAutoScroll_CheckBox_Changed" VerticalAlignment="Center" Margin="0,0,12,0" RenderTransformOrigin="0.5,0.5"><CheckBox.RenderTransform><TranslateTransform Y="3"/></CheckBox.RenderTransform></CheckBox>
+                        <CheckBox x:Name="consoleAutoScroll_CheckBox" Grid.Column="5" IsChecked="True" Checked="ConsoleAutoScroll_CheckBox_Changed" Unchecked="ConsoleAutoScroll_CheckBox_Changed" VerticalAlignment="Center" Margin="0,0,12,0" RenderTransformOrigin="0.5,0.5"><CheckBox.RenderTransform><TranslateTransform Y="5"/></CheckBox.RenderTransform></CheckBox>
                         <TextBlock x:Name="consoleResultCount_TextBlock" Grid.Column="6" VerticalAlignment="Center" Foreground="{DynamicResource NtlMutedTextBrush}"/>
                     </Grid>
                     <ListBox x:Name="console_ListBox" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top" Margin="10,2,10,10" SelectionMode="Extended">

@@ -4,6 +4,13 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 29 (5. September 2026)
+
+- Auto-Scroll-Checkbox und Beschriftung nochmals fein ausgerichtet
+- Triggerverwaltung mit einem sichtbaren äußeren Seitenrahmen an die gemeinsame obere Inhaltskante der übrigen Bereiche angeglichen
+- vollständige Tooltips für Spaltenüberschriften sowie gekürzte Trigger-, Befehls-, Effekt-, Sound-, Flag- und Zielgerätewerte ergänzt
+- wählbare Anzeigedichte bewusst aus der weiteren Planung entfernt
+
 ## NanoTwitchLeafs 4.1.0 Layout-Vorschau 28 (5. September 2026)
 
 - Auto-Scroll-Checkbox optisch zentriert und Triggerbereich an die einheitlichen Seitenkanten angepasst
