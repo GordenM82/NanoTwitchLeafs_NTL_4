@@ -37,6 +37,9 @@ namespace NanoTwitchLeafs
             SetBrush("NtlAccentBrush", accent);
             SetBrush("NtlAccentHoverBrush", Lighten(accent));
             SetBrush("NtlAccentSurfaceBrush", dark ? "#332452" : "#EEE5FF");
+            SetBrush("NtlWarningBrush", dark ? "#FFB454" : "#A85D00");
+            SetBrush("NtlErrorBrush", dark ? "#FF6B72" : "#C9363E");
+            SetBrush("NtlDebugBrush", dark ? "#98A4B5" : "#667384");
         }
 
         private static bool IsSystemDark()

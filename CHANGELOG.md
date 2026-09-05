@@ -4,6 +4,14 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 26 (5. September 2026)
+
+- neue Konsolenfarben, Warnhinweise, Kontextmenüs und Scrollbalken an Hell/Dunkel/System angepasst
+- „Automatisch scrollen“ und Trefferanzeige in der Konsolenleiste sauber ausgerichtet
+- Twitch-Seite weiter verkürzt, um den unnötigen kleinen Scrollweg zu entfernen
+- Trigger-Tabelle ohne Strukturumbau kompakter gestaltet
+- Titel, Version und Entwicklerangaben der Info-Seite zentriert
+
 ## NanoTwitchLeafs 4.1.0 Layout-Vorschau 25 (5. September 2026)
 
 - Blocklist-Verwaltung im Hauptfenster hinter einer kompakten Twitch-Zusammenfassung

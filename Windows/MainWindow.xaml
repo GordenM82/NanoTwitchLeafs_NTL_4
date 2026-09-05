@@ -68,17 +68,17 @@
             <TabItem x:Name="botLogin_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}" Margin="0,0,-1,0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="680" Margin="14" TextElement.FontSize="14">
                     <Border Style="{StaticResource NtlCardStyle}"><StackPanel x:Name="DefaultTwitchLogin_Grid">
-                        <Image x:Name="TwitchLinkAvatar_Image" Height="120" Width="120" Margin="0,0,0,12" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" />
-                        <Label x:Name="TwitchLink_Label" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_AccountLabel_Text}" HorizontalContentAlignment="Center" FontSize="15" Margin="0,0,0,12" />
+                        <Image x:Name="TwitchLinkAvatar_Image" Height="105" Width="105" Margin="0,0,0,8" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" />
+                        <Label x:Name="TwitchLink_Label" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_AccountLabel_Text}" HorizontalContentAlignment="Center" FontSize="15" Margin="0,0,0,8" />
                         <Button x:Name="ConnectTwitchAccount_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_LinkButton_Text}" Click="ConnectTwitchAccount_Button_Click" Margin="80,0,80,8" />
                         <Button x:Name="DisconnectTwitchAccount_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_UnlinkButton_Text}" IsEnabled="False" Click="DisconnectTwitchAccount_Button_Click" Margin="80,0,80,18" />
                         <Button x:Name="ConnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Connect}" Click="ConnectChat_Button_Click" IsEnabled="False" Margin="80,0,80,8" />
                         <Button x:Name="DisconnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Disconnect}" Click="DisconnectChat_Button_Click" IsEnabled="False" Margin="80,0,80,0" />
                     </StackPanel></Border>
                     <Grid x:Name="ConnectedTwitchLogin_Grid" Visibility="Hidden"/>
-                    <Grid HorizontalAlignment="Center" Margin="0,16,0,12"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="68"/></Grid.ColumnDefinitions><Label Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Label_Prefix}" Margin="0,0,10,0"/><TextBox x:Name="commandPrefix_TextBox" Grid.Column="1" Text="!" HorizontalContentAlignment="Center" LostFocus="commandPrefix_TextBox_LostFocus" /></Grid>
+                    <Grid HorizontalAlignment="Center" Margin="0,10,0,8"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="68"/></Grid.ColumnDefinitions><Label Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Label_Prefix}" Margin="0,0,10,0"/><TextBox x:Name="commandPrefix_TextBox" Grid.Column="1" Text="!" HorizontalContentAlignment="Center" LostFocus="commandPrefix_TextBox_LostFocus" /></Grid>
                     <TextBlock x:Name="help_TextBlock" Text="Help Command TextBlock" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" />
-                    <Border Style="{StaticResource NtlCardStyle}" Margin="0,12,0,0"><Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                    <Border Style="{StaticResource NtlCardStyle}" Margin="0,8,0,0" Padding="14"><Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
                         <StackPanel><TextBlock x:Name="blocklistSummaryHeading_TextBlock" FontSize="18" FontWeight="SemiBold"/><TextBlock x:Name="blocklistSummaryStatus_TextBlock" Foreground="{DynamicResource NtlMutedTextBrush}" Margin="0,4,0,0"/></StackPanel>
                         <Button x:Name="blocklistManage_Button" Grid.Column="1" Click="BlocklistManage_Button_Click" MinWidth="170" VerticalAlignment="Center"/>
                     </Grid></Border>
@@ -240,12 +240,12 @@
                         <Button x:Name="consoleClear_Button" Click="ConsoleClear_Button_Click" Margin="0,0,8,6"/>
                         <Button x:Name="consoleOpenLog_Button" Click="ConsoleOpenLog_Button_Click" Margin="0,0,8,6"/>
                         <Button x:Name="consoleSupportLog_Button" Click="ConsoleSupportLog_Button_Click" Margin="0,0,12,6"/>
-                        <CheckBox x:Name="consoleAutoScroll_CheckBox" IsChecked="True" Checked="ConsoleAutoScroll_CheckBox_Changed" Unchecked="ConsoleAutoScroll_CheckBox_Changed" VerticalAlignment="Center" Margin="0,0,12,6"/>
+                        <Border Height="36" Margin="0,0,12,6"><CheckBox x:Name="consoleAutoScroll_CheckBox" IsChecked="True" Checked="ConsoleAutoScroll_CheckBox_Changed" Unchecked="ConsoleAutoScroll_CheckBox_Changed" VerticalAlignment="Center"/></Border>
                         <TextBlock x:Name="consoleResultCount_TextBlock" VerticalAlignment="Center" Foreground="{DynamicResource NtlMutedTextBrush}" Margin="0,0,0,6"/>
                     </WrapPanel>
                     <ListBox x:Name="console_ListBox" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top" Margin="10,2,10,10" SelectionMode="Extended">
                         <ListBox.ContextMenu><ContextMenu><MenuItem x:Name="consoleCopySelected_MenuItem" Click="ConsoleCopySelected_MenuItem_Click"/><MenuItem x:Name="consoleCopyVisible_MenuItem" Click="ConsoleCopyVisible_MenuItem_Click"/></ContextMenu></ListBox.ContextMenu>
-                        <ListBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Message}" Foreground="{Binding Foreground}" TextWrapping="Wrap" Padding="2"/></DataTemplate></ListBox.ItemTemplate>
+                        <ListBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Message}" TextWrapping="Wrap" Padding="2"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}"/><Style.Triggers><DataTrigger Binding="{Binding Level}" Value="WARN"><Setter Property="Foreground" Value="{DynamicResource NtlWarningBrush}"/></DataTrigger><DataTrigger Binding="{Binding Level}" Value="ERROR"><Setter Property="Foreground" Value="{DynamicResource NtlErrorBrush}"/></DataTrigger><DataTrigger Binding="{Binding Level}" Value="DEBUG"><Setter Property="Foreground" Value="{DynamicResource NtlDebugBrush}"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock></DataTemplate></ListBox.ItemTemplate>
                     </ListBox>
                 </Grid>
             </TabItem>
@@ -306,7 +306,7 @@
             </TabControl>
         </Grid>
         <Border x:Name="toast_Border" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="20,0,20,24" Padding="18,10" CornerRadius="7" Background="{DynamicResource NtlNavigationBrush}" BorderBrush="{DynamicResource NtlAccentBrush}" BorderThickness="1" Visibility="Collapsed" Panel.ZIndex="20"><TextBlock x:Name="toast_TextBlock" TextWrapping="Wrap" MaxWidth="700"/></Border>
-        <TextBlock x:Name="unsavedChanges_TextBlock" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,260,32" Foreground="DarkOrange" FontWeight="SemiBold" Visibility="Collapsed"/>
+        <TextBlock x:Name="unsavedChanges_TextBlock" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,260,32" Foreground="{DynamicResource NtlWarningBrush}" FontWeight="SemiBold" Visibility="Collapsed"/>
         <Button x:Name="Save_Button" Content="{x:Static p:Resources.Window_Main_Button_Save}" HorizontalAlignment="Right" Margin="0,0,20,20" Width="220" Click="Save_Button_Click" Grid.Column="1" HorizontalContentAlignment="Center" Height="42" VerticalAlignment="Bottom" Style="{StaticResource NtlPrimaryButtonStyle}" />
         </Grid>
     </Grid>
