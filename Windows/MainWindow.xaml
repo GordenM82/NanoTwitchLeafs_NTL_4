@@ -234,15 +234,15 @@
             <TabItem x:Name="console_Tabitem" Header="{x:Static p:Resources.Window_Main_Tabs_Console_Title}">
                 <Grid Background="{DynamicResource NtlSurfaceBrush}" Margin="0">
                     <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-                    <WrapPanel Margin="10,10,10,6">
-                        <TextBox x:Name="consoleSearch_TextBox" Width="250" TextChanged="ConsoleFilter_Changed" Margin="0,0,8,6" VerticalContentAlignment="Center"/>
-                        <ComboBox x:Name="consoleLevelFilter_ComboBox" Width="150" SelectionChanged="ConsoleFilter_Changed" Margin="0,0,8,6"><ComboBoxItem Tag="All"/><ComboBoxItem Tag="INFO"/><ComboBoxItem Tag="WARN"/><ComboBoxItem Tag="ERROR"/><ComboBoxItem Tag="DEBUG"/></ComboBox>
-                        <Button x:Name="consoleClear_Button" Click="ConsoleClear_Button_Click" Margin="0,0,8,6"/>
-                        <Button x:Name="consoleOpenLog_Button" Click="ConsoleOpenLog_Button_Click" Margin="0,0,8,6"/>
-                        <Button x:Name="consoleSupportLog_Button" Click="ConsoleSupportLog_Button_Click" Margin="0,0,12,6"/>
-                        <Border Height="36" Margin="0,0,12,6"><CheckBox x:Name="consoleAutoScroll_CheckBox" IsChecked="True" Checked="ConsoleAutoScroll_CheckBox_Changed" Unchecked="ConsoleAutoScroll_CheckBox_Changed" VerticalAlignment="Center"/></Border>
-                        <TextBlock x:Name="consoleResultCount_TextBlock" VerticalAlignment="Center" Foreground="{DynamicResource NtlMutedTextBrush}" Margin="0,0,0,6"/>
-                    </WrapPanel>
+                    <Grid Margin="10,10,10,8" Height="36"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="150"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                        <Grid Margin="0,0,8,0"><TextBox x:Name="consoleSearch_TextBox" TextChanged="ConsoleFilter_Changed" VerticalContentAlignment="Center"/><TextBlock x:Name="consoleSearchHint_TextBlock" IsHitTestVisible="False" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource NtlMutedTextBrush}"/></Grid>
+                        <ComboBox x:Name="consoleLevelFilter_ComboBox" Grid.Column="1" SelectionChanged="ConsoleFilter_Changed" Margin="0,0,8,0"><ComboBoxItem Tag="All"/><ComboBoxItem Tag="INFO"/><ComboBoxItem Tag="WARN"/><ComboBoxItem Tag="ERROR"/><ComboBoxItem Tag="DEBUG"/></ComboBox>
+                        <Button x:Name="consoleClear_Button" Grid.Column="2" Click="ConsoleClear_Button_Click" Margin="0,0,8,0" VerticalAlignment="Stretch"/>
+                        <Button x:Name="consoleOpenLog_Button" Grid.Column="3" Click="ConsoleOpenLog_Button_Click" Margin="0,0,8,0" VerticalAlignment="Stretch"/>
+                        <Button x:Name="consoleSupportLog_Button" Grid.Column="4" Click="ConsoleSupportLog_Button_Click" Margin="0,0,12,0" VerticalAlignment="Stretch"/>
+                        <CheckBox x:Name="consoleAutoScroll_CheckBox" Grid.Column="5" IsChecked="True" Checked="ConsoleAutoScroll_CheckBox_Changed" Unchecked="ConsoleAutoScroll_CheckBox_Changed" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                        <TextBlock x:Name="consoleResultCount_TextBlock" Grid.Column="6" VerticalAlignment="Center" Foreground="{DynamicResource NtlMutedTextBrush}"/>
+                    </Grid>
                     <ListBox x:Name="console_ListBox" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top" Margin="10,2,10,10" SelectionMode="Extended">
                         <ListBox.ContextMenu><ContextMenu><MenuItem x:Name="consoleCopySelected_MenuItem" Click="ConsoleCopySelected_MenuItem_Click"/><MenuItem x:Name="consoleCopyVisible_MenuItem" Click="ConsoleCopyVisible_MenuItem_Click"/></ContextMenu></ListBox.ContextMenu>
                         <ListBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Message}" TextWrapping="Wrap" Padding="2"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}"/><Style.Triggers><DataTrigger Binding="{Binding Level}" Value="WARN"><Setter Property="Foreground" Value="{DynamicResource NtlWarningBrush}"/></DataTrigger><DataTrigger Binding="{Binding Level}" Value="ERROR"><Setter Property="Foreground" Value="{DynamicResource NtlErrorBrush}"/></DataTrigger><DataTrigger Binding="{Binding Level}" Value="DEBUG"><Setter Property="Foreground" Value="{DynamicResource NtlDebugBrush}"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock></DataTemplate></ListBox.ItemTemplate>

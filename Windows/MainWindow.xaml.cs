@@ -831,6 +831,7 @@ namespace NanoTwitchLeafs.Windows
 			consoleOpenLog_Button.Content = Text("P23_Console_OpenLog");
 			consoleAutoScroll_CheckBox.Content = Text("P23_Console_AutoScroll");
 			consoleSearch_TextBox.ToolTip = Text("P25_Console_Search");
+			consoleSearchHint_TextBlock.Text = Text("P25_Console_Search");
 			consoleSupportLog_Button.Content = Text("P25_Console_SupportLog");
 			consoleCopySelected_MenuItem.Header = Text("P25_Console_CopySelected");
 			consoleCopyVisible_MenuItem.Header = Text("P25_Console_CopyVisible");
@@ -1631,6 +1632,8 @@ namespace NanoTwitchLeafs.Windows
 
 		private void ConsoleFilter_Changed(object sender, RoutedEventArgs e)
 		{
+			if (consoleSearchHint_TextBlock != null)
+				consoleSearchHint_TextBlock.Visibility = string.IsNullOrEmpty(consoleSearch_TextBox?.Text) ? Visibility.Visible : Visibility.Collapsed;
 			_consoleView?.Refresh();
 			UpdateConsoleResultCount();
 			if (_consoleAutoScroll) UpdateScrollBar(console_ListBox);

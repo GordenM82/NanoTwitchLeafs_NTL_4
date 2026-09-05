@@ -4,6 +4,13 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 27 (5. September 2026)
+
+- Konsolenleiste auf ein einheitlich hohes Grid umgestellt und vollständig vertikal zentriert
+- sichtbaren Suchhinweis für das leere Konsolensuchfeld ergänzt
+- Trigger-Spalten nach P26 wieder ausgewogener und besser lesbar gestaltet
+- Zielgeräte sowie Import-/Export-Schaltflächen ohne hart codierte deutsche Texte lokalisiert
+
 ## NanoTwitchLeafs 4.1.0 Layout-Vorschau 26 (5. September 2026)
 
 - neue Konsolenfarben, Warnhinweise, Kontextmenüs und Scrollbalken an Hell/Dunkel/System angepasst
