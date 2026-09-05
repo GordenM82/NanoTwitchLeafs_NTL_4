@@ -147,7 +147,8 @@ namespace NanoTwitchLeafs.Windows
 				return;
 			}
 
-			var window = new DeviceGroupsWindow(_appSettings, _appSettingsController) { Owner = this };
+			var window = new DeviceGroupsWindow(_appSettings, _appSettingsController);
+			WindowPlacementService.PrepareOwnedWindow(window, this);
 			window.ShowDialog();
 
 			RefreshDeviceGroups();

@@ -29,10 +29,6 @@ def main():
     for marker in ("TriggerCell", "CommandCell", "EffectCell", "SoundCell", "FlagsCell", "TargetsCell"):
         if f'x:Key="{marker}"' not in trigger_xaml:
             errors.append(f"tooltip cell template missing: {marker}")
-    if "4.1.0-layout-preview.29" not in read("Properties/AssemblyInfo.cs"):
-        errors.append("assembly version is not Preview 29")
-    if "layout-preview.29-win-x64" not in read(".github/workflows/build-release.yml"):
-        errors.append("workflow artifact is not Preview 29")
 
     if errors:
         print("Preview 29 validation failed:")

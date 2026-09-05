@@ -418,13 +418,16 @@ namespace NanoTwitchLeafs.Windows
 
 		private void RestoreWindowPlacement()
 		{
-			if (_appSettings.WindowWidth >= MinWidth) Width = Math.Min(_appSettings.WindowWidth, SystemParameters.VirtualScreenWidth);
-			if (_appSettings.WindowHeight >= MinHeight) Height = Math.Min(_appSettings.WindowHeight, SystemParameters.VirtualScreenHeight);
-			if (_appSettings.WindowLeft != 0 || _appSettings.WindowTop != 0)
-			{
-				Left = Math.Max(SystemParameters.VirtualScreenLeft, Math.Min(_appSettings.WindowLeft, SystemParameters.VirtualScreenLeft + SystemParameters.VirtualScreenWidth - Width));
-				Top = Math.Max(SystemParameters.VirtualScreenTop, Math.Min(_appSettings.WindowTop, SystemParameters.VirtualScreenTop + SystemParameters.VirtualScreenHeight - Height));
-			}
+			double requestedWidth = _appSettings.WindowWidth >= MinWidth ? _appSettings.WindowWidth : Width;
+			double requestedHeight = _appSettings.WindowHeight >= MinHeight ? _appSettings.WindowHeight : Height;
+			double requestedLeft = _appSettings.WindowLeft != 0 || _appSettings.WindowTop != 0 ? _appSettings.WindowLeft : Left;
+			double requestedTop = _appSettings.WindowLeft != 0 || _appSettings.WindowTop != 0 ? _appSettings.WindowTop : Top;
+			Rect placement = WindowPlacementService.RestoreMainWindow(this, new Rect(requestedLeft, requestedTop, requestedWidth, requestedHeight), out string monitorDescription);
+			Width = placement.Width;
+			Height = placement.Height;
+			Left = placement.Left;
+			Top = placement.Top;
+			_logger.Info($"Window placement: {placement.Width:0}x{placement.Height:0} at {placement.Left:0},{placement.Top:0}; {monitorDescription}.");
 			WindowState = _appSettings.WindowMaximized ? WindowState.Maximized : WindowState.Normal;
 		}
 
@@ -464,10 +467,8 @@ namespace NanoTwitchLeafs.Windows
 			{
 				if (state)
 				{
-					_loadingWindow = new LoadingWindow(_appSettings.Language)
-					{
-						Owner = Main_Window
-					};
+					_loadingWindow = new LoadingWindow(_appSettings.Language);
+					WindowPlacementService.PrepareOwnedWindow(_loadingWindow, Main_Window);
 					_loadingWindow.Show();
 				}
 				else
@@ -1218,7 +1219,8 @@ namespace NanoTwitchLeafs.Windows
 		{
 			try
 			{
-				var twitchLinkWindow = new TwitchLinkWindow(_appSettings, _twitchController, _appSettingsController) { Owner = this };
+				var twitchLinkWindow = new TwitchLinkWindow(_appSettings, _twitchController, _appSettingsController);
+				WindowPlacementService.PrepareOwnedWindow(twitchLinkWindow, this);
 				twitchLinkWindow.ShowDialog();
 			}
 			catch (Exception exception)
@@ -1529,10 +1531,8 @@ namespace NanoTwitchLeafs.Windows
 
 		private void nanoPairing_Button_Click(object sender, RoutedEventArgs e)
 		{
-			PairingWindow pairingWindow = new PairingWindow(_appSettings, _nanoController)
-			{
-				Owner = this
-			};
+			PairingWindow pairingWindow = new PairingWindow(_appSettings, _nanoController);
+			WindowPlacementService.PrepareOwnedWindow(pairingWindow, this);
 
 			if (!CheckForDuplicateWindow(pairingWindow))
 			{

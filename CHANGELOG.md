@@ -4,6 +4,14 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 30 (5. September 2026)
+
+- Hauptfenster beim Wiederherstellen auf die Arbeitsfläche eines einzelnen Monitors begrenzt
+- ungültige Positionen nach Monitorwechsel werden auf den nächstgelegenen verfügbaren Bildschirm zurückgeführt
+- aktive Unterfenster werden auf dem Monitor des Haupt- beziehungsweise Besitzerfensters zentriert und begrenzt
+- eigene Scrollleisten mit korrektem WPF-`PART_Track`, ziehbaren Schiebern sowie Hover- und Ziehzuständen repariert
+- erkannte Arbeitsfläche und DPI werden zur Diagnose protokolliert
+
 ## NanoTwitchLeafs 4.1.0 Layout-Vorschau 29 (5. September 2026)
 
 - Auto-Scroll-Checkbox und Beschriftung nochmals fein ausgerichtet

@@ -19,7 +19,7 @@ def main():
         except ET.ParseError as error: errors.append(f"{path} is invalid: {error}")
     for key in ("NtlWarningBrush", "NtlErrorBrush", "NtlDebugBrush"):
         if key not in app or f'SetBrush("{key}"' not in theme: errors.append(f"theme color missing: {key}")
-    if 'TargetType="ScrollBar"' not in app or 'horizontalTrack' not in app: errors.append("theme-aware scrollbar style is missing")
+    if 'TargetType="ScrollBar"' not in app or ('horizontalTrack' not in app and 'NtlHorizontalScrollBarTemplate' not in app): errors.append("theme-aware scrollbar style is missing")
     if 'Foreground="DarkOrange"' in main + trigger: errors.append("hard-coded warning color remains")
     if 'Height="36"' not in main or 'consoleAutoScroll_CheckBox' not in main: errors.append("console auto-scroll alignment is missing")
     if 'TwitchLinkAvatar_Image" Height="105"' not in main: errors.append("Twitch layout was not compacted")

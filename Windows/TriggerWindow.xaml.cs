@@ -417,7 +417,7 @@ namespace NanoTwitchLeafs.Windows
 
             Window triggerDetailWindow = new TriggerDetailWindow(_appSettings, _appSettingsController, _commandRepository, effectList, _streamlabsController, _hypeRateIoController, triggerSetting, _twitchEventSubController, saveAsCopy);
             Window hostWindow = Window.GetWindow(Trigger_Listview) ?? Application.Current?.MainWindow;
-            if (hostWindow != null) triggerDetailWindow.Owner = hostWindow;
+            WindowPlacementService.PrepareOwnedWindow(triggerDetailWindow, hostWindow);
             triggerDetailWindow.Closed += TriggerDetailWindow_Closed;
             triggerDetailWindow.Show();
             }
