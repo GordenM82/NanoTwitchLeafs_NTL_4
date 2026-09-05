@@ -53,6 +53,7 @@ namespace NanoTwitchLeafs.Windows
 		private readonly TriggerLogicController _triggerLogicController;
 		private readonly HypeRateIOController _hypeRatecontroller;
 		private readonly UpdateController _updateController;
+		private bool _consoleAutoScroll = true;
 		private readonly TaskbarIcon _tbi = new TaskbarIcon();
 		private readonly TwitchEventSubController _twitchEventSubController;
 		private bool _initialWindowActivationCompleted;
@@ -582,7 +583,8 @@ namespace NanoTwitchLeafs.Windows
 			{
 				Console.Add(message);
 				console_ListBox.Items.Refresh();
-				UpdateScrollBar(console_ListBox);
+				if (_consoleAutoScroll)
+					UpdateScrollBar(console_ListBox);
 			});
 		}
 
@@ -706,6 +708,9 @@ namespace NanoTwitchLeafs.Windows
 			streamElementsTestHeading_TextBlock.Text = Text("P22_StreamElements_TestHeading");
 			streamElementsTest_Button.Content = Text("P22_StreamElements_Test");
 			streamElementsHelpBody_TextBlock.Text = Text("P22_StreamElements_Help");
+			consoleClear_Button.Content = Text("P23_Console_Clear");
+			consoleOpenLog_Button.Content = Text("P23_Console_OpenLog");
+			consoleAutoScroll_CheckBox.Content = Text("P23_Console_AutoScroll");
 		}
 
 		private void RefreshBlocklist()
@@ -870,7 +875,7 @@ namespace NanoTwitchLeafs.Windows
 		private void ShowMainPage(int page)
 		{
 			bool showChat = page < 0;
-			bool showIntegrations = page >= 3 && page <= 5;
+			bool showIntegrations = (page >= 3 && page <= 5) || page == 9;
 			triggerManager_Host.Visibility = Visibility.Collapsed;
 			appInfo_Host.Visibility = Visibility.Collapsed;
 			management_Host.Visibility = Visibility.Collapsed;
@@ -882,7 +887,7 @@ namespace NanoTwitchLeafs.Windows
 			settings_TabControl.Margin = showIntegrations
 				? new Thickness(20, 68, 20, 76)
 				: new Thickness(20, 20, 20, 76);
-			if (!showChat) settings_TabControl.SelectedIndex = page;
+			if (!showChat) settings_TabControl.SelectedIndex = page == 9 ? 6 : page;
 			_currentPage = page;
 			UpdateNavigationState(page);
 		}
@@ -892,7 +897,7 @@ namespace NanoTwitchLeafs.Windows
 			foreach (Button navigationButton in navigationButtons_Panel.Children.OfType<Button>())
 			{
 				if (!int.TryParse(navigationButton.Tag?.ToString(), out int targetPage)) continue;
-				bool active = targetPage == page || (targetPage == 3 && page >= 3 && page <= 5);
+				bool active = targetPage == page || (targetPage == 3 && ((page >= 3 && page <= 5) || page == 9));
 				if (active)
 				{
 					navigationButton.SetResourceReference(BackgroundProperty, "NtlAccentSurfaceBrush");
@@ -1434,6 +1439,40 @@ namespace NanoTwitchLeafs.Windows
 			}
 		}
 
+		private void ConsoleClear_Button_Click(object sender, RoutedEventArgs e)
+		{
+			Console.Clear();
+			console_ListBox.Items.Refresh();
+		}
+
+		private void ConsoleOpenLog_Button_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				Directory.CreateDirectory(Path.GetDirectoryName(Constants.LOG_PATH));
+				if (!File.Exists(Constants.LOG_PATH))
+					File.WriteAllText(Constants.LOG_PATH, string.Empty);
+				Process.Start(new ProcessStartInfo
+				{
+					FileName = Constants.LOG_PATH,
+					UseShellExecute = true
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.Error("Could not open the log file.", ex);
+				MessageBox.Show(Properties.Resources.General_MessageBox_GeneralError_Text,
+					Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
+
+		private void ConsoleAutoScroll_CheckBox_Changed(object sender, RoutedEventArgs e)
+		{
+			_consoleAutoScroll = consoleAutoScroll_CheckBox.IsChecked == true;
+			if (_consoleAutoScroll)
+				UpdateScrollBar(console_ListBox);
+		}
+
 		private void ChatConsole_TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			var item = (TabItem)chatconsole_TabControl.SelectedItem;
@@ -1445,7 +1484,7 @@ namespace NanoTwitchLeafs.Windows
 			{
 				UpdateScrollBar(twitchChat_ListBox);
 			}
-			else
+			else if (_consoleAutoScroll)
 			{
 				UpdateScrollBar(console_ListBox);
 			}

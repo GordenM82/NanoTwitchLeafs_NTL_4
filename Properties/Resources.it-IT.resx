@@ -1896,4 +1896,7 @@ Esportazione</value>
   <data name="P22_StreamElements_Help" xml:space="preserve"><value>Open the StreamElements dashboard, select the correct linked Twitch channel from your profile menu and copy its JWT or overlay token. Enable StreamElements, paste the token and select Save and connect. NTL subscribes only to completed channel tips and passes them to the existing donation trigger. Select All, Streamlabs or StreamElements as the provider in a donation trigger. Tokens are stored with the encrypted NTL settings and are removed from diagnostic messages.</value></data>
   <data name="P22_DonationProvider_Label" xml:space="preserve"><value>Donation provider</value></data>
   <data name="P22_DonationProvider_All" xml:space="preserve"><value>All connected donation services</value></data>
+  <data name="P23_Console_Clear" xml:space="preserve"><value>Clear console</value></data>
+  <data name="P23_Console_OpenLog" xml:space="preserve"><value>Open log file</value></data>
+  <data name="P23_Console_AutoScroll" xml:space="preserve"><value>Auto-scroll</value></data>
 </root>

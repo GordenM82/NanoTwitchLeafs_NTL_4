@@ -1178,4 +1178,7 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="P22_StreamElements_Help" xml:space="preserve"><value>Öffne das StreamElements-Dashboard, wähle im Profilmenü den richtigen verknüpften Twitch-Kanal und kopiere dessen JWT oder Overlay-Token. Aktiviere StreamElements, füge das Token ein und wähle „Speichern und verbinden“. NTL abonniert ausschließlich abgeschlossene Kanal-Tips und übergibt sie an den vorhandenen Spenden-Trigger. Im Spenden-Trigger kannst du Alle, Streamlabs oder StreamElements als Anbieter wählen. Tokens werden mit den verschlüsselten NTL-Einstellungen gespeichert und aus Diagnosemeldungen entfernt.</value></data>
   <data name="P22_DonationProvider_Label" xml:space="preserve"><value>Spendenanbieter</value></data>
   <data name="P22_DonationProvider_All" xml:space="preserve"><value>Alle verbundenen Spendendienste</value></data>
+  <data name="P23_Console_Clear" xml:space="preserve"><value>Konsole leeren</value></data>
+  <data name="P23_Console_OpenLog" xml:space="preserve"><value>Logdatei öffnen</value></data>
+  <data name="P23_Console_AutoScroll" xml:space="preserve"><value>Automatisch scrollen</value></data>
 </root>

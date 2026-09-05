@@ -4,6 +4,15 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 23 (5. September 2026)
+
+- StreamElements als eigenen Reiter unter Integrationen ergänzt
+- API-Einstellungen bewusst als letzten Integrationsreiter beibehalten
+- StreamElements-Aktivierung, Token, Verbindungsstatus und lokale Testspende aus den API-Einstellungen in den neuen Reiter verschoben
+- Konsole um Leeren, direktes Öffnen der Logdatei und umschaltbares automatisches Scrollen erweitert
+- lange Konsoleneinträge werden innerhalb der verfügbaren Breite umgebrochen
+- automatisierte Prüfung der P23-Navigation und Konsolenfunktionen ergänzt
+
 ## NanoTwitchLeafs 4.1.0 Layout-Vorschau 22 (5. September 2026)
 
 - Blocklist vollständig in den Twitch-Bereich des Hauptfensters integriert, ohne eigenen Seitennavigationspunkt
@@ -125,6 +134,15 @@ NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 u
 ---
 
 ## English
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 23 (5 September 2026)
+
+- added StreamElements as its own tab within Integrations
+- deliberately kept API Settings as the final integration tab
+- moved StreamElements activation, token, connection state, and local test donation from API Settings into the new tab
+- added clear, open-log-file, and configurable auto-scroll controls to the console
+- long console entries now wrap within the available width
+- added automated validation for the P23 navigation and console functionality
 
 ## NanoTwitchLeafs 4.1.0 Layout Preview 22 (5 September 2026)
 
