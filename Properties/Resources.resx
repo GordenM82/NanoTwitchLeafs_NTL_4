@@ -346,7 +346,7 @@ Please check your System Tray on your Taskbar!</value>
     <value>Please Pair Device before enabling the Triggers!</value>
   </data>
   <data name="Code_Main_MessageBox_StreamerAccount" xml:space="preserve">
-    <value>Please make sure that you use your 'Streamer' Twitch Account!</value>
+    <value>Please make sure that you use your Twitch streamer account.</value>
   </data>
   <data name="General_MessageBox_SomethingWrong" xml:space="preserve">
     <value>Something went wrong! 
@@ -366,16 +366,16 @@ Please check Log for Errors!</value>
     <value>NanoLeaf Cooldown disabled!</value>
   </data>
   <data name="Code_Main_MessageBox_AutoRestore" xml:space="preserve">
-    <value>If you check these, the App will change back to the previous Effect after the X Seconds, configured in the Trigger Window.</value>
+    <value>When these options are enabled, the app returns to the previous effect after the configured duration. The duration can be set in the trigger window.</value>
   </data>
   <data name="Code_Main_MessageBox_Value0100" xml:space="preserve">
     <value>Value has to be between 0 and 100!</value>
   </data>
   <data name="Code_Main_MessageBox_EmptyPrefix" xml:space="preserve">
-    <value>This Box can not be Empty!</value>
+    <value>This field cannot be empty.</value>
   </data>
   <data name="Code_Main_Label_NanoHelpText" xml:space="preserve">
-    <value>Write '{0}nano help' for a List of Commands!</value>
+    <value>Type “{0}nano help” to display a list of commands.</value>
   </data>
   <data name="Code_Main_MessageBox_EmptyFields" xml:space="preserve">
     <value>Please fill out all Input Fields!</value>
@@ -384,7 +384,7 @@ Please check Log for Errors!</value>
     <value>Please enter only the Twitch Channel Name without https://twitch.tv/ !</value>
   </data>
   <data name="Code_Main_MessageBox_ConTestFail" xml:space="preserve">
-    <value>Connection Test failed!</value>
+    <value>Connection test failed.</value>
   </data>
   <data name="Code_Main_MessageBox_AdressNull" xml:space="preserve">
     <value>No Controller Address found!</value>
@@ -414,7 +414,7 @@ Please check Log for Errors!</value>
     <value>Auto Detect</value>
   </data>
   <data name="Window_Pairing_Label_IpAdress" xml:space="preserve">
-    <value>Ip Adress:</value>
+    <value>IP address:</value>
   </data>
   <data name="Window_Pairing_Button_Manual" xml:space="preserve">
     <value>Manual Connect</value>
@@ -613,7 +613,7 @@ Redeem again to change/update the Reward!</value>
 Reedem again to change/update the Reward!</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_NoRewardDetected" xml:space="preserve">
-    <value>Please reedem one Channel Points Rewards via your Twitch Chat with your Streamer Account before saving!</value>
+    <value>Please redeem a channel points reward in Twitch chat with your streamer account before saving.</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_NoEffectSelected" xml:space="preserve">
     <value>Please select an Effect for your Trigger!
@@ -630,13 +630,13 @@ Can not be Empty!</value>
     <value>Please enter a Volume Value between 0 and 100! Can not be Empty!</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_AmountValue" xml:space="preserve">
-    <value>Please enter a Amount Value even if you dont use it! Can not be Empty or Negative!</value>
+    <value>Please enter an amount, even if it is not used. The field cannot be empty and the value cannot be negative.</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_DurationValue" xml:space="preserve">
-    <value>Please enter a Duration Value even if you dont use it! Can not be Empty or Negative!</value>
+    <value>Please enter a duration, even if it is not used. The field cannot be empty and the value cannot be negative.</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_CooldownValue" xml:space="preserve">
-    <value>Please enter a Cooldown Value!Enter 0 to disable the Trigger Cooldown! Can not be Empty!</value>
+    <value>Please enter a cooldown value. Enter 0 to disable the trigger cooldown. The field cannot be empty.</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_SoundfileFormat" xml:space="preserve">
     <value>You can only use .wav or .mp3 Soundfiles!</value>
@@ -648,7 +648,7 @@ Can not be Empty!</value>
     <value>nothing special</value>
   </data>
   <data name="Code_TriggerDetail_MessageBox_CPNoConnection" xml:space="preserve">
-    <value>If you want to Create/Edit Channelpoints Trigger, please connect to Twitch Chat first!</value>
+    <value>To create or edit a channel points trigger, connect to Twitch chat first.</value>
   </data>
   <data name="Window_TriggerHelp_Title" xml:space="preserve">
     <value>Trigger Help</value>
@@ -995,10 +995,10 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
     <value>Connection Test done! YaY</value>
   </data>
   <data name="General_MessageBox_GeneralErrorCrash_Text" xml:space="preserve">
-    <value>An Error occurred. Please restart the App and create an Issue on Github and provide your Logfile!</value>
+    <value>An error occurred. Please restart the app, create an issue on GitHub and include your log file.</value>
   </data>
   <data name="General_MessageBox_GeneralError_Text" xml:space="preserve">
-    <value>An Error occurred. Please create an Issue on Github and provide your Logfile!</value>
+    <value>An error occurred. Please create an issue on GitHub and include your log file.</value>
   </data>
   <data name="Window_Main_Tabs_HypeRate_MessageBox_EnterID_Text" xml:space="preserve">
     <value>Please enter your HypeRate ID</value>
@@ -1097,4 +1097,135 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
   <data name="Window_AppInfo_AiAssistance" xml:space="preserve">
     <value>NTL 4 was developed with AI assistance.</value>
   </data>
+  <data name="Window_Main_Modern_Title" xml:space="preserve">
+    <value>NanoTwitchLeafs 4</value>
+  </data>
+  <data name="Window_Main_Modern_Subtitle" xml:space="preserve">
+    <value>Twitch and Nanoleaf automation</value>
+  </data>
+  <data name="Window_TriggerHelp_Heading" xml:space="preserve"><value>Trigger help</value></data>
+  <data name="Window_TriggerHelp_Intro" xml:space="preserve"><value>How events, effects, filters and target devices work together.</value></data>
+  <data name="Window_TriggerHelp_Types_Title" xml:space="preserve"><value>Trigger types</value></data>
+  <data name="Window_TriggerHelp_Types_Body" xml:space="preserve"><value>Commands and keywords react to chat messages. Twitch events such as followers, subscriptions, raids, bits and channel points react automatically when the corresponding service is connected. Streamlabs donations and HypeRate require their integrations.</value></data>
+  <data name="Window_TriggerHelp_Chat_Title" xml:space="preserve"><value>Commands and keywords</value></data>
+  <data name="Window_TriggerHelp_Chat_Body" xml:space="preserve"><value>Enter a command without its prefix, for example help instead of !help. A command must match the complete chat command. A keyword may occur anywhere in a message. Separate multiple keywords with commas. VIP, subscriber and moderator filters are available only for commands and keywords.</value></data>
+  <data name="Window_TriggerHelp_ChannelPoints_Title" xml:space="preserve"><value>Channel point rewards</value></data>
+  <data name="Window_TriggerHelp_ChannelPoints_Body" xml:space="preserve"><value>Create the reward in the Twitch dashboard, connect NTL to Twitch and redeem the reward once. NTL detects its ID and links it to the trigger. Redeem it again if you want to assign another reward.</value></data>
+  <data name="Window_TriggerHelp_Effect_Title" xml:space="preserve"><value>Effect, color and sound</value></data>
+  <data name="Window_TriggerHelp_Effect_Body" xml:space="preserve"><value>Select either a Nanoleaf effect or a fixed color. User color uses the Twitch color of the viewer. Optional sound files must be MP3 or WAV; volume becomes available after a file is selected.</value></data>
+  <data name="Window_TriggerHelp_Options_Title" xml:space="preserve"><value>Duration, amount and cooldown</value></data>
+  <data name="Window_TriggerHelp_Options_Body" xml:space="preserve"><value>Duration controls how long the effect remains active when the trigger type supports it. Amount is the required minimum for bits, gift bombs, HypeRate or donations. Brightness accepts 0 to 100. Cooldown prevents the same command or keyword from being triggered again too soon.</value></data>
+  <data name="Window_TriggerHelp_Targets_Title" xml:space="preserve"><value>Target devices and groups</value></data>
+  <data name="Window_TriggerHelp_Targets_Body" xml:space="preserve"><value>“All Nanoleafs” applies the trigger to every paired device. Clear the checkbox to select individual devices. Device groups are optional presets: first create a group with “Manage groups”, then select it from the dropdown menu and apply it.</value></data>
+  <data name="Window_Trigger_Heading" xml:space="preserve"><value>Manage triggers</value></data>
+  <data name="Window_Trigger_Description" xml:space="preserve"><value>Test, edit, duplicate or back up triggers</value></data>
+  <data name="Window_Trigger_Header_TargetDevices" xml:space="preserve"><value>Target devices</value></data>
+  <data name="Window_Trigger_Action_Test" xml:space="preserve"><value>Test</value></data>
+  <data name="Window_Trigger_Action_Copy" xml:space="preserve"><value>Copy</value></data>
+  <data name="Window_Trigger_Action_Edit" xml:space="preserve"><value>Edit</value></data>
+  <data name="Window_Trigger_Action_Delete" xml:space="preserve"><value>Delete</value></data>
+  <data name="Window_Trigger_Button_Import" xml:space="preserve"><value>Import</value></data>
+  <data name="Window_Trigger_Button_Export" xml:space="preserve"><value>Export</value></data>
+  <data name="Window_Main_Navigation_Chat" xml:space="preserve"><value>Chat / Console</value></data>
+  <data name="Window_Main_Navigation_Triggers" xml:space="preserve"><value>Triggers</value></data>
+  <data name="Window_Main_Navigation_Integrations" xml:space="preserve"><value>Integrations</value></data>
+  <data name="Window_Main_Appearance_Heading" xml:space="preserve"><value>Appearance</value></data>
+  <data name="Window_Main_Appearance_Theme" xml:space="preserve"><value>Theme</value></data>
+  <data name="Window_Main_Appearance_Accent" xml:space="preserve"><value>Accent color</value></data>
+  <data name="Window_Main_Appearance_Light" xml:space="preserve"><value>Light</value></data>
+  <data name="Window_Main_Appearance_Dark" xml:space="preserve"><value>Dark</value></data>
+  <data name="Window_Main_Appearance_System" xml:space="preserve"><value>System</value></data>
+  <data name="Window_Trigger_Error_Load" xml:space="preserve"><value>The triggers could not be loaded.</value></data>
+  <data name="Window_Trigger_Error_Change" xml:space="preserve"><value>The trigger could not be changed.</value></data>
+  <data name="Window_Trigger_Error_Delete" xml:space="preserve"><value>The trigger could not be deleted.</value></data>
+  <data name="Window_Trigger_Error_Test" xml:space="preserve"><value>The trigger could not be tested.</value></data>
+  <data name="Window_Trigger_Error_ConnectDevice" xml:space="preserve"><value>Please connect a Nanoleaf device first.</value></data>
+  <data name="Window_Trigger_Error_OpenDetails" xml:space="preserve"><value>The trigger details could not be opened.</value></data>
+  <data name="Window_Trigger_Export_Success" xml:space="preserve"><value>Triggers were exported.</value></data>
+  <data name="Window_Trigger_Error_Export" xml:space="preserve"><value>The triggers could not be exported.</value></data>
+  <data name="Window_Trigger_Import_Invalid" xml:space="preserve"><value>The file contains no valid triggers.</value></data>
+  <data name="Window_Trigger_Import_Mode" xml:space="preserve"><value>Yes: merge with existing triggers&#xA;No: replace existing triggers</value></data>
+  <data name="Window_Trigger_Import_Title" xml:space="preserve"><value>Import triggers</value></data>
+  <data name="Window_Trigger_Import_Success" xml:space="preserve"><value>{0} triggers were imported.</value></data>
+  <data name="Window_Trigger_Error_Import" xml:space="preserve"><value>The triggers could not be imported.</value></data>
+  <data name="Window_Trigger_Clear_Confirm" xml:space="preserve"><value>Permanently delete all {0} triggers?&#xA;&#xA;This action cannot be undone.</value></data>
+  <data name="Window_Trigger_Clear_Title" xml:space="preserve"><value>Clear triggers</value></data>
+  <data name="Window_Trigger_Error_Clear" xml:space="preserve"><value>The triggers could not be cleared.</value></data>
+  <data name="Window_TriggerDetail_Duplicate_Title" xml:space="preserve"><value>Duplicate trigger</value></data>
+  <data name="Window_TriggerDetail_Save_Error" xml:space="preserve"><value>The trigger could not be saved. Existing triggers were not changed.</value></data>
+  <data name="Window_TriggerDetail_RoleFilters_Only" xml:space="preserve"><value>Role filters are available for commands and keywords only.</value></data>
+  <data name="Window_Main_TriggerManager_Open_Error" xml:space="preserve"><value>The trigger manager could not be opened.</value></data>
+  <data name="P22_Blocklist_Heading" xml:space="preserve"><value>Blocklist</value></data>
+  <data name="P22_Blocklist_Description" xml:space="preserve"><value>Ignore trigger events from the listed Twitch users. The list is managed here in the Twitch area.</value></data>
+  <data name="P22_Blocklist_Enable" xml:space="preserve"><value>Enable blocklist</value></data>
+  <data name="P22_Blocklist_Add" xml:space="preserve"><value>Add</value></data>
+  <data name="P22_Blocklist_Remove" xml:space="preserve"><value>Remove selected</value></data>
+  <data name="P22_Blocklist_Clear" xml:space="preserve"><value>Clear all</value></data>
+  <data name="P22_Blocklist_Search" xml:space="preserve"><value>Search blocklist</value></data>
+  <data name="P22_Blocklist_ConfirmClear" xml:space="preserve"><value>Remove all entries from the blocklist?</value></data>
+  <data name="P22_Blocklist_Help" xml:space="preserve"><value>The blocklist prevents listed Twitch users from activating commands, keywords and Twitch-event triggers. Enter a Twitch username without @ and select Add. Search filters the visible list only. Removing or clearing entries takes effect immediately.</value></data>
+  <data name="P22_StreamElements_Description" xml:space="preserve"><value>Connect StreamElements tips to the existing donation trigger. No client ID or client secret is required.</value></data>
+  <data name="P22_StreamElements_Enable" xml:space="preserve"><value>Use StreamElements</value></data>
+  <data name="P22_StreamElements_AutoConnect" xml:space="preserve"><value>Connect automatically when NTL starts</value></data>
+  <data name="P22_StreamElements_TokenType" xml:space="preserve"><value>Token type</value></data>
+  <data name="P22_StreamElements_Token" xml:space="preserve"><value>JWT or overlay token</value></data>
+  <data name="P22_StreamElements_Connect" xml:space="preserve"><value>Save and connect</value></data>
+  <data name="P22_StreamElements_Disconnect" xml:space="preserve"><value>Disconnect</value></data>
+  <data name="P22_StreamElements_StatusDisconnected" xml:space="preserve"><value>Status: Not connected</value></data>
+  <data name="P22_StreamElements_StatusConnected" xml:space="preserve"><value>Status: Connected{0}</value></data>
+  <data name="P22_StreamElements_StatusError" xml:space="preserve"><value>Status: Connection failed – {0}</value></data>
+  <data name="P22_StreamElements_TestHeading" xml:space="preserve"><value>Local test donation</value></data>
+  <data name="P22_StreamElements_Test" xml:space="preserve"><value>Test donation</value></data>
+  <data name="P22_StreamElements_InvalidAmount" xml:space="preserve"><value>Please enter a valid non-negative test amount.</value></data>
+  <data name="P22_StreamElements_Help" xml:space="preserve"><value>Open the StreamElements dashboard, select the correct linked Twitch channel from your profile menu and copy its JWT or overlay token. Enable StreamElements, paste the token and select Save and connect. NTL subscribes only to completed channel tips and passes them to the existing donation trigger. Select All, Streamlabs or StreamElements as the provider in a donation trigger. Tokens are stored with the encrypted NTL settings and are removed from diagnostic messages.</value></data>
+  <data name="P22_DonationProvider_Label" xml:space="preserve"><value>Donation provider</value></data>
+  <data name="P22_DonationProvider_All" xml:space="preserve"><value>All connected donation services</value></data>
+  <data name="P23_Console_Clear" xml:space="preserve"><value>Clear console</value></data>
+  <data name="P23_Console_OpenLog" xml:space="preserve"><value>Open log file</value></data>
+  <data name="P23_Console_AutoScroll" xml:space="preserve"><value>Auto-scroll</value></data>
+  <data name="P24_Trigger_Search" xml:space="preserve"><value>Search triggers</value></data>
+  <data name="P24_Trigger_Reset" xml:space="preserve"><value>Reset filters</value></data>
+  <data name="P24_Filter_All" xml:space="preserve"><value>All statuses</value></data>
+  <data name="P24_Filter_Active" xml:space="preserve"><value>Active</value></data>
+  <data name="P24_Filter_Inactive" xml:space="preserve"><value>Inactive</value></data>
+  <data name="P24_Filter_Problems" xml:space="preserve"><value>Problems only</value></data>
+  <data name="P24_Filter_AllTypes" xml:space="preserve"><value>All trigger types</value></data>
+  <data name="P24_Filter_Chat" xml:space="preserve"><value>Chat commands and keywords</value></data>
+  <data name="P24_Filter_Twitch" xml:space="preserve"><value>Twitch events</value></data>
+  <data name="P24_Filter_ChannelPoints" xml:space="preserve"><value>Channel points</value></data>
+  <data name="P24_Filter_Donations" xml:space="preserve"><value>Donations</value></data>
+  <data name="P24_Trigger_Count" xml:space="preserve"><value>{0} of {1} triggers</value></data>
+  <data name="P24_Warning_NoDevices" xml:space="preserve"><value>No Nanoleaf device is configured.</value></data>
+  <data name="P24_Warning_MissingDevice" xml:space="preserve"><value>At least one assigned Nanoleaf device is no longer available.</value></data>
+  <data name="P24_Warning_MissingEffect" xml:space="preserve"><value>No Nanoleaf effect is selected.</value></data>
+  <data name="P24_Warning_MissingSound" xml:space="preserve"><value>The configured sound file no longer exists.</value></data>
+  <data name="P24_Trigger_Help" xml:space="preserve"><value>Use search and the status/type filters to narrow the trigger list. Orange warning symbols identify missing devices, effects, or sound files; point at the symbol for details. Double-click a row to edit it. Reset filters restores the full list.</value></data>
+  <data name="P25_Blocklist_Manage" xml:space="preserve"><value>Manage blocklist</value></data>
+  <data name="P25_Blocklist_StatusActive" xml:space="preserve"><value>Active · {0} entries</value></data>
+  <data name="P25_Blocklist_StatusInactive" xml:space="preserve"><value>Inactive · {0} entries</value></data>
+  <data name="P25_Back" xml:space="preserve"><value>Back</value></data>
+  <data name="P25_Console_Search" xml:space="preserve"><value>Search console</value></data>
+  <data name="P25_Console_SupportLog" xml:space="preserve"><value>Create support log</value></data>
+  <data name="P25_Console_CopySelected" xml:space="preserve"><value>Copy selected</value></data>
+  <data name="P25_Console_CopyVisible" xml:space="preserve"><value>Copy all visible</value></data>
+  <data name="P25_Console_All" xml:space="preserve"><value>All levels</value></data>
+  <data name="P25_Console_Info" xml:space="preserve"><value>Information</value></data>
+  <data name="P25_Console_Warnings" xml:space="preserve"><value>Warnings</value></data>
+  <data name="P25_Console_Errors" xml:space="preserve"><value>Errors</value></data>
+  <data name="P25_Console_Debug" xml:space="preserve"><value>Debug</value></data>
+  <data name="P25_Console_Count" xml:space="preserve"><value>{0} of {1} entries</value></data>
+  <data name="P25_Toast_ConsoleCleared" xml:space="preserve"><value>Console cleared.</value></data>
+  <data name="P25_Toast_Copied" xml:space="preserve"><value>Console entries copied.</value></data>
+  <data name="P25_Toast_SupportCreated" xml:space="preserve"><value>Sanitized support log created.</value></data>
+  <data name="P25_Toast_BlocklistAdded" xml:space="preserve"><value>@{0} was added to the blocklist.</value></data>
+  <data name="P25_Toast_BlocklistRemoved" xml:space="preserve"><value>Entry removed from the blocklist.</value></data>
+  <data name="P25_Toast_BlocklistCleared" xml:space="preserve"><value>Blocklist cleared.</value></data>
+  <data name="P25_Toast_TestTriggered" xml:space="preserve"><value>Local test donation triggered.</value></data>
+  <data name="P25_Toast_SettingsSaved" xml:space="preserve"><value>Settings saved.</value></data>
+  <data name="P25_Unsaved" xml:space="preserve"><value>Unsaved changes</value></data>
+  <data name="P25_Unsaved_Close" xml:space="preserve"><value>Save your changes before closing?</value></data>
+  <data name="P25_Unsaved_Title" xml:space="preserve"><value>Unsaved changes</value></data>
+  <data name="P28_Disabled_ConnectChat" xml:space="preserve"><value>Connect a Twitch account before connecting to chat.</value></data>
+  <data name="P28_Disabled_NanoTest" xml:space="preserve"><value>Pair a Nanoleaf device before testing the connection.</value></data>
+  <data name="P28_Disabled_EditTrigger" xml:space="preserve"><value>Enable Nanoleaf triggers before opening trigger management.</value></data>
 </root>

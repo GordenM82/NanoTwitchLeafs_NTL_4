@@ -1,110 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
+<?xml version='1.0' encoding='utf-8'?>
+<root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:schema id="root">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xs:element name="root" ns1:IsDataSet="true">
+      <xs:complexType>
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="metadata">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="name" use="required" type="xsd:string" />
+              <xs:attribute name="type" type="xsd:string" />
+              <xs:attribute name="mimetype" type="xsd:string" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="assembly">
+            <xs:complexType>
+              <xs:attribute name="alias" type="xsd:string" />
+              <xs:attribute name="name" type="xsd:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="data">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" ns1:Ordinal="1" />
+                <xs:element name="comment" type="xsd:string" minOccurs="0" ns1:Ordinal="2" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" ns1:Ordinal="1" />
+              <xs:attribute name="type" type="xsd:string" ns1:Ordinal="3" />
+              <xs:attribute name="mimetype" type="xsd:string" ns1:Ordinal="4" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="resheader">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" ns1:Ordinal="1" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -133,7 +74,7 @@
     <value>Skaber:</value>
   </data>
   <data name="Window_AppInfo_Button_Feedback" xml:space="preserve">
-    <value>Send Feedback</value>
+    <value>Send feedback</value>
   </data>
   <data name="General_MessageBox_Error_Title" xml:space="preserve">
     <value>Fejl!</value>
@@ -275,7 +216,7 @@ Vi holder øje med dig ... Kappa!</value>
     <value>Altiver Chat svar</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Checkbox_Whisper" xml:space="preserve">
-    <value>Whisper Mode</value>
+    <value>Hvisketilstand</value>
   </data>
   <data name="Window_Main_Tabs_Settings_Label_Chat" xml:space="preserve">
     <value>Chat:</value>
@@ -535,7 +476,7 @@ Dette erstattes med Time in Seconds - hvor længe effekten ændres på Nanoleafs
     <value>Aktiver Trigger</value>
   </data>
   <data name="Window_TriggerDetail_Label_TriggerType" xml:space="preserve">
-    <value>Trigger Type</value>
+    <value>Udløsertype</value>
   </data>
   <data name="Window_TriggerDetail_RadioButton_Command" xml:space="preserve">
     <value>Kommando</value>
@@ -830,4 +771,767 @@ Kontroller konsollen eller logfilen for IP-adressen.</value>
   <data name="Window_TriggerDetail_RadioButton_HypeTrain" xml:space="preserve">
     <value>HypeTrain</value>
   </data>
+  <data name="Window_TwitchLink_Title" xml:space="preserve">
+    <value>Tilknyt din Twitch-konto
+</value>
+  </data>
+  <data name="Window_TwitchLink_Tab_Setup" xml:space="preserve">
+    <value>
+Opsætningsindstillinger
+</value>
+  </data>
+  <data name="Window_TwitchLink_Single_Help" xml:space="preserve">
+    <value>
+
+Enkelt konto - Broadcaster-opsætning
+(Anbefalet)
+
+Brug din Twitch Broadcaster-konto
+for at oprette forbindelse til chatten og lytte
+til Beskeder og Twitch-begivenheder.
+
+Fordel:
+- Nem og hurtig opsætning.
+Ulemper:
+- Din konto sendes automatisk
+Beskeder i chatten.
+</value>
+  </data>
+  <data name="Window_TwitchLink_Double_Help" xml:space="preserve">
+    <value>
+
+Dobbeltkonto - Botopsætning
+(Avanceret)
+
+Brug en separat botkonto til at administrere chatten
+Beskeder og tilslut din broadcaster
+Konto i baggrunden for Twitch-begivenhederne.
+
+Fordel:
+- Adskil de automatiske beskeder til en ekstra konto.
+Ulemper:
+- Du har brug for en ekstra Twitch-konto.
+</value>
+  </data>
+  <data name="Window_TwitchLink_Tab_Broadcaster" xml:space="preserve">
+    <value>
+Broadcaster
+</value>
+  </data>
+  <data name="Window_TwitchLink_Button_Link" xml:space="preserve">
+    <value>
+Link konto
+</value>
+  </data>
+  <data name="Window_TwitchLink_Broadcaster_Permissions_Text" xml:space="preserve">
+    <value>
+Med din Broadcaster-konto har vi brug for nogle tilladelser:
+- Læs og skriv i din Twitch Chat.
+- Læs og skriv i din hvisken.
+- Læs Bit Information for din kanal.
+- Læs abonnentoplysninger for din kanal.
+- Læs og skriv Channelpoint-indløsninger til din kanal.
+- Læs Hypetrain-oplysninger for din kanal.
+
+
+Sådan forbinder du din Broadcaster-konto:
+
+Sørg for, at du er logget ind på Twitch med din Broadcaster-konto
+og klik derefter på knappen nedenfor.
+</value>
+  </data>
+  <data name="Window_TwitchLink_Textbox_Broadcaster" xml:space="preserve">
+    <value>
+Broadcaster brugernavn
+</value>
+  </data>
+  <data name="Window_TwitchLink_Tab_Bot" xml:space="preserve">
+    <value>
+Bot
+</value>
+  </data>
+  <data name="Window_TwitchLink_Label_ClickNext" xml:space="preserve">
+    <value>
+Linket lykkedes! Klik på Næste &gt;&gt;&gt;
+</value>
+  </data>
+  <data name="Window_TwitchLink_Bot_Permissions_Text" xml:space="preserve">
+    <value>
+Med din Bot-konto har vi brug for nogle tilladelser:
+- Læs og skriv i din Twitch Chat.
+- Læs og skriv i din hvisken.
+
+
+
+Sådan forbinder du din botkonto:
+
+Indtast venligst botens Twitch-brugernavn, sørg for at du er logget ind
+Twitch med din Bot-konto, og klik derefter på knappen nedenfor.
+</value>
+  </data>
+  <data name="General_Button_Next" xml:space="preserve">
+    <value>
+Næste
+</value>
+  </data>
+  <data name="General_Button_Back" xml:space="preserve">
+    <value>
+Tilbage
+</value>
+  </data>
+  <data name="Window_TwitchLink_Tab_ConnectionTest" xml:space="preserve">
+    <value>
+Forbindelsestest
+</value>
+  </data>
+  <data name="Window_TwitchLink_Progress_1" xml:space="preserve">
+    <value>
+Opret forbindelse til Twitch
+</value>
+  </data>
+  <data name="Window_TwitchLink_Progress_2" xml:space="preserve">
+    <value>
+Tilmeld dig kanalen
+</value>
+  </data>
+  <data name="Window_TwitchLink_Progress_3" xml:space="preserve">
+    <value>
+Send besked
+</value>
+  </data>
+  <data name="Window_TwitchLink_Progress_4" xml:space="preserve">
+    <value>
+Afbryd forbindelsen
+</value>
+  </data>
+  <data name="Window_TwitchLink_Progress_5" xml:space="preserve">
+    <value>
+Færdig
+</value>
+  </data>
+  <data name="Window_TwitchLink_Finished_Text" xml:space="preserve">
+    <value>
+Yay \o/ du afsluttede Twitch-opsætningen!
+Du kan nu gemme indstillingerne og starte
+lav din første trigger!
+</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text" xml:space="preserve">
+    <value>
+Ingen Twitch-konto forbundet!
+</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_LinkButton_Text" xml:space="preserve">
+    <value>
+Tilknyt Twitch-konto
+</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_UnlinkButton_Text" xml:space="preserve">
+    <value>
+Fjern linket til Twitch-konto
+</value>
+  </data>
+  <data name="Window_Main_Tabs_TwitchLogin_AccountLabel_Text2" xml:space="preserve">
+    <value>
+Forbundet til Twitch Channel 
+</value>
+  </data>
+  <data name="Window_Main_Tabs_Streamlabs_Title" xml:space="preserve">
+    <value>
+Streamlabs
+</value>
+  </data>
+  <data name="Windows_Main_Tabs_Streamlabs_LinkStreamlabs_Label" xml:space="preserve">
+    <value>
+Link Streamlabs-konto
+</value>
+  </data>
+  <data name="Windows_Main_Tabs_Streamlabs_UnLinkStreamlabs_Label" xml:space="preserve">
+    <value>
+Fjern linket til Streamlabs-konto
+</value>
+  </data>
+  <data name="Windows_Main_Tabs_Streamlabs_Linktext_Textblock1" xml:space="preserve">
+    <value>
+Ingen Streamlabs-konto forbundet!
+</value>
+  </data>
+  <data name="Windows_Main_Tabs_Streamlabs_Linktext_Textblock2" xml:space="preserve">
+    <value>
+Forbundet til konto
+</value>
+  </data>
+  <data name="Window_Main_Tabs_Streamlabs_BottomText_Texblock" xml:space="preserve">
+    <value>
+Tilslut din Streamlabs-konto
+at bruge Donation Trigger
+</value>
+  </data>
+  <data name="Windows_Main_Tabs_Hyperate_Disconnect_Button" xml:space="preserve">
+    <value>
+Afbryd forbindelsen
+</value>
+  </data>
+  <data name="Windows_Main_Tabs_Hyperate_Heartrate_Label" xml:space="preserve">
+    <value>
+Puls:
+</value>
+  </data>
+  <data name="Windows_Main_Tabs_Hyperate_Title" xml:space="preserve">
+    <value>
+HyperRate
+</value>
+  </data>
+  <data name="Window_AppInfo_Associated_Label" xml:space="preserve">
+    <value>
+NanoTwitchLeafs er ikke en officiel Twitch- eller Nanoleaf-applikation og er ikke tilknyttet nogen af selskaberne.
+</value>
+  </data>
+  <data name="General_MessageBox_HypeRate_Error_Message" xml:space="preserve">
+    <value>
+Kunne ikke oprette forbindelse til HypeRateIO Socket!
+</value>
+  </data>
+  <data name="Window_Main_Tabs_Streamlabs_ConnectButton_Text" xml:space="preserve">
+    <value>
+Opret forbindelse til server
+</value>
+  </data>
+  <data name="Window_Main_Tabs_Streamlabs_DisconnectButton_Text" xml:space="preserve">
+    <value>
+Afbryd forbindelsen til serveren
+</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_UserColor" xml:space="preserve">
+    <value>
+Brugerfarve
+</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_Donation" xml:space="preserve">
+    <value>
+Donation
+</value>
+  </data>
+  <data name="Window_TriggerDetail_VipSubMod_Label_Text" xml:space="preserve">
+    <value>
+Brugeren skal ikke være noget særligt for at bruge denne trigger!
+</value>
+  </data>
+  <data name="Window_TwitchLink_Tab_Test_Almostdone_Text" xml:space="preserve">
+    <value>
+Næsten færdig!
+
+Nu tester vi din forbindelse til chat- og Twitch-tjenesterne!
+</value>
+  </data>
+  <data name="Window_TwitchLink_Tab_Test_ConTestDone_Text" xml:space="preserve">
+    <value>
+Forbindelsestest udført! YaY
+</value>
+  </data>
+  <data name="General_MessageBox_GeneralErrorCrash_Text" xml:space="preserve">
+    <value>
+Der opstod en fejl. Genstart venligst appen og opret et problem på Github og giv din logfil!
+</value>
+  </data>
+  <data name="General_MessageBox_GeneralError_Text" xml:space="preserve">
+    <value>
+Der opstod en fejl. Opret venligst et problem på Github og giv din logfil!
+</value>
+  </data>
+  <data name="Window_Main_Tabs_HypeRate_MessageBox_EnterID_Text" xml:space="preserve">
+    <value>
+Indtast venligst dit HypeRate ID</value>
+  </data>
+  <data name="General_MessageBox_WMPinstalled_Error_Text" xml:space="preserve">
+    <value>Sørg for, at Windows Media Player er installeret og aktiveret!
+</value>
+  </data>
+  <data name="Window_NotifyContextMenu_Button_Show_Text" xml:space="preserve">
+    <value>
+Vis
+</value>
+  </data>
+  <data name="Code_PubSub_MessageBox_ConnectError" xml:space="preserve">
+    <value>
+Kunne ikke oprette forbindelse til PubSub Service! Tilknyt venligst din Twitch-konto igen!
+</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_GiftBomb" xml:space="preserve">
+    <value>
+Gavebombe
+</value>
+  </data>
+  <data name="Window_TriggerDetail_RadioButton_AnonGiftBomb" xml:space="preserve">
+    <value>
+Anonym gavebombe
+</value>
+  </data>
+  <data name="Window_Trigger_Header_Command" xml:space="preserve">
+    <value>
+Kommando/søgeord
+</value>
+  </data>
+  <data name="Code_Devices_Messagebox_SelectDevice" xml:space="preserve">
+    <value>
+Vælg venligst en enhed!
+</value>
+  </data>
+  <data name="Window_Trigger_Button_Test" xml:space="preserve">
+    <value>
+Test
+</value>
+  </data>
+  <data name="Windows_Main_Tabs_ApiSettings_Title" xml:space="preserve">
+    <value>
+API-indstillinger
+</value>
+  </data>
+  <data name="Code_Main_MessageBox_LegacyMigration_Text" xml:space="preserve">
+    <value>
+Data fra en eksisterende NanoTwitchLeafs 3.x-installation blev fundet.
+
+Vil du importere indstillinger og triggere til NanoTwitchLeafs 4? En sikkerhedskopi oprettes før import. De originale data vil ikke blive ændret.
+</value>
+  </data>
+  <data name="Code_Main_MessageBox_LegacyMigration_Title" xml:space="preserve">
+    <value>
+NanoTwitchLeafs 4 – Importer data
+</value>
+  </data>
+  <data name="Code_Main_MessageBox_LegacyMigration_Error" xml:space="preserve">
+    <value>
+Dataimporten kunne ikke forberedes. De eksisterende data blev ikke ændret.
+</value>
+  </data>
+  <data name="Code_Main_MessageBox_TriggerInitialization_Error" xml:space="preserve">
+    <value>
+Triggercontrolleren kunne ikke initialiseres.
+</value>
+  </data>
+  <data name="Code_Main_MessageBox_TwitchConnection_Error" xml:space="preserve">
+    <value>
+Twitch-forbindelsen kunne ikke åbnes.
+</value>
+  </data>
+  <data name="General_LogFile_Label" xml:space="preserve">
+    <value>
+Logfil
+</value>
+  </data>
+  <data name="Code_Main_MessageBox_TriggerMigration_Error" xml:space="preserve">
+    <value>
+De eksisterende triggere kunne ikke importeres til det nye format.
+
+De oprindelige data blev ikke ændret. Se loggen for detaljer.
+</value>
+  </data>
+  <data name="Code_Main_MessageBox_TriggerMigration_Title" xml:space="preserve">
+    <value>
+NanoTwitchLeafs 4 – Import af udløsere
+</value>
+  </data>
+  <data name="Code_Update_MessageBox_Disabled" xml:space="preserve">
+    <value>
+Automatiske opdateringer er deaktiveret for denne tilpassede version, så NTL ikke ved et uheld erstattes af en anden officiel udgivelse.
+</value>
+  </data>
+  <data name="Code_App_MessageBox_StartupError_Text" xml:space="preserve">
+    <value>
+NanoTwitchLeafs kunne ikke startes helt.
+</value>
+  </data>
+  <data name="Code_App_MessageBox_StartupError_Title" xml:space="preserve">
+    <value>
+NanoTwitchLeafs – Opstartsfejl
+</value>
+  </data>
+  <data name="Code_Twitch_MessageBox_DeviceCode_Text" xml:space="preserve">
+    <value>
+Twitch er blevet åbnet i din browser.
+
+Godkend forbindelsen der. Hvis koden ikke udfyldes automatisk, skal du bruge:
+
+{0}
+
+Klik derefter på OK her.
+</value>
+  </data>
+  <data name="Code_Twitch_MessageBox_DeviceCode_Title" xml:space="preserve">
+    <value>
+Tilslut Twitch
+</value>
+  </data>
+  <data name="Code_HypeRate_MessageBox_MissingApiKey" xml:space="preserve">
+    <value>
+Ingen HypeRate API-nøgle er blevet konfigureret endnu.
+</value>
+  </data>
+  <data name="Code_TwitchLink_Status_Connected" xml:space="preserve">
+    <value>
+Forbundet til Twitch-netværket.
+</value>
+  </data>
+  <data name="Code_TwitchLink_Status_Joining" xml:space="preserve">
+    <value>
+Tilmelder dig Twitch-kanalen: 
+</value>
+  </data>
+  <data name="Code_TwitchLink_Status_Joined" xml:space="preserve">
+    <value>
+Tilmeldt Twitch-kanal: {0}
+</value>
+  </data>
+  <data name="Code_TwitchLink_Status_TestMessage" xml:space="preserve">
+    <value>
+Sender en testbesked til chat.
+</value>
+  </data>
+  <data name="Window_DeviceGroups_Title" xml:space="preserve">
+    <value>
+Nanoleaf enhedsgrupper
+</value>
+  </data>
+  <data name="Window_DeviceGroups_Groups" xml:space="preserve">
+    <value>
+Grupper
+</value>
+  </data>
+  <data name="Window_DeviceGroups_Edit" xml:space="preserve">
+    <value>
+Rediger gruppe
+</value>
+  </data>
+  <data name="Window_DeviceGroups_Name" xml:space="preserve">
+    <value>
+Navn
+</value>
+  </data>
+  <data name="Window_DeviceGroups_Devices" xml:space="preserve">
+    <value>
+Nanoleafs i denne gruppe
+</value>
+  </data>
+  <data name="Window_DeviceGroups_New" xml:space="preserve">
+    <value>
+Ny gruppe
+</value>
+  </data>
+  <data name="Window_DeviceGroups_Save" xml:space="preserve">
+    <value>
+Gem gruppe
+</value>
+  </data>
+  <data name="Window_DeviceGroups_Delete" xml:space="preserve">
+    <value>
+Slet gruppe
+</value>
+  </data>
+  <data name="Window_DeviceGroups_Close" xml:space="preserve">
+    <value>
+Luk
+</value>
+  </data>
+  <data name="Code_DeviceGroups_MessageBox_NameRequired" xml:space="preserve">
+    <value>
+Indtast et gruppenavn.
+</value>
+  </data>
+  <data name="Code_DeviceGroups_MessageBox_DeviceRequired" xml:space="preserve">
+    <value>
+Vælg mindst én Nanoleaf.
+</value>
+  </data>
+  <data name="Code_DeviceGroups_MessageBox_Duplicate" xml:space="preserve">
+    <value>
+Der findes allerede en gruppe med dette navn.
+</value>
+  </data>
+  <data name="Code_DeviceGroups_MessageBox_DeleteConfirm" xml:space="preserve">
+    <value>
+Slet gruppe '{0}'?
+</value>
+  </data>
+  <data name="Window_TriggerDetail_TargetDevices_All" xml:space="preserve">
+    <value>
+Alle Nanoleafs
+</value>
+  </data>
+  <data name="Window_TriggerDetail_TargetDevices_Group" xml:space="preserve">
+    <value>
+Gruppe:
+</value>
+  </data>
+  <data name="Window_TriggerDetail_TargetDevices_Apply" xml:space="preserve">
+    <value>
+Ansøg
+</value>
+  </data>
+  <data name="Window_TriggerDetail_TargetDevices_Manage" xml:space="preserve">
+    <value>
+Administrer grupper...
+</value>
+  </data>
+  <data name="Window_TriggerDetail_TargetDevices_NoGroups" xml:space="preserve">
+    <value>
+Ingen grupper oprettet endnu
+</value>
+  </data>
+  <data name="Window_TriggerDetail_TargetDevices_Header" xml:space="preserve">
+    <value>
+Målenheder ({0} tilgængelig)
+</value>
+  </data>
+  <data name="Code_TriggerDetail_MessageBox_TargetRequired" xml:space="preserve">
+    <value>
+Vælg mindst én Nanoleaf-målenhed.
+</value>
+  </data>
+  <data name="Window_Trigger_TargetDevices_All" xml:space="preserve">
+    <value>
+Alle
+</value>
+  </data>
+  <data name="Window_Trigger_TargetDevices_Unavailable" xml:space="preserve">
+    <value>
+Ikke tilgængelig
+</value>
+  </data>
+  <data name="Window_AppInfo_OriginalDeveloper" xml:space="preserve">
+    <value>
+Oprindelig udvikler:
+</value>
+  </data>
+  <data name="Window_AppInfo_Ntl4Maintainer" xml:space="preserve">
+    <value>
+NTL 4 udvikling:
+</value>
+  </data>
+  <data name="Window_AppInfo_Discord" xml:space="preserve">
+    <value>
+NTL Discord
+</value>
+  </data>
+  <data name="Window_AppInfo_GithubOriginal" xml:space="preserve">
+    <value>
+GitHub – original version
+</value>
+  </data>
+  <data name="Window_AppInfo_GithubNtl4" xml:space="preserve">
+    <value>
+GitHub – NTL 4
+</value>
+  </data>
+  <data name="Window_AppInfo_FeedbackOriginal" xml:space="preserve">
+    <value>
+Feedback – originalversion
+</value>
+  </data>
+  <data name="Window_AppInfo_FeedbackNtl4" xml:space="preserve">
+    <value>
+Feedback – NTL 4
+</value>
+  </data>
+  <data name="Window_AppInfo_AiAssistance" xml:space="preserve">
+    <value>
+NTL 4 blev udviklet med AI-assistance.
+</value>
+  </data>
+  <data name="Window_Main_Modern_Title" xml:space="preserve">
+    <value>
+NanoTwitchLeafs 4
+</value>
+  </data>
+  <data name="Window_Main_Modern_Subtitle" xml:space="preserve">
+    <value>
+Twitch- og Nanoleaf-automatisering
+</value>
+  </data>
+  <data name="Window_TriggerHelp_Heading" xml:space="preserve">
+    <value>
+Udløs hjælp
+</value>
+  </data>
+  <data name="Window_TriggerHelp_Intro" xml:space="preserve">
+    <value>
+Hvordan hændelser, effekter, filtre og målenheder fungerer sammen.
+</value>
+  </data>
+  <data name="Window_TriggerHelp_Types_Title" xml:space="preserve">
+    <value>
+Trigger typer</value>
+  </data>
+  <data name="Window_TriggerHelp_Types_Body" xml:space="preserve">
+    <value>Kommandoer og nøgleord reagerer på chatbeskeder. Twitch-begivenheder såsom følgere, abonnementer, raids, bits og kanalpunkter reagerer automatisk, når den tilsvarende tjeneste er tilsluttet. Streamlabs-donationer og HypeRate kræver deres integrationer.
+</value>
+  </data>
+  <data name="Window_TriggerHelp_Chat_Title" xml:space="preserve">
+    <value>
+Kommandoer og nøgleord
+</value>
+  </data>
+  <data name="Window_TriggerHelp_Chat_Body" xml:space="preserve">
+    <value>
+Indtast en kommando uden dens præfiks, for eksempel help i stedet for !help. En kommando skal matche hele chatkommandoen. Et nøgleord kan forekomme hvor som helst i en meddelelse. Adskil flere søgeord med kommaer. VIP-, abonnent- og moderatorfiltre er kun tilgængelige for kommandoer og nøgleord.
+</value>
+  </data>
+  <data name="Window_TriggerHelp_ChannelPoints_Title" xml:space="preserve">
+    <value>
+Kanalpoint belønninger
+</value>
+  </data>
+  <data name="Window_TriggerHelp_ChannelPoints_Body" xml:space="preserve">
+    <value>
+Opret belønningen i Twitch-dashboardet, tilslut NTL til Twitch og indløs belønningen én gang. NTL registrerer sit ID og linker det til triggeren. Indløs den igen, hvis du vil tildele en anden belønning.
+</value>
+  </data>
+  <data name="Window_TriggerHelp_Effect_Title" xml:space="preserve">
+    <value>
+Effekt, farve og lyd
+</value>
+  </data>
+  <data name="Window_TriggerHelp_Effect_Body" xml:space="preserve">
+    <value>
+Vælg enten en Nanoleaf-effekt eller en fast farve. Brugerfarve bruger seerens Twitch-farve. Valgfri lydfiler skal være MP3 eller WAV; volumen bliver tilgængelig, når en fil er valgt.
+</value>
+  </data>
+  <data name="Window_TriggerHelp_Options_Title" xml:space="preserve">
+    <value>
+Varighed, mængde og nedkøling
+</value>
+  </data>
+  <data name="Window_TriggerHelp_Options_Body" xml:space="preserve">
+    <value>
+Varighed styrer, hvor længe effekten forbliver aktiv, når triggertypen understøtter den. Beløbet er det påkrævede minimum for bits, gavebomber, HypeRate eller donationer. Lysstyrke accepterer 0 til 100. Nedkøling forhindrer den samme kommando eller nøgleord i at blive udløst igen for tidligt.
+</value>
+  </data>
+  <data name="Window_TriggerHelp_Targets_Title" xml:space="preserve">
+    <value>
+Målret mod enheder og grupper
+</value>
+  </data>
+  <data name="Window_TriggerHelp_Targets_Body" xml:space="preserve">
+    <value>
+Alle Nanoleafs anvender triggeren på hver parrede enhed. Ryd den for at vælge individuelle enheder. Enhedsgrupper er valgfrie forudindstillinger: Opret først en gruppe med Administrer grupper, vælg den fra rullemenuen og anvend den.
+</value>
+  </data>
+  <data name="Window_Trigger_Heading" xml:space="preserve">
+    <value>
+Administrer udløsere
+</value>
+  </data>
+  <data name="Window_Trigger_Description" xml:space="preserve">
+    <value>
+Test, rediger, dupliker eller sikkerhedskopier triggere
+</value>
+  </data>
+  <data name="Window_Trigger_Header_TargetDevices" xml:space="preserve">
+    <value>
+Mål enheder
+</value>
+  </data>
+  <data name="Window_Trigger_Action_Test" xml:space="preserve">
+    <value>
+Test
+</value>
+  </data>
+  <data name="Window_Trigger_Action_Copy" xml:space="preserve">
+    <value>
+Kopiér
+</value>
+  </data>
+  <data name="Window_Trigger_Action_Edit" xml:space="preserve">
+    <value>
+Rediger
+</value>
+  </data>
+  <data name="Window_Trigger_Action_Delete" xml:space="preserve">
+    <value>
+Slet
+</value>
+  </data>
+  <data name="Window_Trigger_Button_Import" xml:space="preserve">
+    <value>
+Importer
+</value>
+  </data>
+  <data name="Window_Trigger_Button_Export" xml:space="preserve">
+    <value>
+Eksporter</value>
+  </data>
+  <data name="Window_Main_Navigation_Chat" xml:space="preserve"><value>Chat / Konsol</value></data><data name="Window_Main_Navigation_Triggers" xml:space="preserve"><value>Udløsere</value></data><data name="Window_Main_Navigation_Integrations" xml:space="preserve"><value>Integrationer</value></data><data name="Window_Main_Appearance_Heading" xml:space="preserve"><value>Udseende</value></data><data name="Window_Main_Appearance_Theme" xml:space="preserve"><value>Tema</value></data><data name="Window_Main_Appearance_Accent" xml:space="preserve"><value>Accentfarve</value></data><data name="Window_Main_Appearance_Light" xml:space="preserve"><value>Lys</value></data><data name="Window_Main_Appearance_Dark" xml:space="preserve"><value>Mørk</value></data><data name="Window_Main_Appearance_System" xml:space="preserve"><value>System</value></data>
+  <data name="Window_Trigger_Error_Load" xml:space="preserve"><value>Udløserne kunne ikke indlæses.</value></data><data name="Window_Trigger_Error_Change" xml:space="preserve"><value>Udløseren kunne ikke ændres.</value></data><data name="Window_Trigger_Error_Delete" xml:space="preserve"><value>Udløseren kunne ikke slettes.</value></data><data name="Window_Trigger_Error_Test" xml:space="preserve"><value>Udløseren kunne ikke testes.</value></data><data name="Window_Trigger_Error_ConnectDevice" xml:space="preserve"><value>Tilslut først en Nanoleaf-enhed.</value></data><data name="Window_Trigger_Error_OpenDetails" xml:space="preserve"><value>Udløserdetaljerne kunne ikke åbnes.</value></data><data name="Window_Trigger_Export_Success" xml:space="preserve"><value>Udløserne blev eksporteret.</value></data><data name="Window_Trigger_Error_Export" xml:space="preserve"><value>Udløserne kunne ikke eksporteres.</value></data><data name="Window_Trigger_Import_Invalid" xml:space="preserve"><value>Filen indeholder ingen gyldige udløsere.</value></data><data name="Window_Trigger_Import_Mode" xml:space="preserve"><value>Ja: flet med eksisterende udløsere&#xA;Nej: erstat eksisterende udløsere</value></data><data name="Window_Trigger_Import_Title" xml:space="preserve"><value>Importér udløsere</value></data><data name="Window_Trigger_Import_Success" xml:space="preserve"><value>{0} udløsere blev importeret.</value></data><data name="Window_Trigger_Error_Import" xml:space="preserve"><value>Udløserne kunne ikke importeres.</value></data><data name="Window_Trigger_Clear_Confirm" xml:space="preserve"><value>Slet alle {0} udløsere permanent?&#xA;&#xA;Denne handling kan ikke fortrydes.</value></data><data name="Window_Trigger_Clear_Title" xml:space="preserve"><value>Ryd udløsere</value></data><data name="Window_Trigger_Error_Clear" xml:space="preserve"><value>Udløserne kunne ikke ryddes.</value></data><data name="Window_TriggerDetail_Duplicate_Title" xml:space="preserve"><value>Dupliker udløser</value></data><data name="Window_TriggerDetail_Save_Error" xml:space="preserve"><value>Udløseren kunne ikke gemmes. Eksisterende udløsere blev ikke ændret.</value></data><data name="Window_TriggerDetail_RoleFilters_Only" xml:space="preserve"><value>Rollefiltre er kun tilgængelige for kommandoer og nøgleord.</value></data><data name="Window_Main_TriggerManager_Open_Error" xml:space="preserve"><value>Udløseradministrationen kunne ikke åbnes.</value></data>
+  <data name="P22_Blocklist_Heading" xml:space="preserve"><value>Blocklist</value></data>
+  <data name="P22_Blocklist_Description" xml:space="preserve"><value>Ignore trigger events from the listed Twitch users. The list is managed here in the Twitch area.</value></data>
+  <data name="P22_Blocklist_Enable" xml:space="preserve"><value>Enable blocklist</value></data>
+  <data name="P22_Blocklist_Add" xml:space="preserve"><value>Add</value></data>
+  <data name="P22_Blocklist_Remove" xml:space="preserve"><value>Remove selected</value></data>
+  <data name="P22_Blocklist_Clear" xml:space="preserve"><value>Clear all</value></data>
+  <data name="P22_Blocklist_Search" xml:space="preserve"><value>Search blocklist</value></data>
+  <data name="P22_Blocklist_ConfirmClear" xml:space="preserve"><value>Remove all entries from the blocklist?</value></data>
+  <data name="P22_Blocklist_Help" xml:space="preserve"><value>The blocklist prevents listed Twitch users from activating commands, keywords and Twitch-event triggers. Enter a Twitch username without @ and select Add. Search filters the visible list only. Removing or clearing entries takes effect immediately.</value></data>
+  <data name="P22_StreamElements_Description" xml:space="preserve"><value>Connect StreamElements tips to the existing donation trigger. No client ID or client secret is required.</value></data>
+  <data name="P22_StreamElements_Enable" xml:space="preserve"><value>Use StreamElements</value></data>
+  <data name="P22_StreamElements_AutoConnect" xml:space="preserve"><value>Connect automatically when NTL starts</value></data>
+  <data name="P22_StreamElements_TokenType" xml:space="preserve"><value>Token type</value></data>
+  <data name="P22_StreamElements_Token" xml:space="preserve"><value>JWT or overlay token</value></data>
+  <data name="P22_StreamElements_Connect" xml:space="preserve"><value>Save and connect</value></data>
+  <data name="P22_StreamElements_Disconnect" xml:space="preserve"><value>Disconnect</value></data>
+  <data name="P22_StreamElements_StatusDisconnected" xml:space="preserve"><value>Status: Not connected</value></data>
+  <data name="P22_StreamElements_StatusConnected" xml:space="preserve"><value>Status: Connected{0}</value></data>
+  <data name="P22_StreamElements_StatusError" xml:space="preserve"><value>Status: Connection failed – {0}</value></data>
+  <data name="P22_StreamElements_TestHeading" xml:space="preserve"><value>Local test donation</value></data>
+  <data name="P22_StreamElements_Test" xml:space="preserve"><value>Test donation</value></data>
+  <data name="P22_StreamElements_InvalidAmount" xml:space="preserve"><value>Please enter a valid non-negative test amount.</value></data>
+  <data name="P22_StreamElements_Help" xml:space="preserve"><value>Open the StreamElements dashboard, select the correct linked Twitch channel from your profile menu and copy its JWT or overlay token. Enable StreamElements, paste the token and select Save and connect. NTL subscribes only to completed channel tips and passes them to the existing donation trigger. Select All, Streamlabs or StreamElements as the provider in a donation trigger. Tokens are stored with the encrypted NTL settings and are removed from diagnostic messages.</value></data>
+  <data name="P22_DonationProvider_Label" xml:space="preserve"><value>Donation provider</value></data>
+  <data name="P22_DonationProvider_All" xml:space="preserve"><value>All connected donation services</value></data>
+  <data name="P23_Console_Clear" xml:space="preserve"><value>Clear console</value></data>
+  <data name="P23_Console_OpenLog" xml:space="preserve"><value>Open log file</value></data>
+  <data name="P23_Console_AutoScroll" xml:space="preserve"><value>Auto-scroll</value></data>
+  <data name="P24_Trigger_Search" xml:space="preserve"><value>Search triggers</value></data>
+  <data name="P24_Trigger_Reset" xml:space="preserve"><value>Reset filters</value></data>
+  <data name="P24_Filter_All" xml:space="preserve"><value>All statuses</value></data>
+  <data name="P24_Filter_Active" xml:space="preserve"><value>Active</value></data>
+  <data name="P24_Filter_Inactive" xml:space="preserve"><value>Inactive</value></data>
+  <data name="P24_Filter_Problems" xml:space="preserve"><value>Problems only</value></data>
+  <data name="P24_Filter_AllTypes" xml:space="preserve"><value>All trigger types</value></data>
+  <data name="P24_Filter_Chat" xml:space="preserve"><value>Chat commands and keywords</value></data>
+  <data name="P24_Filter_Twitch" xml:space="preserve"><value>Twitch events</value></data>
+  <data name="P24_Filter_ChannelPoints" xml:space="preserve"><value>Channel points</value></data>
+  <data name="P24_Filter_Donations" xml:space="preserve"><value>Donations</value></data>
+  <data name="P24_Trigger_Count" xml:space="preserve"><value>{0} of {1} triggers</value></data>
+  <data name="P24_Warning_NoDevices" xml:space="preserve"><value>No Nanoleaf device is configured.</value></data>
+  <data name="P24_Warning_MissingDevice" xml:space="preserve"><value>At least one assigned Nanoleaf device is no longer available.</value></data>
+  <data name="P24_Warning_MissingEffect" xml:space="preserve"><value>No Nanoleaf effect is selected.</value></data>
+  <data name="P24_Warning_MissingSound" xml:space="preserve"><value>The configured sound file no longer exists.</value></data>
+  <data name="P24_Trigger_Help" xml:space="preserve"><value>Use search and the status/type filters to narrow the trigger list. Orange warning symbols identify missing devices, effects, or sound files; point at the symbol for details. Double-click a row to edit it. Reset filters restores the full list.</value></data>
+  <data name="P25_Blocklist_Manage" xml:space="preserve"><value>Manage blocklist</value></data>
+  <data name="P25_Blocklist_StatusActive" xml:space="preserve"><value>Active · {0} entries</value></data>
+  <data name="P25_Blocklist_StatusInactive" xml:space="preserve"><value>Inactive · {0} entries</value></data>
+  <data name="P25_Back" xml:space="preserve"><value>Back</value></data>
+  <data name="P25_Console_Search" xml:space="preserve"><value>Search console</value></data>
+  <data name="P25_Console_SupportLog" xml:space="preserve"><value>Create support log</value></data>
+  <data name="P25_Console_CopySelected" xml:space="preserve"><value>Copy selected</value></data>
+  <data name="P25_Console_CopyVisible" xml:space="preserve"><value>Copy all visible</value></data>
+  <data name="P25_Console_All" xml:space="preserve"><value>All levels</value></data>
+  <data name="P25_Console_Info" xml:space="preserve"><value>Information</value></data>
+  <data name="P25_Console_Warnings" xml:space="preserve"><value>Warnings</value></data>
+  <data name="P25_Console_Errors" xml:space="preserve"><value>Errors</value></data>
+  <data name="P25_Console_Debug" xml:space="preserve"><value>Debug</value></data>
+  <data name="P25_Console_Count" xml:space="preserve"><value>{0} of {1} entries</value></data>
+  <data name="P25_Toast_ConsoleCleared" xml:space="preserve"><value>Console cleared.</value></data>
+  <data name="P25_Toast_Copied" xml:space="preserve"><value>Console entries copied.</value></data>
+  <data name="P25_Toast_SupportCreated" xml:space="preserve"><value>Sanitized support log created.</value></data>
+  <data name="P25_Toast_BlocklistAdded" xml:space="preserve"><value>@{0} was added to the blocklist.</value></data>
+  <data name="P25_Toast_BlocklistRemoved" xml:space="preserve"><value>Entry removed from the blocklist.</value></data>
+  <data name="P25_Toast_BlocklistCleared" xml:space="preserve"><value>Blocklist cleared.</value></data>
+  <data name="P25_Toast_TestTriggered" xml:space="preserve"><value>Local test donation triggered.</value></data>
+  <data name="P25_Toast_SettingsSaved" xml:space="preserve"><value>Settings saved.</value></data>
+  <data name="P25_Unsaved" xml:space="preserve"><value>Unsaved changes</value></data>
+  <data name="P25_Unsaved_Close" xml:space="preserve"><value>Save your changes before closing?</value></data>
+  <data name="P25_Unsaved_Title" xml:space="preserve"><value>Unsaved changes</value></data>
+  <data name="P28_Disabled_ConnectChat" xml:space="preserve"><value>Connect a Twitch account before connecting to chat.</value></data>
+  <data name="P28_Disabled_NanoTest" xml:space="preserve"><value>Pair a Nanoleaf device before testing the connection.</value></data>
+  <data name="P28_Disabled_EditTrigger" xml:space="preserve"><value>Enable Nanoleaf triggers before opening trigger management.</value></data>
 </root>

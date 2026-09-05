@@ -6,9 +6,9 @@
         xmlns:fa="http://schemas.fontawesome.com/icons/svg"
         xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.Window_Loading_Title}" Height="120" Width="255" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Title="{x:Static p:Resources.Window_Loading_Title}" Height="120" Width="255" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}">
     <Grid Margin="0,0,-8,1">
-        <fa:ImageAwesome Icon="Solid_Rotate" Spin="True" SpinDuration="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="12,0,0,0" Height="30" Width="30" Foreground="#FF515151" />
+        <fa:ImageAwesome Icon="Solid_Rotate" Spin="True" SpinDuration="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="12,0,0,0" Height="30" Width="30" Foreground="{DynamicResource NtlMutedTextBrush}" />
         <Label Content="{x:Static p:Resources.Window_Loading_Text}" HorizontalAlignment="Left" Margin="48,23,0,0" VerticalAlignment="Top" Height="42" Width="199" FontSize="18" />
     </Grid>
 </Window>

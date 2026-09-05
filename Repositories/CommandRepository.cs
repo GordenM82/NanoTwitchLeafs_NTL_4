@@ -87,6 +87,8 @@ namespace NanoTwitchLeafs.Repositories
 
         public void Update(TriggerSetting trigger)
         {
+            if (trigger == null) throw new ArgumentNullException(nameof(trigger));
+            _cachedCommands ??= _dbController.Load();
             _dbController.Update(trigger);
 
             var dbCommand = _cachedCommands.RemoveAll(dbCmd => dbCmd.ID == trigger.ID);
@@ -95,6 +97,8 @@ namespace NanoTwitchLeafs.Repositories
 
         public void Insert(TriggerSetting trigger)
         {
+            if (trigger == null) throw new ArgumentNullException(nameof(trigger));
+            _cachedCommands ??= _dbController.Load();
             _dbController.Save(trigger);
 
             _cachedCommands.Add(trigger);
@@ -102,6 +106,8 @@ namespace NanoTwitchLeafs.Repositories
 
         public void Delete(TriggerSetting trigger)
         {
+            if (trigger == null) throw new ArgumentNullException(nameof(trigger));
+            _cachedCommands ??= _dbController.Load();
             _dbController.Delete(trigger);
 
             var dbCommand = _cachedCommands.RemoveAll(dbCmd => dbCmd.ID == trigger.ID);
@@ -112,6 +118,34 @@ namespace NanoTwitchLeafs.Repositories
             _dbController.ClearTable();
 
             _cachedCommands = new List<TriggerSetting>();
+        }
+
+        public void ReplaceAll(IEnumerable<TriggerSetting> triggers)
+        {
+            if (triggers == null) throw new ArgumentNullException(nameof(triggers));
+            List<TriggerSetting> replacement = triggers.Where(item => item != null).ToList();
+
+            if (_dbController is JsonTriggerController jsonController)
+            {
+                jsonController.ReplaceAll(replacement);
+                _cachedCommands = _dbController.Load();
+                return;
+            }
+
+            List<TriggerSetting> previous = GetList();
+            try
+            {
+                _dbController.ClearTable();
+                foreach (TriggerSetting trigger in replacement) _dbController.Save(trigger);
+                _cachedCommands = _dbController.Load();
+            }
+            catch
+            {
+                _dbController.ClearTable();
+                foreach (TriggerSetting trigger in previous) _dbController.Save(trigger);
+                _cachedCommands = previous;
+                throw;
+            }
         }
     }
 }

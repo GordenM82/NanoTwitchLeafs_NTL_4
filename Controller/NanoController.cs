@@ -93,10 +93,8 @@ namespace NanoTwitchLeafs.Controller
 
             while (!unique)
             {
-                InputDialogWindow inputDialogWindow = new InputDialogWindow(this, _appSettings.Language)
-                {
-                    Owner = App.Current.MainWindow
-                };
+                InputDialogWindow inputDialogWindow = new InputDialogWindow(this, _appSettings.Language);
+                WindowPlacementService.PrepareOwnedWindow(inputDialogWindow, App.Current.MainWindow);
                 inputDialogWindow.ShowDialog();
                 unique = _appSettings.NanoSettings.NanoLeafDevices.All(x => x.PublicName != inputDialogWindow.inputDialog_TextBox.Text) && !string.IsNullOrWhiteSpace(inputDialogWindow.inputDialog_TextBox.Text) && !inputDialogWindow.inputDialog_TextBox.Text.Equals("New Nanoleaf Device", StringComparison.InvariantCultureIgnoreCase);
 

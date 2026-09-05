@@ -7,117 +7,171 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.Window_Main_Title}" Height="583" Width="1153" MinWidth="860" MinHeight="540" Closing="Window_Closing" Closed="Main_Window_Closed" Loaded="Main_Window_Loaded" ShowActivated="True">
-    <Grid Margin="-2,0,2,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="325" />
-        </Grid.ColumnDefinitions>
-        <TabControl x:Name="settings_TabControl" HorizontalAlignment="Center" Width="318" Grid.Column="1" Margin="0,-2,0,30">
-            <TabItem x:Name="botLogin_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}" Margin="0,0,-1,0" Height="22">
-                <Grid Background="#FFE5E5E5">
-                    <Grid x:Name="DefaultTwitchLogin_Grid" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="323" Margin="0,10,0,0">
-                        <Image x:Name="TwitchLinkAvatar_Image" HorizontalAlignment="Center" Height="100" Margin="62,10,62,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.5,0.5" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" />
-                        <Label x:Name="TwitchLink_Label" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_AccountLabel_Text}" HorizontalAlignment="Center" Margin="5,115,5,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                        <Button x:Name="ConnectTwitchAccount_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_LinkButton_Text}" HorizontalAlignment="Center" Margin="0,168,0,0" VerticalAlignment="Top" Click="ConnectTwitchAccount_Button_Click" Padding="5,1" />
-                        <Button x:Name="DisconnectTwitchAccount_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_UnlinkButton_Text}" HorizontalAlignment="Center" Margin="0,193,0,0" VerticalAlignment="Top" IsEnabled="False" Click="DisconnectTwitchAccount_Button_Click" Padding="5,1" />
-                        <Button x:Name="ConnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Connect}" HorizontalAlignment="Center" Margin="20,245,20,0" VerticalAlignment="Top" Click="ConnectChat_Button_Click" IsEnabled="False" Padding="5,1" />
-                        <Button x:Name="DisconnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Disconnect}" HorizontalAlignment="Center" Margin="20,268,20,0" VerticalAlignment="Top" Click="DisconnectChat_Button_Click" IsEnabled="False" Padding="5,1" />
-                    </Grid>
-                    <Grid x:Name="ConnectedTwitchLogin_Grid" Visibility="Hidden" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="323" Margin="0,10,0,0">
-                    </Grid>
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Label_Prefix}" HorizontalAlignment="Left" Margin="10,316,0,0" VerticalAlignment="Top" Height="26" Width="104" />
-                    <TextBox x:Name="commandPrefix_TextBox" HorizontalAlignment="Right" Height="23" Margin="0,317,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" VerticalContentAlignment="Center" Text="!" HorizontalContentAlignment="Center" LostFocus="commandPrefix_TextBox_LostFocus" />
-                    <TextBlock x:Name="help_TextBlock" HorizontalAlignment="Center" Margin="10,0,10,10" TextWrapping="Wrap" Text="Help Command TextBlock" Height="42" VerticalAlignment="Bottom" Width="205" TextAlignment="Center" />
-                </Grid>
+        Title="{x:Static p:Resources.Window_Main_Modern_Title}" Height="780" Width="1440" MinWidth="1120" MinHeight="680"
+        WindowStartupLocation="CenterScreen" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}"
+        Closing="Window_Closing" Closed="Main_Window_Closed" Loaded="Main_Window_Loaded" PreviewKeyDown="MainWindow_PreviewKeyDown" ShowActivated="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="64" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="{DynamicResource NtlNavigationBrush}" BorderBrush="{DynamicResource NtlBorderBrush}" BorderThickness="0,0,0,1">
+            <Grid Margin="22,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Image Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" Width="36" Height="36" Margin="0,0,12,0" />
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="NanoTwitchLeafs 4" FontSize="20" FontWeight="SemiBold" />
+                        <TextBlock Text="{x:Static p:Resources.Window_Main_Modern_Subtitle}" Foreground="{DynamicResource NtlMutedTextBrush}" FontSize="12" />
+                    </StackPanel>
+                </StackPanel>
+                <Border Grid.Column="1" Background="#3C2A65" CornerRadius="12" Padding="12,5" VerticalAlignment="Center">
+                    <TextBlock x:Name="versionBadge_TextBlock" Foreground="White" FontSize="11" FontWeight="SemiBold" />
+                </Border>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="168" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Background="{DynamicResource NtlNavigationBrush}" BorderBrush="{DynamicResource NtlBorderBrush}" BorderThickness="0,0,1,0">
+                <DockPanel Margin="0,12">
+                    <StackPanel DockPanel.Dock="Bottom" Margin="0,8">
+                        <Separator Margin="18,8" />
+                        <Button x:Name="helpNavigation_Button" Tag="8" Content="{x:Static p:Resources.General_Button_Help}" Style="{StaticResource NtlNavigationButtonStyle}" Click="HelpNavigation_Button_Click" />
+                        <Button x:Name="infoNavigation_Button" Tag="7" Content="{x:Static p:Resources.Window_Main_Tabs_Chat_Button_Info}" Style="{StaticResource NtlNavigationButtonStyle}" Click="AppInfo_Button_Click" />
+                    </StackPanel>
+                    <StackPanel x:Name="navigationButtons_Panel">
+                        <Button x:Name="chatNavigation_Button" Tag="-1" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
+                        <Button Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}" Tag="0" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
+                        <Button Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Title}" Tag="1" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
+                        <Button x:Name="triggerNavigation_Button" Tag="6" Style="{StaticResource NtlNavigationButtonStyle}" Click="TriggerNavigation_Button_Click" />
+                        <Button x:Name="integrationsNavigation_Button" Tag="3" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
+                        <Button Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Tag="2" Style="{StaticResource NtlNavigationButtonStyle}" Click="Navigation_Button_Click" />
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+        <StackPanel x:Name="integrationTabs_Panel" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,18,0,0" Visibility="Collapsed">
+            <Button Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_Title}" Tag="3" Click="Navigation_Button_Click" Margin="0,0,8,0" />
+            <Button Content="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Title}" Tag="4" Click="Navigation_Button_Click" Margin="0,0,8,0" />
+            <Button Content="StreamElements" Tag="9" Click="Navigation_Button_Click" Margin="0,0,8,0" />
+            <Button Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}" Tag="5" Click="Navigation_Button_Click" />
+        </StackPanel>
+        <TabControl x:Name="settings_TabControl" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed">
+            <TabControl.Resources><Style TargetType="TabItem"><Setter Property="Visibility" Value="Collapsed" /></Style></TabControl.Resources>
+            <TabItem x:Name="botLogin_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}" Margin="0,0,-1,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="680" Margin="14" TextElement.FontSize="14">
+                    <Border Style="{StaticResource NtlCardStyle}"><StackPanel x:Name="DefaultTwitchLogin_Grid">
+                        <Image x:Name="TwitchLinkAvatar_Image" Height="105" Width="105" Margin="0,0,0,8" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" />
+                        <Label x:Name="TwitchLink_Label" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_AccountLabel_Text}" HorizontalContentAlignment="Center" FontSize="15" Margin="0,0,0,8" />
+                        <Button x:Name="ConnectTwitchAccount_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_LinkButton_Text}" Click="ConnectTwitchAccount_Button_Click" Margin="80,0,80,8" />
+                        <Button x:Name="DisconnectTwitchAccount_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_UnlinkButton_Text}" IsEnabled="False" Click="DisconnectTwitchAccount_Button_Click" Margin="80,0,80,18" />
+                        <Button x:Name="ConnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Connect}" Click="ConnectChat_Button_Click" IsEnabled="False" Margin="80,0,80,8" ToolTipService.ShowOnDisabled="True" />
+                        <Button x:Name="DisconnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Disconnect}" Click="DisconnectChat_Button_Click" IsEnabled="False" Margin="80,0,80,0" />
+                    </StackPanel></Border>
+                    <Grid x:Name="ConnectedTwitchLogin_Grid" Visibility="Hidden"/>
+                    <Grid HorizontalAlignment="Center" Margin="0,10,0,8"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="68"/></Grid.ColumnDefinitions><Label Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Label_Prefix}" Margin="0,0,10,0"/><TextBox x:Name="commandPrefix_TextBox" Grid.Column="1" Text="!" HorizontalContentAlignment="Center" LostFocus="commandPrefix_TextBox_LostFocus" /></Grid>
+                    <TextBlock x:Name="help_TextBlock" Text="Help Command TextBlock" TextWrapping="Wrap" TextAlignment="Center" FontSize="14" />
+                    <Border Style="{StaticResource NtlCardStyle}" Margin="0,8,0,0" Padding="14"><Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                        <StackPanel><TextBlock x:Name="blocklistSummaryHeading_TextBlock" FontSize="18" FontWeight="SemiBold"/><TextBlock x:Name="blocklistSummaryStatus_TextBlock" Foreground="{DynamicResource NtlMutedTextBrush}" Margin="0,4,0,0"/></StackPanel>
+                        <Button x:Name="blocklistManage_Button" Grid.Column="1" Click="BlocklistManage_Button_Click" MinWidth="170" VerticalAlignment="Center"/>
+                    </Grid></Border>
+                </StackPanel></ScrollViewer>
             </TabItem>
-            <TabItem x:Name="nanoConfig_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_Nano_Title}" Margin="1,0,-1,0" Height="22">
-                <Grid Background="#FFE5E5E5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="nanoPairing_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Pairing}" HorizontalAlignment="Right" Margin="0,5,10,0" VerticalAlignment="Top" Click="nanoPairing_Button_Click" Padding="5,1" />
-                    <Button x:Name="nanoTestConnection_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Test}" HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Click="NanoTestConnection_Button_Click" IsEnabled="False" Padding="5,1" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_Status}" HorizontalAlignment="Left" Margin="7,138,0,0" VerticalAlignment="Top" AutomationProperties.HelpText="You can find the IP Adress of the Device in the Nanoleaf App Settings or on your Router Settings" Width="46" />
-                    <CheckBox x:Name="nanoCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableTrigger}" HorizontalAlignment="Left" Margin="6,33,0,0" VerticalAlignment="Top" Click="NanoCmd_Checkbox_Click" Width="108" />
-                    <Button x:Name="nanoCmd_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_EditTrigger}" HorizontalAlignment="Right" Margin="0,29,10,0" VerticalAlignment="Top" Click="NanoCmd_Button_Click" IsEnabled="False" Padding="5,1" />
-                    <TextBox x:Name="nanoInfo_TextBox" Height="150" Margin="10,162,10,0" TextWrapping="Wrap" Text="{x:Static p:Resources.Window_Main_Tabs_Nano_Textbox_Text}" VerticalAlignment="Top" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" IsEnabled="False" />
-                    <CheckBox x:Name="nanoCooldown_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableCooldown}" HorizontalAlignment="Left" Margin="6,55,0,0" VerticalAlignment="Top" Click="NanoCooldown_Checkbox_Click" Width="119" />
-                    <TextBox x:Name="nanoCooldown_TextBox" HorizontalAlignment="Center" Margin="140,53,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" TextInput="NanoCooldown_TextBox_TextInput" LostFocus="NanoCooldown_TextBox_LostFocus" Width="25" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_Seconds}" HorizontalAlignment="Right" Margin="0,49,10,0" VerticalAlignment="Top" />
-                    <Button x:Name="eventReset_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_ResetQueue}" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Click="EventReset_Button_Click" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_EventsInQueue}" HorizontalAlignment="Left" Margin="7,313,0,0" VerticalAlignment="Top" Width="115" />
-                    <TextBox x:Name="nanoQueueCount_TextBox" HorizontalAlignment="Right" Height="20" Margin="0,316,10,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="40" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_AutoRestore}" HorizontalAlignment="Left" Margin="4,87,0,0" VerticalAlignment="Top" Height="26" Width="195" />
-                    <Button x:Name="autoRestoreHelp_Button" Content="?" HorizontalAlignment="Right" Margin="0,108,10,0" VerticalAlignment="Top" Width="11" Click="AutoRestoreHelp_Button_Click" Height="23" />
-                    <CheckBox x:Name="commandRestore_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_onCommand}" HorizontalAlignment="Left" Margin="7,113,0,0" VerticalAlignment="Top" Click="CommandRestore_CheckBox_Click" Padding="5,-1,5,0" />
-                    <CheckBox x:Name="keywordRestore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_onKeyword}" HorizontalAlignment="Right" Margin="0,113,27,0" VerticalAlignment="Top" Height="15" Click="KeywordRestore_Checkbox_Click" Padding="5,-1,5,0" />
-                    <CheckBox x:Name="nanoCooldownIgnore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_ModeratorIgnorCooldown}" HorizontalAlignment="Left" Margin="6,75,0,0" VerticalAlignment="Top" Click="NanoCooldownIgnore_Checkbox_Click" Width="209" IsEnabled="False" />
-                    <Button x:Name="showDevices_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_ManageDevices}" HorizontalAlignment="Right" Margin="0,136,10,0" VerticalAlignment="Top" Click="ShowDevices_Button_Click" Padding="5,1" />
-                    <Button x:Name="eventRestart_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_RestartQueue}" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="EventRestart_Button_Click" Padding="5,1" />
-                </Grid>
+            <TabItem x:Name="nanoConfig_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_Nano_Title}" Margin="1,0,-1,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="900" Margin="12" TextElement.FontSize="14">
+                    <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><Button x:Name="nanoTestConnection_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Test}" Click="NanoTestConnection_Button_Click" IsEnabled="False" Margin="0,0,6,0" Padding="12,6" ToolTipService.ShowOnDisabled="True"/><Button x:Name="nanoPairing_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Pairing}" Click="nanoPairing_Button_Click" Margin="6,0,0,0" Padding="12,6"/></Grid>
+                    <Border Style="{StaticResource NtlCardStyle}" Margin="0,0,0,8" Padding="14"><StackPanel>
+                        <Grid Margin="0,0,0,5"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><CheckBox x:Name="nanoCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableTrigger}" Click="NanoCmd_Checkbox_Click"/><Button x:Name="nanoCmd_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_EditTrigger}" Click="NanoCmd_Button_Click" IsEnabled="False" Padding="12,6" ToolTipService.ShowOnDisabled="True"/></Grid>
+                        <Grid Margin="0,0,0,4"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="72"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><CheckBox x:Name="nanoCooldown_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableCooldown}" Click="NanoCooldown_Checkbox_Click"/><TextBox x:Name="nanoCooldown_TextBox" Grid.Column="1" Text="0" HorizontalContentAlignment="Center" TextInput="NanoCooldown_TextBox_TextInput" LostFocus="NanoCooldown_TextBox_LostFocus" Margin="8,0"/><Label Grid.Column="2" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_Seconds}" Padding="5,3"/></Grid>
+                        <CheckBox x:Name="nanoCooldownIgnore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_ModeratorIgnorCooldown}" Click="NanoCooldownIgnore_Checkbox_Click" IsEnabled="False"/>
+                        <Grid Margin="0,6,0,3"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_AutoRestore}" Padding="0"/><Button x:Name="autoRestoreHelp_Button" Grid.Column="1" Content="?" Width="34" Padding="8,5" Click="AutoRestoreHelp_Button_Click"/></Grid>
+                        <WrapPanel><CheckBox x:Name="commandRestore_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_onCommand}" Click="CommandRestore_CheckBox_Click" Margin="0,0,24,0"/><CheckBox x:Name="keywordRestore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_onKeyword}" Click="KeywordRestore_Checkbox_Click"/></WrapPanel>
+                    </StackPanel></Border>
+                    <Grid Margin="0,0,0,6"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_Status}" FontSize="16" FontWeight="SemiBold" Padding="0"/><Button x:Name="showDevices_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_ManageDevices}" Click="ShowDevices_Button_Click"/></Grid>
+                    <TextBox x:Name="nanoInfo_TextBox" Height="145" MinHeight="100" TextWrapping="Wrap" Text="{x:Static p:Resources.Window_Main_Tabs_Nano_Textbox_Text}" VerticalScrollBarVisibility="Auto" IsEnabled="False" Margin="0,0,0,7"/>
+                    <Grid Margin="0,0,0,7"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="72"/></Grid.ColumnDefinitions><Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_EventsInQueue}" Padding="0" VerticalAlignment="Center"/><TextBox x:Name="nanoQueueCount_TextBox" Grid.Column="1" Text="0" HorizontalContentAlignment="Center"/></Grid>
+                    <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><Button x:Name="eventReset_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_ResetQueue}" Click="EventReset_Button_Click" Margin="0,0,6,0"/><Button x:Name="eventRestart_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_RestartQueue}" Click="EventRestart_Button_Click" Margin="6,0,0,0"/></Grid>
+                </StackPanel></ScrollViewer>
             </TabItem>
-            <TabItem Header="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Margin="1,0,-1,0" Height="22">
-                <Grid Background="#FFE5E5E5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <CheckBox x:Name="debugCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Debug}" HorizontalAlignment="Left" Margin="10,247,0,0" VerticalAlignment="Top" Click="DebugCmd_Checkbox_Click" Padding="4,-1,5,0" />
-                    <CheckBox x:Name="response_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Responses}" HorizontalAlignment="Left" Margin="10,61,0,0" VerticalAlignment="Top" Height="15" Width="163" Click="Response_CheckBox_Click" />
-                    <CheckBox x:Name="whisperMode_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Whisper}" HorizontalAlignment="Left" Margin="10,76,0,0" VerticalAlignment="Top" Height="15" Width="157" Click="WhisperMode_Checkbox_Click" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Chat}" HorizontalAlignment="Left" Margin="5,40,0,0" VerticalAlignment="Top" Padding="5,0" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_General}" HorizontalAlignment="Left" Margin="5,1,0,0" VerticalAlignment="Top" Padding="5,0" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Misc}" HorizontalAlignment="Left" Margin="5,110,0,0" VerticalAlignment="Top" Padding="5,0" />
-                    <Button x:Name="responses_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_Edit}" HorizontalAlignment="Right" Margin="0,59,10,0" VerticalAlignment="Top" Click="Responses_Button_Click" Padding="5,1" />
-                    <CheckBox x:Name="autoConnect_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Autoconnect}" HorizontalAlignment="Left" Margin="10,22,0,0" VerticalAlignment="Top" Click="AutoConnect_Checkbox_Click" Width="212" />
-                    <Button x:Name="Open_Dir_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_OpenDebugDir}" VerticalAlignment="Bottom" Click="Open_Dir_Button_Click" HorizontalContentAlignment="Center" Margin="10,0,10,30" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_ResetBrightness}" HorizontalAlignment="Left" Margin="10,197,0,0" VerticalAlignment="Top" Height="26" Width="174" />
-                    <TextBox x:Name="brightnessReset_TextBox" HorizontalAlignment="Right" Height="23" Margin="0,198,44,0" TextWrapping="Wrap" Text="50" VerticalAlignment="Top" Width="46" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
-                    <Button x:Name="resetBrightness_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,200,10,0" VerticalAlignment="Top" Click="ResetBrightness_Button_Click" Padding="5,1" />
-                    <CheckBox x:Name="blacklist_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Blocklist}" HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top" Height="15" Width="163" Click="blacklist_CheckBox_Click" />
-                    <Button x:Name="blacklist_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_Edit}" HorizontalAlignment="Right" Margin="0,89,10,0" VerticalAlignment="Top" Click="blacklist_Button_Click" Padding="5,1" />
-                    <Button x:Name="CheckForUpdate_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_UpdateCheck}" VerticalAlignment="Bottom" HorizontalContentAlignment="Center" Click="CheckForUpdate_Button_Click" Margin="10,0,10,5" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_SetEffect}" HorizontalAlignment="Left" Margin="5,128,0,0" VerticalAlignment="Top" Padding="5,0" />
-                    <ComboBox x:Name="Effects_ComboBox" HorizontalAlignment="Left" Margin="77,147,0,0" VerticalAlignment="Top" Width="191" Height="25" />
-                    <Button x:Name="LoadEffects_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_LoadEffects}" HorizontalAlignment="Left" Margin="11,149,0,0" VerticalAlignment="Top" Width="61" Click="LoadEffects_Button_Click" />
-                    <Button x:Name="SetBaseEffect_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,150,10,0" VerticalAlignment="Top" Click="SetBaseEffect_Button_Click" Padding="5,1" />
-                    <Button x:Name="SetBaseColor_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" Margin="0,174,10,0" VerticalAlignment="Top" Click="SetBaseColor_Button_Click" Padding="5,1" />
-                    <xctk:ColorPicker x:Name="ColorPicker" Margin="11,174,0,0" IsEnabled="True" Height="22" HorizontalAlignment="Left" VerticalAlignment="Top" Width="257" />
-                    <CheckBox x:Name="autoIPRefresh_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh}" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" Click="autoIPRefresh_Checkbox_Click" Padding="4,-1,5,0" />
-                    <Label Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Language}" HorizontalAlignment="Left" Margin="5,268,0,0" VerticalAlignment="Top" Padding="5,0" />
-                    <ComboBox x:Name="language_Combobox" Margin="10,291,10,0" VerticalAlignment="Top" SelectionChanged="language_Combobox_SelectionChanged" />
-                </Grid>
+            <TabItem Header="{x:Static p:Resources.Window_Main_Tabs_Settings_Title}" Margin="1,0,-1,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="{DynamicResource NtlSurfaceBrush}">
+                  <WrapPanel MaxWidth="1120" HorizontalAlignment="Center" Margin="8" TextElement.FontSize="14">
+                    <Border Style="{StaticResource NtlCardStyle}" Width="340" VerticalAlignment="Top" Margin="6"><StackPanel>
+                        <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_General}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <CheckBox x:Name="autoConnect_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Autoconnect}" Click="AutoConnect_Checkbox_Click" Margin="0,0,0,8"/>
+                        <Separator Margin="0,0,0,8"/>
+                        <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Chat}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                        <Grid Margin="0,3"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><CheckBox x:Name="response_CheckBox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Responses}" Click="Response_CheckBox_Click" VerticalAlignment="Center"/><Button x:Name="responses_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_Edit}" Click="Responses_Button_Click" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="14,5"/></Grid>
+                        <CheckBox x:Name="whisperMode_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Whisper}" Margin="0,3"/>
+                    </StackPanel></Border>
+                    <Border Style="{StaticResource NtlCardStyle}" Width="340" VerticalAlignment="Top" Margin="6"><StackPanel>
+                        <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Misc}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_SetEffect}" Margin="0,0,0,5"/>
+                        <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><Button x:Name="LoadEffects_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_LoadEffects}" Click="LoadEffects_Button_Click" Margin="0,0,8,0"/><ComboBox x:Name="Effects_ComboBox" Grid.Column="1" Margin="0,0,8,0"/><Button x:Name="SetBaseEffect_Button" Grid.Column="2" Content="{x:Static p:Resources.General_Button_OK}" Click="SetBaseEffect_Button_Click"/></Grid>
+                        <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><xctk:ColorPicker x:Name="ColorPicker" Height="36" Background="{DynamicResource NtlInputBrush}" Foreground="{DynamicResource NtlTextBrush}" BorderBrush="{DynamicResource NtlBorderBrush}" DropDownBackground="{DynamicResource NtlSurfaceRaisedBrush}" DropDownBorderBrush="{DynamicResource NtlBorderBrush}" TabBackground="{DynamicResource NtlSurfaceRaisedBrush}" TabForeground="{DynamicResource NtlTextBrush}" HeaderBackground="{DynamicResource NtlInputBrush}" HeaderForeground="{DynamicResource NtlTextBrush}"/><Button x:Name="SetBaseColor_Button" Grid.Column="1" Content="{x:Static p:Resources.General_Button_OK}" Click="SetBaseColor_Button_Click" Margin="8,0,0,0"/></Grid>
+                        <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="64"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_ResetBrightness}" VerticalAlignment="Center"/><TextBox x:Name="brightnessReset_TextBox" Grid.Column="1" Text="50" HorizontalContentAlignment="Center" Margin="8,0"/><Button x:Name="resetBrightness_Button" Grid.Column="2" Content="{x:Static p:Resources.General_Button_OK}" Click="ResetBrightness_Button_Click"/></Grid>
+                        <CheckBox x:Name="autoIPRefresh_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh}" Click="autoIPRefresh_Checkbox_Click"/>
+                        <CheckBox x:Name="debugCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Debug}" Click="DebugCmd_Checkbox_Click"/>
+                        <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Language}" Margin="0,10,0,5"/><ComboBox x:Name="language_Combobox" MaxDropDownHeight="420" MinWidth="280" SelectionChanged="language_Combobox_SelectionChanged"/>
+                        <Grid Margin="0,12,0,0"><Grid.RowDefinitions><RowDefinition/><RowDefinition/></Grid.RowDefinitions><Button x:Name="Open_Dir_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_OpenDebugDir}" Click="Open_Dir_Button_Click" Margin="0,0,0,6"/><Button x:Name="CheckForUpdate_Button" Grid.Row="1" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_UpdateCheck}" Click="CheckForUpdate_Button_Click"/></Grid>
+                    </StackPanel></Border>
+                    <Border Style="{StaticResource NtlCardStyle}" Width="320" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="6">
+                        <StackPanel>
+                            <TextBlock x:Name="appearanceHeading_TextBlock" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,14" />
+                            <TextBlock x:Name="themeLabel_TextBlock" Margin="0,0,0,5" />
+                            <ComboBox x:Name="theme_ComboBox" SelectionChanged="Theme_ComboBox_SelectionChanged" Margin="0,0,0,14">
+                                <ComboBoxItem x:Name="themeLight_Item" Tag="Light" />
+                                <ComboBoxItem x:Name="themeDark_Item" Tag="Dark" />
+                                <ComboBoxItem x:Name="themeSystem_Item" Tag="System" />
+                            </ComboBox>
+                            <TextBlock x:Name="accentLabel_TextBlock" Margin="0,0,0,5" />
+                            <ComboBox x:Name="accent_ComboBox" SelectionChanged="Accent_ComboBox_SelectionChanged">
+                                <ComboBoxItem Content="Twitch Purple" Tag="TwitchPurple" />
+                                <ComboBoxItem Content="Nanoleaf Green" Tag="NanoleafGreen" />
+                                <ComboBoxItem Content="Windows Blue" Tag="WindowsBlue" />
+                                <ComboBoxItem Content="Coral" Tag="Coral" />
+                            </ComboBox>
+                        </StackPanel>
+                    </Border>
+                  </WrapPanel>
+                </ScrollViewer>
             </TabItem>
             <TabItem x:Name="Streamlabs_Tabitem"  Header="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_Title}">
-                <Grid Background="#FFE5E5E5" Margin="0">
-                    <Button x:Name="StreamlabsLink_Button" Content="{x:Static p:Resources.Windows_Main_Tabs_Streamlabs_LinkStreamlabs_Label}" HorizontalAlignment="Center" Margin="0,177,0,0" VerticalAlignment="Top" Padding="5,1" Click="StreamlabsLink_Button_Click" UseLayoutRounding="True" />
-                    <Image x:Name="Streamlabs_Image" HorizontalAlignment="Left" Height="100" Margin="156,10,0,0" VerticalAlignment="Top" Width="100" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" />
-                    <Button x:Name="StreamlabsUnlink_Button" Content="{x:Static p:Resources.Windows_Main_Tabs_Streamlabs_UnLinkStreamlabs_Label}" HorizontalAlignment="Center" VerticalAlignment="Top" IsEnabled="False" Padding="5,1" Click="StreamlabsUnlink_Button_Click" Margin="0,202,0,0" />
-                    <TextBlock x:Name="StreamlabsInfo_TextBlock" HorizontalAlignment="Center" Margin="0,132,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="172" Height="43" ScrollViewer.VerticalScrollBarVisibility="Disabled" TextAlignment="Center" Text="{x:Static p:Resources.Windows_Main_Tabs_Streamlabs_Linktext_Textblock1}" />
-                    <Image HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="100" Source="/NanoTwitchLeafs;component/Assets/streamlabs_logo.png" />
-                    <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Bottom" Padding="5,0" TextAlignment="Center" Text="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_BottomText_Texblock}" Margin="0,0,0,20" />
-                    <Button x:Name="StreamlabsConnectButton"  Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_ConnectButton_Text}" HorizontalAlignment="Center" Height="20" Margin="0,291,0,0" VerticalAlignment="Top" Click="StreamlabsConnectButton_Click" IsEnabled="False" Padding="5,1" />
-                    <Button x:Name="StreamlabsDisconnectButton" Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_DisconnectButton_Text}" HorizontalAlignment="Center" Height="20" Margin="0,316,0,0" VerticalAlignment="Top" IsEnabled="False" Click="StreamlabsDisconnectButton_Click" Padding="5,1" />
-                </Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="680" Margin="18" TextElement.FontSize="14">
+                    <Border Style="{StaticResource NtlCardStyle}"><StackPanel>
+                        <Grid HorizontalAlignment="Center" Margin="0,0,0,12"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><Image Height="115" Width="150" Source="/NanoTwitchLeafs;component/Assets/streamlabs_logo.png" Margin="0,0,18,0"/><Image x:Name="Streamlabs_Image" Grid.Column="1" Height="115" Width="115" Source="/NanoTwitchLeafs;component/Assets/nanotwitchleafs_error_logo.png" Margin="18,0,0,0"/></Grid>
+                        <TextBlock x:Name="StreamlabsInfo_TextBlock" TextWrapping="Wrap" TextAlignment="Center" FontSize="15" Text="{x:Static p:Resources.Windows_Main_Tabs_Streamlabs_Linktext_Textblock1}" Margin="0,0,0,14"/>
+                        <Button x:Name="StreamlabsLink_Button" Content="{x:Static p:Resources.Windows_Main_Tabs_Streamlabs_LinkStreamlabs_Label}" Click="StreamlabsLink_Button_Click" Margin="70,0,70,8"/>
+                        <Button x:Name="StreamlabsUnlink_Button" Content="{x:Static p:Resources.Windows_Main_Tabs_Streamlabs_UnLinkStreamlabs_Label}" IsEnabled="False" Click="StreamlabsUnlink_Button_Click" Margin="70,0,70,18"/>
+                        <Button x:Name="StreamlabsConnectButton" Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_ConnectButton_Text}" Click="StreamlabsConnectButton_Click" IsEnabled="False" Margin="70,0,70,8"/>
+                        <Button x:Name="StreamlabsDisconnectButton" Content="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_DisconnectButton_Text}" IsEnabled="False" Click="StreamlabsDisconnectButton_Click" Margin="70,0,70,0"/>
+                    </StackPanel></Border>
+                    <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_BottomText_Texblock}" Margin="10,16,10,0"/>
+                </StackPanel></ScrollViewer>
             </TabItem>
             <TabItem x:Name="HypeRate_Tabitem"  Header="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Title}">
-                <Grid Background="#FFE5E5E5" Margin="0">
-                    <Image HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Source="/NanoTwitchLeafs;component/Assets/hypeRateLogo.png" Height="106" Width="128" />
-                    <Label Content="HypeRate ID:" HorizontalAlignment="Left" Margin="10,129,0,0" VerticalAlignment="Top" />
-                    <TextBox x:Name="hypeRateId_Textbox" HorizontalAlignment="Left" Margin="95,133,0,0" TextWrapping="Wrap" Text="HypeRateId" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="121" />
-                    <Button x:Name="HypeRateConnect_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Connect}" HorizontalAlignment="Center" Margin="10,160,10,0" VerticalAlignment="Top" Click="HypeRateConnect_Button_Click" Padding="5,1" />
-                    <Label x:Name="hypeRate_Label" Content="0" HorizontalAlignment="Center" Margin="0,240,0,0" VerticalAlignment="Top" FontSize="72" Height="94" />
-                    <Label Content="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Heartrate_Label}" HorizontalAlignment="Center" Margin="78,209,78,0" VerticalAlignment="Top" />
-                    <Button x:Name="HypeRateDisconnect_Button" Content="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Disconnect_Button}" HorizontalAlignment="Center" Margin="10,185,10,0" VerticalAlignment="Top" Click="HypeRateDisconnect_Button_Click" IsEnabled="False" Padding="5,1" />
-                    <fa5:ImageAwesome Icon="Brands_Discord" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="#FF8B9BD4" Canvas.Left="116" Canvas.Top="212" Height="25" Width="25" Margin="-80,0,0,100" />
-                    <Label x:Name="HypeRateDiscord_Label" Content="HypeRate Discord" HorizontalAlignment="Center" Margin="60,0,0,100" VerticalAlignment="Bottom" Foreground="#FF0C3BDA" MouseDown="HypeRateDiscord_Label_MouseDown" />
-                    <Label x:Name="HypeRateWebsite_Label" Content="HypeRate.io" HorizontalAlignment="Center" Margin="60,0,0,50" VerticalAlignment="Bottom" Foreground="#FF0C3BDA" MouseDown="HypeRateWebsite_Label_MouseDown" />
-                    <Image HorizontalAlignment="Center" Margin="-80,0,0,50" VerticalAlignment="Bottom" Source="/NanoTwitchLeafs;component/Assets/hypeRateLogo.png" Height="27" Width="29" />
-                </Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="620" Margin="18" TextElement.FontSize="14">
+                    <Border Style="{StaticResource NtlCardStyle}"><StackPanel>
+                        <Image Source="/NanoTwitchLeafs;component/Assets/hypeRateLogo.png" Height="125" Width="150" Margin="0,0,0,12"/>
+                        <Grid Margin="50,0,50,10"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition/></Grid.ColumnDefinitions><Label Content="HypeRate ID:" FontSize="15" Margin="0,0,10,0"/><TextBox x:Name="hypeRateId_Textbox" Grid.Column="1" Text="HypeRateId"/></Grid>
+                        <Button x:Name="HypeRateConnect_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Connect}" Click="HypeRateConnect_Button_Click" Margin="100,0,100,8"/>
+                        <Button x:Name="HypeRateDisconnect_Button" Content="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Disconnect_Button}" Click="HypeRateDisconnect_Button_Click" IsEnabled="False" Margin="100,0,100,14"/>
+                        <Label Content="{x:Static p:Resources.Windows_Main_Tabs_Hyperate_Heartrate_Label}" HorizontalContentAlignment="Center" FontSize="15"/>
+                        <Label x:Name="hypeRate_Label" Content="0" HorizontalContentAlignment="Center" FontSize="72"/>
+                    </StackPanel></Border>
+                    <WrapPanel HorizontalAlignment="Center" Margin="0,14,0,0"><fa5:ImageAwesome Icon="Brands_Discord" Height="25" Width="25" Foreground="{DynamicResource NtlTextBrush}"/><Label x:Name="HypeRateDiscord_Label" Content="HypeRate Discord" Foreground="{DynamicResource NtlAccentBrush}" MouseDown="HypeRateDiscord_Label_MouseDown" Margin="4,0,20,0"/><Image Source="/NanoTwitchLeafs;component/Assets/hypeRateLogo.png" Height="27" Width="29"/><Label x:Name="HypeRateWebsite_Label" Content="HypeRate.io" Foreground="{DynamicResource NtlAccentBrush}" MouseDown="HypeRateWebsite_Label_MouseDown" Margin="4,0,0,0"/></WrapPanel>
+                </StackPanel></ScrollViewer>
             </TabItem>
             <TabItem x:Name="ApiSettings_Tabitem" Header="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="#FFE5E5E5">
-                    <StackPanel Margin="10,8,10,14">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Background="{DynamicResource NtlSurfaceBrush}">
+                    <StackPanel Margin="18" MaxWidth="680">
                         <Label Content="{x:Static p:Resources.Windows_Main_Tabs_ApiSettings_Title}" HorizontalAlignment="Center" FontSize="24" Margin="0,0,0,6" />
 
                         <Separator Margin="0,0,0,10" />
@@ -134,10 +188,41 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
+            <TabItem x:Name="StreamElements_TabItem" Header="StreamElements">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}">
+                    <StackPanel MaxWidth="680" Margin="18" TextElement.FontSize="14">
+                        <Border Style="{StaticResource NtlCardStyle}"><StackPanel>
+                            <Grid Margin="0,0,0,10"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBlock Text="StreamElements" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                                <Button x:Name="streamElementsHelp_Button" Grid.Column="1" Content="?" Width="38" Click="StreamElementsHelp_Button_Click"/>
+                            </Grid>
+                            <TextBlock x:Name="streamElementsDescription_TextBlock" TextWrapping="Wrap" Foreground="{DynamicResource NtlMutedTextBrush}" Margin="0,0,0,14"/>
+                            <CheckBox x:Name="streamElementsEnabled_CheckBox" Margin="0,0,0,8"/>
+                            <CheckBox x:Name="streamElementsAutoConnect_CheckBox" Margin="0,0,0,14"/>
+                            <TextBlock x:Name="streamElementsTokenType_Label" Margin="0,0,0,4"/>
+                            <ComboBox x:Name="streamElementsTokenType_ComboBox" Margin="0,0,0,10"><ComboBoxItem Tag="jwt" Content="JWT"/><ComboBoxItem Tag="apikey" Content="Overlay token"/></ComboBox>
+                            <TextBlock x:Name="streamElementsToken_Label" Margin="0,0,0,4"/>
+                            <PasswordBox x:Name="streamElementsToken_PasswordBox" Margin="0,0,0,12"/>
+                            <Grid Margin="0,0,0,10"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+                                <Button x:Name="streamElementsConnect_Button" Click="StreamElementsConnect_Button_Click" Margin="0,0,6,0"/>
+                                <Button x:Name="streamElementsDisconnect_Button" Grid.Column="1" Click="StreamElementsDisconnect_Button_Click" Margin="6,0,0,0" IsEnabled="False"/>
+                            </Grid>
+                            <TextBlock x:Name="streamElementsStatus_TextBlock" TextWrapping="Wrap" Margin="0,0,0,16"/>
+                            <Separator Margin="0,0,0,14"/>
+                            <TextBlock x:Name="streamElementsTestHeading_TextBlock" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="100"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <TextBox x:Name="streamElementsTestUser_TextBox" Text="Test" Margin="0,0,8,0"/>
+                                <TextBox x:Name="streamElementsTestAmount_TextBox" Grid.Column="1" Text="1,00" HorizontalContentAlignment="Center" Margin="0,0,8,0"/>
+                                <Button x:Name="streamElementsTest_Button" Grid.Column="2" Click="StreamElementsTest_Button_Click"/>
+                            </Grid>
+                        </StackPanel></Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
         </TabControl>
-        <TabControl x:Name="chatconsole_TabControl" Margin="0,0,1,0" SelectionChanged="ChatConsole_TabControl_SelectionChanged">
+        <TabControl x:Name="chatconsole_TabControl" Grid.Column="1" Margin="20,20,20,76" SelectionChanged="ChatConsole_TabControl_SelectionChanged">
             <TabItem x:Name="chat_Tabitem" Header="{x:Static p:Resources.Window_Main_Tabs_Chat_Title}">
-                <Grid Background="#FFE5E5E5" Margin="0">
+                <Grid Background="{DynamicResource NtlSurfaceBrush}" Margin="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
@@ -147,12 +232,82 @@
                 </Grid>
             </TabItem>
             <TabItem x:Name="console_Tabitem" Header="{x:Static p:Resources.Window_Main_Tabs_Console_Title}">
-                <Grid Background="#FFE5E5E5">
-                    <ListBox x:Name="console_ListBox" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top" Margin="2" />
+                <Grid Background="{DynamicResource NtlSurfaceBrush}" Margin="0">
+                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+                    <Grid Margin="10,10,10,8" Height="36"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="150"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                        <Grid Margin="0,0,8,0"><TextBox x:Name="consoleSearch_TextBox" TextChanged="ConsoleFilter_Changed" VerticalContentAlignment="Center"/><TextBlock x:Name="consoleSearchHint_TextBlock" IsHitTestVisible="False" VerticalAlignment="Center" Margin="10,0" Foreground="{DynamicResource NtlMutedTextBrush}"/></Grid>
+                        <ComboBox x:Name="consoleLevelFilter_ComboBox" Grid.Column="1" SelectionChanged="ConsoleFilter_Changed" Margin="0,0,8,0"><ComboBoxItem Tag="All"/><ComboBoxItem Tag="INFO"/><ComboBoxItem Tag="WARN"/><ComboBoxItem Tag="ERROR"/><ComboBoxItem Tag="DEBUG"/></ComboBox>
+                        <Button x:Name="consoleClear_Button" Grid.Column="2" Click="ConsoleClear_Button_Click" Margin="0,0,8,0" VerticalAlignment="Stretch"/>
+                        <Button x:Name="consoleOpenLog_Button" Grid.Column="3" Click="ConsoleOpenLog_Button_Click" Margin="0,0,8,0" VerticalAlignment="Stretch"/>
+                        <Button x:Name="consoleSupportLog_Button" Grid.Column="4" Click="ConsoleSupportLog_Button_Click" Margin="0,0,12,0" VerticalAlignment="Stretch"/>
+                        <CheckBox x:Name="consoleAutoScroll_CheckBox" Grid.Column="5" IsChecked="True" Checked="ConsoleAutoScroll_CheckBox_Changed" Unchecked="ConsoleAutoScroll_CheckBox_Changed" VerticalAlignment="Center" Margin="0,0,12,0" RenderTransformOrigin="0.5,0.5"><CheckBox.RenderTransform><TranslateTransform Y="5"/></CheckBox.RenderTransform></CheckBox>
+                        <TextBlock x:Name="consoleResultCount_TextBlock" Grid.Column="6" VerticalAlignment="Center" Foreground="{DynamicResource NtlMutedTextBrush}"/>
+                    </Grid>
+                    <ListBox x:Name="console_ListBox" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top" Margin="10,2,10,10" SelectionMode="Extended">
+                        <ListBox.ContextMenu><ContextMenu><MenuItem x:Name="consoleCopySelected_MenuItem" Click="ConsoleCopySelected_MenuItem_Click"/><MenuItem x:Name="consoleCopyVisible_MenuItem" Click="ConsoleCopyVisible_MenuItem_Click"/></ContextMenu></ListBox.ContextMenu>
+                        <ListBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Message}" TextWrapping="Wrap" Padding="2"><TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}"/><Style.Triggers><DataTrigger Binding="{Binding Level}" Value="WARN"><Setter Property="Foreground" Value="{DynamicResource NtlWarningBrush}"/></DataTrigger><DataTrigger Binding="{Binding Level}" Value="ERROR"><Setter Property="Foreground" Value="{DynamicResource NtlErrorBrush}"/></DataTrigger><DataTrigger Binding="{Binding Level}" Value="DEBUG"><Setter Property="Foreground" Value="{DynamicResource NtlDebugBrush}"/></DataTrigger></Style.Triggers></Style></TextBlock.Style></TextBlock></DataTemplate></ListBox.ItemTemplate>
+                    </ListBox>
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="Save_Button" Content="{x:Static p:Resources.Window_Main_Button_Save}" HorizontalAlignment="Left" Margin="5,0,0,5" Width="184" Click="Save_Button_Click" Grid.Column="1" HorizontalContentAlignment="Center" Height="20" VerticalAlignment="Bottom" />
-        <Button x:Name="appInfo_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Chat_Button_Info}" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,5,5" Width="127" Click="AppInfo_Button_Click" Height="20" VerticalAlignment="Bottom" />
+        <ContentControl x:Name="triggerManager_Host" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+        <ContentControl x:Name="appInfo_Host" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+        <ContentControl x:Name="management_Host" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+        <Grid x:Name="blocklistPanel" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed">
+            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+            <Grid Margin="6,0,6,10"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                <StackPanel><TextBlock x:Name="blocklistHeading_TextBlock" FontSize="22" FontWeight="SemiBold"/><TextBlock x:Name="blocklistDescription_TextBlock" TextWrapping="Wrap" Foreground="{DynamicResource NtlMutedTextBrush}" Margin="0,3,20,0"/></StackPanel>
+                <Button x:Name="blocklistHelp_Button" Grid.Column="1" Content="?" Width="38" Click="BlocklistHelp_Button_Click" Margin="0,0,8,0"/>
+                <Button x:Name="blocklistBack_Button" Grid.Column="2" Click="BlocklistBack_Button_Click" MinWidth="110"/>
+            </Grid>
+            <Border Grid.Row="1" Style="{StaticResource NtlCardStyle}"><Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                <CheckBox x:Name="blacklist_CheckBox" Click="blacklist_CheckBox_Click" Margin="0,0,0,12"/>
+                <Grid Grid.Row="1" Margin="0,0,0,10"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBox x:Name="blocklistInput_TextBox" KeyDown="BlocklistInput_TextBox_KeyDown"/><Button x:Name="blocklistAdd_Button" Grid.Column="1" Click="BlocklistAdd_Button_Click" Margin="8,0,0,0" MinWidth="110"/></Grid>
+                <TextBox x:Name="blocklistSearch_TextBox" Grid.Row="2" TextChanged="BlocklistSearch_TextBox_TextChanged" Margin="0,0,0,10"/>
+                <ListBox x:Name="blocklist_ListBox" Grid.Row="3" MinHeight="180" SelectionChanged="Blocklist_ListBox_SelectionChanged"/>
+                <Grid Grid.Row="4" Margin="0,10,0,0"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><Button x:Name="blocklistRemove_Button" IsEnabled="False" Click="BlocklistRemove_Button_Click" Margin="0,0,6,0"/><Button x:Name="blocklistClear_Button" Grid.Column="1" Click="BlocklistClear_Button_Click" Margin="6,0,0,0"/></Grid>
+            </Grid></Border>
+        </Grid>
+        <Grid x:Name="helpPanel" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed">
+            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+            <Grid Margin="6,0,6,10">
+                <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="{x:Static p:Resources.General_Button_Help}" FontSize="22" FontWeight="SemiBold"/>
+                    <TextBlock Text="NanoTwitchLeafs 4" Foreground="{DynamicResource NtlMutedTextBrush}" Margin="0,3,0,0"/>
+                </StackPanel>
+                <Button Grid.Column="1" Content="{x:Static p:Resources.General_Button_Back}" Click="HelpBack_Button_Click" MinWidth="110"/>
+            </Grid>
+            <TabControl x:Name="help_TabControl" Grid.Row="1" SelectionChanged="Help_TabControl_SelectionChanged">
+                <TabItem Header="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_General}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="18" TextElement.FontSize="14">
+                        <Border Style="{StaticResource NtlCardStyle}"><StackPanel><TextBlock Text="NanoTwitchLeafs 4" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,8"/><TextBlock Text="{x:Static p:Resources.Window_Main_Modern_Subtitle}" TextWrapping="Wrap"/><TextBlock x:Name="generalCommandHelp_TextBlock" TextWrapping="Wrap" Margin="0,10,0,0"/></StackPanel></Border>
+                    </StackPanel></ScrollViewer>
+                </TabItem>
+                <TabItem Header="{x:Static p:Resources.Window_Main_Tabs_Nano_Title}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="18" TextElement.FontSize="14"><Border Style="{StaticResource NtlCardStyle}"><StackPanel><TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Nano_Title}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,8"/><TextBlock Text="{x:Static p:Resources.Code_Main_MessageBox_AutoRestore}" TextWrapping="Wrap"/></StackPanel></Border><Border Style="{StaticResource NtlCardStyle}" Margin="0,12,0,0"><StackPanel><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_Targets_Title}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,8"/><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_Targets_Body}" TextWrapping="Wrap"/></StackPanel></Border></StackPanel></ScrollViewer>
+                </TabItem>
+                <TabItem Header="{x:Static p:Resources.Window_TriggerHelp_Heading}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="18" TextElement.FontSize="14">
+                        <Border Style="{StaticResource NtlCardStyle}"><StackPanel><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_Types_Title}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,7"/><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_Types_Body}" TextWrapping="Wrap"/></StackPanel></Border>
+                        <Border Style="{StaticResource NtlCardStyle}" Margin="0,10,0,0"><StackPanel><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_Chat_Title}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,7"/><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_Chat_Body}" TextWrapping="Wrap"/></StackPanel></Border>
+                        <Border Style="{StaticResource NtlCardStyle}" Margin="0,10,0,0"><StackPanel><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_ChannelPoints_Title}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,7"/><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_ChannelPoints_Body}" TextWrapping="Wrap"/></StackPanel></Border>
+                        <Border Style="{StaticResource NtlCardStyle}" Margin="0,10,0,0"><StackPanel><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_Effect_Title}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,7"/><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_Effect_Body}" TextWrapping="Wrap"/></StackPanel></Border>
+                        <Border Style="{StaticResource NtlCardStyle}" Margin="0,10,0,0"><StackPanel><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_Options_Title}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,7"/><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_Options_Body}" TextWrapping="Wrap"/></StackPanel></Border>
+                        <Border Style="{StaticResource NtlCardStyle}" Margin="0,10,0,0"><StackPanel><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_Targets_Title}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,7"/><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_Targets_Body}" TextWrapping="Wrap"/></StackPanel></Border>
+                        <Border Style="{StaticResource NtlCardStyle}" Margin="0,10,0,0"><StackPanel><TextBlock x:Name="p24TriggerHelpHeading_TextBlock" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,7"/><TextBlock x:Name="p24TriggerHelpBody_TextBlock" TextWrapping="Wrap"/></StackPanel></Border>
+                    </StackPanel></ScrollViewer>
+                </TabItem>
+                <TabItem Header="{x:Static p:Resources.Window_Responses_Title}"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="18"><Border Style="{StaticResource NtlCardStyle}"><StackPanel><TextBlock Text="{x:Static p:Resources.Window_Responses_Title}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,8"/><TextBlock Text="{x:Static p:Resources.Window_ResponsesHelp_Text}" TextWrapping="Wrap" FontSize="14"/></StackPanel></Border></StackPanel></ScrollViewer></TabItem>
+                <TabItem Header="{x:Static p:Resources.Window_Devices_Title}"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="18"><Border Style="{StaticResource NtlCardStyle}"><StackPanel><TextBlock Text="{x:Static p:Resources.Window_Devices_Title}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,8"/><TextBlock Text="{x:Static p:Resources.Window_TriggerHelp_Targets_Body}" TextWrapping="Wrap" FontSize="14"/></StackPanel></Border></StackPanel></ScrollViewer></TabItem>
+                <TabItem Header="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="18"><Border Style="{StaticResource NtlCardStyle}"><StackPanel><TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Title}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,8"/><TextBlock Text="{x:Static p:Resources.Window_TwitchLink_Single_Help}" TextWrapping="Wrap" FontSize="14"/><TextBlock Text="{x:Static p:Resources.Window_TwitchLink_Double_Help}" TextWrapping="Wrap" FontSize="14" Margin="0,10,0,0"/></StackPanel></Border><Border Style="{StaticResource NtlCardStyle}" Margin="0,12,0,0"><StackPanel><TextBlock x:Name="blocklistHelpHeading_TextBlock" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,8"/><TextBlock x:Name="blocklistHelpBody_TextBlock" TextWrapping="Wrap" FontSize="14"/></StackPanel></Border></StackPanel></ScrollViewer></TabItem>
+                <TabItem Header="{x:Static p:Resources.Window_Main_Navigation_Integrations}"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="18"><Border Style="{StaticResource NtlCardStyle}"><StackPanel><TextBlock Text="{x:Static p:Resources.Window_Main_Navigation_Integrations}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,8"/><TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Streamlabs_BottomText_Texblock}" TextWrapping="Wrap" FontSize="14"/></StackPanel></Border></StackPanel></ScrollViewer></TabItem>
+                <TabItem x:Name="streamElementsHelp_TabItem"><ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel Margin="18"><Border Style="{StaticResource NtlCardStyle}"><StackPanel><TextBlock Text="StreamElements" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,8"/><TextBlock x:Name="streamElementsHelpBody_TextBlock" TextWrapping="Wrap" FontSize="14"/></StackPanel></Border></StackPanel></ScrollViewer></TabItem>
+            </TabControl>
+        </Grid>
+        <Border x:Name="toast_Border" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="20,0,20,24" Padding="18,10" CornerRadius="7" Background="{DynamicResource NtlNavigationBrush}" BorderBrush="{DynamicResource NtlAccentBrush}" BorderThickness="1" Visibility="Collapsed" Panel.ZIndex="20"><TextBlock x:Name="toast_TextBlock" TextWrapping="Wrap" MaxWidth="700"/></Border>
+        <TextBlock x:Name="unsavedChanges_TextBlock" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,260,32" Foreground="{DynamicResource NtlWarningBrush}" FontWeight="SemiBold" Visibility="Collapsed"/>
+        <Button x:Name="Save_Button" Content="{x:Static p:Resources.Window_Main_Button_Save}" HorizontalAlignment="Right" Margin="0,0,20,20" Width="220" Click="Save_Button_Click" Grid.Column="1" HorizontalContentAlignment="Center" Height="42" VerticalAlignment="Bottom" Style="{StaticResource NtlPrimaryButtonStyle}" />
+        </Grid>
     </Grid>
 </Window>

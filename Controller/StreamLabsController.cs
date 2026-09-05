@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace NanoTwitchLeafs.Controller
 {
-	public delegate void OnDonationRecieved(double amount, string username);
+	public delegate void OnDonationRecieved(DonationEvent donation);
 
 	public class StreamlabsController
 	{
@@ -65,7 +65,15 @@ namespace NanoTwitchLeafs.Controller
 			{
 				var amount = Convert.ToDouble(eventObj.message[0].amount.ToString());
 				var username = eventObj.message[0].from.ToString();
-				OnDonationRecieved?.Invoke(amount, username);
+				OnDonationRecieved?.Invoke(new DonationEvent
+				{
+					Provider = "Streamlabs",
+					Amount = amount,
+					Username = username,
+					Currency = eventObj.message[0].currency?.ToString() ?? string.Empty,
+					Message = eventObj.message[0].message?.ToString() ?? string.Empty,
+					EventId = eventObj.message[0]._id?.ToString() ?? string.Empty
+				});
 			}
 		}
 
@@ -165,54 +173,28 @@ namespace NanoTwitchLeafs.Controller
 		{
 			_logger.Info("Exchanging code for tokens...");
 
-			// builds the  request
-			string tokenRequestBody = $"code={code}&redirect_uri={Uri.EscapeDataString(RedirectUri)}&client_id={apiCedentials.ClientId}&client_secret={apiCedentials.ClientSecret}&grant_type=authorization_code";
-
-			// sends the request
-			var tokenRequest = (HttpWebRequest)WebRequest.Create($"{StreamlabsAPI}{TokenEndpoint}");
-			tokenRequest.Method = "POST";
-			tokenRequest.ContentType = "application/x-www-form-urlencoded";
-			tokenRequest.Accept = "Accept=text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
-			tokenRequest.ProtocolVersion = HttpVersion.Version10;
-
-			var byteVersion = Encoding.ASCII.GetBytes(tokenRequestBody);
-			tokenRequest.ContentLength = byteVersion.Length;
-			var stream = tokenRequest.GetRequestStream();
-			await stream.WriteAsync(byteVersion, 0, byteVersion.Length);
-			stream.Close();
-
-			try
-			{
-				// gets the response
-				var tokenResponse = await tokenRequest.GetResponseAsync();
-				using (var reader = new StreamReader(tokenResponse.GetResponseStream()))
+				try
 				{
-					// reads response body
-					string responseText = await reader.ReadToEndAsync();
+					using var httpClient = new HttpClient();
+					using var requestContent = new FormUrlEncodedContent(new Dictionary<string, string>
+					{
+						["code"] = code,
+						["redirect_uri"] = RedirectUri,
+						["client_id"] = apiCedentials.ClientId,
+						["client_secret"] = apiCedentials.ClientSecret,
+						["grant_type"] = "authorization_code"
+					});
+					using HttpResponseMessage response = await httpClient.PostAsync($"{StreamlabsAPI}{TokenEndpoint}", requestContent);
+					string responseText = await response.Content.ReadAsStringAsync();
 					_logger.Debug("Response: " + responseText);
-
-					// converts to dictionary
+					response.EnsureSuccessStatusCode();
 					var tokenEndpointDecoded = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseText);
-
 					return tokenEndpointDecoded["access_token"];
 				}
-			}
-			catch (WebException ex)
-			{
-				if (ex.Status == WebExceptionStatus.ProtocolError)
+				catch (HttpRequestException ex)
 				{
-					if (ex.Response is HttpWebResponse response)
-					{
-						_logger.Debug("HTTP: " + response.StatusCode);
-						using (var reader = new StreamReader(response.GetResponseStream()))
-						{
-							// reads response body
-							string responseText = await reader.ReadToEndAsync();
-							_logger.Debug("Response: " + responseText);
-						}
-					}
+					_logger.Error("Streamlabs token exchange failed.", ex);
 				}
-			}
 
 			return null;
 		}

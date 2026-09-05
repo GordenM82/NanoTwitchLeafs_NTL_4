@@ -16,7 +16,7 @@
     <PublishSingleFile>false</PublishSingleFile>
     <PublishReadyToRun>false</PublishReadyToRun>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <GenerateSupportedOSPlatformAttribute>false</GenerateSupportedOSPlatformAttribute>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
     <LangVersion>latest</LangVersion>
     <Nullable>disable</Nullable>
     <ImplicitUsings>disable</ImplicitUsings>
@@ -37,6 +37,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="sqlite-net-pcl" Version="1.11.285" />
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="3.53.3" />
     <PackageReference Include="TwitchLib.Api" Version="3.10.0-preview-4e0146c" />
     <PackageReference Include="TwitchLib.Client" Version="3.3.1" />
     <PackageReference Include="TwitchLib.EventSub.Core" Version="2.5.3-preview-ce9df77" />
@@ -53,4 +54,3 @@
     <Resource Include="Assets\nanotwitchleafs.ico" />
   </ItemGroup>
 </Project>
-

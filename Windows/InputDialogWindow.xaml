@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.Window_NanoDeviceInput_Title}" Height="98" Width="384.5" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
-    <Grid>
-        <TextBox x:Name="inputDialog_TextBox" HorizontalAlignment="Center" Height="20" Margin="10,10,10,0" TextWrapping="Wrap" Text="New Nanoleaf Device" VerticalAlignment="Top" Width="347" VerticalContentAlignment="Center" />
-        <TextBlock x:Name="inputDialog_Label" TextWrapping="Wrap" Text="{x:Static p:Resources.Window_NanoDeviceInput_Text}" HorizontalAlignment="Left" Margin="19,30,0,0" VerticalAlignment="Top" Width="259" Height="34" />
-        <Button x:Name="inputDialog_Button" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Left" Margin="283,35,0,0" VerticalAlignment="Top" Width="75" Click="InputDialog_Button_Click" />
+        Title="{x:Static p:Resources.Window_NanoDeviceInput_Title}" Height="180" Width="480" MinWidth="400" ResizeMode="CanResize" WindowStartupLocation="CenterOwner" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}">
+    <Grid Margin="18">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <TextBlock x:Name="inputDialog_Label" TextWrapping="Wrap" Text="{x:Static p:Resources.Window_NanoDeviceInput_Text}" Foreground="{DynamicResource NtlTextBrush}" Margin="0,0,0,10" />
+        <TextBox x:Name="inputDialog_TextBox" Grid.Row="1" TextWrapping="NoWrap" Text="" VerticalContentAlignment="Center" MinHeight="36" Foreground="{DynamicResource NtlTextBrush}" Background="{DynamicResource NtlInputBrush}" />
+        <Button x:Name="inputDialog_Button" Grid.Row="2" Content="{x:Static p:Resources.General_Button_OK}" HorizontalAlignment="Right" MinWidth="100" Margin="0,12,0,0" Click="InputDialog_Button_Click" />
     </Grid>
 </Window>

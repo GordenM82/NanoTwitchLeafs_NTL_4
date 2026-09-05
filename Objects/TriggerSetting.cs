@@ -22,6 +22,11 @@ namespace NanoTwitchLeafs.Objects
 		public string SoundFilePath { get; set; }
 		public int? Volume { get; set; } = 50;
 		public double Amount { get; set; } = 0;
+		/// <summary>
+		/// Donation source filter: All, Streamlabs or StreamElements.
+		/// Empty values from older files are treated as All.
+		/// </summary>
+		public string DonationProvider { get; set; } = "All";
 		public double Duration { get; set; } = 10;
 		public int Brightness { get; set; } = 50;
 		public double Cooldown { get; set; } = 0;

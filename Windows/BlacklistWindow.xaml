@@ -4,7 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Blocklist" Height="450" Width="275" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Title="Blocklist" Height="450" Width="275" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}">
     <Grid x:Name="Blacklist_Grid">
         <ListBox x:Name="blacklist_ListBox" Margin="10,35,10,10" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Auto" RenderTransformOrigin="0.5,0.5" FontSize="14">
             <ListBox.RenderTransform>

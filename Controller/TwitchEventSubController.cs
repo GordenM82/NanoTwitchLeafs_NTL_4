@@ -117,7 +117,7 @@ public class TwitchEventSubController : IDisposable
         IsConnected = false;
     }
 
-    private async Task  OnWebsocketConnected(object? sender, WebsocketConnectedArgs e)
+    private async Task  OnWebsocketConnected(object sender, WebsocketConnectedArgs e)
     { 
         IsConnected = true;
         _logger.Info($"Websocket {_eventSubWebsocketClient.SessionId} connected!");
@@ -191,7 +191,7 @@ public class TwitchEventSubController : IDisposable
         }
     }
 
-    private async Task OnWebsocketDisconnected(object? sender, EventArgs e)
+    private async Task OnWebsocketDisconnected(object sender, EventArgs e)
     {
         IsConnected = false;
         _logger.Error($"Websocket {_eventSubWebsocketClient.SessionId} disconnected!");
@@ -204,18 +204,18 @@ public class TwitchEventSubController : IDisposable
         }
     }
 
-    private async Task OnWebsocketReconnected(object? sender, EventArgs e)
+    private async Task OnWebsocketReconnected(object sender, EventArgs e)
     {
         _logger.Warn($"Websocket {_eventSubWebsocketClient.SessionId} reconnected");
         IsConnected = true;
     }      
   
-    private async Task OnErrorOccurred(object? sender, ErrorOccuredArgs e)
+    private async Task OnErrorOccurred(object sender, ErrorOccuredArgs e)
     {
         _logger.Error($"Websocket {_eventSubWebsocketClient.SessionId} - Error occurred!");
     }
 
-    private async Task OnChannelFollow(object? sender, ChannelFollowArgs e)
+    private async Task OnChannelFollow(object sender, ChannelFollowArgs e)
     {
         var eventData = e.Notification.Payload.Event;
         OnFollow?.Invoke(eventData.UserName);

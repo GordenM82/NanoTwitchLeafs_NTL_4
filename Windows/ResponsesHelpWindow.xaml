@@ -6,8 +6,8 @@
         xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
         xmlns:local="clr-namespace:NanoTwitchLeafs.Windows"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.Window_ResponsesHelp_Title}" Height="281.121" Width="577.193" ResizeMode="NoResize">
-    <Grid>
-        <TextBlock Margin="10,0" TextWrapping="Wrap"><Label Content="{x:Static p:Resources.Window_ResponsesHelp_Text}" Height="247"></Label></TextBlock>
+        Title="{x:Static p:Resources.Window_ResponsesHelp_Title}" Height="440" Width="680" MinHeight="320" MinWidth="520" ResizeMode="CanResize" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}">
+    <Grid Margin="18">
+        <Border Style="{StaticResource NtlCardStyle}"><ScrollViewer VerticalScrollBarVisibility="Auto"><TextBlock Text="{x:Static p:Resources.Window_ResponsesHelp_Text}" TextWrapping="Wrap" Foreground="{DynamicResource NtlTextBrush}" Padding="4"/></ScrollViewer></Border>
     </Grid>
 </Window>

@@ -7,6 +7,7 @@ using NanoTwitchLeafs.Repositories;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,11 +28,13 @@ namespace NanoTwitchLeafs.Windows
 		private readonly AppSettingsController _appSettingsController;
 		private readonly ILog _logger = LogManager.GetLogger(typeof(TriggerWindow));
 		private readonly TwitchEventSubController _twitchEventSubController;
+		private readonly bool _saveAsCopy;
+		private bool _updatingTargetDevices;
 
 		private string _channelPointsGuid;
 		private TriggerSetting TriggerSetting { get; set; }
 
-		public TriggerDetailWindow(AppSettings appSettings, AppSettingsController appSettingsController, CommandRepository commandRepository, List<string> effectList, StreamlabsController streamLabsController, HypeRateIOController hypeRateIoController, TriggerSetting triggerSetting = null, TwitchEventSubController eventSubController = null)
+		public TriggerDetailWindow(AppSettings appSettings, AppSettingsController appSettingsController, CommandRepository commandRepository, List<string> effectList, StreamlabsController streamLabsController, HypeRateIOController hypeRateIoController, TriggerSetting triggerSetting = null, TwitchEventSubController eventSubController = null, bool saveAsCopy = false)
 		{
 			_commandRepository = commandRepository ?? throw new ArgumentNullException(nameof(commandRepository));
 			_streamLabsController = streamLabsController;
@@ -39,14 +42,21 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings = appSettings ?? throw new ArgumentNullException(nameof(appSettings));
 			_appSettingsController = appSettingsController ?? throw new ArgumentNullException(nameof(appSettingsController));
 			_twitchEventSubController = eventSubController;
+			_saveAsCopy = saveAsCopy;
 
 			Constants.SetCultureInfo(_appSettings.Language);
 			InitializeComponent();
+			if (_saveAsCopy) Title = Text("Window_TriggerDetail_Duplicate_Title");
+			Closed += TriggerDetailWindow_Closed;
 			AllDevices_CheckBox.Content = Text("Window_TriggerDetail_TargetDevices_All");
 			DeviceGroup_Label.Content = Text("Window_TriggerDetail_TargetDevices_Group");
 			ApplyDeviceGroup_Button.Content = Text("Window_TriggerDetail_TargetDevices_Apply");
 			ManageDeviceGroups_Button.Content = Text("Window_TriggerDetail_TargetDevices_Manage");
 			NoDeviceGroups_TextBlock.Text = Text("Window_TriggerDetail_TargetDevices_NoGroups");
+			DonationProvider_Label.Content = Text("P22_DonationProvider_Label");
+			if (DonationProvider_ComboBox.Items[0] is ComboBoxItem allProviders)
+				allProviders.Content = Text("P22_DonationProvider_All");
+			DonationProvider_ComboBox.SelectedIndex = 0;
 			InitializeTargetDevices();
 
 			if (_twitchEventSubController != null && _twitchEventSubController.IsConnected)
@@ -78,14 +88,17 @@ namespace NanoTwitchLeafs.Windows
 
 			foreach (NanoLeafDevice device in _appSettings.NanoSettings.NanoLeafDevices)
 			{
-				TargetDevices_ItemsControl.Items.Add(new CheckBox
+				var deviceCheckBox = new CheckBox
 				{
 					Content = device.PublicName,
 					Tag = device.DeviceName,
 					IsChecked = true,
 					Margin = new Thickness(5, 2, 15, 2),
 					MinWidth = 145
-				});
+				};
+				deviceCheckBox.Checked += TargetDeviceCheckBox_Changed;
+				deviceCheckBox.Unchecked += TargetDeviceCheckBox_Changed;
+				TargetDevices_ItemsControl.Items.Add(deviceCheckBox);
 			}
 
 			UpdateTargetDeviceControls();
@@ -99,6 +112,7 @@ namespace NanoTwitchLeafs.Windows
 				.ToList();
 			bool hasGroups = _appSettings.NanoSettings.DeviceGroups.Count > 0;
 			DeviceGroup_ComboBox.IsEnabled = hasGroups;
+			ApplyDeviceGroup_Button.IsEnabled = hasGroups;
 			NoDeviceGroups_TextBlock.Visibility = hasGroups ? Visibility.Collapsed : Visibility.Visible;
 			if (hasGroups)
 				DeviceGroup_ComboBox.SelectedIndex = 0;
@@ -111,14 +125,30 @@ namespace NanoTwitchLeafs.Windows
 				return;
 
 			var groupDevices = new HashSet<string>(group.DeviceNames ?? new List<string>(), StringComparer.OrdinalIgnoreCase);
+			_updatingTargetDevices = true;
 			AllDevices_CheckBox.IsChecked = false;
 			foreach (CheckBox checkBox in TargetDevices_ItemsControl.Items.OfType<CheckBox>())
 				checkBox.IsChecked = groupDevices.Contains(checkBox.Tag as string);
+			_updatingTargetDevices = false;
+			SynchronizeAllDevicesCheckBox();
 		}
 
 		private void ManageDeviceGroups_Button_Click(object sender, RoutedEventArgs e)
 		{
-			var window = new DeviceGroupsWindow(_appSettings, _appSettingsController) { Owner = this };
+			if (Application.Current.MainWindow is MainWindow mainWindow)
+			{
+				Hide();
+				mainWindow.ShowEmbeddedDeviceGroups(() =>
+				{
+					RefreshDeviceGroups();
+					Show();
+					Activate();
+				});
+				return;
+			}
+
+			var window = new DeviceGroupsWindow(_appSettings, _appSettingsController);
+			WindowPlacementService.PrepareOwnedWindow(window, this);
 			window.ShowDialog();
 
 			RefreshDeviceGroups();
@@ -126,6 +156,8 @@ namespace NanoTwitchLeafs.Windows
 
 		private void AllDevices_CheckBox_Changed(object sender, RoutedEventArgs e)
 		{
+			if (_updatingTargetDevices)
+				return;
 			UpdateTargetDeviceControls();
 		}
 
@@ -134,13 +166,27 @@ namespace NanoTwitchLeafs.Windows
 			if (TargetDevices_ItemsControl == null)
 				return;
 
-			bool allDevices = AllDevices_CheckBox.IsChecked == true;
+			if (AllDevices_CheckBox.IsChecked != true)
+				return;
+
+			_updatingTargetDevices = true;
 			foreach (CheckBox checkBox in TargetDevices_ItemsControl.Items.OfType<CheckBox>())
-			{
-				checkBox.IsEnabled = !allDevices;
-				if (allDevices)
-					checkBox.IsChecked = true;
-			}
+				checkBox.IsChecked = true;
+			_updatingTargetDevices = false;
+		}
+
+		private void TargetDeviceCheckBox_Changed(object sender, RoutedEventArgs e)
+		{
+			if (!_updatingTargetDevices)
+				SynchronizeAllDevicesCheckBox();
+		}
+
+		private void SynchronizeAllDevicesCheckBox()
+		{
+			var deviceCheckBoxes = TargetDevices_ItemsControl.Items.OfType<CheckBox>().ToList();
+			_updatingTargetDevices = true;
+			AllDevices_CheckBox.IsChecked = deviceCheckBoxes.Count > 0 && deviceCheckBoxes.All(checkBox => checkBox.IsChecked == true);
+			_updatingTargetDevices = false;
 		}
 
 		private string GetSelectedTargetDeviceNames()
@@ -156,13 +202,13 @@ namespace NanoTwitchLeafs.Windows
 
 		private void TwitchEventSubController_OnChannelPointsRedeemed(string username, string promt, string guid)
 		{
-			if (_appSettings.ChannelName.ToLower() != username.ToLower())
+			if (!string.Equals(_appSettings.ChannelName, username, StringComparison.OrdinalIgnoreCase))
 			{
 				return;
 			}
 
 			Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Foreground = Brushes.Green));
-			Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Content = string.Format(Properties.Resources.Code_TriggerDetail_Label_CPGuid, guid)));
+			Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Text = string.Format(Properties.Resources.Code_TriggerDetail_Label_CPGuid, guid)));
 			_channelPointsGuid = guid;
 		}
 
@@ -173,15 +219,18 @@ namespace NanoTwitchLeafs.Windows
 
 		private void InitData()
 		{
+			SelectDonationProvider(TriggerSetting.DonationProvider);
 			var selectedDeviceNames = new HashSet<string>(
 				(TriggerSetting.TargetDeviceNames ?? string.Empty)
 					.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
 			bool allDevices = selectedDeviceNames.Count == 0;
+			_updatingTargetDevices = true;
 			AllDevices_CheckBox.IsChecked = allDevices;
 			foreach (CheckBox checkBox in TargetDevices_ItemsControl.Items.OfType<CheckBox>())
 			{
 				checkBox.IsChecked = allDevices || selectedDeviceNames.Contains(checkBox.Tag as string);
 			}
+			_updatingTargetDevices = false;
 			UpdateTargetDeviceControls();
 
 			// Set On/Off Slider State
@@ -236,7 +285,8 @@ namespace NanoTwitchLeafs.Windows
 			}
 
 			// Check for Streamlabs Websocket Connection
-			if (!_streamLabsController._IsSocketConnected)
+			if ((_streamLabsController == null || !_streamLabsController._IsSocketConnected) &&
+				(_appSettings.StreamElements == null || !_appSettings.StreamElements.Enabled))
 			{
 				Donation_RadioButton.IsEnabled = false;
 			}
@@ -256,7 +306,7 @@ namespace NanoTwitchLeafs.Windows
 			if (TriggerSetting.ChannelPointsGuid != null && TriggerSetting.ChannelPointsGuid != "{00000000-0000-0000-0000-000000000000}")
 			{
 				Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Foreground = Brushes.Green));
-				Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Content = string.Format(Properties.Resources.Code_TriggerDetail_Label_CPGuidSet, TriggerSetting.ChannelPointsGuid)));
+				Dispatcher.BeginInvoke(new Action(() => channelPointsDetection_Label.Text = string.Format(Properties.Resources.Code_TriggerDetail_Label_CPGuidSet, TriggerSetting.ChannelPointsGuid)));
 			}
 
 			SetControlsEnabled();
@@ -459,6 +509,7 @@ namespace NanoTwitchLeafs.Windows
 					Subonly_Checkbox.IsEnabled = false;
 					Modonly_Checkbox.IsEnabled = false;
 					Cooldown_Textbox.IsEnabled = false;
+					DonationProvider_Grid.Visibility = Visibility.Visible;
 					break;
 
 				case "UsernameColor":
@@ -498,11 +549,32 @@ namespace NanoTwitchLeafs.Windows
 
 		private void Save_Button_Click(object sender, RoutedEventArgs e)
 		{
+			try
+			{
+				SaveTrigger();
+			}
+			catch (Exception exception)
+			{
+				_logger.Error("Trigger could not be saved.", exception);
+				MessageBox.Show(
+					Text("Window_TriggerDetail_Save_Error"),
+					Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
+
+		private void SaveTrigger()
+		{
 			// Do Value checks before attempt to Save
 			if (!ValueChecks())
 			{
 				return;
 			}
+
+			TryReadInt(Brightness_Textbox.Text, out int brightness);
+			TryReadInt(Volume_Textbox.Text, out int volume);
+			TryReadDouble(Amount_Textbox.Text, out double amount);
+			TryReadDouble(Duration_Textbox.Text, out double duration);
+			TryReadDouble(Cooldown_Textbox.Text, out double cooldown);
 
 			if (AllDevices_CheckBox.IsChecked != true &&
 				!TargetDevices_ItemsControl.Items.OfType<CheckBox>().Any(checkBox => checkBox.IsChecked == true))
@@ -516,7 +588,7 @@ namespace NanoTwitchLeafs.Windows
 			List<TriggerSetting> triggerSettings = _commandRepository.GetList().ToList();
 
 			// If Trigger already exists
-			if (TriggerSetting != null)
+			if (TriggerSetting != null && !_saveAsCopy)
 			{
 				// Search for existing Trigger and Remove it from List
 				foreach (TriggerSetting setting in triggerSettings)
@@ -625,7 +697,7 @@ namespace NanoTwitchLeafs.Windows
 				}
 				else
 				{
-					effect = Effect_ComboBox.SelectedItem.ToString();
+					effect = Effect_ComboBox.SelectedItem?.ToString() ?? string.Empty;
 				}
 			}
 			// Check for Invalid CP GUID
@@ -646,29 +718,27 @@ namespace NanoTwitchLeafs.Windows
 				color = (Color)ColorPicker.SelectedColor;
 			}
 
-			// Replace Comma with Point
-			Amount_Textbox.Text = Amount_Textbox.Text.Replace(",", ".");
-
 			// Create new TriggerSetting
 			TriggerSetting newTriggerSetting = new TriggerSetting
 			{
 				CMD = CommandKeyword_Textbox.Text,
 				IsActive = isActive,
-				Brightness = Convert.ToInt32(Brightness_Textbox.Text),
-				Cooldown = Convert.ToDouble(Cooldown_Textbox.Text),
-				Duration = Convert.ToDouble(Duration_Textbox.Text),
+				Brightness = brightness,
+				Cooldown = cooldown,
+				Duration = duration,
 				IsColor = IsColor,
 				Effect = effect,
 				R = color.R,
 				G = color.G,
 				B = color.B,
-				Amount = Convert.ToDouble(Amount_Textbox.Text),
-				Volume = Convert.ToInt32(Volume_Textbox.Text),
+				Amount = amount,
+				Volume = volume,
 				Trigger = triggerType,
 				SoundFilePath = SoundFilePath_Textbox.Text,
-				VipOnly = (bool)Viponly_Checkbox.IsChecked,
-				ModeratorOnly = (bool)Modonly_Checkbox.IsChecked,
-				SubscriberOnly = (bool)Subonly_Checkbox.IsChecked,
+				VipOnly = Viponly_Checkbox.IsChecked == true,
+				ModeratorOnly = Modonly_Checkbox.IsChecked == true,
+				SubscriberOnly = Subonly_Checkbox.IsChecked == true,
+				DonationProvider = (DonationProvider_ComboBox.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "All",
 				TargetDeviceNames = GetSelectedTargetDeviceNames()
 			};
 
@@ -680,18 +750,7 @@ namespace NanoTwitchLeafs.Windows
 			// Add New Trigger Setting to the existing Triggers in List
 			triggerSettings.Add(newTriggerSetting);
 
-			// Clear Database
-			_commandRepository.ClearAll();
-
-			// Read correct Index and insert to Database
-			int index = 0;
-			foreach (TriggerSetting trigger in triggerSettings)
-			{
-				trigger.ID = index;
-				_logger.Debug($"Insert Trigger Setting with ID {index} into Repository.");
-				_commandRepository.Insert(trigger);
-				index++;
-			}
+			_commandRepository.ReplaceAll(triggerSettings);
 
 			_logger.Info($"Saved Trigger to Database. There are currently {triggerSettings.Count} Trigger.");
 			MessageBox.Show(Properties.Resources.General_MessageBox_SettingsSaved, Properties.Resources.General_MessageBox_Sucess_Title, MessageBoxButton.OK, MessageBoxImage.Information);
@@ -714,7 +773,7 @@ namespace NanoTwitchLeafs.Windows
 				return false;
 			}
 
-			if (Convert.ToInt32(Brightness_Textbox.Text) > 100 || Convert.ToInt32(Brightness_Textbox.Text) < 0 || string.IsNullOrWhiteSpace(Brightness_Textbox.Text))
+			if (!TryReadInt(Brightness_Textbox.Text, out int brightness) || brightness > 100 || brightness < 0)
 			{
 				_logger.Warn("Please enter a Brightness Value between 0 and 100! Can not be Empty!");
 				MessageBox.Show(Properties.Resources.Code_TriggerDetail_MessageBox_BrightnessValue, Properties.Resources.General_MessageBox_Error_Title);
@@ -722,7 +781,7 @@ namespace NanoTwitchLeafs.Windows
 				return false;
 			}
 
-			if (Convert.ToInt32(Volume_Textbox.Text) > 100 || Convert.ToInt32(Volume_Textbox.Text) < 0 || string.IsNullOrWhiteSpace(Volume_Textbox.Text))
+			if (!TryReadInt(Volume_Textbox.Text, out int volume) || volume > 100 || volume < 0)
 			{
 				_logger.Warn("Please enter a Volume Value between 0 and 100! Can not be Empty!");
 				MessageBox.Show(Properties.Resources.Code_TriggerDetail_MessageBox_VolumeValue, Properties.Resources.General_MessageBox_Error_Title);
@@ -730,21 +789,21 @@ namespace NanoTwitchLeafs.Windows
 				return false;
 			}
 
-			if (string.IsNullOrWhiteSpace(Amount_Textbox.Text) || Convert.ToDouble(Amount_Textbox.Text) < 0)
+			if (!TryReadDouble(Amount_Textbox.Text, out double amount) || amount < 0)
 			{
 				_logger.Warn("Please enter a Amount Value even if you dont use it! Can not be Empty or Negative!");
 				MessageBox.Show(Properties.Resources.Code_TriggerDetail_MessageBox_AmountValue, Properties.Resources.General_MessageBox_Error_Title);
 				Amount_Textbox.Text = "0";
 				return false;
 			}
-			if (string.IsNullOrWhiteSpace(Duration_Textbox.Text) || Convert.ToDouble(Duration_Textbox.Text) < 0)
+			if (!TryReadDouble(Duration_Textbox.Text, out double duration) || duration < 0)
 			{
 				_logger.Warn("Please enter a Duration Value even if you dont use it! Can not be Empty or Negative!");
 				MessageBox.Show(Properties.Resources.Code_TriggerDetail_MessageBox_DurationValue, Properties.Resources.General_MessageBox_Error_Title);
 				Duration_Textbox.Text = "0";
 				return false;
 			}
-			if (string.IsNullOrWhiteSpace(Cooldown_Textbox.Text) || Convert.ToDouble(Cooldown_Textbox.Text) < 0)
+			if (!TryReadDouble(Cooldown_Textbox.Text, out double cooldown) || cooldown < 0)
 			{
 				_logger.Warn("Please enter a Cooldown Value even if you dont use it! Enter 0 to disable the Trigger Cooldown! Can not be Empty!");
 				MessageBox.Show(Properties.Resources.Code_TriggerDetail_MessageBox_CooldownValue, Properties.Resources.General_MessageBox_Error_Title);
@@ -755,13 +814,30 @@ namespace NanoTwitchLeafs.Windows
 			return true;
 		}
 
+		private static bool TryReadInt(string text, out int value)
+		{
+			return int.TryParse(text, NumberStyles.Integer, CultureInfo.CurrentCulture, out value) ||
+				int.TryParse(text, NumberStyles.Integer, CultureInfo.InvariantCulture, out value);
+		}
+
+		private static bool TryReadDouble(string text, out double value)
+		{
+			if (string.IsNullOrWhiteSpace(text)) { value = 0; return false; }
+			string normalized = text.Trim().Replace(',', '.');
+			return double.TryParse(normalized, NumberStyles.Float, CultureInfo.InvariantCulture, out value);
+		}
+
 		private void TriggerHelp_Button_Click(object sender, RoutedEventArgs e)
 		{
-			TriggerHelpWindow triggerHelpWindow = new TriggerHelpWindow(_appSettings.Language)
+			if (Application.Current.MainWindow is MainWindow mainWindow)
 			{
-				Owner = this
-			};
-			triggerHelpWindow.Show();
+				Hide();
+				mainWindow.ShowHelp(MainWindow.HelpTopic.Trigger, () =>
+				{
+					Show();
+					Activate();
+				});
+			}
 		}
 
 		#region Ui Stuff
@@ -782,7 +858,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void SelectSoundFilePath_Button_Click(object sender, RoutedEventArgs e)
 		{
-			OpenFileDialog openFileDialog = new OpenFileDialog();
+			OpenFileDialog openFileDialog = new OpenFileDialog { Filter = "Audio (*.mp3;*.wav)|*.mp3;*.wav" };
 			if (openFileDialog.ShowDialog() == true)
 			{
 				SoundFilePath_Textbox.Text = openFileDialog.FileName;
@@ -792,7 +868,6 @@ namespace NanoTwitchLeafs.Windows
 			{
 				MessageBox.Show(Properties.Resources.Code_TriggerDetail_MessageBox_SoundfileFormat, Properties.Resources.General_MessageBox_Error_Title);
 				SoundFilePath_Textbox.Text = "";
-				SelectSoundFilePath_Button_Click(sender, e);
 			}
 		}
 
@@ -801,7 +876,7 @@ namespace NanoTwitchLeafs.Windows
 			try
 			{
 				// Check for Value Prefix
-				if (Convert.ToInt32(Brightness_Textbox.Text) > 100 || Convert.ToInt32(Brightness_Textbox.Text) < 0 || string.IsNullOrWhiteSpace(Brightness_Textbox.Text) || Brightness_Textbox.Text == "Cmd/Keyword")
+				if (!TryReadInt(Brightness_Textbox.Text, out int brightness) || brightness > 100 || brightness < 0)
 				{
 					Brightness_Textbox.BorderBrush = Brushes.Red;
 				}
@@ -818,29 +893,35 @@ namespace NanoTwitchLeafs.Windows
 
 		private void Volume_Textbox_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			if (int.TryParse(Volume_Textbox.Text, out int result))
-			{
-				if (result < 0 || result > 100)
-				{
-					MessageBox.Show("You can only enter a Number between 0 and 100!", "Error!");
-					_logger.Error("You can only enter a Number between 0 and 100!");
-					Volume_Textbox.Text = "50";
-				}
-			}
-			else
-			{
-				MessageBox.Show("You can only enter a Number between 0 and 100!", "Error!");
-				_logger.Error("You can only enter a Number between 0 and 100!");
-				Volume_Textbox.Text = "50";
-			}
+			bool valid = TryReadInt(Volume_Textbox.Text, out int result) && result >= 0 && result <= 100;
+			Volume_Textbox.BorderBrush = valid ? Brushes.SlateGray : Brushes.Red;
 		}
 
 		#endregion
 
 		private static string Text(string key) => Properties.Resources.ResourceManager.GetString(key);
 
+		private void SelectDonationProvider(string provider)
+		{
+			string selectedProvider = string.IsNullOrWhiteSpace(provider) ? "All" : provider;
+			foreach (ComboBoxItem item in DonationProvider_ComboBox.Items)
+			{
+				if (string.Equals(item.Tag?.ToString(), selectedProvider, StringComparison.OrdinalIgnoreCase))
+				{
+					DonationProvider_ComboBox.SelectedItem = item;
+					return;
+				}
+			}
+			DonationProvider_ComboBox.SelectedIndex = 0;
+		}
+
 		private void Checkbox_Click(object sender, RoutedEventArgs e)
 		{
+			if (Viponly_Checkbox.IsEnabled != true)
+			{
+				Vipsubmod_Textbox.Text = Text("Window_TriggerDetail_RoleFilters_Only");
+				return;
+			}
 			var titles = new List<string>();
 			if (Viponly_Checkbox.IsChecked == true)
 				titles.Add("VIP");
@@ -858,6 +939,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void TriggerRadioButton_Click(object sender, RoutedEventArgs e)
 		{
+			DonationProvider_Grid.Visibility = Donation_RadioButton.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
 			if (Cmd_RadioButton.IsChecked == true)
 			{
 				CommandKeyword_Textbox.IsEnabled = true;
@@ -1026,7 +1108,7 @@ namespace NanoTwitchLeafs.Windows
 				Modonly_Checkbox.IsEnabled = false;
 				Cooldown_Textbox.IsEnabled = false;
 				Channelpoints_Grid.Visibility = Visibility.Visible;
-				if (!_twitchEventSubController.IsConnected)
+				if (_twitchEventSubController == null || !_twitchEventSubController.IsConnected)
 				{
 					MessageBox.Show(Properties.Resources.Code_TriggerDetail_MessageBox_CPNoConnection, Properties.Resources.General_MessageBox_Hint_Title, MessageBoxButton.OK, MessageBoxImage.Information);
 				}
@@ -1052,6 +1134,7 @@ namespace NanoTwitchLeafs.Windows
 				Subonly_Checkbox.IsEnabled = false;
 				Modonly_Checkbox.IsEnabled = false;
 				Cooldown_Textbox.IsEnabled = false;
+				DonationProvider_Grid.Visibility = Visibility.Visible;
 			}
 
 			if (UserColor_RadioButton.IsChecked == true)
@@ -1068,6 +1151,8 @@ namespace NanoTwitchLeafs.Windows
 				ColorPicker.IsEnabled = false;
 				Effect_ComboBox.IsEnabled = false;
 			}
+
+			Checkbox_Click(null, null);
 		}
 
 		private void EffectRadioButton_Click(object sender, RoutedEventArgs e)
@@ -1082,6 +1167,12 @@ namespace NanoTwitchLeafs.Windows
 				Effect_ComboBox.IsEnabled = false;
 				ColorPicker.IsEnabled = true;
 			}
+		}
+
+		private void TriggerDetailWindow_Closed(object sender, EventArgs e)
+		{
+			if (_twitchEventSubController != null)
+				_twitchEventSubController.OnChannelPointsRedeemed -= TwitchEventSubController_OnChannelPointsRedeemed;
 		}
 	}
 }

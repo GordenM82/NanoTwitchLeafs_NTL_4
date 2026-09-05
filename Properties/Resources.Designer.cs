@@ -2549,5 +2549,38 @@ namespace NanoTwitchLeafs.Properties {
                 return ResourceManager.GetString("Windows_Main_Tabs_Streamlabs_UnLinkStreamlabs_Label", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to NanoTwitchLeafs 4 – Layout Preview.
+        /// </summary>
+        public static string Window_Main_Modern_Title {
+            get {
+                return ResourceManager.GetString("Window_Main_Modern_Title", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Functional layout test version.
+        /// </summary>
+        public static string Window_Main_Modern_Subtitle {
+            get {
+                return ResourceManager.GetString("Window_Main_Modern_Subtitle", resourceCulture);
+            }
+        }
+
+        public static string Window_Main_Navigation_Integrations { get { return ResourceManager.GetString("Window_Main_Navigation_Integrations", resourceCulture); } }
+        public static string Window_TriggerHelp_Heading { get { return ResourceManager.GetString("Window_TriggerHelp_Heading", resourceCulture); } }
+        public static string Window_TriggerHelp_Types_Title { get { return ResourceManager.GetString("Window_TriggerHelp_Types_Title", resourceCulture); } }
+        public static string Window_TriggerHelp_Types_Body { get { return ResourceManager.GetString("Window_TriggerHelp_Types_Body", resourceCulture); } }
+        public static string Window_TriggerHelp_Chat_Title { get { return ResourceManager.GetString("Window_TriggerHelp_Chat_Title", resourceCulture); } }
+        public static string Window_TriggerHelp_Chat_Body { get { return ResourceManager.GetString("Window_TriggerHelp_Chat_Body", resourceCulture); } }
+        public static string Window_TriggerHelp_ChannelPoints_Title { get { return ResourceManager.GetString("Window_TriggerHelp_ChannelPoints_Title", resourceCulture); } }
+        public static string Window_TriggerHelp_ChannelPoints_Body { get { return ResourceManager.GetString("Window_TriggerHelp_ChannelPoints_Body", resourceCulture); } }
+        public static string Window_TriggerHelp_Effect_Title { get { return ResourceManager.GetString("Window_TriggerHelp_Effect_Title", resourceCulture); } }
+        public static string Window_TriggerHelp_Effect_Body { get { return ResourceManager.GetString("Window_TriggerHelp_Effect_Body", resourceCulture); } }
+        public static string Window_TriggerHelp_Options_Title { get { return ResourceManager.GetString("Window_TriggerHelp_Options_Title", resourceCulture); } }
+        public static string Window_TriggerHelp_Options_Body { get { return ResourceManager.GetString("Window_TriggerHelp_Options_Body", resourceCulture); } }
+        public static string Window_TriggerHelp_Targets_Title { get { return ResourceManager.GetString("Window_TriggerHelp_Targets_Title", resourceCulture); } }
+        public static string Window_TriggerHelp_Targets_Body { get { return ResourceManager.GetString("Window_TriggerHelp_Targets_Body", resourceCulture); } }
     }
 }

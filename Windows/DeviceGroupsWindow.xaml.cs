@@ -13,6 +13,9 @@ namespace NanoTwitchLeafs.Windows
         private readonly AppSettings _appSettings;
         private readonly AppSettingsController _settingsController;
         private NanoleafDeviceGroup _selectedGroup;
+        private bool _isEmbedded;
+        private Action _closeRequested;
+        private Action _helpRequested;
 
         public DeviceGroupsWindow(AppSettings appSettings, AppSettingsController settingsController)
         {
@@ -20,6 +23,7 @@ namespace NanoTwitchLeafs.Windows
             _settingsController = settingsController ?? throw new ArgumentNullException(nameof(settingsController));
             InitializeComponent();
 			Title = Text("Window_DeviceGroups_Title");
+			Heading_TextBlock.Text = Text("Window_DeviceGroups_Title");
 			Groups_GroupBox.Header = Text("Window_DeviceGroups_Groups");
 			EditGroup_GroupBox.Header = Text("Window_DeviceGroups_Edit");
 			GroupName_Label.Content = Text("Window_DeviceGroups_Name");
@@ -27,6 +31,7 @@ namespace NanoTwitchLeafs.Windows
 			NewGroup_Button.Content = Text("Window_DeviceGroups_New");
 			SaveGroup_Button.Content = Text("Window_DeviceGroups_Save");
 			DeleteGroup_Button.Content = Text("Window_DeviceGroups_Delete");
+			Help_Button.Content = Text("General_Button_Help");
 			Close_Button.Content = Text("Window_DeviceGroups_Close");
 
             if (_appSettings.NanoSettings.DeviceGroups == null)
@@ -34,6 +39,12 @@ namespace NanoTwitchLeafs.Windows
 
             RefreshGroups();
             BuildDeviceCheckboxes();
+        }
+
+        public void RefreshContent()
+        {
+            RefreshGroups();
+            BuildDeviceCheckboxes(_selectedGroup?.DeviceNames);
         }
 
         private void RefreshGroups()
@@ -132,7 +143,25 @@ namespace NanoTwitchLeafs.Windows
 
         private void Close_Button_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            if (_isEmbedded) _closeRequested?.Invoke();
+            else Close();
+        }
+
+        private void Help_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (_isEmbedded) _helpRequested?.Invoke();
+            else if (Application.Current.MainWindow is MainWindow mainWindow)
+            {
+                Hide();
+                mainWindow.ShowHelp(MainWindow.HelpTopic.Devices, () => { Show(); Activate(); });
+            }
+        }
+
+        public void ConfigureEmbedded(Action closeRequested, Action helpRequested)
+        {
+            _isEmbedded = true;
+            _closeRequested = closeRequested;
+            _helpRequested = helpRequested;
         }
 
 		private static string Text(string key) => Properties.Resources.ResourceManager.GetString(key);

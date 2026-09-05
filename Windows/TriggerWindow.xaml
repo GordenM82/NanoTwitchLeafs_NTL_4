@@ -6,71 +6,111 @@
     xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
     x:Name="Trigger_Window" x:Class="NanoTwitchLeafs.Windows.TriggerWindow"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.Window_Trigger_Title}" Height="760" Width="1500" MinHeight="560" MinWidth="1000" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterOwner">
+        Title="{x:Static p:Resources.Window_Trigger_Title}" Height="760" Width="1500" MinHeight="560" MinWidth="1000" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterOwner" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}">
+    <Border BorderBrush="{DynamicResource NtlBorderBrush}" BorderThickness="1" Background="{DynamicResource NtlSurfaceBrush}">
     <Grid>
+        <Grid.RowDefinitions><RowDefinition Height="116"/><RowDefinition Height="*"/><RowDefinition Height="58"/></Grid.RowDefinitions>
         <Grid.Resources>
+            <Style x:Key="TriggerColumnHeaderStyle" TargetType="GridViewColumnHeader">
+                <Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}"/><Setter Property="Background" Value="{DynamicResource NtlSurfaceRaisedBrush}"/><Setter Property="BorderBrush" Value="{DynamicResource NtlBorderBrush}"/><Setter Property="BorderThickness" Value="0,0,1,1"/><Setter Property="Padding" Value="8,8"/>
+                <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="GridViewColumnHeader"><Border x:Name="header" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" ToolTip="{TemplateBinding Content}"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="header" Property="Background" Value="{DynamicResource NtlAccentSurfaceBrush}"/></Trigger><Trigger Property="IsPressed" Value="True"><Setter TargetName="header" Property="BorderBrush" Value="{DynamicResource NtlAccentBrush}"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
+            </Style>
+            <DataTemplate x:Key="TriggerCell"><TextBlock Text="{Binding Trigger}" ToolTip="{Binding Trigger}" TextTrimming="CharacterEllipsis" Padding="4,0"/></DataTemplate>
+            <DataTemplate x:Key="CommandCell"><TextBlock Text="{Binding Command}" ToolTip="{Binding Command}" TextTrimming="CharacterEllipsis" Padding="4,0"/></DataTemplate>
+            <DataTemplate x:Key="EffectCell"><TextBlock Text="{Binding Effect}" ToolTip="{Binding Effect}" Background="{Binding Background}" TextTrimming="CharacterEllipsis" Padding="4,0"/></DataTemplate>
+            <DataTemplate x:Key="FlagsCell"><TextBlock Text="{Binding VipSubMod}" ToolTip="{Binding VipSubMod}" TextTrimming="CharacterEllipsis" Padding="4,0"/></DataTemplate>
+            <DataTemplate x:Key="SoundCell"><TextBlock Text="{Binding Sound}" ToolTip="{Binding Sound}" TextAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"/></DataTemplate>
+            <DataTemplate x:Key="DurationCell"><TextBlock Text="{Binding Duration}" TextAlignment="Center" HorizontalAlignment="Stretch"/></DataTemplate>
+            <DataTemplate x:Key="BrightnessCell"><TextBlock Text="{Binding Brightness}" TextAlignment="Center" HorizontalAlignment="Stretch"/></DataTemplate>
+            <DataTemplate x:Key="AmountCell"><TextBlock Text="{Binding Amount}" TextAlignment="Center" HorizontalAlignment="Stretch"/></DataTemplate>
+            <DataTemplate x:Key="CooldownCell"><TextBlock Text="{Binding Cooldown}" TextAlignment="Center" HorizontalAlignment="Stretch"/></DataTemplate>
+            <DataTemplate x:Key="TargetsCell"><TextBlock Text="{Binding TargetDevices}" ToolTip="{Binding TargetDevices}" TextAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"/></DataTemplate>
             <Style TargetType="ListViewItem">
+                <Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListViewItem"><Border x:Name="row" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1" Padding="2"><GridViewRowPresenter Content="{TemplateBinding Content}" Columns="{Binding View.Columns, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" VerticalAlignment="Center"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="row" Property="BorderBrush" Value="{DynamicResource NtlAccentBrush}"/></Trigger><Trigger Property="IsSelected" Value="True"><Setter TargetName="row" Property="Background" Value="{DynamicResource NtlAccentSurfaceBrush}"/><Setter TargetName="row" Property="BorderBrush" Value="{DynamicResource NtlAccentBrush}"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
                 <Style.Triggers>
                     <Trigger Property="ItemsControl.AlternationIndex"  Value="0">
-                        <Setter Property="Background" Value="White" />
+                        <Setter Property="Background" Value="{DynamicResource NtlSurfaceBrush}" />
                     </Trigger>
                     <Trigger Property="ItemsControl.AlternationIndex"  Value="1">
-                        <Setter Property="Background" Value="LightGray" />
+                        <Setter Property="Background" Value="{DynamicResource NtlSurfaceRaisedBrush}" />
                     </Trigger>
+                    <Trigger Property="IsSelected" Value="True"><Setter Property="Background" Value="{DynamicResource NtlAccentSurfaceBrush}"/><Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}"/></Trigger>
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
-        <ListView x:Name="Trigger_Listview" AlternationCount="2" Margin="2,2,2,45" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+        <Border Grid.Row="0" BorderBrush="{DynamicResource NtlBorderBrush}" BorderThickness="0,0,0,1" Margin="6,0"><Grid Margin="4,7"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+            <StackPanel><TextBlock x:Name="triggerHeading_TextBlock" FontSize="20" FontWeight="SemiBold"/><TextBlock x:Name="triggerDescription_TextBlock" Foreground="{DynamicResource NtlMutedTextBrush}" FontSize="12"/></StackPanel>
+            <Grid Grid.Row="1" Margin="0,9,0,0"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="180"/><ColumnDefinition Width="180"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                <TextBox x:Name="triggerSearch_TextBox" TextChanged="TriggerFilter_Changed" Margin="0,0,8,0" VerticalContentAlignment="Center"/>
+                <ComboBox x:Name="triggerStatusFilter_ComboBox" Grid.Column="1" SelectionChanged="TriggerFilter_Changed" Margin="0,0,8,0"><ComboBoxItem Tag="All"/><ComboBoxItem Tag="Active"/><ComboBoxItem Tag="Inactive"/><ComboBoxItem Tag="Problems"/></ComboBox>
+                <ComboBox x:Name="triggerTypeFilter_ComboBox" Grid.Column="2" SelectionChanged="TriggerFilter_Changed" Margin="0,0,8,0"><ComboBoxItem Tag="All"/><ComboBoxItem Tag="Chat"/><ComboBoxItem Tag="Twitch"/><ComboBoxItem Tag="ChannelPoints"/><ComboBoxItem Tag="Donation"/><ComboBoxItem Tag="HypeRate"/></ComboBox>
+                <Button x:Name="triggerResetFilter_Button" Grid.Column="3" Click="TriggerResetFilter_Button_Click" Margin="0,0,12,0"/>
+                <TextBlock x:Name="triggerResultCount_TextBlock" Grid.Column="4" VerticalAlignment="Center" Foreground="{DynamicResource NtlMutedTextBrush}" MinWidth="96" TextAlignment="Right"/>
+            </Grid>
+        </Grid></Border>
+        <ListView Grid.Row="1" x:Name="Trigger_Listview" AlternationCount="2" Margin="6" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Auto" MouseDoubleClick="Trigger_Listview_MouseDoubleClick">
             <ListView.View>
-                <GridView>
+                <GridView ColumnHeaderContainerStyle="{StaticResource TriggerColumnHeaderStyle}">
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_On}" Width="46">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Slider  Value="{Binding OnOffSliderValue}" Background="{Binding OnOffSliderBackground}" Tag="{Binding OnOffSliderTag}" Width="30" HorizontalAlignment="Center" SmallChange="1" Minimum="0" Maximum="1" ValueChanged="OnOffSlider_ValueChanged" />
+                                <Slider Value="{Binding OnOffSliderValue, Mode=OneTime}" Background="{Binding OnOffSliderBackground}" Tag="{Binding OnOffSliderTag}" Width="30" HorizontalAlignment="Center" SmallChange="1" Minimum="0" Maximum="1" PreviewMouseLeftButtonDown="OnOffSlider_PreviewMouseInput" PreviewMouseLeftButtonUp="OnOffSlider_PreviewMouseInputFinished" PreviewKeyDown="OnOffSlider_PreviewKeyInput" ValueChanged="OnOffSlider_ValueChanged" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Trigger}" Width="100" DisplayMemberBinding="{Binding Trigger}" />
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Command}" Width="120" DisplayMemberBinding="{Binding Command}" />
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Effect}" Width="100">
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Trigger}" Width="100" CellTemplate="{StaticResource TriggerCell}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Command}" Width="125" CellTemplate="{StaticResource CommandCell}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Effect}" Width="100" CellTemplate="{StaticResource EffectCell}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Sound}" Width="85" CellTemplate="{StaticResource SoundCell}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Duration}" Width="70" CellTemplate="{StaticResource DurationCell}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Brightness}" Width="75" CellTemplate="{StaticResource BrightnessCell}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Amount}" Width="60" CellTemplate="{StaticResource AmountCell}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Cooldown}" Width="75" CellTemplate="{StaticResource CooldownCell}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Flags}" Width="120" CellTemplate="{StaticResource FlagsCell}" />
+                    <GridViewColumn x:Name="targetDevices_Column" Header="" Width="125" CellTemplate="{StaticResource TargetsCell}" />
+                    <GridViewColumn x:Name="warning_Column" Header="" Width="34">
+                        <GridViewColumn.CellTemplate><DataTemplate><TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" FontSize="17" Foreground="{DynamicResource NtlWarningBrush}" Visibility="{Binding WarningVisibility}" ToolTip="{Binding WarningText}" HorizontalAlignment="Center"/></DataTemplate></GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn x:Name="test_Column" Header="" Width="44">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Label x:Name="EffectName_Label" Content="{Binding Effect}" Background="{Binding Background}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="96" />
+                                <Button Width="34" Height="32" Padding="0" HorizontalAlignment="Center" ToolTip="{x:Static p:Resources.Window_Trigger_Button_Test}" Click="TestButton_Click"><TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16" Text="&#xE768;"/></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Sound}" Width="100" DisplayMemberBinding="{Binding Sound}" />
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Duration}" Width="80" DisplayMemberBinding="{Binding Duration}" />
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Brightness}" Width="80" DisplayMemberBinding="{Binding Brightness}" />
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Amount}" Width="60" DisplayMemberBinding="{Binding Amount}" />
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Cooldown}" Width="80" DisplayMemberBinding="{Binding Cooldown}" />
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Flags}" Width="130" DisplayMemberBinding="{Binding VipSubMod}" />
-                    <GridViewColumn Header="Zielgeräte" Width="140" DisplayMemberBinding="{Binding TargetDevices}" />
-                    <GridViewColumn Header="" Width="62">
+                    <GridViewColumn x:Name="duplicate_Column" Header="" Width="46">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Width="48" HorizontalAlignment="Center" Content="{x:Static p:Resources.Window_Trigger_Button_Test}" Click="TestButton_Click" HorizontalContentAlignment="Center" />
+                                <Button Width="34" Height="32" Padding="0" HorizontalAlignment="Center" ToolTip="{Binding DuplicateText}" Click="DuplicateButton_Click"><TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16" Text="&#xE8C8;"/></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="" Width="62">
+                    <GridViewColumn x:Name="edit_Column" Header="" Width="44">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Width="48" HorizontalAlignment="Center" Content="{x:Static p:Resources.Window_Trigger_Button_Edit}" Click="EditButton_Click" HorizontalContentAlignment="Center" />
+                                <Button Width="34" Height="32" Padding="0" HorizontalAlignment="Center" ToolTip="{x:Static p:Resources.Window_Trigger_Button_Edit}" Click="EditButton_Click"><TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16" Text="&#xE70F;"/></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="" Width="62">
+                    <GridViewColumn x:Name="delete_Column" Header="" Width="50">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Width="48" HorizontalAlignment="Center" Content="{x:Static p:Resources.Window_Trigger_Button_Delete}" Click="DeleteButton_Click" HorizontalContentAlignment="Center" />
+                                <Button Width="34" Height="32" Padding="0" HorizontalAlignment="Center" ToolTip="{x:Static p:Resources.Window_Trigger_Button_Delete}" Click="DeleteButton_Click"><TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16" Text="&#xE74D;"/></Button>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="newCmd_Button" Content="{x:Static p:Resources.Window_Trigger_Button_New}" HorizontalAlignment="Left" Height="30" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="120" Click="NewCmd_Button_Click" />
-        <Button x:Name="clearCmd_Button" Content="{x:Static p:Resources.Window_Trigger_Button_Clear}" HorizontalAlignment="Right" Height="30" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="120" />
+        <Grid Grid.Row="2" VerticalAlignment="Center" Margin="10,6"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <Button x:Name="newCmd_Button" Content="{x:Static p:Resources.Window_Trigger_Button_New}" Width="130" Click="NewCmd_Button_Click" Margin="0,0,8,0" />
+            <Button x:Name="importCmd_Button" Grid.Column="1" Content="" Width="130" Click="ImportCmd_Button_Click" Margin="0,0,8,0" />
+            <Button x:Name="exportCmd_Button" Grid.Column="2" Content="" Width="130" Click="ExportCmd_Button_Click" />
+            <Button x:Name="clearCmd_Button" Grid.Column="4" Content="{x:Static p:Resources.Window_Trigger_Button_Clear}" Width="130" Click="ClearCmd_Button_Click" />
+        </Grid>
     </Grid>
+    </Border>
 </Window>

@@ -19,14 +19,32 @@ namespace NanoTwitchLeafs.Objects
 			BlacklistEnabled = false;
 			Blacklist = new List<string>();
 			AutoIpRefresh = false;
-			Language = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "de"
-				? "de-DE"
-				: "en-US";
+			Language = GetDefaultLanguage(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
+			Theme = "Light";
+			AccentColor = "TwitchPurple";
+			WindowWidth = 1440;
+			WindowHeight = 780;
 			StreamlabsInformation = new StreamlabsInformation();
+			StreamElements = new StreamElementsSettings();
 			StreamlabsClientId = "";
 			StreamlabsClientSecret = "";
 			HypeRateApiKey = "";
 		}
+
+		private static string GetDefaultLanguage(string language) => language?.ToLowerInvariant() switch
+		{
+			"de" => "de-DE",
+			"fr" => "fr-FR",
+			"es" => "es-ES",
+			"it" => "it-IT",
+			"nl" => "nl-NL",
+			"pl" => "pl-PL",
+			"pt" => "pt-BR",
+			"sk" => "sk-SK",
+			"da" => "da-DK",
+			"ru" => "ru-RU",
+			_ => "en-US"
+		};
 
 
 		public string StreamlabsClientId
@@ -51,6 +69,12 @@ namespace NanoTwitchLeafs.Objects
 		{
 			get { return Get(() => StreamlabsInformation); }
 			set { Set(() => StreamlabsInformation, value); }
+		}
+
+		public StreamElementsSettings StreamElements
+		{
+			get { return Get(() => StreamElements); }
+			set { Set(() => StreamElements, value); }
 		}
 
 		public DateTimeOffset LastValidation
@@ -172,6 +196,24 @@ namespace NanoTwitchLeafs.Objects
 			get { return Get(() => Language); }
 			set { Set(() => Language, value); }
 		}
+
+		public string Theme
+		{
+			get { return Get(() => Theme); }
+			set { Set(() => Theme, value); }
+		}
+
+		public string AccentColor
+		{
+			get { return Get(() => AccentColor); }
+			set { Set(() => AccentColor, value); }
+		}
+
+		public double WindowLeft { get { return Get(() => WindowLeft); } set { Set(() => WindowLeft, value); } }
+		public double WindowTop { get { return Get(() => WindowTop); } set { Set(() => WindowTop, value); } }
+		public double WindowWidth { get { return Get(() => WindowWidth); } set { Set(() => WindowWidth, value); } }
+		public double WindowHeight { get { return Get(() => WindowHeight); } set { Set(() => WindowHeight, value); } }
+		public bool WindowMaximized { get { return Get(() => WindowMaximized); } set { Set(() => WindowMaximized, value); } }
 
 		public string HypeRateId
 		{

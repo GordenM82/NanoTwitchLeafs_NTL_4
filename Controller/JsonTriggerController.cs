@@ -103,6 +103,18 @@ namespace NanoTwitchLeafs.Controller
             }
         }
 
+        public void ReplaceAll(IEnumerable<TriggerSetting> entities)
+        {
+            if (entities == null) throw new ArgumentNullException(nameof(entities));
+            lock (_sync)
+            {
+                List<TriggerSetting> replacement = entities.Where(item => item != null).Select(Clone).ToList();
+                int id = 1;
+                foreach (TriggerSetting trigger in replacement) trigger.ID = id++;
+                WriteAll(replacement);
+            }
+        }
+
         private List<TriggerSetting> ReadAll()
         {
             if (!File.Exists(_path))

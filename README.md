@@ -6,7 +6,7 @@
 ![Platform x64](https://img.shields.io/badge/Platform-x64-6f42c1)
 ![.NET 10](https://img.shields.io/badge/.NET-10-512BD4)
 ![License GPL-3.0](https://img.shields.io/badge/Lizenz-GPL--3.0-green)
-![Status experimental](https://img.shields.io/badge/Status-experimentell-orange)
+![Status stable](https://img.shields.io/badge/Status-stabil-brightgreen)
 ![Version](https://img.shields.io/github/v/release/GordenM82/NanoTwitchLeafs_NTL_4?label=Version)
 ![Downloads total](https://img.shields.io/github/downloads/GordenM82/NanoTwitchLeafs_NTL_4/total?label=Downloads)
 ![Downloads latest](https://img.shields.io/github/downloads/GordenM82/NanoTwitchLeafs_NTL_4/latest/total?label=latest%20DL)
@@ -15,13 +15,13 @@
 
 > **English version below.**
 
-NanoTwitchLeafs verbindet Twitch mit Nanoleaf-Leuchten. Chatbefehle und Twitch-Ereignisse können dadurch Farben, Helligkeiten und Effekte auf einem oder mehreren Nanoleaf-Geräten auslösen.
+NanoTwitchLeafs verbindet Twitch mit Nanoleaf-Leuchten. Chatbefehle, Twitch-Ereignisse, Spenden und HypeRate können Farben, Helligkeiten, Effekte und optionale Sounds auf einem oder mehreren Nanoleaf-Geräten auslösen.
 
 ### Projektstatus
 
-NanoTwitchLeafs 4 ist eine experimentelle Modernisierung und Weiterentwicklung des ursprünglichen GPL-3.0-Projekts von **Locxion**. Der aktuelle Stand wird unter dem GitHub-Konto **GordenM82** bearbeitet. Bei Weiterentwicklung, Fehlersuche und Dokumentation wurde KI-Unterstützung eingesetzt.
+**NanoTwitchLeafs 4.1.0** ist die stabile öffentliche Ausgabe der modernisierten Benutzeroberfläche. Sie wird unter dem GitHub-Konto **GordenM82** als Weiterentwicklung des ursprünglichen GPL-3.0-Projekts von **Locxion** gepflegt. Bei Weiterentwicklung, Fehlersuche und Dokumentation wurde KI-Unterstützung eingesetzt. Regelmäßige Aktualisierungen oder dauerhafter Support werden nicht zugesagt.
 
-Die öffentliche Version **4.0.1** steht unter [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest) als direkt startbares Windows-x64-Paket bereit. Trotz der Veröffentlichung bleibt das Projekt experimentell. Es gibt keine Zusage für regelmäßige Aktualisierungen, Support oder eine dauerhafte Weiterentwicklung.
+Die fertige Windows-x64-Version steht unter [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest) bereit.
 
 ### Funktionen
 
@@ -30,116 +30,115 @@ Die öffentliche Version **4.0.1** steht unter [Releases](https://github.com/Gor
 - Einlösung benutzerdefinierter Kanalpunkte
 - HypeTrain-Ereignisse über Twitch EventSub v2
 - HypeRate-Anbindung
-- Streamlabs-Spendenereignisse
-- Steuerung mehrerer Nanoleaf-Geräte
-- freie Auswahl der Zielgeräte für jeden Trigger
-- beliebige Kombinationen mehrerer Nanoleafs
-- wiederverwendbare Nanoleaf-Gerätegruppen
+- Spendenereignisse über Streamlabs und StreamElements mit wählbarer Quelle pro Trigger
+- integrierte Twitch-Benutzer-Blocklist
+- Steuerung eines oder mehrerer Nanoleaf-Geräte
+- freie Zielgeräteauswahl und wiederverwendbare Gerätegruppen
 - Wiederherstellung des vorherigen Nanoleaf-Zustands nach einem Trigger
-- optionale Soundwiedergabe für Trigger
+- optionale Soundwiedergabe
 
-### Neuerungen in Version 4
+### Oberfläche und Bedienung
 
-- Umstellung von .NET Framework 4.7.2 auf .NET 10
-- eigenständiger Windows-x64-Build einschließlich benötigter .NET-Laufzeit
-- direkt startbare `NanoTwitchLeafs.exe`
-- Unterstützung von Windows 10 und Windows 11 auf 64-Bit-Systemen
-- Triggerverwaltung ohne dauerhaft benötigte Datenbank
-- lokale Speicherung der Trigger in `triggers.json`
-- automatische Sicherung als `triggers.json.backup`
-- Mehrfachauswahl und Gruppen für Nanoleaf-Zielgeräte
-- aktualisierte Twitch-EventSub-Abonnements einschließlich HypeTrain v2
-- vergrößerte und frei skalierbare Triggerfenster
-- modernisierte Soundwiedergabe ohne Abhängigkeit vom Windows Media Player COM-Modul
-- neue Programmtexte in das vorhandene Sprachressourcensystem integriert
-- Englisch als neutrale Standardsprache; auf deutschsprachigen Windows-Systemen wird bei einer neuen Konfiguration automatisch Deutsch gewählt und Englisch bleibt auswählbar
-- die öffentliche Twitch-Client-ID ist in der Anwendung enthalten; für die Twitch-Anmeldung genügt ein Klick auf **Verbinde Twitch Account** und ein Client-Secret wird nicht verwendet
-- Streamlabs- und HypeRate-Zugangsdaten werden nur bei Nutzung dieser optionalen Dienste lokal gespeichert
-- sauberer Erststart ohne ungefragte Übernahme vorhandener Daten
-- frühere Telemetrie- und Nutzungsanalyse-Komponenten vollständig entfernt
+- zentrale Navigation für Chat/Konsole, Twitch, Nano, Trigger, Integrationen, Einstellungen, Hilfe und Info
+- Verwaltung von Triggern, Antworten, Geräten, Gerätegruppen und Blocklist im Hauptfenster
+- Hell-, Dunkel- und Systemdesign mit wählbarer Akzentfarbe
+- skalierbare Oberfläche für 100 %, 125 % und 150 % Windows-Skalierung
+- Mehrmonitorunterstützung mit Wiederherstellung von Fenstergröße, Position und maximiertem Zustand
+- monitorgebundene Haupt- und Unterfenster unter Berücksichtigung der Taskleiste
+- Tastatur- und Fokusverbesserungen, `Strg+F`, Escape-Rückkehr und Hinweise bei ungespeicherten Änderungen
+- Toastmeldungen und erklärende Tooltips für gekürzte oder deaktivierte Funktionen
 
-Der vollständige zweisprachige Verlauf seit der letzten ursprünglichen Locxion-Version steht im [Änderungsprotokoll](CHANGELOG.md). Hinweise zur lokalen Speicherung und zu externen Verbindungen stehen unter [Datenschutz](PRIVACY.md).
+### Triggerverwaltung
+
+- Suche über Trigger-Typ, Befehl, Effekt, Sound, Spendenanbieter und Zielgeräte
+- Filter nach aktiv, inaktiv, problematisch und Trigger-Kategorie
+- Trefferanzeige und gemeinsames Zurücksetzen der Filter
+- Hinweise auf fehlende Nanoleaf-Geräte, Effekte oder Sounddateien
+- Erstellen, Testen, Bearbeiten, Duplizieren und Löschen
+- Import und Export
+- lokale Speicherung in `triggers.json` mit Sicherung als `triggers.json.backup`
+
+### Integrationen
+
+- **Twitch:** Anmeldung mit der enthaltenen öffentlichen Desktop-Client-ID; kein Client-Secret notwendig
+- **Streamlabs:** optionale Spendenereignisse
+- **StreamElements:** optionale Tip-Ereignisse über die Astro-WebSocket-Verbindung, automatische Verbindung und lokale Testspende
+- **HypeRate:** optionale Herzfrequenz-Ereignisse
+
+Für StreamElements unter **Integrationen → StreamElements** die Integration aktivieren, den passenden JWT- oder Overlay-Token eintragen, speichern und verbinden. Die lokale Testspende prüft Trigger ohne echte Zahlung und ohne aktive Verbindung. Ein eigener Hilfereiter erklärt die Einrichtung. Tokens werden mit Windows DPAPI an das aktuelle Windows-Benutzerkonto gebunden verschlüsselt.
+
+### Konsole und Support
+
+- Suche und Filter für Information, Warnung, Fehler und Debug
+- farbliche Hervorhebung, Trefferanzahl und umschaltbares automatisches Scrollen
+- Konsole leeren, Logdatei öffnen und Einträge über das Kontextmenü kopieren
+- bereinigtes Support-Protokoll ohne Tokens, API-Schlüssel, Benutzernamen und persönlichen Windows-Profilpfad
+
+### Sprachen
+
+Die Oberfläche ist auswählbar in Deutsch, Englisch, Dänisch, Spanisch, Französisch, Italienisch, Niederländisch, Polnisch, Portugiesisch (Brasilien), Slowakisch und Russisch. Englisch ist die neutrale Standardsprache; auf einem neuen deutschsprachigen Windows-Profil wird Deutsch vorausgewählt.
 
 ### Systemanforderungen
 
 - Windows 10 oder Windows 11
 - 64-Bit-System (`x64`)
 - Netzwerkzugriff auf die verwendeten Nanoleaf-Geräte
-- Twitch-Konto
+- Twitch-Konto für Twitch-Funktionen
 
 Windows 7, Windows 8/8.1, 32-Bit-Windows, Linux und ARM werden nicht unterstützt.
 
 ### Installation und erster Start
 
-1. Lade das aktuelle Windows-x64-ZIP unter [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest) herunter.
-2. Entpacke das ZIP vollständig in einen eigenen Ordner.
-3. Starte `NanoTwitchLeafs.exe`.
-4. Öffne **Twitch**, wähle **Verbinde Twitch Account** und bestätige die Anmeldung bei Twitch.
-5. Öffne **Nano** und kopple beziehungsweise prüfe deine Nanoleaf-Geräte.
-6. Richte anschließend unter **Nano → Trigger bearbeiten** die gewünschten Trigger ein.
+1. Das aktuelle Windows-x64-ZIP unter [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest) herunterladen.
+2. Das ZIP vollständig in einen eigenen Ordner entpacken.
+3. `NanoTwitchLeafs.exe` starten.
+4. Unter **Twitch** das Twitch-Konto verbinden.
+5. Unter **Nano** die Nanoleaf-Geräte koppeln beziehungsweise prüfen.
+6. Unter **Trigger** die gewünschten Trigger einrichten.
+7. Optionale Dienste unter **Integrationen** konfigurieren.
 
-Für die Twitch-Anmeldung sind weder eine eigene Twitch-Anwendung noch eine manuell einzutragende Client-ID oder ein Client-Secret erforderlich. Zugangsdaten für Streamlabs oder HypeRate müssen nur eingetragen werden, wenn der jeweilige optionale Dienst verwendet wird. Beim ersten Start verwendet NanoTwitchLeafs Englisch; auf einem deutschsprachigen Windows wird Deutsch automatisch ausgewählt. Die Sprache kann später unter **Einstellungen** geändert werden.
+Für Twitch sind weder eine eigene Twitch-Anwendung noch eine manuell einzutragende Client-ID oder ein Client-Secret erforderlich.
 
-> **Wichtig:** Tokens und persönliche Einstellungsdateien dürfen niemals in ein öffentliches Repository, einen Fehlerbericht oder einen Screenshot hochgeladen werden.
+> **Wichtig:** Tokens und persönliche Einstellungsdateien niemals in ein öffentliches Repository, einen Fehlerbericht oder einen Screenshot hochladen.
 
 ### Update innerhalb von NanoTwitchLeafs 4
 
-1. Beende NanoTwitchLeafs vollständig.
-2. Lade das neue Windows-x64-ZIP unter [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest) herunter.
-3. Entpacke es in einen neuen Ordner und starte dort `NanoTwitchLeafs.exe`.
-4. Prüfe Verbindung, Geräte und Trigger. Den alten Programmordner kannst du nach einem erfolgreichen Test entfernen.
+1. NanoTwitchLeafs vollständig beenden.
+2. Das neue Windows-x64-ZIP herunterladen und in einen neuen Ordner entpacken.
+3. `NanoTwitchLeafs.exe` aus dem neuen Ordner starten.
+4. Verbindungen, Geräte und Trigger prüfen; danach kann der alte Programmordner entfernt werden.
 
-Die Benutzerdaten liegen getrennt unter `%APPDATA%\NanoTwitchLeafs-4` und werden von einer neueren 4.x-Version automatisch weiterverwendet. Vor wichtigen Updates empfiehlt sich trotzdem eine Sicherung dieses Ordners.
+Benutzerdaten liegen getrennt unter `%APPDATA%\NanoTwitchLeafs-4` und werden von neueren 4.x-Versionen automatisch weiterverwendet. Vor wichtigen Updates empfiehlt sich eine Sicherung dieses Ordners. Daten früherer Entwicklungsteststände wurden absichtlich getrennt gespeichert und überschreiben die stabile Konfiguration nicht automatisch.
 
 ### Update von NanoTwitchLeafs 3.x
 
-NanoTwitchLeafs 4 erkennt beim ersten Start eine vorhandene Installation der letzten originalen 3.x-Version und bietet die Übernahme an:
+Beim ersten Start erkennt NTL 4 eine vorhandene Installation der letzten ursprünglichen 3.x-Version und bietet die Übernahme an. Einstellungen werden erst nach Bestätigung kopiert; Trigger werden aus der alten SQLite-Datenbank gelesen und in `triggers.json` geschrieben. Zuvor entsteht eine Sicherung unter `%APPDATA%\NanoTwitchLeafs-4\Migration-Backup-3.x`. Die ursprüngliche 3.x-Installation bleibt unverändert.
 
-1. NanoTwitchLeafs 3.x vollständig beenden.
-2. NanoTwitchLeafs 4 in einen neuen, getrennten Ordner entpacken.
-3. `NanoTwitchLeafs.exe` starten.
-4. Die angebotene Übernahme bestätigen.
-5. Einstellungen werden in den neuen NTL-4-Datenordner kopiert.
-6. Trigger werden aus der alten SQLite-Datenbank gelesen und in die lokale `triggers.json` von NTL 4 geschrieben.
-7. Twitch anschließend einmal über **Twitch → Verbinde Twitch Account** anmelden.
+### Lokale Daten, Stabilität und Datenschutz
 
-Vor der Übernahme legt NTL 4 eine Sicherung unter `%APPDATA%\NanoTwitchLeafs-4\Migration-Backup-3.x` an. Die Daten der alten Installation werden nur gelesen und bleiben unverändert. Der Importpfad bleibt auch in späteren 4.x-Versionen erhalten, damit ein direkter Umstieg von 3.x weiterhin möglich ist.
-
-Wird die Übernahme abgelehnt, beginnt NTL 4 mit einer leeren Konfiguration. Solange noch keine NTL-4-Daten angelegt wurden, wird beim nächsten Start erneut gefragt.
-
-### Lokale Daten und Datenschutz
-
-NanoTwitchLeafs speichert Einstellungen, Trigger, Gerätegruppen und weitere lokale Daten unter `%APPDATA%\NanoTwitchLeafs-4`. Ohne gefundene oder übernommene 3.x-Daten beginnt das Programm mit einer leeren Konfiguration. Es wird kein Client-Secret mitgeliefert und es werden keine Telemetriedaten versendet.
+Einstellungen, Trigger, Gerätegruppen und Protokolle werden unter `%APPDATA%\NanoTwitchLeafs-4` gespeichert. Beschädigte Einstellungsdateien werden durch sichere Standardwerte ersetzt und als `.invalid-*.bak` erhalten. NTL enthält keine Telemetrie oder Nutzungsanalyse. Weitere Angaben stehen in [PRIVACY.md](PRIVACY.md).
 
 ### Fehlerberichte und Vorschläge
 
-Fehlerberichte und Vorschläge können über die GitHub-Issues dieses Repositories eingereicht werden. Bitte keine Zugangsdaten, OAuth-Tokens, Client-Secrets oder vollständigen Einstellungsdateien anhängen.
-
-Da sich das Projekt in einem experimentellen Stadium befindet und derzeit nicht feststeht, ob es dauerhaft weitergeführt wird, entsteht aus einem eingereichten Vorschlag kein Anspruch auf Umsetzung, Aktualisierungen oder Support.
-
-### Entwicklungstransparenz
-
-Teile der Weiterentwicklung, Fehlersuche und Dokumentation wurden mithilfe künstlicher Intelligenz erstellt oder bearbeitet. Alle Änderungen werden vom Maintainer geprüft und praktisch getestet. Das ursprüngliche Projekt und seine wesentliche Architektur stammen von Locxion.
+Fehlerberichte und Vorschläge können über die [GitHub-Issues](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/issues) eingereicht werden. Bitte keine Zugangsdaten, OAuth-Tokens oder vollständigen Einstellungsdateien anhängen. Ein bereinigtes Support-Protokoll kann direkt in der NTL-Konsole erstellt werden.
 
 ### Ursprung und Lizenz
 
-NanoTwitchLeafs wurde ursprünglich von **Locxion (Markus Bender)** entwickelt. Das ursprüngliche Projekt und seine Geschichte befinden sich im Repository [Locxion/NanoTwitchLeafs](https://github.com/Locxion/NanoTwitchLeafs).
+NanoTwitchLeafs wurde ursprünglich von **Locxion (Markus Bender)** entwickelt. Das ursprüngliche Projekt befindet sich unter [Locxion/NanoTwitchLeafs](https://github.com/Locxion/NanoTwitchLeafs). NanoTwitchLeafs 4 ist eine veränderte und modernisierte Fassung unter dem GitHub-Konto **GordenM82** und bleibt unter der [GNU General Public License Version 3](LICENSE) lizenziert.
 
-NanoTwitchLeafs 4 ist eine veränderte und modernisierte Fassung, die unter dem GitHub-Konto **GordenM82** erstellt wird. Sie bleibt gemäß den Bedingungen der [GNU General Public License Version 3](LICENSE) unter GPL-3.0 lizenziert.
-
-Besonderer Dank aus dem ursprünglichen Projekt gilt Daniel Hottmeyer (`@Silverdark`) und Denis Freund (`@revyn112`).
+Besonderer Dank aus dem ursprünglichen Projekt gilt Daniel Hottmeyer (`@Silverdark`) und Denis Freund (`@revyn112`). Der vollständige zweisprachige Verlauf steht im [Änderungsprotokoll](CHANGELOG.md).
 
 ---
 
 ## English
 
-NanoTwitchLeafs connects Twitch with Nanoleaf lights. Chat commands and Twitch events can trigger colors, brightness levels, and effects on one or multiple Nanoleaf devices.
+NanoTwitchLeafs connects Twitch with Nanoleaf lights. Chat commands, Twitch events, donations, and HypeRate can trigger colors, brightness levels, effects, and optional sounds on one or multiple Nanoleaf devices.
 
 ### Project status
 
-NanoTwitchLeafs 4 is an experimental modernization and continuation of **Locxion**'s original GPL-3.0 project. The current version is maintained under the GitHub account **GordenM82**. AI assistance was used for continued development, troubleshooting, and documentation.
+**NanoTwitchLeafs 4.1.0** is the stable public release of the modernized user interface. It is maintained under the GitHub account **GordenM82** as a continuation of **Locxion**'s original GPL-3.0 project. AI assistance was used for continued development, troubleshooting, and documentation. Regular updates or permanent support are not guaranteed.
 
-Public version **4.0.1** is available from [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest) as a directly executable Windows x64 package. The project remains experimental despite this public release. Regular updates, support, and continued long-term development are not guaranteed.
+The ready-to-run Windows x64 package is available under [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest).
 
 ### Features
 
@@ -148,42 +147,60 @@ Public version **4.0.1** is available from [Releases](https://github.com/GordenM
 - custom channel-point redemptions
 - Hype Train events through Twitch EventSub v2
 - HypeRate integration
-- Streamlabs donation events
-- control of multiple Nanoleaf devices
-- per-trigger target-device selection
-- arbitrary combinations of multiple Nanoleaf devices
-- reusable Nanoleaf device groups
+- Streamlabs and StreamElements donations with a selectable provider per trigger
+- integrated Twitch-user blocklist
+- control of one or multiple Nanoleaf devices
+- per-trigger target selection and reusable device groups
 - restoration of the previous Nanoleaf state after a trigger
-- optional sound playback for triggers
+- optional trigger sounds
 
-### What's new in version 4
+### Interface and operation
 
-- migrated from .NET Framework 4.7.2 to .NET 10
-- self-contained Windows x64 build including the required .NET runtime
-- directly executable `NanoTwitchLeafs.exe`
-- support for 64-bit Windows 10 and Windows 11
-- trigger management without a permanently required database
-- local trigger storage in `triggers.json`
-- automatic backup to `triggers.json.backup`
-- multi-device selection and Nanoleaf device groups
-- updated Twitch EventSub subscriptions, including Hype Train v2
-- larger and freely resizable trigger windows
-- modernized sound playback without the Windows Media Player COM dependency
-- integrated newly added program text into the existing language-resource system
-- English as the neutral default language; German is selected automatically for a new configuration on German-language Windows systems and English remains selectable
-- the public Twitch client ID is included in the application; Twitch sign-in only requires selecting **Link Twitch Account**, and no client secret is used
-- Streamlabs and HypeRate credentials are stored locally only when these optional services are used
-- clean first launch without unexpected import of existing data
-- completely removed the former telemetry and usage-analytics components
+- central navigation for Chat/Console, Twitch, Nano, Triggers, Integrations, Settings, Help, and Info
+- trigger, response, device, device-group, and blocklist management inside the main window
+- Light, Dark, and System themes with a selectable accent color
+- scalable interface tested at 100%, 125%, and 150% Windows scaling
+- multi-monitor support with restored window size, position, and maximized state
+- monitor-bound main and child windows that respect the taskbar work area
+- keyboard and focus improvements, `Ctrl+F`, Escape navigation, and unsaved-change warnings
+- toast messages and explanatory tooltips for truncated or disabled functions
 
-The complete bilingual history since the last original Locxion release is available in the [changelog](CHANGELOG.md). Details about local storage and external connections are available under [Privacy](PRIVACY.md).
+### Trigger management
+
+- search across trigger type, command, effect, sound, donation provider, and target devices
+- active, inactive, problem, and category filters
+- result count and one-click filter reset
+- warnings for missing Nanoleaf devices, effects, and sound files
+- create, test, edit, duplicate, and delete actions
+- trigger import and export
+- local storage in `triggers.json` with `triggers.json.backup`
+
+### Integrations
+
+- **Twitch:** sign in with the bundled public desktop client ID; no client secret required
+- **Streamlabs:** optional donation events
+- **StreamElements:** optional tip events through the Astro WebSocket connection, automatic connection, and local test donation
+- **HypeRate:** optional heart-rate events
+
+For StreamElements, open **Integrations → StreamElements**, enable it, enter the appropriate JWT or overlay token, save, and connect. The local test donation tests triggers without a real payment or active connection. A dedicated help tab explains the setup. Tokens are encrypted with Windows DPAPI and bound to the current Windows user account.
+
+### Console and support
+
+- search and filters for Information, Warning, Error, and Debug
+- level colors, result count, and configurable automatic scrolling
+- clear the console, open the log, and copy entries from the context menu
+- sanitized support log without tokens, API keys, usernames, or the personal Windows profile path
+
+### Languages
+
+The interface is selectable in German, English, Danish, Spanish, French, Italian, Dutch, Polish, Brazilian Portuguese, Slovak, and Russian. English is the neutral default; German is preselected for a new profile on German-language Windows systems.
 
 ### System requirements
 
 - Windows 10 or Windows 11
 - 64-bit system (`x64`)
 - network access to the Nanoleaf devices in use
-- Twitch account
+- Twitch account for Twitch features
 
 Windows 7, Windows 8/8.1, 32-bit Windows, Linux, and ARM are not supported.
 
@@ -192,57 +209,38 @@ Windows 7, Windows 8/8.1, 32-bit Windows, Linux, and ARM are not supported.
 1. Download the current Windows x64 ZIP from [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest).
 2. Extract the complete ZIP into its own folder.
 3. Start `NanoTwitchLeafs.exe`.
-4. Open **Twitch**, select **Link Twitch Account**, and confirm the sign-in with Twitch.
-5. Open **Nano** and pair or verify your Nanoleaf devices.
-6. Then configure the desired triggers under **Nano → Edit Triggers**.
+4. Link the Twitch account under **Twitch**.
+5. Pair or verify Nanoleaf devices under **Nano**.
+6. Configure the desired triggers under **Triggers**.
+7. Configure optional services under **Integrations**.
 
-Twitch sign-in does not require users to register their own Twitch application or manually enter a client ID or client secret. Streamlabs or HypeRate credentials are only needed when the respective optional service is used. NanoTwitchLeafs starts in English; German is selected automatically on a German-language Windows installation. The language can be changed later under **Settings**.
+Twitch does not require users to register their own application or enter a client ID or client secret manually.
 
 > **Important:** Never upload tokens or personal settings files to a public repository, bug report, or screenshot.
 
 ### Updating within NanoTwitchLeafs 4
 
 1. Close NanoTwitchLeafs completely.
-2. Download the new Windows x64 ZIP from [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest).
-3. Extract it into a new folder and start `NanoTwitchLeafs.exe` there.
-4. Verify the connection, devices, and triggers. You can remove the old program folder after a successful test.
+2. Download the new Windows x64 ZIP and extract it into a new folder.
+3. Start `NanoTwitchLeafs.exe` from the new folder.
+4. Verify connections, devices, and triggers; then remove the old program folder if desired.
 
-User data is stored separately under `%APPDATA%\NanoTwitchLeafs-4` and is reused automatically by a newer 4.x version. Backing up this folder before important updates is still recommended.
+User data is stored separately under `%APPDATA%\NanoTwitchLeafs-4` and reused automatically by newer 4.x versions. Backing up this folder before important updates is recommended. Data from earlier development test builds was deliberately stored separately and does not overwrite the stable configuration automatically.
 
 ### Updating from NanoTwitchLeafs 3.x
 
-On first start, NanoTwitchLeafs 4 detects an existing installation of the last original 3.x release and offers to import it:
+On first start, NTL 4 detects the last original 3.x installation and offers an import. Settings are copied only after confirmation; triggers are read from the old SQLite database and written to `triggers.json`. A backup is created under `%APPDATA%\NanoTwitchLeafs-4\Migration-Backup-3.x` first. The original 3.x installation remains unchanged.
 
-1. Close NanoTwitchLeafs 3.x completely.
-2. Extract NanoTwitchLeafs 4 into a new, separate folder.
-3. Start `NanoTwitchLeafs.exe`.
-4. Confirm the offered import.
-5. Settings are copied into the new NTL 4 data folder.
-6. Triggers are read from the old SQLite database and written to NTL 4's local `triggers.json`.
-7. Afterwards, sign in once through **Twitch → Link Twitch Account**.
+### Local data, stability, and privacy
 
-Before the import, NTL 4 creates a backup under `%APPDATA%\NanoTwitchLeafs-4\Migration-Backup-3.x`. Data from the old installation is only read and remains unchanged. The import path stays available in later 4.x versions so that a direct upgrade from 3.x remains possible.
-
-If the import is declined, NTL 4 starts with an empty configuration. The application asks again on the next launch while no NTL 4 data has been created.
-
-### Local data and privacy
-
-NanoTwitchLeafs stores settings, triggers, device groups, and other local data under `%APPDATA%\NanoTwitchLeafs-4`. Without detected or imported 3.x data, the application starts with an empty configuration. No client secret is bundled and no telemetry data is sent.
+Settings, triggers, device groups, and logs are stored under `%APPDATA%\NanoTwitchLeafs-4`. Damaged settings files are replaced by safe defaults and retained as `.invalid-*.bak`. NTL contains no telemetry or usage analytics. See [PRIVACY.md](PRIVACY.md) for details.
 
 ### Bug reports and suggestions
 
-Bug reports and suggestions may be submitted through this repository's GitHub Issues. Do not attach credentials, OAuth tokens, client secrets, or complete settings files.
-
-Because this project is experimental and it is not yet certain whether it will be maintained permanently, submitting a suggestion does not imply any commitment to implementation, updates, or support.
-
-### Development transparency
-
-Parts of the continued development, troubleshooting, and documentation were created or revised with the assistance of artificial intelligence. All changes are reviewed and tested in practice by the maintainer. The original project and its core architecture were created by Locxion.
+Bug reports and suggestions can be submitted through [GitHub Issues](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/issues). Do not attach credentials, OAuth tokens, or complete settings files. A sanitized support log can be created directly from the NTL console.
 
 ### Origin and license
 
-NanoTwitchLeafs was originally developed by **Locxion (Markus Bender)**. The original project and its history are available at [Locxion/NanoTwitchLeafs](https://github.com/Locxion/NanoTwitchLeafs).
+NanoTwitchLeafs was originally developed by **Locxion (Markus Bender)**. The original project is available at [Locxion/NanoTwitchLeafs](https://github.com/Locxion/NanoTwitchLeafs). NanoTwitchLeafs 4 is a modified and modernized edition maintained under the GitHub account **GordenM82** and remains licensed under the [GNU General Public License Version 3](LICENSE).
 
-NanoTwitchLeafs 4 is a modified and modernized edition created under the GitHub account **GordenM82**. It remains licensed under the [GNU General Public License Version 3](LICENSE), in accordance with the original project's GPL-3.0 license.
-
-Special thanks from the original project go to Daniel Hottmeyer (`@Silverdark`) and Denis Freund (`@revyn112`).
+Special thanks from the original project go to Daniel Hottmeyer (`@Silverdark`) and Denis Freund (`@revyn112`). The complete bilingual history is available in the [changelog](CHANGELOG.md).

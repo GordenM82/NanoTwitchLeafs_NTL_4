@@ -15,6 +15,10 @@ namespace NanoTwitchLeafs.Windows
         private readonly AppSettingsController _appSettingsController;
         private readonly AppSettings _appSettings;
         private readonly ILog _logger = LogManager.GetLogger(typeof(DevicesInfoWindow));
+        private bool _isEmbedded;
+        private Action _closeRequested;
+        private Action _groupsRequested;
+        private Action _helpRequested;
 
         public DevicesInfoWindow(NanoController nanoController, AppSettings appSettings, AppSettingsController appSettingsController)
         {
@@ -23,16 +27,19 @@ namespace NanoTwitchLeafs.Windows
             _appSettingsController = appSettingsController ?? throw new ArgumentNullException(nameof(appSettingsController));
             Constants.SetCultureInfo(_appSettings.Language);
             InitializeComponent();
+            deviceGroups_Button.Content = Properties.Resources.ResourceManager.GetString("Window_DeviceGroups_Title");
             InitializeData();
         }
 
-        private void InitializeData()
+        public void InitializeData()
         {
-            if (_appSettings.NanoSettings.NanoLeafDevices.Count == 0)
+            devices_ListBox.Items.Clear();
+            bool hasDevices = _appSettings.NanoSettings.NanoLeafDevices.Count > 0;
+            removeDevice_Button.IsEnabled = hasDevices;
+            renameDevice_Button.IsEnabled = hasDevices;
+            pingDevice_Button.IsEnabled = hasDevices;
+            if (!hasDevices)
             {
-                removeDevice_Button.IsEnabled = false;
-                renameDevice_Button.IsEnabled = false;
-                pingDevice_Button.IsEnabled = false;    
                 return;
             }
             foreach (var device in _appSettings.NanoSettings.NanoLeafDevices)
@@ -45,12 +52,14 @@ namespace NanoTwitchLeafs.Windows
 
         private void Close_Button_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            if (_isEmbedded) _closeRequested?.Invoke();
+            else Close();
         }
 
         private void RemoveDevice_Button_Click(object sender, RoutedEventArgs e)
         {
             int selectedIndex = devices_ListBox.SelectedIndex;
+            if (selectedIndex < 0 || selectedIndex >= _appSettings.NanoSettings.NanoLeafDevices.Count) return;
             NanoLeafDevice nanoLeafDevice = _appSettings.NanoSettings.NanoLeafDevices[selectedIndex];
             if (MessageBox.Show(string.Format(Properties.Resources.Code_Devices_MessageBox_RemoveConfirm, nanoLeafDevice.DeviceName), Properties.Resources.Code_Devices_MessageBox_RemoveConfirm_Title, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
             {
@@ -72,6 +81,7 @@ namespace NanoTwitchLeafs.Windows
         private void Rename_Button_Click(object sender, RoutedEventArgs e)
         {
             int selectedIndex = devices_ListBox.SelectedIndex;
+            if (selectedIndex < 0 || selectedIndex >= _appSettings.NanoSettings.NanoLeafDevices.Count) return;
             string oldName = _appSettings.NanoSettings.NanoLeafDevices[selectedIndex].PublicName;
             _appSettings.NanoSettings.NanoLeafDevices[selectedIndex].PublicName = _nanoController.GetUserInputNameForNewDevice();
 
@@ -103,8 +113,32 @@ namespace NanoTwitchLeafs.Windows
 
         private void DeviceGroups_Button_Click(object sender, RoutedEventArgs e)
         {
-            var window = new DeviceGroupsWindow(_appSettings, _appSettingsController) { Owner = this };
+            if (_isEmbedded)
+            {
+                _groupsRequested?.Invoke();
+                return;
+            }
+            var window = new DeviceGroupsWindow(_appSettings, _appSettingsController);
+            WindowPlacementService.PrepareOwnedWindow(window, Window.GetWindow(this) ?? Application.Current?.MainWindow);
             window.ShowDialog();
+        }
+
+        private void Help_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (_isEmbedded) _helpRequested?.Invoke();
+            else if (Application.Current.MainWindow is MainWindow mainWindow)
+            {
+                Hide();
+                mainWindow.ShowHelp(MainWindow.HelpTopic.Devices, () => { Show(); Activate(); });
+            }
+        }
+
+        public void ConfigureEmbedded(Action closeRequested, Action groupsRequested, Action helpRequested)
+        {
+            _isEmbedded = true;
+            _closeRequested = closeRequested;
+            _groupsRequested = groupsRequested;
+            _helpRequested = helpRequested;
         }
     }
 }

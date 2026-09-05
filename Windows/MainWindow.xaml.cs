@@ -9,14 +9,22 @@ using NanoTwitchLeafs.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Globalization;
 using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NanoTwitchLeafs.Enums;
@@ -34,24 +42,55 @@ namespace NanoTwitchLeafs.Windows
 	public partial class MainWindow : Window
 	{
 		private readonly List<string> _twitchChat = new List<string>();
-		private static readonly ObservableCollection<string> Console = new ObservableCollection<string>();
+		private static readonly ObservableCollection<ConsoleLogEntry> Console = new ObservableCollection<ConsoleLogEntry>();
 		private LoadingWindow _loadingWindow;
 
 		private readonly ILog _logger = LogManager.GetLogger(typeof(MainWindow));
 
 		private readonly AppSettingsController _appSettingsController;
 		private readonly AppSettings _appSettings;
+		private bool _appearanceControlsReady;
 		private readonly TwitchController _twitchController;
 		private readonly NanoController _nanoController;
 		private readonly CommandRepository _commandRepository;
 		private readonly StreamlabsController _streamlabsController;
+		private readonly StreamElementsController _streamElementsController;
 		private readonly TriggerLogicController _triggerLogicController;
 		private readonly HypeRateIOController _hypeRatecontroller;
 		private readonly UpdateController _updateController;
+		private bool _consoleAutoScroll = true;
+		private ICollectionView _consoleView;
+		private readonly DispatcherTimer _toastTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
 		private readonly TaskbarIcon _tbi = new TaskbarIcon();
 		private readonly TwitchEventSubController _twitchEventSubController;
 		private bool _initialWindowActivationCompleted;
+		private TriggerWindow _embeddedTriggerManager;
+		private AppInfoWindow _embeddedAppInfo;
+		private Responses _embeddedResponses;
+		private DevicesInfoWindow _embeddedDevices;
+		private DeviceGroupsWindow _embeddedDeviceGroups;
+		private int _currentPage = -1;
+		private int _helpReturnPage = -1;
+		private Action _helpReturnAction;
+		private bool _helpReturnFollowsSelectedTopic;
+		private int _embeddedReturnPage = -1;
+		private bool _settingsTrackingReady;
+		private bool _settingsDirty;
+		private bool _shutdownCompleted;
+
+		public enum HelpTopic
+		{
+			General,
+			Nano,
+			Trigger,
+			ChatResponses,
+			Devices,
+			Twitch,
+			Integrations,
+			StreamElements
+		}
 		private static string DisplayVersion => typeof(AppInfoWindow).Assembly.GetName().Version.ToString(3);
+		private static string VersionBadgeText => DisplayVersion;
 
 		private static void TryPrepareLegacyMigration()
 		{
@@ -124,12 +163,17 @@ namespace NanoTwitchLeafs.Windows
 			// Load settings for Language
 			_appSettingsController = new AppSettingsController();
 			_appSettings = _appSettingsController.LoadSettings();
+			_appSettings.StreamElements ??= new StreamElementsSettings();
+			_appSettings.Blacklist ??= new List<string>();
 
 			// Set Language before Init of Window
 			Constants.SetCultureInfo(_appSettings.Language);
+			ThemeManager.Apply(_appSettings.Theme, _appSettings.AccentColor);
 
 			// Init Window and Controls
 			InitializeComponent();
+			versionBadge_TextBlock.Text = VersionBadgeText;
+			_toastTimer.Tick += (_, _) => { _toastTimer.Stop(); toast_Border.Visibility = Visibility.Collapsed; };
 
 
 #if !DEBUG
@@ -228,12 +272,15 @@ namespace NanoTwitchLeafs.Windows
 
 			_logger.Info("Initialize Streamlabs Controller");
 			_streamlabsController = new StreamlabsController(_appSettings);
+			_logger.Info("Initialize StreamElements Controller");
+			_streamElementsController = new StreamElementsController(_appSettings);
+			_streamElementsController.ConnectionStateChanged += StreamElementsController_ConnectionStateChanged;
 
 			try
 			{
 				//This has to be Last!
 				_logger.Info("Initialize Trigger Logic Controller");
-				_triggerLogicController = new TriggerLogicController(_appSettings, _twitchController, _commandRepository, _nanoController, _twitchEventSubController, _streamlabsController, _hypeRatecontroller);
+				_triggerLogicController = new TriggerLogicController(_appSettings, _twitchController, _commandRepository, _nanoController, _twitchEventSubController, _streamlabsController, _streamElementsController, _hypeRatecontroller);
 			}
 			catch (Exception ex)
 			{
@@ -261,6 +308,8 @@ namespace NanoTwitchLeafs.Windows
 #endif
 			// attach property change event to configuration object and its subsequent elements if any derived NotifyObject
 			_appSettings.AttachPropertyChanged(_appSettings_PropertyChanged);
+			ConfigureSettingsChangeTracking();
+			_settingsTrackingReady = true;
 
 			if (_appSettings.AutoIpRefresh)
 			{
@@ -279,6 +328,11 @@ namespace NanoTwitchLeafs.Windows
 			{
 				_logger.Info("Auto Connect not enabled!");
 			}
+			if (_appSettings.StreamElements.Enabled && _appSettings.StreamElements.AutoConnect && !string.IsNullOrWhiteSpace(_appSettings.StreamElements.Token))
+			{
+				_logger.Info("[Auto Connection] Try to connect to StreamElements ...");
+				_ = _streamElementsController.ConnectAsync();
+			}
 
 		}
 
@@ -296,7 +350,7 @@ namespace NanoTwitchLeafs.Windows
 				return;
 
 			_initialWindowActivationCompleted = true;
-			WindowState = WindowState.Normal;
+			RestoreWindowPlacement();
 			ShowInTaskbar = true;
 			Show();
 			Activate();
@@ -305,6 +359,31 @@ namespace NanoTwitchLeafs.Windows
 			Topmost = true;
 			Topmost = false;
 			Focus();
+		}
+
+		private void RestoreWindowPlacement()
+		{
+			double requestedWidth = _appSettings.WindowWidth >= MinWidth ? _appSettings.WindowWidth : Width;
+			double requestedHeight = _appSettings.WindowHeight >= MinHeight ? _appSettings.WindowHeight : Height;
+			double requestedLeft = _appSettings.WindowLeft != 0 || _appSettings.WindowTop != 0 ? _appSettings.WindowLeft : Left;
+			double requestedTop = _appSettings.WindowLeft != 0 || _appSettings.WindowTop != 0 ? _appSettings.WindowTop : Top;
+			Rect placement = WindowPlacementService.RestoreMainWindow(this, new Rect(requestedLeft, requestedTop, requestedWidth, requestedHeight), out string monitorDescription);
+			Width = placement.Width;
+			Height = placement.Height;
+			Left = placement.Left;
+			Top = placement.Top;
+			_logger.Info($"Window placement: {placement.Width:0}x{placement.Height:0} at {placement.Left:0},{placement.Top:0}; {monitorDescription}.");
+			WindowState = _appSettings.WindowMaximized ? WindowState.Maximized : WindowState.Normal;
+		}
+
+		private void SaveWindowPlacement()
+		{
+			System.Windows.Rect bounds = WindowState == WindowState.Normal ? new System.Windows.Rect(Left, Top, Width, Height) : RestoreBounds;
+			_appSettings.WindowLeft = bounds.Left;
+			_appSettings.WindowTop = bounds.Top;
+			_appSettings.WindowWidth = bounds.Width;
+			_appSettings.WindowHeight = bounds.Height;
+			_appSettings.WindowMaximized = WindowState == WindowState.Maximized;
 		}
 
 		private void ItemShow_Click(object sender, RoutedEventArgs e)
@@ -333,10 +412,8 @@ namespace NanoTwitchLeafs.Windows
 			{
 				if (state)
 				{
-					_loadingWindow = new LoadingWindow(_appSettings.Language)
-					{
-						Owner = Main_Window
-					};
+					_loadingWindow = new LoadingWindow(_appSettings.Language);
+					WindowPlacementService.PrepareOwnedWindow(_loadingWindow, Main_Window);
 					_loadingWindow.Show();
 				}
 				else
@@ -365,9 +442,40 @@ namespace NanoTwitchLeafs.Windows
 			this.WindowState = WindowState.Normal;
 		}
 
+		private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Escape && blocklistPanel.Visibility == Visibility.Visible)
+			{
+				ShowMainPage(0);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.Escape && helpPanel.Visibility == Visibility.Visible)
+			{
+				HelpBack_Button_Click(sender, e);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.Escape && (triggerManager_Host.Visibility == Visibility.Visible || appInfo_Host.Visibility == Visibility.Visible))
+			{
+				ShowMainPage(_embeddedReturnPage is >= -1 and <= 5 ? _embeddedReturnPage : -1);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.Escape && management_Host.Visibility == Visibility.Visible)
+			{
+				ShowMainPage(_currentPage);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.F && Keyboard.Modifiers.HasFlag(ModifierKeys.Control) &&
+				chatconsole_TabControl.Visibility == Visibility.Visible && chatconsole_TabControl.SelectedIndex == 1)
+			{
+				consoleSearch_TextBox.Focus();
+				consoleSearch_TextBox.SelectAll();
+				e.Handled = true;
+			}
+		}
+
 		private void _appSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			_appSettingsController.SaveSettings(_appSettings);
+			MarkSettingsDirty();
 		}
 
 		#endregion
@@ -379,46 +487,34 @@ namespace NanoTwitchLeafs.Windows
 			try
 			{
 				// Fill Language Combobox with available Languages
-				var languages = new List<string>
-			{
-				"Deutsch",
-				"English",
-                // "French",
-                // "Portuguese",
-                // "Slovak"
-            };
-
-				language_Combobox.ItemsSource = languages;
-
-				switch (_appSettings.Language)
+				var languages = new List<ComboBoxItem>
 				{
-					case "de-DE":
-						language_Combobox.SelectedIndex = 0;
-						break;
+					new ComboBoxItem { Content = "Deutsch", Tag = "de-DE" },
+					new ComboBoxItem { Content = "English – Englisch", Tag = "en-US" },
+					new ComboBoxItem { Content = "Dansk – Dänisch", Tag = "da-DK" },
+					new ComboBoxItem { Content = "Español – Spanisch", Tag = "es-ES" },
+					new ComboBoxItem { Content = "Français – Französisch", Tag = "fr-FR" },
+					new ComboBoxItem { Content = "Italiano – Italienisch", Tag = "it-IT" },
+					new ComboBoxItem { Content = "Nederlands – Niederländisch", Tag = "nl-NL" },
+					new ComboBoxItem { Content = "Polski – Polnisch", Tag = "pl-PL" },
+					new ComboBoxItem { Content = "Português (Brasil) – Portugiesisch", Tag = "pt-BR" },
+					new ComboBoxItem { Content = "Slovenčina – Slowakisch", Tag = "sk-SK" },
+					new ComboBoxItem { Content = "Русский – Russisch", Tag = "ru-RU" }
+				};
 
-					case "en-US":
-						language_Combobox.SelectedIndex = 1;
-						break;
-
-					// case "fr-FR":
-					//     language_Combobox.SelectedIndex = 2;
-					//     break;
-					//
-					// case "pt-BR":
-					//     language_Combobox.SelectedIndex = 3;
-					//     break;
-					//
-					// case "sk-SK":
-					//     language_Combobox.SelectedIndex = 4;
-					//     break;
-
-					default:
-						language_Combobox.SelectedIndex = 1;
-						break;
-				}
+					language_Combobox.ItemsSource = languages;
+				InitializeAppearanceControls();
+				InitializeP22Texts();
+				language_Combobox.SelectedItem = languages.FirstOrDefault(item =>
+					string.Equals(item.Tag?.ToString(), _appSettings.Language, StringComparison.OrdinalIgnoreCase))
+					?? languages[1];
 
 				twitchChat_ListBox.ItemsSource = _twitchChat;
-				console_ListBox.ItemsSource = Console;
+				_consoleView = CollectionViewSource.GetDefaultView(Console);
+				_consoleView.Filter = ConsoleEntryMatchesFilter;
+				console_ListBox.ItemsSource = _consoleView;
+				consoleLevelFilter_ComboBox.SelectedIndex = 0;
+				UpdateConsoleResultCount();
 
 				// Bot Settings
 				whisperMode_Checkbox.IsChecked = _appSettings.WhisperMode;
@@ -438,6 +534,7 @@ namespace NanoTwitchLeafs.Windows
 				autoIPRefresh_Checkbox.IsChecked = _appSettings.AutoIpRefresh;
 				debugCmd_Checkbox.IsChecked = _appSettings.DebugEnabled;
 				blacklist_CheckBox.IsChecked = _appSettings.BlacklistEnabled;
+				RefreshBlocklist();
 
 				DebugCmd_Checkbox_Click(this, null);
 
@@ -466,6 +563,11 @@ namespace NanoTwitchLeafs.Windows
 				StreamlabsClientId_Textbox.Text = _appSettings.StreamlabsClientId;
 				StreamlabsClientSecret_Textbox.Password = _appSettings.StreamlabsClientSecret;
 				HypeRateApiKey_Textbox.Password = _appSettings.HypeRateApiKey;
+				streamElementsEnabled_CheckBox.IsChecked = _appSettings.StreamElements.Enabled;
+				streamElementsAutoConnect_CheckBox.IsChecked = _appSettings.StreamElements.AutoConnect;
+				streamElementsToken_PasswordBox.Password = _appSettings.StreamElements.Token ?? string.Empty;
+				SelectComboBoxItem(streamElementsTokenType_ComboBox, _appSettings.StreamElements.TokenType ?? "jwt");
+				UpdateStreamElementsStatus(_streamElementsController.IsConnected, _appSettings.StreamElements.LastConnectionError);
 
 				ChangeEnabledUi();
 			}
@@ -486,20 +588,72 @@ namespace NanoTwitchLeafs.Windows
 
 		private void Logger_OnAppenderMessage(Level level, DateTime logTime, string message)
 		{
-			Logger_OnMessage($"[{logTime.ToShortTimeString()}][{level}] {message}");
+			Logger_OnMessage(level?.Name ?? "INFO", $"[{logTime.ToShortTimeString()}][{level}] {message}");
 		}
 
-		private void Logger_OnMessage(string message)
+		private void Logger_OnMessage(string level, string message)
 		{
 			if (console_ListBox == null)
 				return;
 
 			console_ListBox.Dispatcher.Invoke(() =>
 			{
-				Console.Add(message);
-				console_ListBox.Items.Refresh();
-				UpdateScrollBar(console_ListBox);
+				Console.Add(new ConsoleLogEntry { Level = NormalizeLogLevel(level), Message = message });
+				_consoleView?.Refresh();
+				UpdateConsoleResultCount();
+				if (_consoleAutoScroll)
+					UpdateScrollBar(console_ListBox);
 			});
+		}
+
+		private static string NormalizeLogLevel(string level)
+		{
+			if (string.Equals(level, "FATAL", StringComparison.OrdinalIgnoreCase)) return "ERROR";
+			if (string.Equals(level, "WARNING", StringComparison.OrdinalIgnoreCase)) return "WARN";
+			return string.IsNullOrWhiteSpace(level) ? "INFO" : level.ToUpperInvariant();
+		}
+
+		private void ConfigureSettingsChangeTracking()
+		{
+			foreach (TextBox textBox in new[] { commandPrefix_TextBox, nanoCooldown_TextBox, hypeRateId_Textbox, StreamlabsClientId_Textbox })
+				textBox.TextChanged += SettingsControl_Changed;
+			foreach (PasswordBox passwordBox in new[] { StreamlabsClientSecret_Textbox, HypeRateApiKey_Textbox, streamElementsToken_PasswordBox })
+				passwordBox.PasswordChanged += SettingsControl_Changed;
+			foreach (CheckBox checkBox in new[]
+			{
+				autoConnect_Checkbox, response_CheckBox, whisperMode_Checkbox, nanoCmd_Checkbox,
+				nanoCooldown_Checkbox, nanoCooldownIgnore_Checkbox, commandRestore_CheckBox,
+				keywordRestore_Checkbox, autoIPRefresh_Checkbox, debugCmd_Checkbox,
+				streamElementsEnabled_CheckBox, streamElementsAutoConnect_CheckBox
+			}) checkBox.Click += SettingsControl_Changed;
+			streamElementsTokenType_ComboBox.SelectionChanged += SettingsControl_Changed;
+		}
+
+		private void SettingsControl_Changed(object sender, RoutedEventArgs e) => MarkSettingsDirty();
+
+		private void MarkSettingsDirty()
+		{
+			if (!_settingsTrackingReady || _settingsDirty) return;
+			_settingsDirty = true;
+			unsavedChanges_TextBlock.Text = Text("P25_Unsaved");
+			unsavedChanges_TextBlock.Visibility = Visibility.Visible;
+			Save_Button.ToolTip = Text("P25_Unsaved");
+		}
+
+		private void MarkSettingsSaved()
+		{
+			_settingsDirty = false;
+			unsavedChanges_TextBlock.Visibility = Visibility.Collapsed;
+			Save_Button.ToolTip = null;
+		}
+
+		private void ShowToast(string message)
+		{
+			if (string.IsNullOrWhiteSpace(message)) return;
+			toast_TextBlock.Text = message;
+			toast_Border.Visibility = Visibility.Visible;
+			_toastTimer.Stop();
+			_toastTimer.Start();
 		}
 
 		#endregion
@@ -518,16 +672,8 @@ namespace NanoTwitchLeafs.Windows
 				_appSettings.BlacklistEnabled = false;
 				_logger.Info("Blacklist disabled!");
 			}
-		}
-
-		private void blacklist_Button_Click(object sender, RoutedEventArgs e)
-		{
-			_logger.Info("Show Blacklist Window");
-			BlacklistWindow blacklistWindow = new BlacklistWindow(_appSettingsController, _appSettings)
-			{
-				Owner = this
-			};
-			blacklistWindow.Show();
+			_appSettingsController.SaveSettings(_appSettings);
+			RefreshBlocklistSummary();
 		}
 
 		private void CheckForUpdate_Button_Click(object sender, RoutedEventArgs e)
@@ -572,36 +718,9 @@ namespace NanoTwitchLeafs.Windows
 
 		private void language_Combobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			ComboBox comboBox = (ComboBox)sender;
-			string selectedLanguage = comboBox.SelectedItem.ToString();
-			string selectedLanguageCode;
-
-			switch (selectedLanguage)
-			{
-				case "English":
-					selectedLanguageCode = "en-US";
-					break;
-
-				case "Deutsch":
-					selectedLanguageCode = "de-DE";
-					break;
-
-				// case "French":
-				//     selectedLanguageCode = "fr-FR";
-				//     break;
-				//
-				// case "Portuguese":
-				//     selectedLanguageCode = "pt-BR";
-				//     break;
-				//
-				// case "Slovak":
-				//     selectedLanguageCode = "sk-SK";
-				//     break;
-
-				default:
-					selectedLanguageCode = "en-US";
-					break;
-			}
+			if (sender is not ComboBox comboBox || comboBox.SelectedItem is not ComboBoxItem selectedItem ||
+				string.IsNullOrWhiteSpace(selectedItem.Tag?.ToString())) return;
+			string selectedLanguageCode = selectedItem.Tag.ToString();
 
 			if (selectedLanguageCode == _appSettings.Language)
 			{
@@ -609,11 +728,420 @@ namespace NanoTwitchLeafs.Windows
 			}
 
 			_appSettings.Language = selectedLanguageCode;
+			ParseValuesIntoAppSettings();
+			_appSettingsController.SaveSettings(_appSettings);
+			MarkSettingsSaved();
 
 			if (MessageBox.Show(Properties.Resources.Code_Main_MessageBox_Restart, Properties.Resources.Code_Main_MessageBox_Restart_Title, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
 			{
 				AppRestart();
 			}
+		}
+
+		private void InitializeAppearanceControls()
+		{
+			_appearanceControlsReady = false;
+			chatNavigation_Button.Content = Properties.Resources.ResourceManager.GetString("Window_Main_Navigation_Chat");
+			triggerNavigation_Button.Content = Properties.Resources.ResourceManager.GetString("Window_Main_Navigation_Triggers");
+			integrationsNavigation_Button.Content = Properties.Resources.ResourceManager.GetString("Window_Main_Navigation_Integrations");
+			appearanceHeading_TextBlock.Text = Properties.Resources.ResourceManager.GetString("Window_Main_Appearance_Heading");
+			themeLabel_TextBlock.Text = Properties.Resources.ResourceManager.GetString("Window_Main_Appearance_Theme");
+			accentLabel_TextBlock.Text = Properties.Resources.ResourceManager.GetString("Window_Main_Appearance_Accent");
+			themeLight_Item.Content = Properties.Resources.ResourceManager.GetString("Window_Main_Appearance_Light");
+			themeDark_Item.Content = Properties.Resources.ResourceManager.GetString("Window_Main_Appearance_Dark");
+			themeSystem_Item.Content = Properties.Resources.ResourceManager.GetString("Window_Main_Appearance_System");
+
+			SelectComboBoxItem(theme_ComboBox, _appSettings.Theme ?? "Light");
+			SelectComboBoxItem(accent_ComboBox, _appSettings.AccentColor ?? "TwitchPurple");
+			_appearanceControlsReady = true;
+			UpdateNavigationState(-1);
+		}
+
+		private static string Text(string key) => Properties.Resources.ResourceManager.GetString(key) ?? key;
+
+		private void InitializeP22Texts()
+		{
+			blocklistHeading_TextBlock.Text = Text("P22_Blocklist_Heading");
+			blocklistDescription_TextBlock.Text = Text("P22_Blocklist_Description");
+			blacklist_CheckBox.Content = Text("P22_Blocklist_Enable");
+			blocklistAdd_Button.Content = Text("P22_Blocklist_Add");
+			blocklistRemove_Button.Content = Text("P22_Blocklist_Remove");
+			blocklistClear_Button.Content = Text("P22_Blocklist_Clear");
+			blocklistSearch_TextBox.ToolTip = Text("P22_Blocklist_Search");
+			blocklistSummaryHeading_TextBlock.Text = Text("P22_Blocklist_Heading");
+			blocklistManage_Button.Content = Text("P25_Blocklist_Manage");
+			blocklistBack_Button.Content = Text("P25_Back");
+			blocklistHelpHeading_TextBlock.Text = Text("P22_Blocklist_Heading");
+			blocklistHelpBody_TextBlock.Text = Text("P22_Blocklist_Help");
+			streamElementsHelp_TabItem.Header = "StreamElements";
+			streamElementsDescription_TextBlock.Text = Text("P22_StreamElements_Description");
+			streamElementsEnabled_CheckBox.Content = Text("P22_StreamElements_Enable");
+			streamElementsAutoConnect_CheckBox.Content = Text("P22_StreamElements_AutoConnect");
+			streamElementsTokenType_Label.Text = Text("P22_StreamElements_TokenType");
+			streamElementsToken_Label.Text = Text("P22_StreamElements_Token");
+			streamElementsConnect_Button.Content = Text("P22_StreamElements_Connect");
+			streamElementsDisconnect_Button.Content = Text("P22_StreamElements_Disconnect");
+			streamElementsTestHeading_TextBlock.Text = Text("P22_StreamElements_TestHeading");
+			streamElementsTest_Button.Content = Text("P22_StreamElements_Test");
+			streamElementsHelpBody_TextBlock.Text = Text("P22_StreamElements_Help");
+			consoleClear_Button.Content = Text("P23_Console_Clear");
+			consoleOpenLog_Button.Content = Text("P23_Console_OpenLog");
+			consoleAutoScroll_CheckBox.Content = Text("P23_Console_AutoScroll");
+			consoleSearch_TextBox.ToolTip = Text("P25_Console_Search");
+			consoleSearchHint_TextBlock.Text = Text("P25_Console_Search");
+			consoleSupportLog_Button.Content = Text("P25_Console_SupportLog");
+			consoleCopySelected_MenuItem.Header = Text("P25_Console_CopySelected");
+			consoleCopyVisible_MenuItem.Header = Text("P25_Console_CopyVisible");
+			SetComboBoxItemContent(consoleLevelFilter_ComboBox, "All", Text("P25_Console_All"));
+			SetComboBoxItemContent(consoleLevelFilter_ComboBox, "INFO", Text("P25_Console_Info"));
+			SetComboBoxItemContent(consoleLevelFilter_ComboBox, "WARN", Text("P25_Console_Warnings"));
+			SetComboBoxItemContent(consoleLevelFilter_ComboBox, "ERROR", Text("P25_Console_Errors"));
+			SetComboBoxItemContent(consoleLevelFilter_ComboBox, "DEBUG", Text("P25_Console_Debug"));
+			p24TriggerHelpHeading_TextBlock.Text = Text("P24_Trigger_Search");
+			p24TriggerHelpBody_TextBlock.Text = Text("P24_Trigger_Help");
+			consoleSearch_TextBox.SetResourceReference(FocusVisualStyleProperty, "NtlFocusVisualStyle");
+			ConnectChat_Button.ToolTip = Text("P28_Disabled_ConnectChat");
+			nanoTestConnection_Button.ToolTip = Text("P28_Disabled_NanoTest");
+			nanoCmd_Button.ToolTip = Text("P28_Disabled_EditTrigger");
+		}
+
+		private void RefreshBlocklist()
+		{
+			if (blocklist_ListBox == null) return;
+			string filter = blocklistSearch_TextBox?.Text?.Trim() ?? string.Empty;
+			blocklist_ListBox.ItemsSource = (_appSettings.Blacklist ?? new List<string>())
+				.Where(name => string.IsNullOrEmpty(filter) || name.Contains(filter, StringComparison.OrdinalIgnoreCase))
+				.OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
+				.ToList();
+			blocklistRemove_Button.IsEnabled = blocklist_ListBox.SelectedItem != null;
+			blocklistClear_Button.IsEnabled = _appSettings.Blacklist?.Count > 0;
+			RefreshBlocklistSummary();
+		}
+
+		private void RefreshBlocklistSummary()
+		{
+			if (blocklistSummaryStatus_TextBlock == null) return;
+			blocklistSummaryStatus_TextBlock.Text = string.Format(
+				_appSettings.BlacklistEnabled ? Text("P25_Blocklist_StatusActive") : Text("P25_Blocklist_StatusInactive"),
+				_appSettings.Blacklist?.Count ?? 0);
+		}
+
+		private void BlocklistManage_Button_Click(object sender, RoutedEventArgs e) => ShowEmbeddedBlocklist();
+
+		private void ShowEmbeddedBlocklist()
+		{
+			RefreshBlocklist();
+			chatconsole_TabControl.Visibility = Visibility.Collapsed;
+			settings_TabControl.Visibility = Visibility.Collapsed;
+			integrationTabs_Panel.Visibility = Visibility.Collapsed;
+			triggerManager_Host.Visibility = Visibility.Collapsed;
+			appInfo_Host.Visibility = Visibility.Collapsed;
+			management_Host.Visibility = Visibility.Collapsed;
+			helpPanel.Visibility = Visibility.Collapsed;
+			Save_Button.Visibility = Visibility.Collapsed;
+			blocklistPanel.Visibility = Visibility.Visible;
+			_currentPage = 0;
+			UpdateNavigationState(0);
+			Dispatcher.BeginInvoke(new Action(() => blocklistInput_TextBox.Focus()));
+		}
+
+		private void BlocklistBack_Button_Click(object sender, RoutedEventArgs e) => ShowMainPage(0);
+
+		private void BlocklistAdd_Button_Click(object sender, RoutedEventArgs e)
+		{
+			string username = (blocklistInput_TextBox.Text ?? string.Empty).Trim().TrimStart('@').ToLowerInvariant();
+			if (string.IsNullOrWhiteSpace(username))
+			{
+				MessageBox.Show(Properties.Resources.General_MessageBox_EnterUsername, Properties.Resources.General_MessageBox_Error_Title);
+				return;
+			}
+			_appSettings.Blacklist ??= new List<string>();
+			if (_appSettings.Blacklist.Any(item => item.Equals(username, StringComparison.OrdinalIgnoreCase)))
+			{
+				MessageBox.Show(Properties.Resources.General_MessageBox_UsernameExists, Properties.Resources.General_MessageBox_Error_Title);
+				return;
+			}
+			_appSettings.Blacklist.Add(username);
+			blocklistInput_TextBox.Clear();
+			_appSettingsController.SaveSettings(_appSettings);
+			_logger.Info(string.Format(Properties.Resources.General_Blacklist_MessageBox_AddedUserX, username));
+			RefreshBlocklist();
+			ShowToast(string.Format(Text("P25_Toast_BlocklistAdded"), username));
+		}
+
+		private void BlocklistRemove_Button_Click(object sender, RoutedEventArgs e)
+		{
+			if (blocklist_ListBox.SelectedItem is not string username) return;
+			_appSettings.Blacklist.RemoveAll(item => item.Equals(username, StringComparison.OrdinalIgnoreCase));
+			_appSettingsController.SaveSettings(_appSettings);
+			_logger.Info(string.Format(Properties.Resources.General_Blacklist_MessageBox_RemovedUserX, username));
+			RefreshBlocklist();
+			ShowToast(Text("P25_Toast_BlocklistRemoved"));
+		}
+
+		private void BlocklistClear_Button_Click(object sender, RoutedEventArgs e)
+		{
+			if (_appSettings.Blacklist == null || _appSettings.Blacklist.Count == 0) return;
+			if (MessageBox.Show(Text("P22_Blocklist_ConfirmClear"), Text("P22_Blocklist_Heading"), MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+			_appSettings.Blacklist.Clear();
+			_appSettingsController.SaveSettings(_appSettings);
+			RefreshBlocklist();
+			ShowToast(Text("P25_Toast_BlocklistCleared"));
+		}
+
+		private void BlocklistInput_TextBox_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Enter) BlocklistAdd_Button_Click(sender, e);
+		}
+
+		private void BlocklistSearch_TextBox_TextChanged(object sender, TextChangedEventArgs e) => RefreshBlocklist();
+		private void Blocklist_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) => blocklistRemove_Button.IsEnabled = blocklist_ListBox.SelectedItem != null;
+		private void BlocklistHelp_Button_Click(object sender, RoutedEventArgs e) => ShowHelp(HelpTopic.Twitch, ShowEmbeddedBlocklist);
+		private void StreamElementsHelp_Button_Click(object sender, RoutedEventArgs e) => ShowHelp(HelpTopic.StreamElements);
+
+		private void ReadStreamElementsControls()
+		{
+			_appSettings.StreamElements.Enabled = streamElementsEnabled_CheckBox.IsChecked == true;
+			_appSettings.StreamElements.AutoConnect = streamElementsAutoConnect_CheckBox.IsChecked == true;
+			_appSettings.StreamElements.Token = streamElementsToken_PasswordBox.Password?.Trim() ?? string.Empty;
+			_appSettings.StreamElements.TokenType = (streamElementsTokenType_ComboBox.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "jwt";
+		}
+
+		private async void StreamElementsConnect_Button_Click(object sender, RoutedEventArgs e)
+		{
+			ReadStreamElementsControls();
+			_appSettingsController.SaveSettings(_appSettings);
+			streamElementsConnect_Button.IsEnabled = false;
+			bool connected = await _streamElementsController.ConnectAsync();
+			if (!connected) streamElementsConnect_Button.IsEnabled = true;
+		}
+
+		private async void StreamElementsDisconnect_Button_Click(object sender, RoutedEventArgs e)
+		{
+			await _streamElementsController.DisconnectAsync();
+		}
+
+		private void StreamElementsController_ConnectionStateChanged(bool connected, string detail)
+		{
+			Dispatcher.BeginInvoke(new Action(() =>
+			{
+				UpdateStreamElementsStatus(connected, detail);
+				if (connected) _appSettingsController.SaveSettings(_appSettings);
+			}));
+		}
+
+		private void UpdateStreamElementsStatus(bool connected, string detail)
+		{
+			streamElementsConnect_Button.IsEnabled = !connected;
+			streamElementsDisconnect_Button.IsEnabled = connected;
+			if (connected)
+			{
+				string suffix = string.IsNullOrWhiteSpace(detail) ? string.Empty : $" ({detail})";
+				streamElementsStatus_TextBlock.Text = string.Format(Text("P22_StreamElements_StatusConnected"), suffix);
+				streamElementsStatus_TextBlock.SetResourceReference(ForegroundProperty, "NtlSuccessBrush");
+			}
+			else if (!string.IsNullOrWhiteSpace(detail) && detail != "disconnected" && detail != "not-configured")
+			{
+				streamElementsStatus_TextBlock.Text = string.Format(Text("P22_StreamElements_StatusError"), detail);
+				streamElementsStatus_TextBlock.Foreground = System.Windows.Media.Brushes.IndianRed;
+			}
+			else
+			{
+				streamElementsStatus_TextBlock.Text = Text("P22_StreamElements_StatusDisconnected");
+				streamElementsStatus_TextBlock.SetResourceReference(ForegroundProperty, "NtlMutedTextBrush");
+			}
+		}
+
+		private void StreamElementsTest_Button_Click(object sender, RoutedEventArgs e)
+		{
+			if (!double.TryParse(streamElementsTestAmount_TextBox.Text, NumberStyles.Float, CultureInfo.CurrentCulture, out double amount) || amount < 0)
+			{
+				MessageBox.Show(Text("P22_StreamElements_InvalidAmount"), Properties.Resources.General_MessageBox_Error_Title);
+				return;
+			}
+			_streamElementsController.SimulateDonation(amount, streamElementsTestUser_TextBox.Text);
+			ShowToast(Text("P25_Toast_TestTriggered"));
+		}
+
+		private static void SelectComboBoxItem(ComboBox comboBox, string tag)
+		{
+			foreach (ComboBoxItem item in comboBox.Items)
+			{
+				if (string.Equals(item.Tag?.ToString(), tag, StringComparison.OrdinalIgnoreCase))
+				{
+					comboBox.SelectedItem = item;
+					return;
+				}
+			}
+			comboBox.SelectedIndex = 0;
+		}
+
+		private static void SetComboBoxItemContent(ComboBox comboBox, string tag, string content)
+		{
+			foreach (ComboBoxItem item in comboBox.Items)
+				if (string.Equals(item.Tag?.ToString(), tag, StringComparison.OrdinalIgnoreCase)) item.Content = content;
+		}
+
+		private void Theme_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (!_appearanceControlsReady || theme_ComboBox.SelectedItem is not ComboBoxItem item) return;
+			_appSettings.Theme = item.Tag.ToString();
+			ThemeManager.Apply(_appSettings.Theme, _appSettings.AccentColor);
+		}
+
+		private void Accent_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (!_appearanceControlsReady || accent_ComboBox.SelectedItem is not ComboBoxItem item) return;
+			_appSettings.AccentColor = item.Tag.ToString();
+			ThemeManager.Apply(_appSettings.Theme, _appSettings.AccentColor);
+		}
+
+		private void Navigation_Button_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is not Button button || !int.TryParse(button.Tag?.ToString(), out int page)) return;
+			ShowMainPage(page);
+		}
+
+		private void ShowMainPage(int page)
+		{
+			bool showChat = page < 0;
+			bool showIntegrations = (page >= 3 && page <= 5) || page == 9;
+			triggerManager_Host.Visibility = Visibility.Collapsed;
+			appInfo_Host.Visibility = Visibility.Collapsed;
+			management_Host.Visibility = Visibility.Collapsed;
+			helpPanel.Visibility = Visibility.Collapsed;
+			blocklistPanel.Visibility = Visibility.Collapsed;
+			Save_Button.Visibility = Visibility.Visible;
+			chatconsole_TabControl.Visibility = showChat ? Visibility.Visible : Visibility.Collapsed;
+			settings_TabControl.Visibility = showChat ? Visibility.Collapsed : Visibility.Visible;
+			integrationTabs_Panel.Visibility = showIntegrations ? Visibility.Visible : Visibility.Collapsed;
+			settings_TabControl.Margin = showIntegrations
+				? new Thickness(20, 68, 20, 76)
+				: new Thickness(20, 20, 20, 76);
+			if (!showChat) settings_TabControl.SelectedIndex = page == 9 ? 6 : page;
+			_currentPage = page;
+			UpdateNavigationState(page);
+		}
+
+		private void UpdateNavigationState(int page)
+		{
+			foreach (Button navigationButton in navigationButtons_Panel.Children.OfType<Button>())
+			{
+				if (!int.TryParse(navigationButton.Tag?.ToString(), out int targetPage)) continue;
+				bool active = targetPage == page || (targetPage == 3 && ((page >= 3 && page <= 5) || page == 9));
+				if (active)
+				{
+					navigationButton.SetResourceReference(BackgroundProperty, "NtlAccentSurfaceBrush");
+					navigationButton.FontWeight = FontWeights.SemiBold;
+				}
+				else
+				{
+					navigationButton.Background = System.Windows.Media.Brushes.Transparent;
+					navigationButton.ClearValue(FontWeightProperty);
+				}
+			}
+
+			foreach (Button integrationButton in integrationTabs_Panel.Children.OfType<Button>())
+			{
+				bool active = int.TryParse(integrationButton.Tag?.ToString(), out int targetPage) && targetPage == page;
+				if (active)
+				{
+					integrationButton.SetResourceReference(BackgroundProperty, "NtlAccentSurfaceBrush");
+					integrationButton.FontWeight = FontWeights.SemiBold;
+				}
+				else
+				{
+					integrationButton.ClearValue(BackgroundProperty);
+					integrationButton.ClearValue(FontWeightProperty);
+				}
+			}
+
+			if (page == 7)
+			{
+				infoNavigation_Button.SetResourceReference(BackgroundProperty, "NtlAccentSurfaceBrush");
+				infoNavigation_Button.FontWeight = FontWeights.SemiBold;
+			}
+			else
+			{
+				infoNavigation_Button.Background = System.Windows.Media.Brushes.Transparent;
+				infoNavigation_Button.ClearValue(FontWeightProperty);
+			}
+
+			if (page == 8)
+			{
+				helpNavigation_Button.SetResourceReference(BackgroundProperty, "NtlAccentSurfaceBrush");
+				helpNavigation_Button.FontWeight = FontWeights.SemiBold;
+			}
+			else
+			{
+				helpNavigation_Button.Background = System.Windows.Media.Brushes.Transparent;
+				helpNavigation_Button.ClearValue(FontWeightProperty);
+			}
+		}
+
+		private void HelpNavigation_Button_Click(object sender, RoutedEventArgs e)
+		{
+			ShowHelp(HelpTopic.General, null, true);
+		}
+
+		public void ShowHelp(HelpTopic topic, Action returnAction = null, bool returnToSelectedTopic = false)
+		{
+			if (_currentPage != 8) _helpReturnPage = _currentPage;
+			_helpReturnAction = returnAction;
+			_helpReturnFollowsSelectedTopic = returnToSelectedTopic;
+			chatconsole_TabControl.Visibility = Visibility.Collapsed;
+			settings_TabControl.Visibility = Visibility.Collapsed;
+			integrationTabs_Panel.Visibility = Visibility.Collapsed;
+			triggerManager_Host.Visibility = Visibility.Collapsed;
+			appInfo_Host.Visibility = Visibility.Collapsed;
+			management_Host.Visibility = Visibility.Collapsed;
+			blocklistPanel.Visibility = Visibility.Collapsed;
+			Save_Button.Visibility = Visibility.Collapsed;
+			helpPanel.Visibility = Visibility.Visible;
+			help_TabControl.SelectedIndex = (int)topic;
+			if (_helpReturnFollowsSelectedTopic) _helpReturnPage = GetPageForHelpTopic(topic);
+			_currentPage = 8;
+			UpdateNavigationState(8);
+			Show();
+			Activate();
+		}
+
+		private void Help_TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (!_helpReturnFollowsSelectedTopic || help_TabControl.SelectedIndex < 0) return;
+			_helpReturnPage = GetPageForHelpTopic((HelpTopic)help_TabControl.SelectedIndex);
+		}
+
+		private static int GetPageForHelpTopic(HelpTopic topic)
+		{
+			switch (topic)
+			{
+				case HelpTopic.Nano:
+				case HelpTopic.Devices:
+					return 1;
+				case HelpTopic.Trigger:
+					return 6;
+				case HelpTopic.Twitch:
+					return 0;
+				case HelpTopic.Integrations:
+					return 3;
+				case HelpTopic.General:
+				case HelpTopic.ChatResponses:
+				default:
+					return 2;
+			}
+		}
+
+		private void HelpBack_Button_Click(object sender, RoutedEventArgs e)
+		{
+			int returnPage = _helpReturnPage;
+			Action returnAction = _helpReturnAction;
+			_helpReturnAction = null;
+			_helpReturnFollowsSelectedTopic = false;
+			if (returnPage == 6) ShowEmbeddedTriggerManager();
+			else if (returnPage == 7) ShowEmbeddedAppInfo();
+			else ShowMainPage(returnPage == 8 ? -1 : returnPage);
+			returnAction?.Invoke();
 		}
 
 		private async void SetBaseColor_Button_Click(object sender, RoutedEventArgs e)
@@ -636,7 +1164,8 @@ namespace NanoTwitchLeafs.Windows
 		{
 			try
 			{
-				var twitchLinkWindow = new TwitchLinkWindow(_appSettings, _twitchController, _appSettingsController) { Owner = this };
+				var twitchLinkWindow = new TwitchLinkWindow(_appSettings, _twitchController, _appSettingsController);
+				WindowPlacementService.PrepareOwnedWindow(twitchLinkWindow, this);
 				twitchLinkWindow.ShowDialog();
 			}
 			catch (Exception exception)
@@ -683,7 +1212,8 @@ namespace NanoTwitchLeafs.Windows
 		}
 		private void Main_Window_Closed(object sender, EventArgs e)
 		{
-			Window_Closing(null, null);
+			_toastTimer.Stop();
+			_tbi?.Dispose();
 		}
 
 		private void StreamlabsConnectButton_Click(object sender, RoutedEventArgs e)
@@ -790,7 +1320,22 @@ namespace NanoTwitchLeafs.Windows
 
 		private void Open_Dir_Button_Click(object sender, RoutedEventArgs e)
 		{
-			Process.Start(Constants.PROGRAMFILESFOLDER_PATH);
+			try
+			{
+				Directory.CreateDirectory(Constants.PROGRAMFILESFOLDER_PATH);
+				Process.Start(new ProcessStartInfo
+				{
+					FileName = "explorer.exe",
+					Arguments = $"\"{Constants.PROGRAMFILESFOLDER_PATH}\"",
+					UseShellExecute = true
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.Error("Could not open the program data directory.", ex);
+				MessageBox.Show(Properties.Resources.General_MessageBox_GeneralError_Text,
+					Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
+			}
 		}
 
 
@@ -801,28 +1346,29 @@ namespace NanoTwitchLeafs.Windows
 
 			// Save all
 			_appSettingsController.SaveSettings(_appSettings);
-
-			MessageBox.Show(Properties.Resources.General_MessageBox_SettingsSaved, Properties.Resources.General_MessageBox_Sucess_Title, MessageBoxButton.OK, MessageBoxImage.Information);
+			MarkSettingsSaved();
+			ShowToast(Text("P25_Toast_SettingsSaved"));
 		}
 
 		private void ParseValuesIntoAppSettings()
 		{
 			// Bot Settings
-			_appSettings.WhisperMode = (bool)whisperMode_Checkbox.IsChecked;
+			_appSettings.WhisperMode = whisperMode_Checkbox.IsChecked == true;
 			_appSettings.CommandPrefix = commandPrefix_TextBox.Text;
-			_appSettings.ChatResponse = (bool)response_CheckBox.IsChecked;
+			_appSettings.ChatResponse = response_CheckBox.IsChecked == true;
 
 			// Nano Settings
-			_appSettings.NanoSettings.TriggerEnabled = (bool)nanoCmd_Checkbox.IsChecked;
-			_appSettings.NanoSettings.CooldownEnabled = (bool)nanoCooldown_Checkbox.IsChecked;
-			_appSettings.NanoSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
-			_appSettings.NanoSettings.ChangeBackOnCommand = (bool)commandRestore_CheckBox.IsChecked;
-			_appSettings.NanoSettings.ChangeBackOnKeyword = (bool)keywordRestore_Checkbox.IsChecked;
+			_appSettings.NanoSettings.TriggerEnabled = nanoCmd_Checkbox.IsChecked == true;
+			_appSettings.NanoSettings.CooldownEnabled = nanoCooldown_Checkbox.IsChecked == true;
+			_appSettings.NanoSettings.Cooldown = int.TryParse(nanoCooldown_TextBox.Text, out int cooldown) && cooldown >= 0 ? cooldown : 0;
+			_appSettings.NanoSettings.ChangeBackOnCommand = commandRestore_CheckBox.IsChecked == true;
+			_appSettings.NanoSettings.ChangeBackOnKeyword = keywordRestore_Checkbox.IsChecked == true;
 
 			// App Settings
-			_appSettings.AutoIpRefresh = (bool)autoIPRefresh_Checkbox.IsChecked;
-			_appSettings.DebugEnabled = (bool)debugCmd_Checkbox.IsChecked;
-			_appSettings.AutoConnect = (bool)autoConnect_Checkbox.IsChecked;
+			_appSettings.AutoIpRefresh = autoIPRefresh_Checkbox.IsChecked == true;
+			_appSettings.DebugEnabled = debugCmd_Checkbox.IsChecked == true;
+			_appSettings.AutoConnect = autoConnect_Checkbox.IsChecked == true;
+			_appSettings.BlacklistEnabled = blacklist_CheckBox.IsChecked == true;
 
 
 			// Hype Rate
@@ -832,6 +1378,7 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings.StreamlabsClientId = StreamlabsClientId_Textbox.Text;
 			_appSettings.StreamlabsClientSecret = StreamlabsClientSecret_Textbox.Password;
 			_appSettings.HypeRateApiKey = HypeRateApiKey_Textbox.Password;
+			ReadStreamElementsControls();
 		}
 
 		private void SendMessage_Button_Click(object sender, RoutedEventArgs e)
@@ -861,14 +1408,44 @@ namespace NanoTwitchLeafs.Windows
 
 		private void NanoCmd_Button_Click(object sender, RoutedEventArgs e)
 		{
-			TriggerWindow triggerWindow = new TriggerWindow(_commandRepository, _nanoController, _appSettings, _appSettingsController, _streamlabsController, _hypeRatecontroller, _triggerLogicController, _twitchEventSubController)
-			{
-				Owner = this
-			};
+			ShowEmbeddedTriggerManager();
+		}
 
-			if (!CheckForDuplicateWindow(triggerWindow))
+		private void TriggerNavigation_Button_Click(object sender, RoutedEventArgs e)
+		{
+			ShowEmbeddedTriggerManager();
+		}
+
+		private void ShowEmbeddedTriggerManager()
+		{
+			try
 			{
-				triggerWindow.Show();
+				if (_currentPage != 6) _embeddedReturnPage = _currentPage;
+				if (_embeddedTriggerManager == null)
+				{
+					_embeddedTriggerManager = new TriggerWindow(_commandRepository, _nanoController, _appSettings, _appSettingsController, _streamlabsController, _hypeRatecontroller, _triggerLogicController, _twitchEventSubController);
+					UIElement triggerContent = _embeddedTriggerManager.Content as UIElement;
+					_embeddedTriggerManager.Content = null;
+					triggerManager_Host.Content = triggerContent;
+				}
+				else _embeddedTriggerManager.RefreshTriggerList();
+
+				chatconsole_TabControl.Visibility = Visibility.Collapsed;
+				settings_TabControl.Visibility = Visibility.Collapsed;
+				appInfo_Host.Visibility = Visibility.Collapsed;
+				management_Host.Visibility = Visibility.Collapsed;
+				blocklistPanel.Visibility = Visibility.Collapsed;
+				helpPanel.Visibility = Visibility.Collapsed;
+				integrationTabs_Panel.Visibility = Visibility.Collapsed;
+				Save_Button.Visibility = Visibility.Collapsed;
+				triggerManager_Host.Visibility = Visibility.Visible;
+				_currentPage = 6;
+				UpdateNavigationState(6);
+			}
+			catch (Exception ex)
+			{
+				_logger.Error("Trigger manager could not be opened.", ex);
+				MessageBox.Show(Properties.Resources.ResourceManager.GetString("Window_Main_TriggerManager_Open_Error"), Properties.Resources.General_MessageBox_Error_Title);
 			}
 		}
 
@@ -899,10 +1476,8 @@ namespace NanoTwitchLeafs.Windows
 
 		private void nanoPairing_Button_Click(object sender, RoutedEventArgs e)
 		{
-			PairingWindow pairingWindow = new PairingWindow(_appSettings, _nanoController)
-			{
-				Owner = this
-			};
+			PairingWindow pairingWindow = new PairingWindow(_appSettings, _nanoController);
+			WindowPlacementService.PrepareOwnedWindow(pairingWindow, this);
 
 			if (!CheckForDuplicateWindow(pairingWindow))
 			{
@@ -917,14 +1492,38 @@ namespace NanoTwitchLeafs.Windows
 
 		private void AppInfo_Button_Click(object sender, RoutedEventArgs e)
 		{
-			AppInfoWindow appInfoWindow = new AppInfoWindow(_appSettings, _appSettingsController)
-			{
-				Owner = this
-			};
+			ShowEmbeddedAppInfo();
+		}
 
-			if (!CheckForDuplicateWindow(appInfoWindow))
+		private void ShowEmbeddedAppInfo()
+		{
+			try
 			{
-				appInfoWindow.Show();
+				if (_currentPage != 7) _embeddedReturnPage = _currentPage;
+				if (_embeddedAppInfo == null)
+				{
+					_embeddedAppInfo = new AppInfoWindow(_appSettings, _appSettingsController);
+					UIElement infoContent = _embeddedAppInfo.Content as UIElement;
+					_embeddedAppInfo.Content = null;
+					appInfo_Host.Content = infoContent;
+				}
+				chatconsole_TabControl.Visibility = Visibility.Collapsed;
+				settings_TabControl.Visibility = Visibility.Collapsed;
+				integrationTabs_Panel.Visibility = Visibility.Collapsed;
+				triggerManager_Host.Visibility = Visibility.Collapsed;
+				management_Host.Visibility = Visibility.Collapsed;
+				blocklistPanel.Visibility = Visibility.Collapsed;
+				helpPanel.Visibility = Visibility.Collapsed;
+				Save_Button.Visibility = Visibility.Collapsed;
+				appInfo_Host.Visibility = Visibility.Visible;
+				_currentPage = 7;
+				UpdateNavigationState(7);
+			}
+			catch (Exception ex)
+			{
+				_logger.Error("Program information could not be opened.", ex);
+				MessageBox.Show(Properties.Resources.General_MessageBox_GeneralError_Text,
+					Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 
@@ -976,6 +1575,128 @@ namespace NanoTwitchLeafs.Windows
 			}
 		}
 
+		private void ConsoleClear_Button_Click(object sender, RoutedEventArgs e)
+		{
+			Console.Clear();
+			_consoleView?.Refresh();
+			UpdateConsoleResultCount();
+			ShowToast(Text("P25_Toast_ConsoleCleared"));
+		}
+
+		private bool ConsoleEntryMatchesFilter(object value)
+		{
+			if (value is not ConsoleLogEntry entry) return false;
+			string search = consoleSearch_TextBox?.Text?.Trim() ?? string.Empty;
+			string level = (consoleLevelFilter_ComboBox?.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "All";
+			return (level == "All" || entry.Level == level) &&
+				(string.IsNullOrWhiteSpace(search) || entry.Message?.Contains(search, StringComparison.OrdinalIgnoreCase) == true);
+		}
+
+		private void ConsoleFilter_Changed(object sender, RoutedEventArgs e)
+		{
+			if (consoleSearchHint_TextBlock != null)
+				consoleSearchHint_TextBlock.Visibility = string.IsNullOrEmpty(consoleSearch_TextBox?.Text) ? Visibility.Visible : Visibility.Collapsed;
+			_consoleView?.Refresh();
+			UpdateConsoleResultCount();
+			if (_consoleAutoScroll) UpdateScrollBar(console_ListBox);
+		}
+
+		private void UpdateConsoleResultCount()
+		{
+			if (consoleResultCount_TextBlock == null) return;
+			int visible = _consoleView?.Cast<object>().Count() ?? Console.Count;
+			consoleResultCount_TextBlock.Text = string.Format(Text("P25_Console_Count"), visible, Console.Count);
+		}
+
+		private void ConsoleCopySelected_MenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			CopyConsoleEntries(console_ListBox.SelectedItems.Cast<ConsoleLogEntry>());
+		}
+
+		private void ConsoleCopyVisible_MenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			CopyConsoleEntries((_consoleView?.Cast<ConsoleLogEntry>()) ?? Enumerable.Empty<ConsoleLogEntry>());
+		}
+
+		private void CopyConsoleEntries(IEnumerable<ConsoleLogEntry> entries)
+		{
+			string text = string.Join(Environment.NewLine, entries.Select(entry => entry.Message));
+			if (string.IsNullOrWhiteSpace(text)) return;
+			try { Clipboard.SetText(text); ShowToast(Text("P25_Toast_Copied")); }
+			catch (Exception ex) { _logger.Warn("Could not copy console entries.", ex); }
+		}
+
+		private void ConsoleOpenLog_Button_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				Directory.CreateDirectory(Path.GetDirectoryName(Constants.LOG_PATH));
+				if (!File.Exists(Constants.LOG_PATH))
+					File.WriteAllText(Constants.LOG_PATH, string.Empty);
+				Process.Start(new ProcessStartInfo
+				{
+					FileName = Constants.LOG_PATH,
+					UseShellExecute = true
+				});
+			}
+			catch (Exception ex)
+			{
+				_logger.Error("Could not open the log file.", ex);
+				MessageBox.Show(Properties.Resources.General_MessageBox_GeneralError_Text,
+					Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
+
+		private void ConsoleSupportLog_Button_Click(object sender, RoutedEventArgs e)
+		{
+			try
+			{
+				string supportDirectory = Path.Combine(Constants.PROGRAMFILESFOLDER_PATH, "Support");
+				Directory.CreateDirectory(supportDirectory);
+				string destination = Path.Combine(supportDirectory, $"NanoTwitchLeafs-support-{DateTime.Now:yyyyMMdd-HHmmss}.log");
+				string source = File.Exists(Constants.LOG_PATH) ? File.ReadAllText(Constants.LOG_PATH) : string.Empty;
+				string header = $"NanoTwitchLeafs {VersionBadgeText}{Environment.NewLine}Created: {DateTimeOffset.Now:O}{Environment.NewLine}{Environment.NewLine}";
+				File.WriteAllText(destination, header + SanitizeSupportLog(source), Encoding.UTF8);
+				Process.Start(new ProcessStartInfo { FileName = "explorer.exe", Arguments = $"/select,\"{destination}\"", UseShellExecute = true });
+				ShowToast(Text("P25_Toast_SupportCreated"));
+			}
+			catch (Exception ex)
+			{
+				_logger.Error("Could not create the sanitized support log.", ex);
+				MessageBox.Show(Properties.Resources.General_MessageBox_GeneralError_Text,
+					Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
+
+		private string SanitizeSupportLog(string content)
+		{
+			string sanitized = content ?? string.Empty;
+			var secrets = new[]
+			{
+				_appSettings.BotAuthObject?.Access_Token, _appSettings.BotAuthObject?.Refresh_Token,
+				_appSettings.BroadcasterAuthObject?.Access_Token, _appSettings.BroadcasterAuthObject?.Refresh_Token,
+				_appSettings.StreamElements?.Token, _appSettings.StreamlabsClientId,
+				_appSettings.StreamlabsClientSecret, _appSettings.StreamlabsInformation?.StreamlabsAToken,
+				_appSettings.StreamlabsInformation?.StreamlabsSocketToken, _appSettings.HypeRateApiKey,
+				_appSettings.BotName, _appSettings.ChannelName
+			}.Concat((_appSettings.NanoSettings?.NanoLeafDevices ?? new List<NanoLeafDevice>()).Select(device => device.Token));
+			foreach (string secret in secrets.Where(value => !string.IsNullOrWhiteSpace(value) && value.Length >= 4).Distinct())
+				sanitized = sanitized.Replace(secret, "[REDACTED]", StringComparison.Ordinal);
+			string userProfile = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+			if (!string.IsNullOrWhiteSpace(userProfile))
+				sanitized = sanitized.Replace(userProfile, "%USERPROFILE%", StringComparison.OrdinalIgnoreCase);
+			sanitized = Regex.Replace(sanitized, @"(?i)(Bearer\s+)[A-Za-z0-9._~+/=-]+", "$1[REDACTED]");
+			sanitized = Regex.Replace(sanitized, @"(?i)((?:access|refresh)[_ -]?token|api[_ -]?key|client[_ -]?secret|authorization|jwt)(\s*[:=]\s*)([^\s,;]+)", "$1$2[REDACTED]");
+			return sanitized;
+		}
+
+		private void ConsoleAutoScroll_CheckBox_Changed(object sender, RoutedEventArgs e)
+		{
+			_consoleAutoScroll = consoleAutoScroll_CheckBox.IsChecked == true;
+			if (_consoleAutoScroll)
+				UpdateScrollBar(console_ListBox);
+		}
+
 		private void ChatConsole_TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			var item = (TabItem)chatconsole_TabControl.SelectedItem;
@@ -987,7 +1708,7 @@ namespace NanoTwitchLeafs.Windows
 			{
 				UpdateScrollBar(twitchChat_ListBox);
 			}
-			else
+			else if (_consoleAutoScroll)
 			{
 				UpdateScrollBar(console_ListBox);
 			}
@@ -995,6 +1716,39 @@ namespace NanoTwitchLeafs.Windows
 
 		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
+			if (_shutdownCompleted) return;
+			try
+			{
+				if (_settingsDirty && e != null)
+				{
+					MessageBoxResult result = MessageBox.Show(Text("P25_Unsaved_Close"), Text("P25_Unsaved_Title"),
+						MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+					if (result == MessageBoxResult.Cancel)
+					{
+						e.Cancel = true;
+						return;
+					}
+					if (result == MessageBoxResult.Yes)
+					{
+						ParseValuesIntoAppSettings();
+						SaveWindowPlacement();
+						_appSettingsController.SaveSettings(_appSettings);
+						MarkSettingsSaved();
+					}
+				}
+				else
+				{
+					ReadStreamElementsControls();
+					SaveWindowPlacement();
+					_appSettingsController.SaveSettings(_appSettings);
+				}
+				_streamElementsController?.Dispose();
+				_shutdownCompleted = true;
+			}
+			catch (Exception ex)
+			{
+				_logger.Warn("Could not close StreamElements cleanly.", ex);
+			}
 		}
 
 		private void Application_Exit(object sender, ExitEventArgs e)
@@ -1015,18 +1769,29 @@ namespace NanoTwitchLeafs.Windows
 
 		private void NanoCooldown_TextBox_TextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
 		{
-			_appSettings.NanoSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
+			if (int.TryParse(nanoCooldown_TextBox.Text, out int cooldown) && cooldown >= 0)
+				_appSettings.NanoSettings.Cooldown = cooldown;
 		}
 
 		private void NanoCooldown_TextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			_appSettings.NanoSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
+			if (!int.TryParse(nanoCooldown_TextBox.Text, out int cooldown) || cooldown < 0)
+			{
+				cooldown = 0;
+				nanoCooldown_TextBox.Text = "0";
+			}
+			_appSettings.NanoSettings.Cooldown = cooldown;
 		}
 
 		private void NanoCooldown_Checkbox_Click(object sender, RoutedEventArgs e)
 		{
-			_appSettings.NanoSettings.CooldownEnabled = (bool)nanoCooldown_Checkbox.IsChecked;
-			_appSettings.NanoSettings.Cooldown = Convert.ToInt32(nanoCooldown_TextBox.Text);
+			_appSettings.NanoSettings.CooldownEnabled = nanoCooldown_Checkbox.IsChecked == true;
+			if (!int.TryParse(nanoCooldown_TextBox.Text, out int cooldown) || cooldown < 0)
+			{
+				cooldown = 0;
+				nanoCooldown_TextBox.Text = "0";
+			}
+			_appSettings.NanoSettings.Cooldown = cooldown;
 
 			if (_appSettings.NanoSettings.CooldownEnabled)
 			{
@@ -1061,7 +1826,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void AutoRestoreHelp_Button_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBox.Show(Properties.Resources.Code_Main_MessageBox_AutoRestore, Properties.Resources.General_MessageBox_Hint_Title);
+			ShowHelp(HelpTopic.Nano);
 		}
 
 		private void EventReset_Button_Click(object sender, RoutedEventArgs e)
@@ -1076,16 +1841,26 @@ namespace NanoTwitchLeafs.Windows
 
 		private void Responses_Button_Click(object sender, RoutedEventArgs e)
 		{
-			Responses responsesWindow = new Responses(_appSettings, _appSettingsController)
-			{
-				Owner = this
-			};
-
-			if (!CheckForDuplicateWindow(responsesWindow))
-			{
-				responsesWindow.Show();
-			}
+			ShowEmbeddedResponses();
 		}
+
+		private void ShowEmbeddedResponses()
+		{
+			if (_embeddedResponses == null)
+			{
+				_embeddedResponses = new Responses(_appSettings, _appSettingsController);
+				UIElement content = _embeddedResponses.Content as UIElement;
+				_embeddedResponses.Content = null;
+				_embeddedResponses.Tag = content;
+				_embeddedResponses.ConfigureEmbedded(() => ShowMainPage(2),
+					() => ShowHelp(HelpTopic.ChatResponses, RestoreEmbeddedResponses));
+			}
+			else _embeddedResponses.RefreshContent();
+			ShowManagementContent(_embeddedResponses.Tag as UIElement, 2);
+		}
+
+		private void RestoreEmbeddedResponses() =>
+			ShowManagementContent(_embeddedResponses?.Tag as UIElement, 2);
 
 		private void AutoConnect_Checkbox_Click(object sender, RoutedEventArgs e)
 		{
@@ -1103,15 +1878,64 @@ namespace NanoTwitchLeafs.Windows
 		private void ShowDevices_Button_Click(object sender, RoutedEventArgs e)
 		{
 			_logger.Info("Show Device Info");
-			DevicesInfoWindow devicesInfoWindow = new DevicesInfoWindow(_nanoController, _appSettings, _appSettingsController)
-			{
-				Owner = this
-			};
+			ShowEmbeddedDevices();
+		}
 
-			if (!CheckForDuplicateWindow(devicesInfoWindow))
+		private void ShowEmbeddedDevices()
+		{
+			if (_embeddedDevices == null)
 			{
-				devicesInfoWindow.Show();
+				_embeddedDevices = new DevicesInfoWindow(_nanoController, _appSettings, _appSettingsController);
+				UIElement content = _embeddedDevices.Content as UIElement;
+				_embeddedDevices.Content = null;
+				_embeddedDevices.Tag = content;
+				_embeddedDevices.ConfigureEmbedded(() => ShowMainPage(1),
+					() => ShowEmbeddedDeviceGroups(ShowEmbeddedDevices),
+					() => ShowHelp(HelpTopic.Devices, RestoreEmbeddedDevices));
 			}
+			else
+			{
+				_embeddedDevices.InitializeData();
+			}
+			ShowManagementContent(_embeddedDevices.Tag as UIElement, 1);
+		}
+
+		private void RestoreEmbeddedDevices() =>
+			ShowManagementContent(_embeddedDevices?.Tag as UIElement, 1);
+
+		public void ShowEmbeddedDeviceGroups(Action returnAction = null)
+		{
+			if (_embeddedDeviceGroups == null)
+			{
+				_embeddedDeviceGroups = new DeviceGroupsWindow(_appSettings, _appSettingsController);
+				UIElement content = _embeddedDeviceGroups.Content as UIElement;
+				_embeddedDeviceGroups.Content = null;
+				_embeddedDeviceGroups.Tag = content;
+			}
+			_embeddedDeviceGroups.ConfigureEmbedded(returnAction ?? ShowEmbeddedDevices,
+				() => ShowHelp(HelpTopic.Devices, RestoreEmbeddedDeviceGroups));
+			_embeddedDeviceGroups.RefreshContent();
+			ShowManagementContent(_embeddedDeviceGroups.Tag as UIElement, 1);
+		}
+
+		private void RestoreEmbeddedDeviceGroups() =>
+			ShowManagementContent(_embeddedDeviceGroups?.Tag as UIElement, 1);
+
+		private void ShowManagementContent(UIElement content, int navigationPage)
+		{
+			if (content == null) return;
+			management_Host.Content = content;
+			chatconsole_TabControl.Visibility = Visibility.Collapsed;
+			settings_TabControl.Visibility = Visibility.Collapsed;
+			integrationTabs_Panel.Visibility = Visibility.Collapsed;
+			triggerManager_Host.Visibility = Visibility.Collapsed;
+			appInfo_Host.Visibility = Visibility.Collapsed;
+			blocklistPanel.Visibility = Visibility.Collapsed;
+			helpPanel.Visibility = Visibility.Collapsed;
+			Save_Button.Visibility = Visibility.Collapsed;
+			management_Host.Visibility = Visibility.Visible;
+			_currentPage = navigationPage;
+			UpdateNavigationState(navigationPage);
 		}
 
 		private void FaqLink_Button_Click(object sender, RoutedEventArgs e)
@@ -1253,6 +2077,7 @@ namespace NanoTwitchLeafs.Windows
 			HypeRateApiKey_Textbox.IsEnabled = true;
 
 			help_TextBlock.Text = string.Format(Properties.Resources.Code_Main_Label_NanoHelpText, _appSettings.CommandPrefix);
+			generalCommandHelp_TextBlock.Text = string.Format(Properties.Resources.Code_Main_Label_NanoHelpText, _appSettings.CommandPrefix);
 		}
 
 		private void _twitchController_OnConsoleMessageReceived(string message)
@@ -1274,7 +2099,7 @@ namespace NanoTwitchLeafs.Windows
 
 		private void SendChatResponse(string message)
 		{
-			if (!_appSettings.ChatResponse)
+			if (!_appSettings.ChatResponse || _twitchController == null || string.IsNullOrWhiteSpace(message))
 			{
 				return;
 			}
