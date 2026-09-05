@@ -1,6 +1,7 @@
 ﻿using log4net;
 using NanoTwitchLeafs.Objects;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Security.Authentication;
 using System.Windows;
@@ -33,8 +34,8 @@ namespace NanoTwitchLeafs.Controller
 
 		public HypeRateIOController(AppSettings appSettings)
 		{
-			_appSettings = appSettings;
-			_apiKey = appSettings.HypeRateApiKey ?? string.Empty;
+			_appSettings = appSettings ?? new AppSettings();
+			_apiKey = _appSettings.HypeRateApiKey ?? string.Empty;
 			_websocketUrl = $"wss://app.hyperate.io/socket/websocket?token={Uri.EscapeDataString(_apiKey)}";
 			_webSocket = new WebSocket(_websocketUrl);
             _webSocket.Opened += _webSocket_Opened;
@@ -48,13 +49,18 @@ namespace NanoTwitchLeafs.Controller
 
         private void _webSocket_MessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            _logger.Debug($"Recieved Message from HypeRate Server: {e.Message}");
-            var message = JsonConvert.DeserializeObject<dynamic>(e.Message);
-
-            if (message.@event == "hr_update")
+            try
             {
-                _logger.Debug($"Recieved HeartRate {message.payload.hr}");
-                OnHeartRateRecieved?.Invoke(Convert.ToInt32(message.payload.hr));
+                JObject message = JObject.Parse(e?.Message ?? "{}");
+                if (!string.Equals(message.Value<string>("event"), "hr_update", StringComparison.Ordinal)) return;
+                int? heartRate = message["payload"]?.Value<int?>("hr");
+                if (!heartRate.HasValue) { _logger.Warn("HypeRate update did not contain a heart rate."); return; }
+                _logger.Debug($"Received HeartRate {heartRate.Value}");
+                OnHeartRateRecieved?.Invoke(heartRate.Value);
+            }
+            catch (Exception ex)
+            {
+                _logger.Warn("Ignored an invalid HypeRate message.", ex);
             }
         }
 
@@ -112,7 +118,8 @@ namespace NanoTwitchLeafs.Controller
         /// </summary>
         public void Disconnect()
         {
-            _webSocket.Close();
+            if (_webSocket != null && _webSocket.State != WebSocketState.Closed)
+                _webSocket.Close();
         }
     }
 }

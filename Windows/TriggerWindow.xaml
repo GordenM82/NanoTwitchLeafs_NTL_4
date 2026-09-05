@@ -14,12 +14,15 @@
                 <Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}"/><Setter Property="Background" Value="{DynamicResource NtlSurfaceRaisedBrush}"/><Setter Property="BorderBrush" Value="{DynamicResource NtlBorderBrush}"/><Setter Property="BorderThickness" Value="0,0,1,1"/><Setter Property="Padding" Value="8,8"/>
                 <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="GridViewColumnHeader"><Border x:Name="header" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/></Border><ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="header" Property="Background" Value="{DynamicResource NtlAccentSurfaceBrush}"/></Trigger><Trigger Property="IsPressed" Value="True"><Setter TargetName="header" Property="BorderBrush" Value="{DynamicResource NtlAccentBrush}"/></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
             </Style>
-            <DataTemplate x:Key="SoundCell"><TextBlock Text="{Binding Sound}" TextAlignment="Center" HorizontalAlignment="Stretch"/></DataTemplate>
+            <DataTemplate x:Key="TriggerCell"><TextBlock Text="{Binding Trigger}" ToolTip="{Binding Trigger}" TextTrimming="CharacterEllipsis" Padding="4,0"/></DataTemplate>
+            <DataTemplate x:Key="CommandCell"><TextBlock Text="{Binding Command}" ToolTip="{Binding Command}" TextTrimming="CharacterEllipsis" Padding="4,0"/></DataTemplate>
+            <DataTemplate x:Key="FlagsCell"><TextBlock Text="{Binding VipSubMod}" ToolTip="{Binding VipSubMod}" TextTrimming="CharacterEllipsis" Padding="4,0"/></DataTemplate>
+            <DataTemplate x:Key="SoundCell"><TextBlock Text="{Binding Sound}" ToolTip="{Binding Sound}" TextAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"/></DataTemplate>
             <DataTemplate x:Key="DurationCell"><TextBlock Text="{Binding Duration}" TextAlignment="Center" HorizontalAlignment="Stretch"/></DataTemplate>
             <DataTemplate x:Key="BrightnessCell"><TextBlock Text="{Binding Brightness}" TextAlignment="Center" HorizontalAlignment="Stretch"/></DataTemplate>
             <DataTemplate x:Key="AmountCell"><TextBlock Text="{Binding Amount}" TextAlignment="Center" HorizontalAlignment="Stretch"/></DataTemplate>
             <DataTemplate x:Key="CooldownCell"><TextBlock Text="{Binding Cooldown}" TextAlignment="Center" HorizontalAlignment="Stretch"/></DataTemplate>
-            <DataTemplate x:Key="TargetsCell"><TextBlock Text="{Binding TargetDevices}" TextAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"/></DataTemplate>
+            <DataTemplate x:Key="TargetsCell"><TextBlock Text="{Binding TargetDevices}" ToolTip="{Binding TargetDevices}" TextAlignment="Center" HorizontalAlignment="Stretch" TextTrimming="CharacterEllipsis"/></DataTemplate>
             <Style TargetType="ListViewItem">
                 <Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}" />
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -56,12 +59,12 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Trigger}" Width="95" DisplayMemberBinding="{Binding Trigger}" />
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Command}" Width="120" DisplayMemberBinding="{Binding Command}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Trigger}" Width="100" CellTemplate="{StaticResource TriggerCell}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Command}" Width="125" CellTemplate="{StaticResource CommandCell}" />
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Effect}" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Label x:Name="EffectName_Label" Content="{Binding Effect}" Background="{Binding Background}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="96" />
+                                <Label x:Name="EffectName_Label" Content="{Binding Effect}" ToolTip="{Binding Effect}" Background="{Binding Background}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="96" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -70,7 +73,7 @@
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Brightness}" Width="75" CellTemplate="{StaticResource BrightnessCell}" />
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Amount}" Width="60" CellTemplate="{StaticResource AmountCell}" />
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Cooldown}" Width="75" CellTemplate="{StaticResource CooldownCell}" />
-                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Flags}" Width="120" DisplayMemberBinding="{Binding VipSubMod}" />
+                    <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Flags}" Width="120" CellTemplate="{StaticResource FlagsCell}" />
                     <GridViewColumn x:Name="targetDevices_Column" Header="" Width="125" CellTemplate="{StaticResource TargetsCell}" />
                     <GridViewColumn x:Name="warning_Column" Header="" Width="34">
                         <GridViewColumn.CellTemplate><DataTemplate><TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" FontSize="17" Foreground="{DynamicResource NtlWarningBrush}" Visibility="{Binding WarningVisibility}" ToolTip="{Binding WarningText}" HorizontalAlignment="Center"/></DataTemplate></GridViewColumn.CellTemplate>

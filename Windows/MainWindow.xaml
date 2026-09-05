@@ -72,7 +72,7 @@
                         <Label x:Name="TwitchLink_Label" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_AccountLabel_Text}" HorizontalContentAlignment="Center" FontSize="15" Margin="0,0,0,8" />
                         <Button x:Name="ConnectTwitchAccount_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_LinkButton_Text}" Click="ConnectTwitchAccount_Button_Click" Margin="80,0,80,8" />
                         <Button x:Name="DisconnectTwitchAccount_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_UnlinkButton_Text}" IsEnabled="False" Click="DisconnectTwitchAccount_Button_Click" Margin="80,0,80,18" />
-                        <Button x:Name="ConnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Connect}" Click="ConnectChat_Button_Click" IsEnabled="False" Margin="80,0,80,8" />
+                        <Button x:Name="ConnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Connect}" Click="ConnectChat_Button_Click" IsEnabled="False" Margin="80,0,80,8" ToolTipService.ShowOnDisabled="True" />
                         <Button x:Name="DisconnectChat_Button" Content="{x:Static p:Resources.Window_Main_Tabs_TwitchLogin_Button_Disconnect}" Click="DisconnectChat_Button_Click" IsEnabled="False" Margin="80,0,80,0" />
                     </StackPanel></Border>
                     <Grid x:Name="ConnectedTwitchLogin_Grid" Visibility="Hidden"/>
@@ -86,9 +86,9 @@
             </TabItem>
             <TabItem x:Name="nanoConfig_TabItem" Header="{x:Static p:Resources.Window_Main_Tabs_Nano_Title}" Margin="1,0,-1,0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{DynamicResource NtlSurfaceBrush}"><StackPanel MaxWidth="900" Margin="12" TextElement.FontSize="14">
-                    <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><Button x:Name="nanoTestConnection_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Test}" Click="NanoTestConnection_Button_Click" IsEnabled="False" Margin="0,0,6,0" Padding="12,6"/><Button x:Name="nanoPairing_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Pairing}" Click="nanoPairing_Button_Click" Margin="6,0,0,0" Padding="12,6"/></Grid>
+                    <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions><Button x:Name="nanoTestConnection_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Test}" Click="NanoTestConnection_Button_Click" IsEnabled="False" Margin="0,0,6,0" Padding="12,6" ToolTipService.ShowOnDisabled="True"/><Button x:Name="nanoPairing_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Pairing}" Click="nanoPairing_Button_Click" Margin="6,0,0,0" Padding="12,6"/></Grid>
                     <Border Style="{StaticResource NtlCardStyle}" Margin="0,0,0,8" Padding="14"><StackPanel>
-                        <Grid Margin="0,0,0,5"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><CheckBox x:Name="nanoCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableTrigger}" Click="NanoCmd_Checkbox_Click"/><Button x:Name="nanoCmd_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_EditTrigger}" Click="NanoCmd_Button_Click" IsEnabled="False" Padding="12,6"/></Grid>
+                        <Grid Margin="0,0,0,5"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><CheckBox x:Name="nanoCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableTrigger}" Click="NanoCmd_Checkbox_Click"/><Button x:Name="nanoCmd_Button" Grid.Column="1" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_EditTrigger}" Click="NanoCmd_Button_Click" IsEnabled="False" Padding="12,6" ToolTipService.ShowOnDisabled="True"/></Grid>
                         <Grid Margin="0,0,0,4"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="72"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><CheckBox x:Name="nanoCooldown_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_EnableCooldown}" Click="NanoCooldown_Checkbox_Click"/><TextBox x:Name="nanoCooldown_TextBox" Grid.Column="1" Text="0" HorizontalContentAlignment="Center" TextInput="NanoCooldown_TextBox_TextInput" LostFocus="NanoCooldown_TextBox_LostFocus" Margin="8,0"/><Label Grid.Column="2" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_Seconds}" Padding="5,3"/></Grid>
                         <CheckBox x:Name="nanoCooldownIgnore_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Checkbox_ModeratorIgnorCooldown}" Click="NanoCooldownIgnore_Checkbox_Click" IsEnabled="False"/>
                         <Grid Margin="0,6,0,3"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><Label Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Label_AutoRestore}" Padding="0"/><Button x:Name="autoRestoreHelp_Button" Grid.Column="1" Content="?" Width="34" Padding="8,5" Click="AutoRestoreHelp_Button_Click"/></Grid>
@@ -240,7 +240,7 @@
                         <Button x:Name="consoleClear_Button" Grid.Column="2" Click="ConsoleClear_Button_Click" Margin="0,0,8,0" VerticalAlignment="Stretch"/>
                         <Button x:Name="consoleOpenLog_Button" Grid.Column="3" Click="ConsoleOpenLog_Button_Click" Margin="0,0,8,0" VerticalAlignment="Stretch"/>
                         <Button x:Name="consoleSupportLog_Button" Grid.Column="4" Click="ConsoleSupportLog_Button_Click" Margin="0,0,12,0" VerticalAlignment="Stretch"/>
-                        <CheckBox x:Name="consoleAutoScroll_CheckBox" Grid.Column="5" IsChecked="True" Checked="ConsoleAutoScroll_CheckBox_Changed" Unchecked="ConsoleAutoScroll_CheckBox_Changed" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                        <CheckBox x:Name="consoleAutoScroll_CheckBox" Grid.Column="5" IsChecked="True" Checked="ConsoleAutoScroll_CheckBox_Changed" Unchecked="ConsoleAutoScroll_CheckBox_Changed" VerticalAlignment="Center" Margin="0,0,12,0" RenderTransformOrigin="0.5,0.5"><CheckBox.RenderTransform><TranslateTransform Y="3"/></CheckBox.RenderTransform></CheckBox>
                         <TextBlock x:Name="consoleResultCount_TextBlock" Grid.Column="6" VerticalAlignment="Center" Foreground="{DynamicResource NtlMutedTextBrush}"/>
                     </Grid>
                     <ListBox x:Name="console_ListBox" Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top" Margin="10,2,10,10" SelectionMode="Extended">
@@ -250,7 +250,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <ContentControl x:Name="triggerManager_Host" Grid.Column="1" Margin="20" Visibility="Collapsed" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+        <ContentControl x:Name="triggerManager_Host" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
         <ContentControl x:Name="appInfo_Host" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
         <ContentControl x:Name="management_Host" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
         <Grid x:Name="blocklistPanel" Grid.Column="1" Margin="20,20,20,76" Visibility="Collapsed">

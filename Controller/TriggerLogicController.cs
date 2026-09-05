@@ -396,10 +396,13 @@ namespace NanoTwitchLeafs.Controller
 
 		private void RefreshRemainingQueueElements()
 		{
-			Application.Current.Dispatcher.Invoke(() =>
+			Application application = Application.Current;
+			if (application?.Dispatcher == null || application.Dispatcher.HasShutdownStarted) return;
+			application.Dispatcher.BeginInvoke(new Action(() =>
 			{
-				(((MainWindow)Application.Current.MainWindow)!).nanoQueueCount_TextBox.Text = _queue.Count.ToString();
-			});
+				if (application.MainWindow is MainWindow window && window.nanoQueueCount_TextBox != null)
+					window.nanoQueueCount_TextBox.Text = _queue.Count.ToString();
+			}));
 		}
 
 		private void HandleFollow(string username)
@@ -1193,7 +1196,7 @@ namespace NanoTwitchLeafs.Controller
 			var count = _queue.Count;
 			_logger.Info($"Removed {count} Events from Queue.");
 
-			_queue = new BufferBlock<QueueObject>();
+			while (_queue.TryReceive(out _)) { }
 			RefreshRemainingQueueElements();
 		}
 
@@ -1217,7 +1220,7 @@ namespace NanoTwitchLeafs.Controller
 		public void RestartEventQueue()
 		{
 			_logger.Info("Restarting Queue...");
-			_queueToken.Cancel();
+			_queueToken?.Cancel();
 			RunQueueHandler();
 		}
 	}

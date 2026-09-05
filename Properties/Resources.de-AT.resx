@@ -1223,4 +1223,7 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="P25_Unsaved" xml:space="preserve"><value>Ungespeicherte Änderungen</value></data>
   <data name="P25_Unsaved_Close" xml:space="preserve"><value>Änderungen vor dem Schließen speichern?</value></data>
   <data name="P25_Unsaved_Title" xml:space="preserve"><value>Ungespeicherte Änderungen</value></data>
+  <data name="P28_Disabled_ConnectChat" xml:space="preserve"><value>Verbinde zuerst ein Twitch-Konto, bevor du den Chat verbindest.</value></data>
+  <data name="P28_Disabled_NanoTest" xml:space="preserve"><value>Kopple zuerst ein Nanoleaf-Gerät, bevor du die Verbindung testest.</value></data>
+  <data name="P28_Disabled_EditTrigger" xml:space="preserve"><value>Aktiviere zuerst die Nanoleaf-Trigger, bevor du die Triggerverwaltung öffnest.</value></data>
 </root>

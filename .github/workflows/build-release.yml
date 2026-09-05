@@ -49,6 +49,9 @@ jobs:
       - name: Validate Preview 27 toolbar and localization
         run: python tools/validate_p27.py
 
+      - name: Validate Preview 28 quality and stability
+        run: python tools/validate_p28.py
+
       - name: Restore
         run: dotnet restore NanoTwitchLeafs.Modern.csproj
 
@@ -58,21 +61,21 @@ jobs:
           --configuration Release
           --runtime win-x64
           --self-contained true
-          --output artifacts/NanoTwitchLeafs-4.1.0-layout-preview.27-win-x64
+          --output artifacts/NanoTwitchLeafs-4.1.0-layout-preview.28-win-x64
 
       - name: Remove development-only files
         shell: pwsh
         run: |
-          Remove-Item "artifacts/NanoTwitchLeafs-4.1.0-layout-preview.27-win-x64/*.pdb" -Force -ErrorAction SilentlyContinue
+          Remove-Item "artifacts/NanoTwitchLeafs-4.1.0-layout-preview.28-win-x64/*.pdb" -Force -ErrorAction SilentlyContinue
 
       - name: Create release ZIP
         shell: pwsh
         run: |
-          Compress-Archive -Path "artifacts/NanoTwitchLeafs-4.1.0-layout-preview.27-win-x64/*" -DestinationPath "artifacts/NanoTwitchLeafs-4.1.0-layout-preview.27-win-x64.zip"
+          Compress-Archive -Path "artifacts/NanoTwitchLeafs-4.1.0-layout-preview.28-win-x64/*" -DestinationPath "artifacts/NanoTwitchLeafs-4.1.0-layout-preview.28-win-x64.zip"
 
       - name: Upload release ZIP
         uses: actions/upload-artifact@v6
         with:
-          name: NanoTwitchLeafs-4.1.0-layout-preview.27-win-x64
-          path: artifacts/NanoTwitchLeafs-4.1.0-layout-preview.27-win-x64.zip
+          name: NanoTwitchLeafs-4.1.0-layout-preview.28-win-x64
+          path: artifacts/NanoTwitchLeafs-4.1.0-layout-preview.28-win-x64.zip
           if-no-files-found: error

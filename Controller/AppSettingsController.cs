@@ -52,6 +52,14 @@ namespace NanoTwitchLeafs.Controller
         {
             try
             {
+                if (appSettings == null) throw new ArgumentNullException(nameof(appSettings));
+                Directory.CreateDirectory(Path.GetDirectoryName(
+#if DEBUG
+                    Constants.DEBUG_SETTINGS_PATH
+#else
+                    Constants.SETTINGS_PATH
+#endif
+                ));
 #if DEBUG
             File.WriteAllText(Constants.DEBUG_SETTINGS_PATH, JsonConvert.SerializeObject(appSettings, Formatting.Indented));
 #else
@@ -80,7 +88,7 @@ namespace NanoTwitchLeafs.Controller
             try
             {
 #if DEBUG
-            return JsonConvert.DeserializeObject<AppSettings>(File.ReadAllText(path));
+            return NormalizeSettings(JsonConvert.DeserializeObject<AppSettings>(File.ReadAllText(path)));
 #else
                 string base64 = File.ReadAllText(path);
                 byte[] encryptedData = Convert.FromBase64String(base64);
@@ -100,9 +108,9 @@ namespace NanoTwitchLeafs.Controller
                         typeof(AppSettings).Assembly.GetName().Version.ToString();
                 }
 
-                return settingsJson.ToObject<AppSettings>();
+                return NormalizeSettings(settingsJson.ToObject<AppSettings>());
 #else
-				return JsonConvert.DeserializeObject<AppSettings>(json);
+				return NormalizeSettings(JsonConvert.DeserializeObject<AppSettings>(json));
 #endif
 #endif
             }
@@ -111,7 +119,46 @@ namespace NanoTwitchLeafs.Controller
                 _logger.Error("Could not Load Settings from File!");
                 _logger.Error(ex.Message);
                 _logger.Error("Loading blank Settings instead.");
+                BackupInvalidSettings(path);
                 return new AppSettings();
+            }
+        }
+
+        internal static AppSettings NormalizeSettings(AppSettings settings)
+        {
+            settings ??= new AppSettings();
+            settings.Responses ??= new Responses();
+            settings.BotAuthObject ??= new OAuthObject();
+            settings.BroadcasterAuthObject ??= new OAuthObject();
+            settings.NanoSettings ??= new NanoSettings();
+            settings.NanoSettings.NanoLeafDevices ??= new System.Collections.Generic.List<NanoLeafDevice>();
+            settings.NanoSettings.DeviceGroups ??= new System.Collections.Generic.List<NanoleafDeviceGroup>();
+            settings.Blacklist ??= new System.Collections.Generic.List<string>();
+            settings.StreamlabsInformation ??= new StreamlabsInformation();
+            settings.StreamElements ??= new StreamElementsSettings();
+            settings.StreamElements.Token ??= string.Empty;
+            settings.StreamElements.TokenType = string.IsNullOrWhiteSpace(settings.StreamElements.TokenType) ? "jwt" : settings.StreamElements.TokenType;
+            settings.CommandPrefix = string.IsNullOrWhiteSpace(settings.CommandPrefix) ? "!" : settings.CommandPrefix;
+            settings.Language = string.IsNullOrWhiteSpace(settings.Language) ? "en-US" : settings.Language;
+            settings.Theme = string.IsNullOrWhiteSpace(settings.Theme) ? "Light" : settings.Theme;
+            settings.AccentColor = string.IsNullOrWhiteSpace(settings.AccentColor) ? "TwitchPurple" : settings.AccentColor;
+            if (settings.WindowWidth < 1120) settings.WindowWidth = 1440;
+            if (settings.WindowHeight < 680) settings.WindowHeight = 780;
+            return settings;
+        }
+
+        private void BackupInvalidSettings(string path)
+        {
+            try
+            {
+                if (!File.Exists(path)) return;
+                string backup = path + $".invalid-{DateTime.Now:yyyyMMdd-HHmmss}.bak";
+                File.Copy(path, backup, false);
+                _logger.Warn("Invalid settings were preserved in a backup file.");
+            }
+            catch (Exception backupError)
+            {
+                _logger.Warn("Could not preserve invalid settings.", backupError);
             }
         }
     }

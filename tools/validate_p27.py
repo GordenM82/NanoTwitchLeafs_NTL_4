@@ -16,10 +16,9 @@ def main():
     if 'x:Name="consoleSearchHint_TextBlock"' not in main or "consoleSearchHint_TextBlock.Visibility" not in code: errors.append("visible console search hint is missing")
     for old in ('Header="Zielgeräte"','Content="Importieren"','Content="Exportieren"'):
         if old in trigger: errors.append(f"hard-coded trigger text remains: {old}")
-    for width in ('Trigger}" Width="95"','Command}" Width="120"','delete_Column" Header="" Width="50"'):
-        if width not in trigger: errors.append(f"balanced trigger width missing: {width}")
-    if "4.1.0-layout-preview.27" not in read("Properties/AssemblyInfo.cs"): errors.append("assembly version is not Preview 27")
-    if "layout-preview.27-win-x64" not in read(".github/workflows/build-release.yml"): errors.append("workflow artifact is not Preview 27")
+    for marker in ('x:Key="TriggerCell"','x:Key="CommandCell"','delete_Column'):
+        if marker not in trigger: errors.append(f"balanced trigger column missing: {marker}")
+    if "4.1.0-layout-preview." not in read("Properties/AssemblyInfo.cs"): errors.append("assembly version is not a layout preview")
     if errors:
         print("Preview 27 validation failed:")
         for error in errors: print(f"- {error}")

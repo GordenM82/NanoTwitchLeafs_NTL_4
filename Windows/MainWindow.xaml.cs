@@ -73,6 +73,7 @@ namespace NanoTwitchLeafs.Windows
 		private int _helpReturnPage = -1;
 		private Action _helpReturnAction;
 		private bool _helpReturnFollowsSelectedTopic;
+		private int _embeddedReturnPage = -1;
 		private bool _settingsTrackingReady;
 		private bool _settingsDirty;
 		private bool _shutdownCompleted;
@@ -507,6 +508,16 @@ namespace NanoTwitchLeafs.Windows
 				HelpBack_Button_Click(sender, e);
 				e.Handled = true;
 			}
+			else if (e.Key == Key.Escape && (triggerManager_Host.Visibility == Visibility.Visible || appInfo_Host.Visibility == Visibility.Visible))
+			{
+				ShowMainPage(_embeddedReturnPage is >= -1 and <= 5 ? _embeddedReturnPage : -1);
+				e.Handled = true;
+			}
+			else if (e.Key == Key.Escape && management_Host.Visibility == Visibility.Visible)
+			{
+				ShowMainPage(_currentPage);
+				e.Handled = true;
+			}
 			else if (e.Key == Key.F && Keyboard.Modifiers.HasFlag(ModifierKeys.Control) &&
 				chatconsole_TabControl.Visibility == Visibility.Visible && chatconsole_TabControl.SelectedIndex == 1)
 			{
@@ -842,6 +853,10 @@ namespace NanoTwitchLeafs.Windows
 			SetComboBoxItemContent(consoleLevelFilter_ComboBox, "DEBUG", Text("P25_Console_Debug"));
 			p24TriggerHelpHeading_TextBlock.Text = Text("P24_Trigger_Search");
 			p24TriggerHelpBody_TextBlock.Text = Text("P24_Trigger_Help");
+			consoleSearch_TextBox.SetResourceReference(FocusVisualStyleProperty, "NtlFocusVisualStyle");
+			ConnectChat_Button.ToolTip = Text("P28_Disabled_ConnectChat");
+			nanoTestConnection_Button.ToolTip = Text("P28_Disabled_NanoTest");
+			nanoCmd_Button.ToolTip = Text("P28_Disabled_EditTrigger");
 		}
 
 		private void RefreshBlocklist()
@@ -1458,6 +1473,7 @@ namespace NanoTwitchLeafs.Windows
 		{
 			try
 			{
+				if (_currentPage != 6) _embeddedReturnPage = _currentPage;
 				if (_embeddedTriggerManager == null)
 				{
 					_embeddedTriggerManager = new TriggerWindow(_commandRepository, _nanoController, _appSettings, _appSettingsController, _streamlabsController, _hypeRatecontroller, _triggerLogicController, _twitchEventSubController);
@@ -1538,6 +1554,7 @@ namespace NanoTwitchLeafs.Windows
 		{
 			try
 			{
+				if (_currentPage != 7) _embeddedReturnPage = _currentPage;
 				if (_embeddedAppInfo == null)
 				{
 					_embeddedAppInfo = new AppInfoWindow(_appSettings, _appSettingsController);

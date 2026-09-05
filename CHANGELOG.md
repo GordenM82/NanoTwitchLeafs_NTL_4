@@ -4,6 +4,15 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 28 (5. September 2026)
+
+- Auto-Scroll-Checkbox optisch zentriert und Triggerbereich an die einheitlichen Seitenkanten angepasst
+- Tooltips für gekürzte Triggerwerte und wichtige deaktivierte Funktionen ergänzt
+- Fokusmarkierung, Startfokus und Escape-Rückkehr für eingebettete Inhalte verbessert
+- Einstellungsdateien werden normalisiert; beschädigte Dateien bleiben als Sicherung erhalten
+- HypeRate-Nachrichten gegen fehlende oder ungültige Daten abgesichert
+- Triggerwarteschlange aktualisiert die Oberfläche asynchron und wird ohne blockierten Queue-Handler geleert
+
 ## NanoTwitchLeafs 4.1.0 Layout-Vorschau 27 (5. September 2026)
 
 - Konsolenleiste auf ein einheitlich hohes Grid umgestellt und vollständig vertikal zentriert

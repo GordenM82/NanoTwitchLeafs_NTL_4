@@ -44,6 +44,8 @@ namespace NanoTwitchLeafs.Windows
             _twitchEventSubController = twitchEventSubController;
             Constants.SetCultureInfo(_appSettings.Language);
             InitializeComponent();
+			triggerSearch_TextBox.SetResourceReference(FocusVisualStyleProperty, "NtlFocusVisualStyle");
+			Trigger_Listview.SetResourceReference(FocusVisualStyleProperty, "NtlFocusVisualStyle");
 
             triggerHeading_TextBlock.Text = Text("Window_Trigger_Heading");
             triggerDescription_TextBlock.Text = Text("Window_Trigger_Description");
@@ -61,6 +63,7 @@ namespace NanoTwitchLeafs.Windows
             triggerTypeFilter_ComboBox.SelectedIndex = 0;
 
             SafeLoadTrigger();
+            Dispatcher.BeginInvoke(new Action(() => { triggerSearch_TextBox.Focus(); Keyboard.Focus(triggerSearch_TextBox); }));
         }
 
         private static string Text(string key) => Properties.Resources.ResourceManager.GetString(key) ?? key;
