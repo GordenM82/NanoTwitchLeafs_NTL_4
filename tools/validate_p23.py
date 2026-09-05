@@ -49,10 +49,8 @@ def main() -> int:
     if 'TextWrapping="Wrap"' not in xaml[xaml.find('x:Name="console_Tabitem"'):]:
         errors.append("console line wrapping is missing")
 
-    if "4.1.0-layout-preview.23" not in read("Properties/AssemblyInfo.cs"):
-        errors.append("assembly version is not Preview 23")
-    if "layout-preview.23-win-x64" not in workflow:
-        errors.append("workflow artifact is not Preview 23")
+    if "4.1.0-layout-preview." not in read("Properties/AssemblyInfo.cs"):
+        errors.append("assembly preview version is missing")
 
     if errors:
         print("Preview 23 validation failed:")

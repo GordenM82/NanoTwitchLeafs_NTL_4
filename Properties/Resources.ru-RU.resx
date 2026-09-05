@@ -1241,4 +1241,21 @@ I tried to change myself but I couldn't :P</comment>
   <data name="P23_Console_Clear" xml:space="preserve"><value>Clear console</value></data>
   <data name="P23_Console_OpenLog" xml:space="preserve"><value>Open log file</value></data>
   <data name="P23_Console_AutoScroll" xml:space="preserve"><value>Auto-scroll</value></data>
+  <data name="P24_Trigger_Search" xml:space="preserve"><value>Search triggers</value></data>
+  <data name="P24_Trigger_Reset" xml:space="preserve"><value>Reset filters</value></data>
+  <data name="P24_Filter_All" xml:space="preserve"><value>All statuses</value></data>
+  <data name="P24_Filter_Active" xml:space="preserve"><value>Active</value></data>
+  <data name="P24_Filter_Inactive" xml:space="preserve"><value>Inactive</value></data>
+  <data name="P24_Filter_Problems" xml:space="preserve"><value>Problems only</value></data>
+  <data name="P24_Filter_AllTypes" xml:space="preserve"><value>All trigger types</value></data>
+  <data name="P24_Filter_Chat" xml:space="preserve"><value>Chat commands and keywords</value></data>
+  <data name="P24_Filter_Twitch" xml:space="preserve"><value>Twitch events</value></data>
+  <data name="P24_Filter_ChannelPoints" xml:space="preserve"><value>Channel points</value></data>
+  <data name="P24_Filter_Donations" xml:space="preserve"><value>Donations</value></data>
+  <data name="P24_Trigger_Count" xml:space="preserve"><value>{0} of {1} triggers</value></data>
+  <data name="P24_Warning_NoDevices" xml:space="preserve"><value>No Nanoleaf device is configured.</value></data>
+  <data name="P24_Warning_MissingDevice" xml:space="preserve"><value>At least one assigned Nanoleaf device is no longer available.</value></data>
+  <data name="P24_Warning_MissingEffect" xml:space="preserve"><value>No Nanoleaf effect is selected.</value></data>
+  <data name="P24_Warning_MissingSound" xml:space="preserve"><value>The configured sound file no longer exists.</value></data>
+  <data name="P24_Trigger_Help" xml:space="preserve"><value>Use search and the status/type filters to narrow the trigger list. Orange warning symbols identify missing devices, effects, or sound files; point at the symbol for details. Double-click a row to edit it. Reset filters restores the full list.</value></data>
 </root>

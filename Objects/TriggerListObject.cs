@@ -1,4 +1,5 @@
 using System.Windows.Media;
+using System.Windows;
 
 namespace NanoTwitchLeafs.Objects
 {
@@ -19,5 +20,10 @@ namespace NanoTwitchLeafs.Objects
         public string VipSubMod { get; set; }
         public string TargetDevices { get; set; }
         public string DuplicateText { get; set; }
+        public bool IsActive { get; set; }
+        public bool HasProblem { get; set; }
+        public string WarningText { get; set; }
+        public Visibility WarningVisibility => HasProblem ? Visibility.Visible : Visibility.Collapsed;
+        public string SearchText { get; set; }
     }
 }

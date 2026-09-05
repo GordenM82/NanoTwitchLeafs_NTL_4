@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         Title="{x:Static p:Resources.Window_Trigger_Title}" Height="760" Width="1500" MinHeight="560" MinWidth="1000" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterOwner" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}">
     <Grid>
-        <Grid.RowDefinitions><RowDefinition Height="54"/><RowDefinition Height="*"/><RowDefinition Height="58"/></Grid.RowDefinitions>
+        <Grid.RowDefinitions><RowDefinition Height="116"/><RowDefinition Height="*"/><RowDefinition Height="58"/></Grid.RowDefinitions>
         <Grid.Resources>
             <Style x:Key="TriggerColumnHeaderStyle" TargetType="GridViewColumnHeader">
                 <Setter Property="Foreground" Value="{DynamicResource NtlTextBrush}"/><Setter Property="Background" Value="{DynamicResource NtlSurfaceRaisedBrush}"/><Setter Property="BorderBrush" Value="{DynamicResource NtlBorderBrush}"/><Setter Property="BorderThickness" Value="0,0,1,1"/><Setter Property="Padding" Value="8,8"/>
@@ -36,8 +36,17 @@
                 </Style.Triggers>
             </Style>
         </Grid.Resources>
-        <Border Grid.Row="0" BorderBrush="{DynamicResource NtlBorderBrush}" BorderThickness="0,0,0,1" Margin="6,0"><StackPanel VerticalAlignment="Center"><TextBlock x:Name="triggerHeading_TextBlock" FontSize="20" FontWeight="SemiBold"/><TextBlock x:Name="triggerDescription_TextBlock" Foreground="{DynamicResource NtlMutedTextBrush}" FontSize="12"/></StackPanel></Border>
-        <ListView Grid.Row="1" x:Name="Trigger_Listview" AlternationCount="2" Margin="6" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+        <Border Grid.Row="0" BorderBrush="{DynamicResource NtlBorderBrush}" BorderThickness="0,0,0,1" Margin="6,0"><Grid Margin="4,7"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+            <StackPanel><TextBlock x:Name="triggerHeading_TextBlock" FontSize="20" FontWeight="SemiBold"/><TextBlock x:Name="triggerDescription_TextBlock" Foreground="{DynamicResource NtlMutedTextBrush}" FontSize="12"/></StackPanel>
+            <Grid Grid.Row="1" Margin="0,9,0,0"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="180"/><ColumnDefinition Width="180"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                <TextBox x:Name="triggerSearch_TextBox" TextChanged="TriggerFilter_Changed" Margin="0,0,8,0" VerticalContentAlignment="Center"/>
+                <ComboBox x:Name="triggerStatusFilter_ComboBox" Grid.Column="1" SelectionChanged="TriggerFilter_Changed" Margin="0,0,8,0"><ComboBoxItem Tag="All"/><ComboBoxItem Tag="Active"/><ComboBoxItem Tag="Inactive"/><ComboBoxItem Tag="Problems"/></ComboBox>
+                <ComboBox x:Name="triggerTypeFilter_ComboBox" Grid.Column="2" SelectionChanged="TriggerFilter_Changed" Margin="0,0,8,0"><ComboBoxItem Tag="All"/><ComboBoxItem Tag="Chat"/><ComboBoxItem Tag="Twitch"/><ComboBoxItem Tag="ChannelPoints"/><ComboBoxItem Tag="Donation"/><ComboBoxItem Tag="HypeRate"/></ComboBox>
+                <Button x:Name="triggerResetFilter_Button" Grid.Column="3" Click="TriggerResetFilter_Button_Click" Margin="0,0,12,0"/>
+                <TextBlock x:Name="triggerResultCount_TextBlock" Grid.Column="4" VerticalAlignment="Center" Foreground="{DynamicResource NtlMutedTextBrush}" MinWidth="96" TextAlignment="Right"/>
+            </Grid>
+        </Grid></Border>
+        <ListView Grid.Row="1" x:Name="Trigger_Listview" AlternationCount="2" Margin="6" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Auto" MouseDoubleClick="Trigger_Listview_MouseDoubleClick">
             <ListView.View>
                 <GridView ColumnHeaderContainerStyle="{StaticResource TriggerColumnHeaderStyle}">
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_On}" Width="46">
@@ -63,6 +72,9 @@
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Cooldown}" Width="80" CellTemplate="{StaticResource CooldownCell}" />
                     <GridViewColumn Header="{x:Static p:Resources.Window_Trigger_Header_Flags}" Width="130" DisplayMemberBinding="{Binding VipSubMod}" />
                     <GridViewColumn x:Name="targetDevices_Column" Header="Zielgeräte" Width="140" CellTemplate="{StaticResource TargetsCell}" />
+                    <GridViewColumn x:Name="warning_Column" Header="" Width="42">
+                        <GridViewColumn.CellTemplate><DataTemplate><TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" FontSize="17" Foreground="DarkOrange" Visibility="{Binding WarningVisibility}" ToolTip="{Binding WarningText}" HorizontalAlignment="Center"/></DataTemplate></GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn x:Name="test_Column" Header="" Width="48">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>

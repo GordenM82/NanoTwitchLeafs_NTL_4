@@ -30,6 +30,7 @@ namespace NanoTwitchLeafs.Windows
         public readonly TwitchEventSubController _twitchEventSubController;
         private bool _isLoadingTriggers;
         private bool _sliderChangeRequestedByUser;
+        private List<TriggerListObject> _allTriggerItems = new List<TriggerListObject>();
 
         public TriggerWindow(CommandRepository commandRepository, NanoController nanoController, AppSettings appSettings, AppSettingsController appSettingsController, StreamlabsController streamlabsController, HypeRateIOController hypeRateIoController, TriggerLogicController triggerLogicController, TwitchEventSubController twitchEventSubController = null)
         {
@@ -53,6 +54,11 @@ namespace NanoTwitchLeafs.Windows
             delete_Column.Header = Text("Window_Trigger_Action_Delete");
             importCmd_Button.Content = Text("Window_Trigger_Button_Import");
             exportCmd_Button.Content = Text("Window_Trigger_Button_Export");
+            triggerSearch_TextBox.ToolTip = Text("P24_Trigger_Search");
+            triggerResetFilter_Button.Content = Text("P24_Trigger_Reset");
+            SetFilterTexts();
+            triggerStatusFilter_ComboBox.SelectedIndex = 0;
+            triggerTypeFilter_ComboBox.SelectedIndex = 0;
 
             SafeLoadTrigger();
         }
@@ -79,6 +85,7 @@ namespace NanoTwitchLeafs.Windows
 
         private void LoadTrigger()
         {
+            string selectedId = (Trigger_Listview.SelectedItem as TriggerListObject)?.ID;
             List<TriggerSetting> triggerSettings = _commandRepository.GetList().ToList();
             triggerSettings.OrderBy(x => x.ID);
             List<TriggerListObject> TriggerListItems = new List<TriggerListObject>();
@@ -173,6 +180,7 @@ namespace NanoTwitchLeafs.Windows
                     VipSubMod = vipsubmod,
                     TargetDevices = targetDevices,
                     DuplicateText = Text("Window_Trigger_Action_Copy"),
+                    IsActive = triggerSetting.IsActive == true,
                 };
 
                 if (triggerListObject.Trigger != TriggerTypeEnum.Command.ToString() && triggerListObject.Trigger != TriggerTypeEnum.Keyword.ToString())
@@ -190,12 +198,125 @@ namespace NanoTwitchLeafs.Windows
                     triggerListObject.Background = new SolidColorBrush(color);
                 }
 
+                List<string> warnings = GetTriggerWarnings(triggerSetting);
+                triggerListObject.HasProblem = warnings.Count > 0;
+                triggerListObject.WarningText = string.Join(Environment.NewLine, warnings);
+                triggerListObject.SearchText = string.Join(" ", new[]
+                {
+                    triggerListObject.Trigger, triggerListObject.Command, triggerListObject.Effect,
+                    triggerListObject.Sound, triggerListObject.TargetDevices, triggerSetting.DonationProvider
+                }.Where(value => !string.IsNullOrWhiteSpace(value)));
+
                 TriggerListItems.Add(triggerListObject);
                 _logger.Debug($"Loading Trigger with id {triggerSetting.ID}.");
             }
-            TriggerListItems = TriggerListItems.OrderBy(x => x.Trigger).ToList();
-            Trigger_Listview.ItemsSource = TriggerListItems;
+            _allTriggerItems = TriggerListItems.OrderBy(x => x.Trigger).ToList();
+            ApplyTriggerFilters(selectedId);
             _logger.Info($"Loaded {triggerSettings.Count} Triggers from Database.");
+        }
+
+        private void SetFilterTexts()
+        {
+            SetComboText(triggerStatusFilter_ComboBox, "All", Text("P24_Filter_All"));
+            SetComboText(triggerStatusFilter_ComboBox, "Active", Text("P24_Filter_Active"));
+            SetComboText(triggerStatusFilter_ComboBox, "Inactive", Text("P24_Filter_Inactive"));
+            SetComboText(triggerStatusFilter_ComboBox, "Problems", Text("P24_Filter_Problems"));
+            SetComboText(triggerTypeFilter_ComboBox, "All", Text("P24_Filter_AllTypes"));
+            SetComboText(triggerTypeFilter_ComboBox, "Chat", Text("P24_Filter_Chat"));
+            SetComboText(triggerTypeFilter_ComboBox, "Twitch", Text("P24_Filter_Twitch"));
+            SetComboText(triggerTypeFilter_ComboBox, "ChannelPoints", Text("P24_Filter_ChannelPoints"));
+            SetComboText(triggerTypeFilter_ComboBox, "Donation", Text("P24_Filter_Donations"));
+            SetComboText(triggerTypeFilter_ComboBox, "HypeRate", "HypeRate");
+        }
+
+        private static void SetComboText(ComboBox comboBox, string tag, string text)
+        {
+            foreach (ComboBoxItem item in comboBox.Items)
+                if (string.Equals(item.Tag?.ToString(), tag, StringComparison.OrdinalIgnoreCase)) item.Content = text;
+        }
+
+        private List<string> GetTriggerWarnings(TriggerSetting trigger)
+        {
+            var warnings = new List<string>();
+            var devices = _appSettings.NanoSettings?.NanoLeafDevices ?? new List<NanoLeafDevice>();
+            if (devices.Count == 0)
+                warnings.Add(Text("P24_Warning_NoDevices"));
+            else if (!string.IsNullOrWhiteSpace(trigger.TargetDeviceNames))
+            {
+                var knownNames = new HashSet<string>(devices.Select(device => device.DeviceName), StringComparer.OrdinalIgnoreCase);
+                if (trigger.TargetDeviceNames.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Any(name => !knownNames.Contains(name)))
+                    warnings.Add(Text("P24_Warning_MissingDevice"));
+            }
+            if (!trigger.IsColor && string.IsNullOrWhiteSpace(trigger.Effect))
+                warnings.Add(Text("P24_Warning_MissingEffect"));
+            if (!string.IsNullOrWhiteSpace(trigger.SoundFilePath) && !File.Exists(trigger.SoundFilePath))
+                warnings.Add(Text("P24_Warning_MissingSound"));
+            return warnings;
+        }
+
+        private void TriggerFilter_Changed(object sender, RoutedEventArgs e)
+        {
+            if (!_isLoadingTriggers) ApplyTriggerFilters();
+        }
+
+        private void TriggerResetFilter_Button_Click(object sender, RoutedEventArgs e)
+        {
+            triggerSearch_TextBox.Clear();
+            triggerStatusFilter_ComboBox.SelectedIndex = 0;
+            triggerTypeFilter_ComboBox.SelectedIndex = 0;
+            ApplyTriggerFilters();
+        }
+
+        private void ApplyTriggerFilters(string selectedId = null)
+        {
+            if (Trigger_Listview == null || triggerStatusFilter_ComboBox == null || triggerTypeFilter_ComboBox == null) return;
+            string search = triggerSearch_TextBox.Text?.Trim() ?? string.Empty;
+            string status = (triggerStatusFilter_ComboBox.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "All";
+            string type = (triggerTypeFilter_ComboBox.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "All";
+            IEnumerable<TriggerListObject> filtered = _allTriggerItems;
+            if (!string.IsNullOrWhiteSpace(search))
+                filtered = filtered.Where(item => item.SearchText?.Contains(search, StringComparison.OrdinalIgnoreCase) == true);
+            filtered = status switch
+            {
+                "Active" => filtered.Where(item => item.IsActive),
+                "Inactive" => filtered.Where(item => !item.IsActive),
+                "Problems" => filtered.Where(item => item.HasProblem),
+                _ => filtered
+            };
+            filtered = type switch
+            {
+                "Chat" => filtered.Where(item => item.Trigger is "Command" or "Keyword"),
+                "Twitch" => filtered.Where(item => item.Trigger is "Follower" or "Subscription" or "ReSubscription" or "GiftSubscription" or "AnonGiftSubscription" or "GiftBomb" or "AnonGiftBomb" or "Bits" or "Raid" or "HypeTrain" or "UsernameColor"),
+                "ChannelPoints" => filtered.Where(item => item.Trigger == "ChannelPoints"),
+                "Donation" => filtered.Where(item => item.Trigger == "Donation"),
+                "HypeRate" => filtered.Where(item => item.Trigger == "HypeRate"),
+                _ => filtered
+            };
+            List<TriggerListObject> results = filtered.ToList();
+            Trigger_Listview.ItemsSource = results;
+            triggerResultCount_TextBlock.Text = string.Format(Text("P24_Trigger_Count"), results.Count, _allTriggerItems.Count);
+            if (!string.IsNullOrWhiteSpace(selectedId))
+                Trigger_Listview.SelectedItem = results.FirstOrDefault(item => item.ID == selectedId);
+        }
+
+        private void Trigger_Listview_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.OriginalSource is not DependencyObject source || FindVisualParent<Button>(source) != null) return;
+            ListViewItem clickedItem = FindVisualParent<ListViewItem>(source);
+            if (clickedItem?.DataContext is TriggerListObject row && int.TryParse(row.ID, out int id))
+                OpenTriggerDetails(_commandRepository.GetList().FirstOrDefault(item => item.ID == id));
+        }
+
+        private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            while (child != null)
+            {
+                if (child is T match) return match;
+                child = child is ContentElement content
+                    ? ContentOperations.GetParent(content) ?? (content as FrameworkContentElement)?.Parent
+                    : VisualTreeHelper.GetParent(child);
+            }
+            return null;
         }
 
         private void OnOffSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -219,6 +340,7 @@ namespace NanoTwitchLeafs.Windows
             triggerSetting.IsActive = IsActive;
             _commandRepository.Update(triggerSetting);
             _logger.Info($"Trigger with the ID {triggerSetting.ID} is now updated to IsActive: {IsActive}.");
+            SafeLoadTrigger();
             }
             catch (Exception ex) { ShowError("Window_Trigger_Error_Change", ex); SafeLoadTrigger(); }
         }

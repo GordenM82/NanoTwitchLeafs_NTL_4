@@ -711,6 +711,8 @@ namespace NanoTwitchLeafs.Windows
 			consoleClear_Button.Content = Text("P23_Console_Clear");
 			consoleOpenLog_Button.Content = Text("P23_Console_OpenLog");
 			consoleAutoScroll_CheckBox.Content = Text("P23_Console_AutoScroll");
+			p24TriggerHelpHeading_TextBlock.Text = Text("P24_Trigger_Search");
+			p24TriggerHelpBody_TextBlock.Text = Text("P24_Trigger_Help");
 		}
 
 		private void RefreshBlocklist()

@@ -1181,4 +1181,21 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="P23_Console_Clear" xml:space="preserve"><value>Konsole leeren</value></data>
   <data name="P23_Console_OpenLog" xml:space="preserve"><value>Logdatei öffnen</value></data>
   <data name="P23_Console_AutoScroll" xml:space="preserve"><value>Automatisch scrollen</value></data>
+  <data name="P24_Trigger_Search" xml:space="preserve"><value>Trigger durchsuchen</value></data>
+  <data name="P24_Trigger_Reset" xml:space="preserve"><value>Filter zurücksetzen</value></data>
+  <data name="P24_Filter_All" xml:space="preserve"><value>Alle Zustände</value></data>
+  <data name="P24_Filter_Active" xml:space="preserve"><value>Aktiv</value></data>
+  <data name="P24_Filter_Inactive" xml:space="preserve"><value>Inaktiv</value></data>
+  <data name="P24_Filter_Problems" xml:space="preserve"><value>Nur Probleme</value></data>
+  <data name="P24_Filter_AllTypes" xml:space="preserve"><value>Alle Trigger-Typen</value></data>
+  <data name="P24_Filter_Chat" xml:space="preserve"><value>Chatbefehle und Schlüsselwörter</value></data>
+  <data name="P24_Filter_Twitch" xml:space="preserve"><value>Twitch-Ereignisse</value></data>
+  <data name="P24_Filter_ChannelPoints" xml:space="preserve"><value>Kanalpunkte</value></data>
+  <data name="P24_Filter_Donations" xml:space="preserve"><value>Spenden</value></data>
+  <data name="P24_Trigger_Count" xml:space="preserve"><value>{0} von {1} Triggern</value></data>
+  <data name="P24_Warning_NoDevices" xml:space="preserve"><value>Es ist kein Nanoleaf-Gerät eingerichtet.</value></data>
+  <data name="P24_Warning_MissingDevice" xml:space="preserve"><value>Mindestens ein zugewiesenes Nanoleaf-Gerät ist nicht mehr verfügbar.</value></data>
+  <data name="P24_Warning_MissingEffect" xml:space="preserve"><value>Es ist kein Nanoleaf-Effekt ausgewählt.</value></data>
+  <data name="P24_Warning_MissingSound" xml:space="preserve"><value>Die eingestellte Sounddatei ist nicht mehr vorhanden.</value></data>
+  <data name="P24_Trigger_Help" xml:space="preserve"><value>Mit der Suche und den Status-/Typfiltern kannst du die Triggerliste eingrenzen. Orange Warnsymbole kennzeichnen fehlende Geräte, Effekte oder Sounddateien; zeige mit der Maus darauf, um Details zu sehen. Ein Doppelklick auf eine Zeile öffnet die Bearbeitung. „Filter zurücksetzen“ stellt die vollständige Liste wieder her.</value></data>
 </root>

@@ -4,6 +4,16 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.1.0 Layout-Vorschau 24 (5. September 2026)
+
+- Triggerübersicht um eine kombinierte Suche über Typ, Befehl, Effekt, Sound, Anbieter und Zielgeräte erweitert
+- Filter für Aktiv, Inaktiv, problematische Trigger sowie Trigger-Kategorien ergänzt
+- Trefferanzahl und Zurücksetzen aller Filter ergänzt
+- orange Warnhinweise für fehlende Nanoleaf-Geräte, Effekte und Sounddateien ergänzt
+- Triggerbearbeitung per Doppelklick auf eine Tabellenzeile ergänzt
+- Auswahl und Filter werden nach Änderungen zuverlässig neu ausgewertet
+- bestehendes Triggerfenster und Triggerdatenformat unverändert beibehalten
+
 ## NanoTwitchLeafs 4.1.0 Layout-Vorschau 23 (5. September 2026)
 
 - StreamElements als eigenen Reiter unter Integrationen ergänzt
@@ -134,6 +144,16 @@ NanoTwitchLeafs 4 basiert auf Locxions letzter ursprünglicher Version 3.1.5.0 u
 ---
 
 ## English
+
+## NanoTwitchLeafs 4.1.0 Layout Preview 24 (5 September 2026)
+
+- added combined trigger search across type, command, effect, sound, provider, and target devices
+- added filters for active, inactive, problematic triggers, and trigger categories
+- added a result count and filter reset action
+- added orange warnings for missing Nanoleaf devices, effects, and sound files
+- added trigger editing by double-clicking a table row
+- reliably reapplies selection and filters after changes
+- preserved the existing trigger window and trigger data format
 
 ## NanoTwitchLeafs 4.1.0 Layout Preview 23 (5 September 2026)
 
