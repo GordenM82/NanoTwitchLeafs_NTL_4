@@ -1,15 +1,15 @@
 name: Publish NanoTwitchLeafs 4.1.1
 
 on:
-  push:
+  pull_request:
     branches: [main]
-    paths: [.github/workflows/publish-4.1.1.yml]
 
 permissions:
   contents: write
 
 jobs:
   publish-windows-x64:
+    if: github.head_ref == 'publish/trigger-4.1.1'
     runs-on: windows-latest
     steps:
       - name: Checkout
