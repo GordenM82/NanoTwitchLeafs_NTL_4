@@ -108,7 +108,7 @@ Für Twitch sind weder eine eigene Twitch-Anwendung noch eine manuell einzutrage
 3. `NanoTwitchLeafs.exe` aus dem neuen Ordner starten.
 4. Verbindungen, Geräte und Trigger prüfen; danach kann der alte Programmordner entfernt werden.
 
-Benutzerdaten liegen getrennt unter `%APPDATA%\NanoTwitchLeafs-4` und werden von neueren 4.x-Versionen automatisch weiterverwendet. Vor wichtigen Updates empfiehlt sich eine Sicherung dieses Ordners. Daten früherer Entwicklungsteststände wurden absichtlich getrennt gespeichert und überschreiben die stabile Konfiguration nicht automatisch.
+Benutzerdaten liegen unter `%APPDATA%\NanoTwitchLeafs-4` und werden von neueren 4.x-Versionen automatisch weiterverwendet. Vor wichtigen Updates empfiehlt sich eine Sicherung dieses Ordners.
 
 ### Update von NanoTwitchLeafs 3.x
 
@@ -159,7 +159,7 @@ The ready-to-run Windows x64 package is available under [Releases](https://githu
 - central navigation for Chat/Console, Twitch, Nano, Triggers, Integrations, Settings, Help, and Info
 - trigger, response, device, device-group, and blocklist management inside the main window
 - Light, Dark, and System themes with a selectable accent color
-- scalable interface tested at 100%, 125%, and 150% Windows scaling
+- scalable interface for 100%, 125%, and 150% Windows scaling
 - multi-monitor support with restored window size, position, and maximized state
 - monitor-bound main and child windows that respect the taskbar work area
 - keyboard and focus improvements, `Ctrl+F`, Escape navigation, and unsaved-change warnings
@@ -225,7 +225,7 @@ Twitch does not require users to register their own application or enter a clien
 3. Start `NanoTwitchLeafs.exe` from the new folder.
 4. Verify connections, devices, and triggers; then remove the old program folder if desired.
 
-User data is stored separately under `%APPDATA%\NanoTwitchLeafs-4` and reused automatically by newer 4.x versions. Backing up this folder before important updates is recommended. Data from earlier development test builds was deliberately stored separately and does not overwrite the stable configuration automatically.
+User data is stored under `%APPDATA%\NanoTwitchLeafs-4` and reused automatically by newer 4.x versions. Backing up this folder before important updates is recommended.
 
 ### Updating from NanoTwitchLeafs 3.x
 
