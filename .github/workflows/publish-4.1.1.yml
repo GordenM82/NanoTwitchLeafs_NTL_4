@@ -1,0 +1,71 @@
+name: Publish NanoTwitchLeafs 4.1.1
+
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/publish-4.1.1.yml]
+
+permissions:
+  contents: write
+
+jobs:
+  publish-windows-x64:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.x"
+
+      - name: Validate release
+        run: |
+          python tools/validate_ui_localization.py
+          python tools/validate_release_411.py
+
+      - name: Publish Windows x64
+        run: >-
+          dotnet publish NanoTwitchLeafs.Modern.csproj
+          --configuration Release
+          --runtime win-x64
+          --self-contained true
+          --output artifacts/NanoTwitchLeafs-4.1.1-win-x64
+
+      - name: Create release ZIP
+        shell: pwsh
+        run: |
+          Remove-Item "artifacts/NanoTwitchLeafs-4.1.1-win-x64/*.pdb" -Force -ErrorAction SilentlyContinue
+          Compress-Archive -Path "artifacts/NanoTwitchLeafs-4.1.1-win-x64/*" -DestinationPath "artifacts/NanoTwitchLeafs-4.1.1-win-x64.zip"
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v4.1.1
+          target_commitish: main
+          name: NanoTwitchLeafs 4.1.1
+          prerelease: false
+          generate_release_notes: false
+          body: |
+            Wartungsupdate für die Twitch-Verbindung:
+
+            - behebt den Absturz beim Erneuern abgelaufener Twitch-Tokens
+            - hält NTL bei fehlgeschlagenen Twitch-Anmeldungen geöffnet
+            - trennt Chat- und EventSub-Start für eine robustere Verbindung
+            - ergänzt sichtbare Chat-Verbindungszustände
+            - verbessert und lokalisiert den Twitch-Verbindungsassistenten
+
+            Maintenance update for Twitch connectivity:
+
+            - fixes the crash while refreshing expired Twitch tokens
+            - keeps NTL open after failed Twitch logins
+            - separates chat and EventSub startup for a more resilient connection
+            - adds visible chat connection states
+            - improves and localizes the Twitch setup wizard
+          files: artifacts/NanoTwitchLeafs-4.1.1-win-x64.zip
