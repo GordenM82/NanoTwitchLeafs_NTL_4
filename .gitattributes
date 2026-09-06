@@ -1,0 +1,3 @@
+# Validation helpers remain available but do not affect the displayed
+# application-language statistics. NanoTwitchLeafs itself is C#/WPF.
+tools/*.py linguist-detectable=false

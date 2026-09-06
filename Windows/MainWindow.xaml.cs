@@ -479,6 +479,11 @@ namespace NanoTwitchLeafs.Windows
 
 		private void _appSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
+			// Auth objects are only replaced by account management or automatic token
+			// refresh. Both paths persist them immediately, so they are not user edits.
+			if (e.PropertyName is nameof(AppSettings.BotAuthObject) or nameof(AppSettings.BroadcasterAuthObject))
+				return;
+
 			if (!Dispatcher.CheckAccess())
 			{
 				Dispatcher.BeginInvoke(new Action(MarkSettingsDirty));

@@ -22,18 +22,19 @@ def main():
     workflow = read(".github/workflows/build-release.yml")
     readme = read("README.md")
     changelog = read("CHANGELOG.md")
+    gitattributes = read(".gitattributes")
 
-    if 'AssemblyInformationalVersion("4.1.1")' not in assembly:
-        errors.append("informational version is not 4.1.1")
+    if 'AssemblyInformationalVersion("4.1.2")' not in assembly:
+        errors.append("informational version is not 4.1.2")
     if "NTL4_LAYOUT_PREVIEW" in project or "NanoTwitchLeafs-4-Layout-Preview" in constants:
         errors.append("preview data path remains enabled")
     for marker in ("PREVIEW", "Layout-Vorschau", "Layout Preview"):
         if marker in main_xaml or marker in main_code:
             errors.append(f"visible preview marker remains: {marker}")
-    if "NanoTwitchLeafs-4.1.1-win-x64" not in workflow:
-        errors.append("4.1.1 workflow artifact is missing")
-    if "4.1.1" not in readme or "NanoTwitchLeafs 4.1.1" not in changelog:
-        errors.append("4.1.1 release documentation is incomplete")
+    if "NanoTwitchLeafs-4.1.2-win-x64" not in workflow:
+        errors.append("4.1.2 workflow artifact is missing")
+    if "4.1.2" not in readme or "NanoTwitchLeafs 4.1.2" not in changelog:
+        errors.append("4.1.2 release documentation is incomplete")
     if "Dispatcher.CheckAccess()" not in main_code or "BeginInvoke(new Action(MarkSettingsDirty))" not in main_code:
         errors.append("settings dirty tracking is not dispatcher-safe")
     for marker in ("OnChatConnectionChanged", "OnChatConnectionFailed", "Twitch chat connected, but EventSub could not be started"):
@@ -47,13 +48,20 @@ def main():
         errors.append("Twitch connection test layout fix is missing")
     if '$"Connected to Twitch Channel' in link_code:
         errors.append("hard-coded English Twitch status remains")
+    if "UsesSeparateBotAccount" not in twitch_code or "(Twitch Account)" not in twitch_code:
+        errors.append("single-account console wording is not distinguished from bot-account setup")
+    for property_name in ("AppSettings.BotAuthObject", "AppSettings.BroadcasterAuthObject"):
+        if property_name not in main_code:
+            errors.append(f"persisted authentication change is not excluded from dirty tracking: {property_name}")
+    if "tools/*.py linguist-detectable=false" not in gitattributes:
+        errors.append("validation helpers still affect GitHub language statistics")
 
     if errors:
-        print("4.1.1 release validation failed:")
+        print("4.1.2 release validation failed:")
         for error in errors:
             print(f"- {error}")
         return 1
-    print("4.1.1 release validation passed: Twitch recovery, chat state, localized wizard and release metadata verified.")
+    print("4.1.2 release validation passed: account-aware logging, persisted-auth dirty tracking and release metadata verified.")
     return 0
 
 

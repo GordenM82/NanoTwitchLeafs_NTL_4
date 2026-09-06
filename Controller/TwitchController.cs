@@ -44,6 +44,7 @@ namespace NanoTwitchLeafs.Controller
 
 		private bool _firstTryToConnectBotAccount = true;
 		private bool _firstTryToConnectBroadcasterAccount = true;
+		private bool UsesSeparateBotAccount => !string.Equals(_appSettings?.BotName, _appSettings?.ChannelName, StringComparison.OrdinalIgnoreCase);
 		public event EventHandler OnDisconnected;
 		public event Action<bool> OnChatConnectionChanged;
 		public event Action<string> OnChatConnectionFailed;
@@ -130,20 +131,26 @@ namespace NanoTwitchLeafs.Controller
 			{
 				if (!_firstTryToConnectBotAccount)
 				{
-					const string message = "Twitch rejected the refreshed bot login.";
+					string message = UsesSeparateBotAccount
+						? "Twitch rejected the refreshed bot-account login."
+						: "Twitch rejected the refreshed account login.";
 					_logger.Error(message);
 					OnChatConnectionFailed?.Invoke(message);
 					return;
 				}
 
-				_logger.Warn("Got incorrect Login Message from Twitch ... (Bot Account)");
+				_logger.Warn(UsesSeparateBotAccount
+					? "Got incorrect Login Message from Twitch ... (Bot Account)"
+					: "Got incorrect Login Message from Twitch ... (Twitch Account)");
 				_logger.Warn("Try to refresh Access Tokens ... This could take a Second ... or Two ...");
 				OnCallLoadingWindow?.Invoke(true);
 				Disconnect(true);
 				var newOauth = await PerformCodeExchange(_appSettings.BotAuthObject?.Refresh_Token, true);
 				if (newOauth == null || string.IsNullOrWhiteSpace(newOauth.Access_Token))
 				{
-					const string message = "Twitch bot token refresh failed. Please link the Twitch account again.";
+					string message = UsesSeparateBotAccount
+						? "Twitch bot-account token refresh failed. Please link the Twitch accounts again."
+						: "Twitch account token refresh failed. Please link the Twitch account again.";
 					_logger.Error(message);
 					OnChatConnectionFailed?.Invoke(message);
 					return;
