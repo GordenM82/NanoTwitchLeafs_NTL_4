@@ -69,6 +69,7 @@ namespace NanoTwitchLeafs.Windows
 			{
 				Effect_ComboBox.Items.Add(effect);
 			}
+			UpdateEffectControls();
 
 			if (triggerSetting != null)
 			{
@@ -1146,27 +1147,25 @@ namespace NanoTwitchLeafs.Windows
 				Subonly_Checkbox.IsEnabled = false;
 				Modonly_Checkbox.IsEnabled = false;
 				Cooldown_Textbox.IsEnabled = false;
-				Effect_RadioButton.IsEnabled = false;
-				Color_RadioButton.IsEnabled = false;
-				ColorPicker.IsEnabled = false;
-				Effect_ComboBox.IsEnabled = false;
 			}
+
+			UpdateEffectControls();
 
 			Checkbox_Click(null, null);
 		}
 
 		private void EffectRadioButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (Effect_RadioButton.IsChecked == true)
-			{
-				Effect_ComboBox.IsEnabled = true;
-				ColorPicker.IsEnabled = false;
-			}
-			else
-			{
-				Effect_ComboBox.IsEnabled = false;
-				ColorPicker.IsEnabled = true;
-			}
+			UpdateEffectControls();
+		}
+
+		private void UpdateEffectControls()
+		{
+			bool usesUsernameColor = UserColor_RadioButton.IsChecked == true;
+			Effect_RadioButton.IsEnabled = !usesUsernameColor;
+			Color_RadioButton.IsEnabled = !usesUsernameColor;
+			Effect_ComboBox.IsEnabled = !usesUsernameColor && Effect_RadioButton.IsChecked == true;
+			ColorPicker.IsEnabled = !usesUsernameColor && Color_RadioButton.IsChecked == true;
 		}
 
 		private void TriggerDetailWindow_Closed(object sender, EventArgs e)

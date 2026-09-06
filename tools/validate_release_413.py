@@ -24,17 +24,17 @@ def main():
     changelog = read("CHANGELOG.md")
     gitattributes = read(".gitattributes")
 
-    if 'AssemblyInformationalVersion("4.1.2")' not in assembly:
-        errors.append("informational version is not 4.1.2")
+    if 'AssemblyInformationalVersion("4.1.3")' not in assembly:
+        errors.append("informational version is not 4.1.3")
     if "NTL4_LAYOUT_PREVIEW" in project or "NanoTwitchLeafs-4-Layout-Preview" in constants:
         errors.append("preview data path remains enabled")
     for marker in ("PREVIEW", "Layout-Vorschau", "Layout Preview"):
         if marker in main_xaml or marker in main_code:
             errors.append(f"visible preview marker remains: {marker}")
-    if "NanoTwitchLeafs-4.1.2-win-x64" not in workflow:
-        errors.append("4.1.2 workflow artifact is missing")
-    if "4.1.2" not in readme or "NanoTwitchLeafs 4.1.2" not in changelog:
-        errors.append("4.1.2 release documentation is incomplete")
+    if "NanoTwitchLeafs-4.1.3-win-x64" not in workflow:
+        errors.append("4.1.3 workflow artifact is missing")
+    if "4.1.3" not in readme or "NanoTwitchLeafs 4.1.3" not in changelog:
+        errors.append("4.1.3 release documentation is incomplete")
     if "Dispatcher.CheckAccess()" not in main_code or "BeginInvoke(new Action(MarkSettingsDirty))" not in main_code:
         errors.append("settings dirty tracking is not dispatcher-safe")
     for marker in ("OnChatConnectionChanged", "OnChatConnectionFailed", "Twitch chat connected, but EventSub could not be started"):
@@ -53,15 +53,22 @@ def main():
     for property_name in ("AppSettings.BotAuthObject", "AppSettings.BroadcasterAuthObject"):
         if property_name not in main_code:
             errors.append(f"persisted authentication change is not excluded from dirty tracking: {property_name}")
+    for marker in ("_chatConnectionInProgress", "NanoLeafDevice.NanoleafControllerInfo", "NanoSettings.NanoLeafDevices"):
+        if marker not in main_code:
+            errors.append(f"connection dirty-state regression fix is missing: {marker}")
+    trigger_detail_code = read("Windows/TriggerDetailWindow.xaml.cs")
+    for marker in ("UpdateEffectControls", "Effect_RadioButton.IsEnabled = !usesUsernameColor", "Effect_ComboBox.IsEnabled = !usesUsernameColor"):
+        if marker not in trigger_detail_code:
+            errors.append(f"trigger effect-control regression fix is missing: {marker}")
     if "tools/*.py linguist-detectable=false" not in gitattributes:
         errors.append("validation helpers still affect GitHub language statistics")
 
     if errors:
-        print("4.1.2 release validation failed:")
+        print("4.1.3 release validation failed:")
         for error in errors:
             print(f"- {error}")
         return 1
-    print("4.1.2 release validation passed: account-aware logging, persisted-auth dirty tracking and release metadata verified.")
+    print("4.1.3 release validation passed: connection dirty tracking, trigger effect controls and release metadata verified.")
     return 0
 
 

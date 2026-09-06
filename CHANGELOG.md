@@ -4,6 +4,13 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.1.3 – Verbindungsstatus und Trigger-Effekte (6. September 2026)
+
+- falsche Hinweise auf ungespeicherte Änderungen während der Twitch-Serververbindung behoben
+- automatisch aktualisierte Nanoleaf-Verbindungsdaten werden nicht mehr als Benutzereingaben gewertet
+- Effekt- und Farbauswahl wird nach dem Wechsel von „Benutzerfarbe“ zu einem normalen Trigger wieder korrekt aktiviert
+- Effektauswahl für neue Follower, Spenden, Bits, Abonnements und weitere normale Trigger wiederhergestellt
+
 ## NanoTwitchLeafs 4.1.2 – Kontostatus und Speicheranzeige (6. September 2026)
 
 - Konsolenmeldungen unterscheiden jetzt zwischen einem normalen Twitch-Konto und einem ausdrücklich eingerichteten separaten Bot-Konto
@@ -94,6 +101,13 @@ Version 4.1.0 bringt eine vollständig modernisierte Oberfläche sowie zahlreich
 ---
 
 ## English
+
+## NanoTwitchLeafs 4.1.3 – connection state and trigger effects (6 September 2026)
+
+- fixed false unsaved-change warnings during Twitch server connection
+- automatically refreshed Nanoleaf connection data is no longer treated as user input
+- correctly re-enables effect and color selection after switching from Username Color to a regular trigger
+- restored effect selection for new followers, donations, bits, subscriptions, and other regular triggers
 
 ## NanoTwitchLeafs 4.1.2 – account status and save indicator (6 September 2026)
 

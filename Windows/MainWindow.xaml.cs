@@ -479,6 +479,16 @@ namespace NanoTwitchLeafs.Windows
 
 		private void _appSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
+			if (_chatConnectionInProgress)
+				return;
+
+			// Runtime connection data is refreshed automatically and persisted by the
+			// corresponding connection path. It is not an unsaved user preference.
+			if (sender is NanoLeafDevice && e.PropertyName == nameof(NanoLeafDevice.NanoleafControllerInfo))
+				return;
+			if (sender is NanoSettings && e.PropertyName == nameof(NanoSettings.NanoLeafDevices))
+				return;
+
 			// Auth objects are only replaced by account management or automatic token
 			// refresh. Both paths persist them immediately, so they are not user edits.
 			if (e.PropertyName is nameof(AppSettings.BotAuthObject) or nameof(AppSettings.BroadcasterAuthObject))
@@ -661,6 +671,8 @@ namespace NanoTwitchLeafs.Windows
 			unsavedChanges_TextBlock.Visibility = Visibility.Collapsed;
 			Save_Button.ToolTip = null;
 		}
+
+		private bool _chatConnectionInProgress;
 
 		private void ShowToast(string message)
 		{
@@ -2005,6 +2017,7 @@ namespace NanoTwitchLeafs.Windows
 		{
 			try
 			{
+				_chatConnectionInProgress = true;
 				chatStatus_TextBlock.Text = Text("P411_Chat_Connecting");
 				chatStatus_TextBlock.Visibility = Visibility.Visible;
 				_twitchController.Connect(_appSettings);
@@ -2015,6 +2028,7 @@ namespace NanoTwitchLeafs.Windows
 			}
 			catch (Exception ex)
 			{
+				_chatConnectionInProgress = false;
 				_logger.Error("Could not start Twitch chat connection.", ex);
 				TwitchController_OnChatConnectionFailed(ex.Message);
 			}
@@ -2024,6 +2038,7 @@ namespace NanoTwitchLeafs.Windows
 		{
 			Dispatcher.BeginInvoke(new Action(() =>
 			{
+				_chatConnectionInProgress = false;
 				ConnectChat_Button.IsEnabled = !connected && _appSettings.BotAuthObject != null;
 				DisconnectChat_Button.IsEnabled = connected;
 				sendMessage_TextBox.IsEnabled = connected;
@@ -2037,6 +2052,7 @@ namespace NanoTwitchLeafs.Windows
 		{
 			Dispatcher.BeginInvoke(new Action(() =>
 			{
+				_chatConnectionInProgress = false;
 				ConnectChat_Button.IsEnabled = _appSettings.BotAuthObject != null;
 				DisconnectChat_Button.IsEnabled = false;
 				sendMessage_TextBox.IsEnabled = false;
