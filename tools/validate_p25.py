@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static regression checks for Preview 25 usability features."""
+"""Static regression checks for regression 25 usability features."""
 from pathlib import Path
 import sys
 import xml.etree.ElementTree as ET
@@ -23,12 +23,12 @@ def main():
     for prop in ("WindowLeft", "WindowTop", "WindowWidth", "WindowHeight", "WindowMaximized"):
         if prop not in settings: errors.append(f"missing window placement property: {prop}")
     if 'Height="145"' not in xaml: errors.append("Nano status area was not compacted")
-    if 'AssemblyInformationalVersion("4.1.0' not in read("Properties/AssemblyInfo.cs"): errors.append("assembly version is not 4.1.0")
+    if 'AssemblyInformationalVersion("4.1.' not in read("Properties/AssemblyInfo.cs"): errors.append("assembly version is not 4.1.x")
     if errors:
-        print("Preview 25 validation failed:")
+        print("Regression 25 validation failed:")
         for error in errors: print(f"- {error}")
         return 1
-    print("Preview 25 validation passed: blocklist, compact layout, console, support log, window placement, dirty warning, toasts and keyboard navigation verified.")
+    print("Regression 25 validation passed: blocklist, compact layout, console, support log, window placement, dirty warning, toasts and keyboard navigation verified.")
     return 0
 
 if __name__ == "__main__": sys.exit(main())

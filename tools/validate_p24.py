@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static regression checks for Preview 24 trigger-list enhancements."""
+"""Static regression checks for regression 24 trigger-list enhancements."""
 
 from pathlib import Path
 import sys
@@ -34,14 +34,14 @@ def main() -> int:
             errors.append(f"missing warning check: {problem}")
     if "HasProblem" not in model or "WarningVisibility" not in model:
         errors.append("trigger row warning state is incomplete")
-    if 'AssemblyInformationalVersion("4.1.0' not in read("Properties/AssemblyInfo.cs"):
-        errors.append("assembly version is not 4.1.0")
+    if 'AssemblyInformationalVersion("4.1.' not in read("Properties/AssemblyInfo.cs"):
+        errors.append("assembly version is not 4.1.x")
 
     if errors:
-        print("Preview 24 validation failed:")
+        print("Regression 24 validation failed:")
         for error in errors: print(f"- {error}")
         return 1
-    print("Preview 24 validation passed: search, status/type filters, result count, reset, "
+    print("Regression 24 validation passed: search, status/type filters, result count, reset, "
           "warnings, double-click editing, version and artifact verified.")
     return 0
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static quality and stability regression checks for Preview 28."""
+"""Static quality and stability regression checks for regression 28."""
 from pathlib import Path
 import sys
 import xml.etree.ElementTree as ET
@@ -25,9 +25,9 @@ def main():
     for marker in ("Dispatcher.BeginInvoke", "HasShutdownStarted", "while (_queue.TryReceive(out _))", "_queueToken?.Cancel"):
         if marker not in logic: errors.append(f"queue/thread guard missing: {marker}")
     if errors:
-        print("Preview 28 validation failed:")
+        print("Regression 28 validation failed:")
         for error in errors: print(f"- {error}")
         return 1
-    print("Preview 28 validation passed: layout alignment, tooltips, focus, settings recovery, HypeRate guards and queue UI-thread safety verified.")
+    print("Regression 28 validation passed: layout alignment, tooltips, focus, settings recovery, HypeRate guards and queue UI-thread safety verified.")
     return 0
 if __name__=="__main__": sys.exit(main())

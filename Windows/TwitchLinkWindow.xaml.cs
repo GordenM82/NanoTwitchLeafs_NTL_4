@@ -61,12 +61,14 @@ namespace NanoTwitchLeafs.Windows
 		private void Double_TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
 		{
 			_doubleAccount = true;
+			ConnectBot_TabItem.Visibility = Visibility.Visible;
 			ConnectBroadcaster_TabItem.IsSelected = true;
 		}
 
 		private void Single_TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
 		{
 			_doubleAccount = false;
+			ConnectBot_TabItem.Visibility = Visibility.Collapsed;
 			ConnectBroadcaster_TabItem.IsSelected = true;
 		}
 
@@ -536,7 +538,8 @@ namespace NanoTwitchLeafs.Windows
 			}
 
 			((MainWindow)App.Current.MainWindow).TwitchLinkAvatar_Image.Source = new BitmapImage(_appSettings.BroadcasterAvatarUrl);
-			((MainWindow)App.Current.MainWindow).TwitchLink_Label.Content = $"Connected to Twitch Channel {_appSettings.ChannelName}";
+			((MainWindow)App.Current.MainWindow).TwitchLink_Label.Content =
+				string.Format(Properties.Resources.ResourceManager.GetString("P411_Twitch_ConnectedChannel"), _appSettings.ChannelName);
 			((MainWindow)App.Current.MainWindow).ConnectTwitchAccount_Button.IsEnabled = false;
 			((MainWindow)App.Current.MainWindow).DisconnectTwitchAccount_Button.IsEnabled = true;
 			((MainWindow)App.Current.MainWindow).ConnectChat_Button.IsEnabled = true;

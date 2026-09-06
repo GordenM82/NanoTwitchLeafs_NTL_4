@@ -227,6 +227,7 @@
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
                     <ListBox x:Name="twitchChat_ListBox" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Margin="0,0,0,26" />
+                    <TextBlock x:Name="chatStatus_TextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="520" Foreground="{DynamicResource NtlMutedTextBrush}" IsHitTestVisible="False" />
                     <TextBox x:Name="sendMessage_TextBox" TextWrapping="Wrap" TouchEnter="SendMessage_TextBox_TouchEnter" VerticalAlignment="Bottom" Height="21" Margin="0,0,91,0" KeyDown="SendMessage_TextBox_KeyDown" IsEnabled="False" />
                     <Button x:Name="sendMessage_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Chat_Button_Send}" HorizontalAlignment="Right" Height="21" VerticalAlignment="Bottom" Width="86" Click="SendMessage_Button_Click" IsEnabled="False" />
                 </Grid>

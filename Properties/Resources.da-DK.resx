@@ -1534,4 +1534,9 @@ Eksporter</value>
   <data name="P28_Disabled_ConnectChat" xml:space="preserve"><value>Connect a Twitch account before connecting to chat.</value></data>
   <data name="P28_Disabled_NanoTest" xml:space="preserve"><value>Pair a Nanoleaf device before testing the connection.</value></data>
   <data name="P28_Disabled_EditTrigger" xml:space="preserve"><value>Enable Nanoleaf triggers before opening trigger management.</value></data>
+  <data name="P411_Chat_Disconnected" xml:space="preserve"><value>Ikke forbundet til Twitch-chat. Opret forbindelse under Twitch for at læse og sende beskeder.</value></data>
+  <data name="P411_Chat_Connecting" xml:space="preserve"><value>Opretter forbindelse til Twitch-chat …</value></data>
+  <data name="P411_Chat_Connected" xml:space="preserve"><value>Forbundet til Twitch-chat. Nye beskeder vises her.</value></data>
+  <data name="P411_Chat_ConnectionFailed" xml:space="preserve"><value>Kunne ikke oprette forbindelse til Twitch-chat. Kontrollér Twitch-kontoen, og prøv igen.</value></data>
+  <data name="P411_Twitch_ConnectedChannel" xml:space="preserve"><value>Forbundet til Twitch-kanalen {0}</value></data>
 </root>

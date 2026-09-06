@@ -1944,4 +1944,9 @@ Exporteren</value>
   <data name="P28_Disabled_ConnectChat" xml:space="preserve"><value>Connect a Twitch account before connecting to chat.</value></data>
   <data name="P28_Disabled_NanoTest" xml:space="preserve"><value>Pair a Nanoleaf device before testing the connection.</value></data>
   <data name="P28_Disabled_EditTrigger" xml:space="preserve"><value>Enable Nanoleaf triggers before opening trigger management.</value></data>
+  <data name="P411_Chat_Disconnected" xml:space="preserve"><value>Niet verbonden met Twitch-chat. Maak verbinding via Twitch om berichten te lezen en te verzenden.</value></data>
+  <data name="P411_Chat_Connecting" xml:space="preserve"><value>Verbinden met Twitch-chat …</value></data>
+  <data name="P411_Chat_Connected" xml:space="preserve"><value>Verbonden met Twitch-chat. Nieuwe berichten verschijnen hier.</value></data>
+  <data name="P411_Chat_ConnectionFailed" xml:space="preserve"><value>Kan geen verbinding maken met Twitch-chat. Controleer het account en probeer opnieuw.</value></data>
+  <data name="P411_Twitch_ConnectedChannel" xml:space="preserve"><value>Verbonden met Twitch-kanaal {0}</value></data>
 </root>

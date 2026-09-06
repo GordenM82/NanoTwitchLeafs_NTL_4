@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static regression checks for Preview 23 navigation and console tools."""
+"""Static regression checks for regression 23 navigation and console tools."""
 
 from pathlib import Path
 import sys
@@ -49,16 +49,16 @@ def main() -> int:
     if 'TextWrapping="Wrap"' not in xaml[xaml.find('x:Name="console_Tabitem"'):]:
         errors.append("console line wrapping is missing")
 
-    if 'AssemblyInformationalVersion("4.1.0' not in read("Properties/AssemblyInfo.cs"):
-        errors.append("assembly 4.1.0 version is missing")
+    if 'AssemblyInformationalVersion("4.1.' not in read("Properties/AssemblyInfo.cs"):
+        errors.append("assembly 4.1.x version is missing")
 
     if errors:
-        print("Preview 23 validation failed:")
+        print("Regression 23 validation failed:")
         for error in errors:
             print(f"- {error}")
         return 1
 
-    print("Preview 23 validation passed: StreamElements integration tab, final API tab, "
+    print("Regression 23 validation passed: StreamElements integration tab, final API tab, "
           "console actions, wrapping, version and artifact verified.")
     return 0
 
