@@ -8,7 +8,6 @@
 
 - Konsolenmeldungen unterscheiden jetzt zwischen einem normalen Twitch-Konto und einem ausdrücklich eingerichteten separaten Bot-Konto
 - automatische, bereits gespeicherte Twitch-Token-Erneuerungen werden nicht mehr fälschlich als ungespeicherte Benutzeränderungen angezeigt
-- Python-Prüfwerkzeuge bleiben für GitHub Actions erhalten, werden aber aus der angezeigten Anwendungssprachstatistik ausgeschlossen
 
 ## NanoTwitchLeafs 4.1.1 – Twitch-Verbindungsfixes (6. September 2026)
 
@@ -100,7 +99,6 @@ Version 4.1.0 bringt eine vollständig modernisierte Oberfläche sowie zahlreich
 
 - console messages now distinguish a regular Twitch account from an explicitly configured separate bot account
 - automatic Twitch-token refreshes that are already persisted no longer appear as unsaved user changes
-- Python validation helpers remain available to GitHub Actions but are excluded from the displayed application-language statistics
 
 ## NanoTwitchLeafs 4.1.1 – Twitch connection fixes (6 September 2026)
 
