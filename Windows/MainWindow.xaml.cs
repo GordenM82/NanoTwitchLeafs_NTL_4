@@ -309,7 +309,9 @@ namespace NanoTwitchLeafs.Windows
             MessageBox.Show(Properties.Resources.Code_Main_MessageBox_Beta, Properties.Resources.Code_Main_MessageBox_BetaTitle);
 #endif
 			// attach property change event to configuration object and its subsequent elements if any derived NotifyObject
-			_appSettings.AttachPropertyChanged(_appSettings_PropertyChanged);
+			// Main-window controls are tracked explicitly below. Runtime updates
+			// (connections, refreshed devices, tokens and window placement) must not
+			// make a freshly started application appear modified.
 			ConfigureSettingsChangeTracking();
 			_settingsTrackingReady = true;
 

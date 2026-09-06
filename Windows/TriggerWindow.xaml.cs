@@ -406,9 +406,16 @@ namespace NanoTwitchLeafs.Windows
                 return;
             }
 
-            var effectList = await _nanoController.GetEffectList(_appSettings.NanoSettings.NanoLeafDevices[0]);
+            var effectList = new List<string>();
+            foreach (var device in _appSettings.NanoSettings.NanoLeafDevices)
+            {
+                var deviceEffects = await _nanoController.GetEffectList(device);
+                if (deviceEffects != null)
+                    effectList.AddRange(deviceEffects);
+            }
+            effectList = effectList.Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(effect => effect).ToList();
 
-            if (effectList == null)
+            if (effectList.Count == 0)
             {
                 _logger.Error("Connection failed! Couldn't get Effect List!");
                 System.Windows.MessageBox.Show(Properties.Resources.Code_Trigger_MessageBox_EffectList, Properties.Resources.General_MessageBox_Error_Title);

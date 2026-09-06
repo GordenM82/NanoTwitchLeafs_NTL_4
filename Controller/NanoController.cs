@@ -209,28 +209,52 @@ namespace NanoTwitchLeafs.Controller
                     var responseMessage = await client.GetAsync(CreateApiAddress(nanoLeafDevice, $"{nanoLeafDevice.Token}/effects/effectsList"));
                     if (responseMessage.StatusCode != HttpStatusCode.OK)
                     {
-                        MessageBox.Show(Properties.Resources.Code_Trigger_MessageBox_EffectList + $" '{nanoLeafDevice.PublicName}'", Properties.Resources.General_MessageBox_Error_Title);
                         _logger.Error($"Effect List - Response: {responseMessage.StatusCode}");
-                        return null;
+                        return await GetEffectListFromControllerInfo(nanoLeafDevice);
                     }
                     string responseString = await responseMessage.Content.ReadAsStringAsync();
 
                     if (string.IsNullOrEmpty(responseString))
                     {
-                        MessageBox.Show(Properties.Resources.Code_Trigger_MessageBox_EffectList + $" '{nanoLeafDevice.PublicName}'", Properties.Resources.General_MessageBox_Error_Title);
                         _logger.Error($"Error on getting Controller Effects from Device - Response: {responseString}");
-                        return null;
+                        return await GetEffectListFromControllerInfo(nanoLeafDevice);
                     }
 
-                    return JsonConvert.DeserializeObject<List<string>>(responseString);
+                    var effects = JsonConvert.DeserializeObject<List<string>>(responseString);
+                    return effects?.Where(effect => !string.IsNullOrWhiteSpace(effect)).Distinct().ToList()
+                        ?? new List<string>();
                 }
                 catch (Exception e)
                 {
                     _logger.Error($"Could not get Effect List from Controller on {nanoLeafDevice.PublicName} - {nanoLeafDevice.Address}");
                     _logger.Error(e.Message, e);
-                    return new List<string>();
+                    return await GetEffectListFromControllerInfo(nanoLeafDevice);
                 }
             }
+        }
+
+        private async Task<List<string>> GetEffectListFromControllerInfo(NanoLeafDevice nanoLeafDevice)
+        {
+            var cachedEffects = nanoLeafDevice.NanoleafControllerInfo?.effects?.effectsList;
+            if (cachedEffects != null && cachedEffects.Count > 0)
+                return cachedEffects.Where(effect => !string.IsNullOrWhiteSpace(effect)).Distinct().ToList();
+
+            try
+            {
+                var controllerInfo = await GetControllerInfo(nanoLeafDevice);
+                var effects = controllerInfo?.effects?.effectsList;
+                if (effects != null && effects.Count > 0)
+                {
+                    nanoLeafDevice.NanoleafControllerInfo = controllerInfo;
+                    return effects.Where(effect => !string.IsNullOrWhiteSpace(effect)).Distinct().ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.Error($"Could not get fallback effect list from {nanoLeafDevice.PublicName}.", e);
+            }
+
+            return new List<string>();
         }
 
         public async Task IdentifyController(NanoLeafDevice nanoLeafDevice)

@@ -69,6 +69,8 @@ namespace NanoTwitchLeafs.Windows
 			{
 				Effect_ComboBox.Items.Add(effect);
 			}
+			if (Effect_ComboBox.Items.Count > 0)
+				Effect_ComboBox.SelectedIndex = 0;
 			UpdateEffectControls();
 
 			if (triggerSetting != null)
