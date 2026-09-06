@@ -1944,4 +1944,9 @@ Esportazione</value>
   <data name="P28_Disabled_ConnectChat" xml:space="preserve"><value>Connect a Twitch account before connecting to chat.</value></data>
   <data name="P28_Disabled_NanoTest" xml:space="preserve"><value>Pair a Nanoleaf device before testing the connection.</value></data>
   <data name="P28_Disabled_EditTrigger" xml:space="preserve"><value>Enable Nanoleaf triggers before opening trigger management.</value></data>
+  <data name="P411_Chat_Disconnected" xml:space="preserve"><value>Non connesso alla chat Twitch. Connettiti da Twitch per leggere e inviare messaggi.</value></data>
+  <data name="P411_Chat_Connecting" xml:space="preserve"><value>Connessione alla chat Twitch …</value></data>
+  <data name="P411_Chat_Connected" xml:space="preserve"><value>Connesso alla chat Twitch. I nuovi messaggi appariranno qui.</value></data>
+  <data name="P411_Chat_ConnectionFailed" xml:space="preserve"><value>Impossibile connettersi alla chat Twitch. Controlla l'account e riprova.</value></data>
+  <data name="P411_Twitch_ConnectedChannel" xml:space="preserve"><value>Connesso al canale Twitch {0}</value></data>
 </root>

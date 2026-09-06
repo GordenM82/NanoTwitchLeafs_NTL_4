@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static regression checks for Preview 26 theme and layout polish."""
+"""Static regression checks for regression 26 theme and layout polish."""
 from pathlib import Path
 import sys
 import xml.etree.ElementTree as ET
@@ -25,12 +25,12 @@ def main():
     if 'TwitchLinkAvatar_Image" Height="105"' not in main: errors.append("Twitch layout was not compacted")
     if 'test_Column" Header="" Width="44"' not in trigger: errors.append("trigger action columns were not compacted")
     if info.count('TextAlignment="Center"') < 7: errors.append("information heading/developer block is not centered")
-    if 'AssemblyInformationalVersion("4.1.0' not in read("Properties/AssemblyInfo.cs"): errors.append("assembly version is not 4.1.0")
+    if 'AssemblyInformationalVersion("4.1.' not in read("Properties/AssemblyInfo.cs"): errors.append("assembly version is not 4.1.x")
     if errors:
-        print("Preview 26 validation failed:")
+        print("Regression 26 validation failed:")
         for error in errors: print(f"- {error}")
         return 1
-    print("Preview 26 validation passed: theme colors, scrollbars, console alignment, compact Twitch/trigger layouts and centered information view verified.")
+    print("Regression 26 validation passed: theme colors, scrollbars, console alignment, compact Twitch/trigger layouts and centered information view verified.")
     return 0
 
 if __name__ == "__main__": sys.exit(main())

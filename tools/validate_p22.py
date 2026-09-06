@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static regression checks for the Preview 22 integration surface."""
+"""Static regression checks for regression 22 integration surface."""
 
 from pathlib import Path
 import sys
@@ -61,16 +61,16 @@ def main() -> int:
     require('configuredProvider.Equals("All"' in logic, "legacy triggers do not default to all providers", errors)
     require("TriggerSetting.DonationProvider" in trigger_code, "provider selection is not persisted", errors)
 
-    require('AssemblyInformationalVersion("4.1.0' in read("Properties/AssemblyInfo.cs"),
-            "assembly informational 4.1.0 version is missing", errors)
+    require('AssemblyInformationalVersion("4.1.' in read("Properties/AssemblyInfo.cs"),
+            "assembly 4.1.x version is missing", errors)
 
     if errors:
-        print("Preview 22 validation failed:")
+        print("Regression 22 validation failed:")
         for error in errors:
             print(f"- {error}")
         return 1
 
-    print("Preview 22 validation passed: embedded blocklist, donation-source routing, "
+    print("Regression 22 validation passed: embedded blocklist, donation-source routing, "
           "StreamElements tip subscription, local simulation, and token redaction verified.")
     return 0
 

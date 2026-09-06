@@ -4,6 +4,19 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.1.1 – Twitch-Verbindungsfixes (6. September 2026)
+
+- Absturz beim automatischen Erneuern eines abgelaufenen Twitch-Tokens behoben
+- Einstellungsänderungen aus Twitch-Hintergrundthreads werden sicher an die Oberfläche weitergegeben
+- fehlgeschlagene oder unvollständige Twitch-Anmeldungen schließen NTL nicht mehr
+- Twitch-Chat und EventSub werden getrennt initialisiert, sodass ein EventSub-Fehler den verbundenen Chat nicht beendet
+- Chatseite zeigt jetzt verständliche Zustände für getrennt, wird verbunden, verbunden und fehlgeschlagen
+- Chat-Eingabe wird erst nach dem bestätigten Beitritt zum Twitch-Kanal freigeschaltet
+- optioneller Bot-Konto-Reiter wird nur noch beim Doppel-Konto-Setup angezeigt
+- Verbindungsassistent vergrößert und Überdeckung der unteren Schaltfläche im Verbindungstest behoben
+- verbundener Twitch-Kanal wird auf der Hauptseite lokalisiert angezeigt
+- Twitch-Verbindungen werden auch nach fehlgeschlagenen Anmeldeversuchen vollständig bereinigt
+
 ## NanoTwitchLeafs 4.1.0 – stabile öffentliche Version (5. September 2026)
 
 Version 4.1.0 bringt eine vollständig modernisierte Oberfläche sowie zahlreiche Erweiterungen und Stabilitätsverbesserungen.
@@ -76,6 +89,19 @@ Version 4.1.0 bringt eine vollständig modernisierte Oberfläche sowie zahlreich
 ---
 
 ## English
+
+## NanoTwitchLeafs 4.1.1 – Twitch connection fixes (6 September 2026)
+
+- fixed a crash while automatically refreshing an expired Twitch token
+- safely dispatches setting changes raised by Twitch background threads to the user interface
+- failed or incomplete Twitch logins no longer terminate NTL
+- initializes Twitch chat and EventSub independently, so an EventSub failure does not disconnect working chat
+- added clear disconnected, connecting, connected, and failed states to the Chat page
+- enables chat input only after Twitch confirms that the channel was joined
+- shows the optional bot-account tab only for dual-account setup
+- enlarged the connection wizard and fixed the obscured bottom button in the connection test
+- localized the connected-channel status on the main Twitch page
+- completely cleans up Twitch clients after failed login attempts
 
 ## NanoTwitchLeafs 4.1.0 – stable public release (5 September 2026)
 

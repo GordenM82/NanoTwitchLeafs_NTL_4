@@ -31,11 +31,11 @@ def main():
             errors.append(f"tooltip cell template missing: {marker}")
 
     if errors:
-        print("Preview 29 validation failed:")
+        print("Regression 29 validation failed:")
         for error in errors:
             print(f"- {error}")
         return 1
-    print("Preview 29 validation passed: auto-scroll alignment, common trigger page edge and truncated-value tooltips verified.")
+    print("Regression 29 validation passed: auto-scroll alignment, common trigger page edge and truncated-value tooltips verified.")
     return 0
 
 

@@ -45,6 +45,8 @@ namespace NanoTwitchLeafs.Controller
 		private bool _firstTryToConnectBotAccount = true;
 		private bool _firstTryToConnectBroadcasterAccount = true;
 		public event EventHandler OnDisconnected;
+		public event Action<bool> OnChatConnectionChanged;
+		public event Action<string> OnChatConnectionFailed;
 
 		public event ChatMessageReceived OnChatMessageReceived;
 		
@@ -75,6 +77,16 @@ namespace NanoTwitchLeafs.Controller
 			//     return;
 			// }
 
+			if (string.IsNullOrWhiteSpace(_appSettings.BotName) ||
+				string.IsNullOrWhiteSpace(_appSettings.ChannelName) ||
+				string.IsNullOrWhiteSpace(_appSettings.BotAuthObject?.Access_Token))
+			{
+				const string message = "Twitch chat credentials are incomplete.";
+				_logger.Warn(message);
+				OnChatConnectionFailed?.Invoke(message);
+				return;
+			}
+
 			EstablishTwitchConnection();
 		}
 
@@ -103,6 +115,7 @@ namespace NanoTwitchLeafs.Controller
 		private void Client_OnDisconnected(object sender, OnDisconnectedEventArgs e)
 		{
 			OnDisconnected?.Invoke(this, EventArgs.Empty);
+			OnChatConnectionChanged?.Invoke(false);
 			_logger.Info($"Disconnected from Twitch.");
 		}
 
@@ -113,42 +126,67 @@ namespace NanoTwitchLeafs.Controller
 
 		private async void Client_OnIncorrectLogin(object sender, OnIncorrectLoginArgs e)
 		{
-			if (_firstTryToConnectBotAccount)
+			try
 			{
+				if (!_firstTryToConnectBotAccount)
+				{
+					const string message = "Twitch rejected the refreshed bot login.";
+					_logger.Error(message);
+					OnChatConnectionFailed?.Invoke(message);
+					return;
+				}
+
 				_logger.Warn("Got incorrect Login Message from Twitch ... (Bot Account)");
 				_logger.Warn("Try to refresh Access Tokens ... This could take a Second ... or Two ...");
-
 				OnCallLoadingWindow?.Invoke(true);
-
 				Disconnect(true);
-				var newOauth = await PerformCodeExchange(_appSettings.BotAuthObject.Refresh_Token, true);
+				var newOauth = await PerformCodeExchange(_appSettings.BotAuthObject?.Refresh_Token, true);
+				if (newOauth == null || string.IsNullOrWhiteSpace(newOauth.Access_Token))
+				{
+					const string message = "Twitch bot token refresh failed. Please link the Twitch account again.";
+					_logger.Error(message);
+					OnChatConnectionFailed?.Invoke(message);
+					return;
+				}
 				_appSettings.BotAuthObject = newOauth;
 				if (_appSettings.BotName == _appSettings.ChannelName)
 					_appSettings.BroadcasterAuthObject = newOauth;
 				_appSettingsController.SaveSettings(_appSettings);
 				_firstTryToConnectBotAccount = false;
 
-				OnCallLoadingWindow?.Invoke(false);
 				EstablishTwitchConnection();
 			}
-			else
+			catch (Exception exception)
 			{
-				MessageBox.Show(Properties.Resources.Code_Twitch_MessageBox_LoginIncorrect, Properties.Resources.General_MessageBox_Error_Title);
-				_logger.Error("Incorrect Login Data! Please check your Credentials!");
+				_logger.Error("Could not refresh the Twitch bot login.", exception);
+				OnChatConnectionFailed?.Invoke(exception.Message);
+			}
+			finally
+			{
+				OnCallLoadingWindow?.Invoke(false);
 			}
 		}
 
 		private async void BroadCasterClient_OnIncorrectLogin(object sender, OnIncorrectLoginArgs e)
 		{
-			if (_firstTryToConnectBroadcasterAccount)
+			try
 			{
+				if (!_firstTryToConnectBroadcasterAccount)
+				{
+					_logger.Error("Twitch rejected the refreshed broadcaster login.");
+					return;
+				}
+
 				_logger.Warn("Got incorrect Login Message from Twitch ...(Broadcaster Account)");
 				_logger.Warn("Try to refresh Access Tokens ... This could take a Second ... or Two ...");
-				Disconnect();
-
 				OnCallLoadingWindow?.Invoke(true);
 
-				var newOauth = await PerformCodeExchange(_appSettings.BroadcasterAuthObject.Refresh_Token, true);
+				var newOauth = await PerformCodeExchange(_appSettings.BroadcasterAuthObject?.Refresh_Token, true);
+				if (newOauth == null || string.IsNullOrWhiteSpace(newOauth.Access_Token))
+				{
+					_logger.Error("Twitch broadcaster token refresh failed. Please link the Twitch account again.");
+					return;
+				}
 				_appSettings.BroadcasterAuthObject = newOauth;
 				_appSettingsController.SaveSettings(_appSettings);
 
@@ -157,54 +195,72 @@ namespace NanoTwitchLeafs.Controller
 				ConnectionCredentials credentials = new ConnectionCredentials(_appSettings.ChannelName.ToLower(), "oauth:" + _appSettings.BroadcasterAuthObject.Access_Token);
 				_broadCasterClient = new TwitchClient();
 
-				_broadCasterClient.OnConnected += BroadCasterClient_OnConnected;
-				_broadCasterClient.OnIncorrectLogin += BroadCasterClient_OnIncorrectLogin;
-				//_broadCasterClient.OnLog += Client_OnLog; //Disabled to prevent spam in the Log
-				_broadCasterClient.OnDisconnected += BroadCasterClient_OnDisconnected;
+					_broadCasterClient.OnConnected += BroadCasterClient_OnConnected;
+					_broadCasterClient.OnIncorrectLogin += BroadCasterClient_OnIncorrectLogin;
+					//_broadCasterClient.OnLog += Client_OnLog; //Disabled to prevent spam in the Log
+					_broadCasterClient.OnDisconnected += BroadCasterClient_OnDisconnected;
 
 				_broadCasterClient.Initialize(credentials, _appSettings.ChannelName.ToLower());
 				_broadCasterClient.Connect();
-				OnCallLoadingWindow?.Invoke(false);
 			}
-			else
+			catch (Exception exception)
 			{
-				MessageBox.Show(Properties.Resources.Code_Twitch_MessageBox_LoginIncorrect, Properties.Resources.General_MessageBox_Error_Title);
-				_logger.Error("Incorrect Broadcaster Login Data! Please check your Credentials!");
+				_logger.Error("Could not refresh the Twitch broadcaster login.", exception);
+			}
+			finally
+			{
+				OnCallLoadingWindow?.Invoke(false);
 			}
 		}
 
 		private async void Client_OnConnected(object sender, OnConnectedArgs e)
 		{
-			_firstTryToConnectBotAccount = true;
-			_logger.Debug($"Connected to {e.AutoJoinChannel} with Account {e.BotUsername}.");
-			OnCallLoadingWindow?.Invoke(false);
-			if (_appSettings.BotName.ToLower() != _appSettings.ChannelName.ToLower())
+			try
 			{
-				_logger.Debug("Bot Account detected. Init Broadcaster Twitch Connection...");
-				if (_broadCasterClient?.IsInitialized ?? false)
-					_broadCasterClient.Disconnect();
+				_firstTryToConnectBotAccount = true;
+				_logger.Debug($"Connected to {e.AutoJoinChannel} with Account {e.BotUsername}.");
+				OnCallLoadingWindow?.Invoke(false);
+				if (_appSettings.BotName.ToLower() != _appSettings.ChannelName.ToLower())
+				{
+					_logger.Debug("Bot Account detected. Init Broadcaster Twitch Connection...");
+					if (_broadCasterClient?.IsInitialized ?? false)
+						_broadCasterClient.Disconnect();
 
-				OnCallLoadingWindow?.Invoke(true);
+					OnCallLoadingWindow?.Invoke(true);
 
-				ConnectionCredentials broadcasterCredentials = new ConnectionCredentials(_appSettings.ChannelName.ToLower(), "oauth:" + _appSettings.BroadcasterAuthObject.Access_Token);
-				_broadCasterClient = new TwitchClient();
-				_broadCasterClient.Initialize(broadcasterCredentials, _appSettings.ChannelName.ToLower());
+					if (string.IsNullOrWhiteSpace(_appSettings.BroadcasterAuthObject?.Access_Token))
+						throw new InvalidOperationException("Broadcaster credentials are incomplete.");
+					ConnectionCredentials broadcasterCredentials = new ConnectionCredentials(_appSettings.ChannelName.ToLower(), "oauth:" + _appSettings.BroadcasterAuthObject.Access_Token);
+					_broadCasterClient = new TwitchClient();
+					_broadCasterClient.Initialize(broadcasterCredentials, _appSettings.ChannelName.ToLower());
 
 				_broadCasterClient.OnConnected += BroadCasterClient_OnConnected;
 				_broadCasterClient.OnIncorrectLogin += BroadCasterClient_OnIncorrectLogin;
 				//_broadCasterClient.OnLog += Client_OnLog; //Disabled to prevent spam in the Log
 				_broadCasterClient.OnDisconnected += BroadCasterClient_OnDisconnected;
 
-				_broadCasterClient.Connect();
+					_broadCasterClient.Connect();
+					OnCallLoadingWindow?.Invoke(false);
+				}
+
+				try
+				{
+					if (EventSubController != null)
+						await EventSubController.StartAsync();
+				}
+				catch (Exception exception)
+				{
+					_logger.Error("Twitch chat connected, but EventSub could not be started.", exception);
+				}
+			}
+			catch (Exception exception)
+			{
+				_logger.Error("Twitch post-connect initialization failed.", exception);
+			}
+			finally
+			{
 				OnCallLoadingWindow?.Invoke(false);
 			}
-
-			if (Client.IsConnected && (_appSettings.BotName.ToLower() == _appSettings.ChannelName.ToLower()))
-			{
-				//TwitchPubSubController.Connect(_appSettings);
-			}
-
-			await EventSubController.StartAsync();
 		}
 
 		private void BroadCasterClient_OnConnected(object sender, OnConnectedArgs e)
@@ -225,9 +281,10 @@ namespace NanoTwitchLeafs.Controller
 		/// <param name="both"></param>
 		public void Disconnect(bool both = false)
 		{
-			if (Client is not null && Client.IsConnected)
+			if (Client is not null)
 			{
-				Client.Disconnect();
+				if (Client.IsConnected)
+					Client.Disconnect();
 				Client.OnLog -= Client_OnLog;
 				Client.OnConnected -= Client_OnConnected;
 				Client.OnJoinedChannel -= Client_OnJoinedChannel;
@@ -241,9 +298,10 @@ namespace NanoTwitchLeafs.Controller
 			
 			if (both)
 			{
-				if (_broadCasterClient is not null && _broadCasterClient.IsConnected)
+				if (_broadCasterClient is not null)
 				{
-					_broadCasterClient.Disconnect();
+					if (_broadCasterClient.IsConnected)
+						_broadCasterClient.Disconnect();
 					_broadCasterClient.OnConnected -= BroadCasterClient_OnConnected;
 					_broadCasterClient.OnIncorrectLogin -= BroadCasterClient_OnIncorrectLogin;
 					//_broadCasterClient.OnLog -= Client_OnLog; //Disabled to prevent spam in the Log
@@ -252,6 +310,7 @@ namespace NanoTwitchLeafs.Controller
 				}
 			}
 
+			if (EventSubController != null)
 				_ = EventSubController.StopAsync();
 			OnCallLoadingWindow?.Invoke(false);
 		}
@@ -312,6 +371,7 @@ namespace NanoTwitchLeafs.Controller
 
 		private void Client_OnJoinedChannel(object sender, OnJoinedChannelArgs e)
 		{
+			OnChatConnectionChanged?.Invoke(true);
 			if (_appSettings.Responses.StartupMessageActive)
 			{
 				string message = _appSettings.Responses.StartupResponse;

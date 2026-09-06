@@ -1286,4 +1286,9 @@ I tried to change myself but I couldn't :P</comment>
   <data name="P28_Disabled_ConnectChat" xml:space="preserve"><value>Connect a Twitch account before connecting to chat.</value></data>
   <data name="P28_Disabled_NanoTest" xml:space="preserve"><value>Pair a Nanoleaf device before testing the connection.</value></data>
   <data name="P28_Disabled_EditTrigger" xml:space="preserve"><value>Enable Nanoleaf triggers before opening trigger management.</value></data>
+  <data name="P411_Chat_Disconnected" xml:space="preserve"><value>Нет подключения к чату Twitch. Подключитесь в разделе Twitch, чтобы читать и отправлять сообщения.</value></data>
+  <data name="P411_Chat_Connecting" xml:space="preserve"><value>Подключение к чату Twitch …</value></data>
+  <data name="P411_Chat_Connected" xml:space="preserve"><value>Чат Twitch подключён. Новые сообщения появятся здесь.</value></data>
+  <data name="P411_Chat_ConnectionFailed" xml:space="preserve"><value>Не удалось подключиться к чату Twitch. Проверьте учётную запись и повторите попытку.</value></data>
+  <data name="P411_Twitch_ConnectedChannel" xml:space="preserve"><value>Подключено к каналу Twitch {0}</value></data>
 </root>

@@ -1228,4 +1228,9 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
   <data name="P28_Disabled_ConnectChat" xml:space="preserve"><value>Connect a Twitch account before connecting to chat.</value></data>
   <data name="P28_Disabled_NanoTest" xml:space="preserve"><value>Pair a Nanoleaf device before testing the connection.</value></data>
   <data name="P28_Disabled_EditTrigger" xml:space="preserve"><value>Enable Nanoleaf triggers before opening trigger management.</value></data>
+  <data name="P411_Chat_Disconnected" xml:space="preserve"><value>Not connected to Twitch chat. Connect under Twitch to read and send messages.</value></data>
+  <data name="P411_Chat_Connecting" xml:space="preserve"><value>Connecting to Twitch chat …</value></data>
+  <data name="P411_Chat_Connected" xml:space="preserve"><value>Connected to Twitch chat. New messages will appear here.</value></data>
+  <data name="P411_Chat_ConnectionFailed" xml:space="preserve"><value>Could not connect to Twitch chat. Check the Twitch account and try again.</value></data>
+  <data name="P411_Twitch_ConnectedChannel" xml:space="preserve"><value>Connected to Twitch channel {0}</value></data>
 </root>

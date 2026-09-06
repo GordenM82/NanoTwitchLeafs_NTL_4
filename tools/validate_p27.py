@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static checks for Preview 27 console alignment and trigger localization."""
+"""Static checks for regression 27 console alignment and trigger localization."""
 from pathlib import Path
 import sys
 import xml.etree.ElementTree as ET
@@ -18,11 +18,11 @@ def main():
         if old in trigger: errors.append(f"hard-coded trigger text remains: {old}")
     for marker in ('x:Key="TriggerCell"','x:Key="CommandCell"','delete_Column'):
         if marker not in trigger: errors.append(f"balanced trigger column missing: {marker}")
-    if 'AssemblyInformationalVersion("4.1.0' not in read("Properties/AssemblyInfo.cs"): errors.append("assembly version is not 4.1.0")
+    if 'AssemblyInformationalVersion("4.1.' not in read("Properties/AssemblyInfo.cs"): errors.append("assembly version is not 4.1.x")
     if errors:
-        print("Preview 27 validation failed:")
+        print("Regression 27 validation failed:")
         for error in errors: print(f"- {error}")
         return 1
-    print("Preview 27 validation passed: fixed console alignment, search hint, balanced trigger widths and localized labels verified.")
+    print("Regression 27 validation passed: fixed console alignment, search hint, balanced trigger widths and localized labels verified.")
     return 0
 if __name__ == "__main__": sys.exit(main())

@@ -37,11 +37,11 @@ def main():
         errors.append("monitor/DPI diagnostics are missing")
 
     if errors:
-        print("Preview 30 validation failed:")
+        print("Regression 30 validation failed:")
         for error in errors:
             print(f"- {error}")
         return 1
-    print("Preview 30 validation passed: single-monitor placement, owned-window bounds and draggable scrollbar templates verified.")
+    print("Regression 30 validation passed: single-monitor placement, owned-window bounds and draggable scrollbar templates verified.")
     return 0
 
 

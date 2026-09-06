@@ -873,7 +873,7 @@ eingeloggt bist und klicke den Knopf weiter unten.</value>
     <value>Streamer Username</value>
   </data>
   <data name="Window_TwitchLink_Tab_Bot" xml:space="preserve">
-    <value>Bot</value>
+    <value>Bot-Konto</value>
   </data>
   <data name="Window_TwitchLink_Label_ClickNext" xml:space="preserve">
     <value>Link erfolgreich! Weiter &gt;&gt;&gt;</value>
@@ -1226,4 +1226,9 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="P28_Disabled_ConnectChat" xml:space="preserve"><value>Verbinde zuerst ein Twitch-Konto, bevor du den Chat verbindest.</value></data>
   <data name="P28_Disabled_NanoTest" xml:space="preserve"><value>Kopple zuerst ein Nanoleaf-Gerät, bevor du die Verbindung testest.</value></data>
   <data name="P28_Disabled_EditTrigger" xml:space="preserve"><value>Aktiviere zuerst die Nanoleaf-Trigger, bevor du die Triggerverwaltung öffnest.</value></data>
+  <data name="P411_Chat_Disconnected" xml:space="preserve"><value>Nicht mit dem Twitch-Chat verbunden. Stelle die Verbindung unter Twitch her, um Nachrichten zu lesen und zu senden.</value></data>
+  <data name="P411_Chat_Connecting" xml:space="preserve"><value>Verbindung zum Twitch-Chat wird hergestellt …</value></data>
+  <data name="P411_Chat_Connected" xml:space="preserve"><value>Mit dem Twitch-Chat verbunden. Neue Nachrichten erscheinen hier.</value></data>
+  <data name="P411_Chat_ConnectionFailed" xml:space="preserve"><value>Verbindung zum Twitch-Chat fehlgeschlagen. Prüfe das Twitch-Konto und versuche es erneut.</value></data>
+  <data name="P411_Twitch_ConnectedChannel" xml:space="preserve"><value>Mit Twitch-Kanal {0} verbunden</value></data>
 </root>

@@ -236,6 +236,8 @@ namespace NanoTwitchLeafs.Windows
 			_twitchController = new TwitchController(_appSettingsController);
 			_twitchController.OnChatMessageReceived += _twitchController_OnChatMessageReceived;
 			_twitchController.OnCallLoadingWindow += OnCallLoadingWindow;
+			_twitchController.OnChatConnectionChanged += TwitchController_OnChatConnectionChanged;
+			_twitchController.OnChatConnectionFailed += TwitchController_OnChatConnectionFailed;
 
 			_logger.Info("Initialize Dependency Injection for TwitchEventSubController");
 
@@ -412,6 +414,8 @@ namespace NanoTwitchLeafs.Windows
 			{
 				if (state)
 				{
+					if (_loadingWindow?.IsVisible == true)
+						return;
 					_loadingWindow = new LoadingWindow(_appSettings.Language);
 					WindowPlacementService.PrepareOwnedWindow(_loadingWindow, Main_Window);
 					_loadingWindow.Show();
@@ -475,6 +479,11 @@ namespace NanoTwitchLeafs.Windows
 
 		private void _appSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
+			if (!Dispatcher.CheckAccess())
+			{
+				Dispatcher.BeginInvoke(new Action(MarkSettingsDirty));
+				return;
+			}
 			MarkSettingsDirty();
 		}
 
@@ -510,6 +519,7 @@ namespace NanoTwitchLeafs.Windows
 					?? languages[1];
 
 				twitchChat_ListBox.ItemsSource = _twitchChat;
+				chatStatus_TextBlock.Text = Text("P411_Chat_Disconnected");
 				_consoleView = CollectionViewSource.GetDefaultView(Console);
 				_consoleView.Filter = ConsoleEntryMatchesFilter;
 				console_ListBox.ItemsSource = _consoleView;
@@ -1990,17 +2000,46 @@ namespace NanoTwitchLeafs.Windows
 		{
 			try
 			{
+				chatStatus_TextBlock.Text = Text("P411_Chat_Connecting");
+				chatStatus_TextBlock.Visibility = Visibility.Visible;
 				_twitchController.Connect(_appSettings);
 				ConnectChat_Button.IsEnabled = false;
-				DisconnectChat_Button.IsEnabled = true;
-				sendMessage_TextBox.IsEnabled = true;
-				sendMessage_Button.IsEnabled = true;
+				DisconnectChat_Button.IsEnabled = false;
+				sendMessage_TextBox.IsEnabled = false;
+				sendMessage_Button.IsEnabled = false;
 			}
 			catch (Exception ex)
 			{
-				_logger.Error(ex.Message);
-				_logger.Error(ex);
+				_logger.Error("Could not start Twitch chat connection.", ex);
+				TwitchController_OnChatConnectionFailed(ex.Message);
 			}
+		}
+
+		private void TwitchController_OnChatConnectionChanged(bool connected)
+		{
+			Dispatcher.BeginInvoke(new Action(() =>
+			{
+				ConnectChat_Button.IsEnabled = !connected && _appSettings.BotAuthObject != null;
+				DisconnectChat_Button.IsEnabled = connected;
+				sendMessage_TextBox.IsEnabled = connected;
+				sendMessage_Button.IsEnabled = connected;
+				chatStatus_TextBlock.Text = connected ? Text("P411_Chat_Connected") : Text("P411_Chat_Disconnected");
+				chatStatus_TextBlock.Visibility = _twitchChat.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+			}));
+		}
+
+		private void TwitchController_OnChatConnectionFailed(string reason)
+		{
+			Dispatcher.BeginInvoke(new Action(() =>
+			{
+				ConnectChat_Button.IsEnabled = _appSettings.BotAuthObject != null;
+				DisconnectChat_Button.IsEnabled = false;
+				sendMessage_TextBox.IsEnabled = false;
+				sendMessage_Button.IsEnabled = false;
+				chatStatus_TextBlock.Text = Text("P411_Chat_ConnectionFailed");
+				chatStatus_TextBlock.Visibility = Visibility.Visible;
+				ShowToast(Text("P411_Chat_ConnectionFailed"));
+			}));
 		}
 
 		private void DisconnectFromChat()
@@ -2092,6 +2131,7 @@ namespace NanoTwitchLeafs.Windows
 			twitchChat_ListBox.Dispatcher.Invoke(() =>
 			{
 				_twitchChat.Add(formattedMessage);
+				chatStatus_TextBlock.Visibility = Visibility.Collapsed;
 				twitchChat_ListBox.Items.Refresh();
 				UpdateScrollBar(twitchChat_ListBox);
 			});

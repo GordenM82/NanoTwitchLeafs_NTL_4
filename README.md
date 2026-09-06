@@ -19,7 +19,7 @@ NanoTwitchLeafs verbindet Twitch mit Nanoleaf-Leuchten. Chatbefehle, Twitch-Erei
 
 ### Projektstatus
 
-**NanoTwitchLeafs 4.1.0** ist die stabile öffentliche Ausgabe der modernisierten Benutzeroberfläche. Sie wird unter dem GitHub-Konto **GordenM82** als Weiterentwicklung des ursprünglichen GPL-3.0-Projekts von **Locxion** gepflegt. Bei Weiterentwicklung, Fehlersuche und Dokumentation wurde KI-Unterstützung eingesetzt. Regelmäßige Aktualisierungen oder dauerhafter Support werden nicht zugesagt.
+**NanoTwitchLeafs 4.1.1** ist die stabile öffentliche Ausgabe der modernisierten Benutzeroberfläche. Sie wird unter dem GitHub-Konto **GordenM82** als Weiterentwicklung des ursprünglichen GPL-3.0-Projekts von **Locxion** gepflegt. Bei Weiterentwicklung, Fehlersuche und Dokumentation wurde KI-Unterstützung eingesetzt. Regelmäßige Aktualisierungen oder dauerhafter Support werden nicht zugesagt.
 
 Die fertige Windows-x64-Version steht unter [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest) bereit.
 
@@ -136,7 +136,7 @@ NanoTwitchLeafs connects Twitch with Nanoleaf lights. Chat commands, Twitch even
 
 ### Project status
 
-**NanoTwitchLeafs 4.1.0** is the stable public release of the modernized user interface. It is maintained under the GitHub account **GordenM82** as a continuation of **Locxion**'s original GPL-3.0 project. AI assistance was used for continued development, troubleshooting, and documentation. Regular updates or permanent support are not guaranteed.
+**NanoTwitchLeafs 4.1.1** is the stable public release of the modernized user interface. It is maintained under the GitHub account **GordenM82** as a continuation of **Locxion**'s original GPL-3.0 project. AI assistance was used for continued development, troubleshooting, and documentation. Regular updates or permanent support are not guaranteed.
 
 The ready-to-run Windows x64 package is available under [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest).
 

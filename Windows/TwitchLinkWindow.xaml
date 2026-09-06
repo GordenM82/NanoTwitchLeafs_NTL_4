@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p="clr-namespace:NanoTwitchLeafs.Properties"
         mc:Ignorable="d"
-        Title="{x:Static p:Resources.Window_TwitchLink_Title}" Height="450" Width="800" ResizeMode="NoResize" Closing="TwitchLink_Window_Closing" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}">
+        Title="{x:Static p:Resources.Window_TwitchLink_Title}" Height="480" Width="800" MinHeight="480" MinWidth="800" ResizeMode="CanMinimize" Closing="TwitchLink_Window_Closing" Background="{DynamicResource NtlBackgroundBrush}" Foreground="{DynamicResource NtlTextBrush}">
     <Grid>
         <TabControl Margin="10">
             <TabControl.Resources>
@@ -36,7 +36,7 @@
                     <Label x:Name="BroadcasterLink_Label" Content="{x:Static p:Resources.Window_TwitchLink_Label_ClickNext}" HorizontalAlignment="Left" Margin="477,0,0,8" VerticalAlignment="Bottom" Width="204" Visibility="Hidden" />
                 </Grid>
             </TabItem>
-            <TabItem x:Name="ConnectBot_TabItem" Header="{x:Static p:Resources.Window_TwitchLink_Tab_Bot}" IsEnabled="False" Height="22" Margin="0,-2,0,0" VerticalAlignment="Bottom">
+            <TabItem x:Name="ConnectBot_TabItem" Header="{x:Static p:Resources.Window_TwitchLink_Tab_Bot}" IsEnabled="False" Visibility="Collapsed">
                 <Grid Background="{DynamicResource NtlSurfaceBrush}">
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="234" Width="440" Text="{x:Static p:Resources.Window_TwitchLink_Bot_Permissions_Text}" />
                     <Button x:Name="LinkBot_Button" Content="{x:Static p:Resources.Window_TwitchLink_Button_Link}" HorizontalAlignment="Left" Margin="105,277,0,0" VerticalAlignment="Top" Width="180" Click="LinkBot_Button_Click" />
@@ -53,7 +53,7 @@
                     <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="62" Width="354"><Run Text="{x:Static p:Resources.Window_TwitchLink_Tab_Test_Almostdone_Text}" /></TextBlock>
                     <Button x:Name="TestNext_Button" Content="{x:Static p:Resources.General_Button_Next}" HorizontalAlignment="Left" Margin="681,0,0,9" VerticalAlignment="Bottom" Width="75" Click="TestNext_Button_Click" IsEnabled="False" />
                     <Button x:Name="Test_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Nano_Button_Test}" HorizontalAlignment="Left" Margin="110,101,0,0" VerticalAlignment="Top" Width="120" Click="Test_Button_Click" Padding="5,1" />
-                    <ListBox x:Name="TestConnection_Listbox" HorizontalAlignment="Left" Height="318" Margin="369,10,0,0" VerticalAlignment="Top" Width="387" Focusable="False" VerticalContentAlignment="Top" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListBox x:Name="TestConnection_Listbox" HorizontalAlignment="Left" Height="300" Margin="369,10,0,0" VerticalAlignment="Top" Width="387" Focusable="False" VerticalContentAlignment="Top" HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="3,2" />
