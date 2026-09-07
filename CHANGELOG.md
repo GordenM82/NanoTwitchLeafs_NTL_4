@@ -4,6 +4,17 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.1.6 – Neustart, Updateprüfung und Supportwerkzeuge (7. September 2026)
+
+- bestätigter Sprachwechsel speichert die Einstellungen, beendet NTL kontrolliert und startet die Anwendung automatisch neu
+- manuelle Updateprüfung zeigt nun einen Prüfstatus sowie eindeutige Rückmeldungen für „aktuell“ und nicht erreichbare Updatequellen
+- mehrfaches gleichzeitiges Starten der Updateprüfung verhindert
+- Support-Protokoll wird in einem beschreibbaren Benutzerordner erstellt und öffnet anschließend direkt den Speicherort
+- Fehlermeldung beim Erstellen eines Support-Protokolls enthält eine verwertbare Ursache
+- Mehrfachauswahl in der Konsole mit `Strg`/`Umschalt`, `Strg+A` und Kopieren per `Strg+C` ergänzt
+- automatische Konsolenbewegung wird beim manuellen Auswählen von Einträgen pausiert
+- Hinweise auf ein Bot-Konto erscheinen weiterhin nur bei tatsächlich eingerichtetem separatem Bot-Konto
+
 ## NanoTwitchLeafs 4.1.5 – Updatequellen und direkte Aktualisierung (7. September 2026)
 
 - Updateprüfung für den NTL-4-Zweig von GordenM82 und die Originalversion von Locxion ergänzt
@@ -117,6 +128,17 @@ Version 4.1.0 bringt eine vollständig modernisierte Oberfläche sowie zahlreich
 ---
 
 ## English
+
+## NanoTwitchLeafs 4.1.6 – restart, update checks and support tools (7 September 2026)
+
+- a confirmed language change now saves settings, shuts NTL down cleanly and relaunches the application automatically
+- manual update checks now show progress and explicit results for an up-to-date installation or unavailable update sources
+- concurrent manual update checks are prevented
+- support logs are written to a writable user folder and their location is opened afterwards
+- support-log failures now include an actionable reason
+- console multi-selection supports Ctrl/Shift, Ctrl+A and copying with Ctrl+C
+- automatic console scrolling pauses while entries are selected manually
+- bot-account wording remains limited to configurations that actually use a separate bot account
 
 ## NanoTwitchLeafs 4.1.5 – update sources and in-place updates (7 September 2026)
 

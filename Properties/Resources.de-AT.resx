@@ -1238,4 +1238,9 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="P415_Update_Title" xml:space="preserve"><value>NanoTwitchLeafs-Update</value></data>
   <data name="P415_Update_Choose" xml:space="preserve"><value>Aus beiden Entwicklungszweigen sind Updates verfügbar. Eine höhere Versionsnummer bedeutet nicht automatisch, dass beide Zweige dieselben Funktionen enthalten.&#xA;&#xA;Ja: {0} – {1}&#xA;Nein: {2} – {3}&#xA;Abbrechen: nicht aktualisieren</value></data>
   <data name="P415_Update_SwitchWarning" xml:space="preserve"><value>Du wechselst gleich zum anderen Entwicklungszweig:&#xA;&#xA;{0} – Version {1}&#xA;&#xA;Einstellungen und Trigger bleiben erhalten, die Funktionen können sich zwischen den Zweigen jedoch unterscheiden. Fortfahren?</value></data>
+  <data name="P416_Update_Checking" xml:space="preserve"><value>Suche nach Updates …</value></data>
+  <data name="P416_Update_Current" xml:space="preserve"><value>NanoTwitchLeafs ist aktuell. In der ausgewählten Updatequelle ist keine neuere Version verfügbar.</value></data>
+  <data name="P416_Update_SourceError" xml:space="preserve"><value>Die ausgewählte Updatequelle konnte nicht erreicht werden. Bitte prüfe die Internetverbindung und versuche es später erneut.</value></data>
+  <data name="P416_Support_Error" xml:space="preserve"><value>Das Support-Protokoll konnte nicht erstellt werden.&#xA;&#xA;Details: {0}</value></data>
+  <data name="P416_Restart_Error" xml:space="preserve"><value>NanoTwitchLeafs konnte nicht automatisch neu gestartet werden. Bitte schließe und öffne die Anwendung manuell.</value></data>
 </root>

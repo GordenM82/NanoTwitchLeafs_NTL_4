@@ -609,9 +609,21 @@ namespace NanoTwitchLeafs.Windows
 			}
 		}
 
-		private void CheckForUpdate()
+		private async Task CheckForUpdateAsync()
 		{
-			_updateController.CheckForUpdates();
+			if (!CheckForUpdate_Button.IsEnabled) return;
+			CheckForUpdate_Button.IsEnabled = false;
+			string originalText = CheckForUpdate_Button.Content?.ToString();
+			CheckForUpdate_Button.Content = Text("P416_Update_Checking");
+			try
+			{
+				await _updateController.CheckForUpdatesAsync(true);
+			}
+			finally
+			{
+				CheckForUpdate_Button.Content = originalText;
+				CheckForUpdate_Button.IsEnabled = true;
+			}
 		}
 
 		private void InitializeUpdateSourceControls()
@@ -716,9 +728,9 @@ namespace NanoTwitchLeafs.Windows
 			RefreshBlocklistSummary();
 		}
 
-		private void CheckForUpdate_Button_Click(object sender, RoutedEventArgs e)
+		private async void CheckForUpdate_Button_Click(object sender, RoutedEventArgs e)
 		{
-			CheckForUpdate();
+			await CheckForUpdateAsync();
 		}
 
 		private async void LoadEffects_Button_Click(object sender, RoutedEventArgs e)
@@ -1658,6 +1670,29 @@ namespace NanoTwitchLeafs.Windows
 			CopyConsoleEntries(console_ListBox.SelectedItems.Cast<ConsoleLogEntry>());
 		}
 
+		private void Console_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			// Keep a manual multi-selection stable instead of moving it whenever a new log line arrives.
+			if (console_ListBox.SelectedItems.Count > 0)
+				_consoleAutoScroll = false;
+			if (consoleAutoScroll_CheckBox != null)
+				consoleAutoScroll_CheckBox.IsChecked = _consoleAutoScroll;
+		}
+
+		private void Console_ListBox_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.A)
+			{
+				console_ListBox.SelectAll();
+				e.Handled = true;
+			}
+			else if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.C)
+			{
+				CopyConsoleEntries(console_ListBox.SelectedItems.Cast<ConsoleLogEntry>());
+				e.Handled = true;
+			}
+		}
+
 		private void ConsoleCopyVisible_MenuItem_Click(object sender, RoutedEventArgs e)
 		{
 			CopyConsoleEntries((_consoleView?.Cast<ConsoleLogEntry>()) ?? Enumerable.Empty<ConsoleLogEntry>());
@@ -1696,21 +1731,39 @@ namespace NanoTwitchLeafs.Windows
 		{
 			try
 			{
-				string supportDirectory = Path.Combine(Constants.PROGRAMFILESFOLDER_PATH, "Support");
+				string supportDirectory = Path.Combine(
+					Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "NanoTwitchLeafs Support");
 				Directory.CreateDirectory(supportDirectory);
 				string destination = Path.Combine(supportDirectory, $"NanoTwitchLeafs-support-{DateTime.Now:yyyyMMdd-HHmmss}.log");
-				string source = File.Exists(Constants.LOG_PATH) ? File.ReadAllText(Constants.LOG_PATH) : string.Empty;
+				string source = ReadCurrentLogForSupport();
 				string header = $"NanoTwitchLeafs {VersionBadgeText}{Environment.NewLine}Created: {DateTimeOffset.Now:O}{Environment.NewLine}{Environment.NewLine}";
 				File.WriteAllText(destination, header + SanitizeSupportLog(source), Encoding.UTF8);
-				Process.Start(new ProcessStartInfo { FileName = "explorer.exe", Arguments = $"/select,\"{destination}\"", UseShellExecute = true });
+				try
+				{
+					Process.Start(new ProcessStartInfo { FileName = "explorer.exe", Arguments = $"/select,\"{destination}\"", UseShellExecute = true });
+				}
+				catch (Exception revealException)
+				{
+					// The log itself was created successfully; failure to reveal it must not turn that into an error.
+					_logger.Warn($"Support log was created at {destination}, but Explorer could not reveal it.", revealException);
+				}
 				ShowToast(Text("P25_Toast_SupportCreated"));
 			}
 			catch (Exception ex)
 			{
 				_logger.Error("Could not create the sanitized support log.", ex);
-				MessageBox.Show(Properties.Resources.General_MessageBox_GeneralError_Text,
+				MessageBox.Show(string.Format(Text("P416_Support_Error"), ex.Message),
 					Properties.Resources.General_MessageBox_Error_Title, MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+		}
+
+		private static string ReadCurrentLogForSupport()
+		{
+			if (!File.Exists(Constants.LOG_PATH)) return string.Empty;
+			using var stream = new FileStream(Constants.LOG_PATH, FileMode.Open, FileAccess.Read,
+				FileShare.ReadWrite | FileShare.Delete);
+			using var reader = new StreamReader(stream, Encoding.UTF8, true);
+			return reader.ReadToEnd();
 		}
 
 		private string SanitizeSupportLog(string content)
@@ -2100,15 +2153,25 @@ namespace NanoTwitchLeafs.Windows
 
 		private void AppRestart()
 		{
+			string executablePath = Environment.ProcessPath;
+			if (string.IsNullOrWhiteSpace(executablePath) || !File.Exists(executablePath))
+			{
+				_logger.Error("Automatic restart failed because the executable path could not be determined.");
+				MessageBox.Show(Text("P416_Restart_Error"), Properties.Resources.General_MessageBox_Error_Title,
+					MessageBoxButton.OK, MessageBoxImage.Error);
+				return;
+			}
+
 			var info = new ProcessStartInfo
 			{
-				Arguments = "/C ping 127.0.0.1 -n 2 && \"" + System.Reflection.Assembly.GetEntryAssembly()?.Location + "\"",
+				Arguments = $"/C timeout /T 2 /NOBREAK >NUL & start \"\" \"{executablePath}\"",
 				WindowStyle = ProcessWindowStyle.Hidden,
 				CreateNoWindow = true,
-				FileName = "cmd.exe"
+				UseShellExecute = false,
+				FileName = Environment.GetEnvironmentVariable("COMSPEC") ?? "cmd.exe"
 			};
 			Process.Start(info);
-			this.Close();
+			Application.Current.Shutdown();
 		}
 
 		private bool CheckForDuplicateWindow(Window newWindow)

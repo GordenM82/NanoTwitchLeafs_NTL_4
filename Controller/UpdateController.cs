@@ -45,11 +45,11 @@ namespace NanoTwitchLeafs.Controller
 			AutoUpdater.InstallationPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
 #if !DEBUG
-			CheckForUpdates();
+			_ = CheckForUpdatesAsync(false);
 #endif
 		}
 
-		public async void CheckForUpdates()
+		public async Task CheckForUpdatesAsync(bool showResult)
 		{
 			try
 			{
@@ -75,7 +75,16 @@ namespace NanoTwitchLeafs.Controller
 
 				if (available.Count == 0)
 				{
-					_logger.Info("No update available from the selected update source(s).");
+					bool sourceReached = results.Any(candidate => candidate != null);
+					_logger.Info(sourceReached
+						? "No update available from the selected update source(s)."
+						: "None of the selected update sources could be reached.");
+					if (showResult)
+					{
+						MessageBox.Show(Text(sourceReached ? "P416_Update_Current" : "P416_Update_SourceError"),
+							Text("P415_Update_Title"), MessageBoxButton.OK,
+							sourceReached ? MessageBoxImage.Information : MessageBoxImage.Warning);
+					}
 					return;
 				}
 
@@ -102,6 +111,11 @@ namespace NanoTwitchLeafs.Controller
 			catch (Exception ex)
 			{
 				_logger.Error("Could not check for updates.", ex);
+				if (showResult)
+				{
+					MessageBox.Show(Text("P416_Update_SourceError"), Text("P415_Update_Title"),
+						MessageBoxButton.OK, MessageBoxImage.Warning);
+				}
 			}
 		}
 
@@ -141,7 +155,7 @@ namespace NanoTwitchLeafs.Controller
 			try
 			{
 				using var httpClient = new HttpClient();
-				httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd("NanoTwitchLeafs-AutoUpdater/4.1.5");
+				httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd("NanoTwitchLeafs-AutoUpdater/4.1.6");
 				var response = await httpClient.GetAsync(githubUrl);
 				if (response.StatusCode != HttpStatusCode.OK)
 				{

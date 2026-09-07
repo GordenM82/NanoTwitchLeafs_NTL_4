@@ -1240,4 +1240,9 @@ Now we Test your Connection to the Chat and Twitch Services!</value>
   <data name="P415_Update_Title" xml:space="preserve"><value>NanoTwitchLeafs update</value></data>
   <data name="P415_Update_Choose" xml:space="preserve"><value>Updates from both development branches are available. A higher version number does not guarantee that both branches contain the same features.&#xA;&#xA;Yes: {0} – {1}&#xA;No: {2} – {3}&#xA;Cancel: do not update</value></data>
   <data name="P415_Update_SwitchWarning" xml:space="preserve"><value>You are about to switch to the other development branch:&#xA;&#xA;{0} – version {1}&#xA;&#xA;Settings and triggers are retained, but features may differ between branches. Continue?</value></data>
+  <data name="P416_Update_Checking" xml:space="preserve"><value>Checking for updates …</value></data>
+  <data name="P416_Update_Current" xml:space="preserve"><value>NanoTwitchLeafs is up to date. No newer version is available from the selected update source.</value></data>
+  <data name="P416_Update_SourceError" xml:space="preserve"><value>The selected update source could not be reached. Please check your internet connection and try again later.</value></data>
+  <data name="P416_Support_Error" xml:space="preserve"><value>The support log could not be created.&#xA;&#xA;Details: {0}</value></data>
+  <data name="P416_Restart_Error" xml:space="preserve"><value>NanoTwitchLeafs could not restart automatically. Please close and reopen the application manually.</value></data>
 </root>
