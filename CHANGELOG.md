@@ -4,6 +4,12 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.1.4 – Effektauswahl (7. September 2026)
+
+- überlagernden Farbwähler im Trigger-Dialog bei ausgewähltem Effekt vollständig ausgeblendet
+- Effekt-Dropdown ist dadurch wieder sichtbar und mit der Maus bedienbar
+- Farbwähler und Effektliste werden abhängig von der Auswahl ausschließlich abwechselnd angezeigt
+
 ## NanoTwitchLeafs 4.1.3 – Verbindungsstatus und Trigger-Effekte (6. September 2026)
 
 - falsche Hinweise auf ungespeicherte Änderungen während der Twitch-Serververbindung behoben
@@ -101,6 +107,12 @@ Version 4.1.0 bringt eine vollständig modernisierte Oberfläche sowie zahlreich
 ---
 
 ## English
+
+## NanoTwitchLeafs 4.1.4 – effect selection (7 September 2026)
+
+- fully hides the overlapping color picker when Effect is selected in the trigger dialog
+- restores visible and mouse-operable access to the effect dropdown
+- displays the color picker and effect list exclusively according to the selected mode
 
 ## NanoTwitchLeafs 4.1.3 – connection state and trigger effects (6 September 2026)
 

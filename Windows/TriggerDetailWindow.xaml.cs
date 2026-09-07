@@ -1168,6 +1168,10 @@ namespace NanoTwitchLeafs.Windows
 			Color_RadioButton.IsEnabled = !usesUsernameColor;
 			Effect_ComboBox.IsEnabled = !usesUsernameColor && Effect_RadioButton.IsChecked == true;
 			ColorPicker.IsEnabled = !usesUsernameColor && Color_RadioButton.IsChecked == true;
+			Effect_ComboBox.Visibility = usesUsernameColor || Color_RadioButton.IsChecked == true
+				? Visibility.Collapsed : Visibility.Visible;
+			ColorPicker.Visibility = !usesUsernameColor && Color_RadioButton.IsChecked == true
+				? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void TriggerDetailWindow_Closed(object sender, EventArgs e)
