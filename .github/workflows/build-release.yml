@@ -1,5 +1,6 @@
 name: Build NanoTwitchLeafs 4
 
+
 on:
   workflow_dispatch:
   pull_request:
@@ -8,8 +9,10 @@ on:
     branches: [main, "preview/**"]
     tags: ["v*.*.*"]
 
+
 permissions:
   contents: read
+
 
 jobs:
   build-windows-x64:
@@ -18,73 +21,57 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
+
 
       - name: Setup Python for UI localization validation
         uses: actions/setup-python@v6
         with:
           python-version: "3.x"
 
+
       - name: Validate UI localization resources
         run: python tools/validate_ui_localization.py
+
 
       - name: Validate integration regressions
         run: python tools/validate_p22.py
 
+
       - name: Validate navigation and console regressions
         run: python tools/validate_p23.py
+
 
       - name: Validate trigger list regressions
         run: python tools/validate_p24.py
 
+
       - name: Validate usability regressions
         run: python tools/validate_p25.py
+
 
       - name: Validate theme and layout regressions
         run: python tools/validate_p26.py
 
+
       - name: Validate toolbar and localization regressions
         run: python tools/validate_p27.py
+
 
       - name: Validate quality and stability regressions
         run: python tools/validate_p28.py
 
+
       - name: Validate layout alignment regressions
         run: python tools/validate_p29.py
+
 
       - name: Validate monitor and scrollbar regressions
         run: python tools/validate_p30.py
 
-      - name: Validate 4.1.4 release state
-        run: python tools/validate_release_414.py
 
-      - name: Restore
-        run: dotnet restore NanoTwitchLeafs.Modern.csproj
-
-      - name: Publish Windows x64
-        run: >-
-          dotnet publish NanoTwitchLeafs.Modern.csproj
-          --configuration Release
-          --runtime win-x64
-          --self-contained true
-          --output artifacts/NanoTwitchLeafs-4.1.4-win-x64
-
-      - name: Remove development-only files
-        shell: pwsh
-        run: |
-          Remove-Item "artifacts/NanoTwitchLeafs-4.1.4-win-x64/*.pdb" -Force -ErrorAction SilentlyContinue
-
-      - name: Create release ZIP
-        shell: pwsh
-        run: |
-          Compress-Archive -Path "artifacts/NanoTwitchLeafs-4.1.4-win-x64/*" -DestinationPath "artifacts/NanoTwitchLeafs-4.1.4-win-x64.zip"
-
-      - name: Upload release ZIP
-        uses: actions/upload-artifact@v6
-        with:
-          name: NanoTwitchLeafs-4.1.4-win-x64
-          path: artifacts/NanoTwitchLeafs-4.1.4-win-x64.zip
-          if-no-files-found: error
+      - name: Validate 4.1.5 release state
