@@ -142,6 +142,11 @@ namespace NanoTwitchLeafs.Controller
             settings.Language = string.IsNullOrWhiteSpace(settings.Language) ? "en-US" : settings.Language;
             settings.Theme = string.IsNullOrWhiteSpace(settings.Theme) ? "Light" : settings.Theme;
             settings.AccentColor = string.IsNullOrWhiteSpace(settings.AccentColor) ? "TwitchPurple" : settings.AccentColor;
+			if (settings.UpdateSource != Constants.UPDATE_SOURCE_NTL4 &&
+				settings.UpdateSource != Constants.UPDATE_SOURCE_ORIGINAL)
+			{
+				settings.UpdateSource = Constants.UPDATE_SOURCE_ALL;
+			}
             if (settings.WindowWidth < 1120) settings.WindowWidth = 1440;
             if (settings.WindowHeight < 680) settings.WindowHeight = 780;
             return settings;

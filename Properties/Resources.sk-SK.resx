@@ -1469,4 +1469,11 @@ Exportovať</value>
   <data name="P411_Chat_Connected" xml:space="preserve"><value>Pripojené k chatu Twitch. Nové správy sa zobrazia tu.</value></data>
   <data name="P411_Chat_ConnectionFailed" xml:space="preserve"><value>Nepodarilo sa pripojiť k chatu Twitch. Skontrolujte účet a skúste to znova.</value></data>
   <data name="P411_Twitch_ConnectedChannel" xml:space="preserve"><value>Pripojené ku kanálu Twitch {0}</value></data>
+  <data name="P415_Update_SourceLabel" xml:space="preserve"><value>Zdroj aktualizácií</value></data>
+  <data name="P415_Update_SourceAll" xml:space="preserve"><value>Všetky dostupné verzie (odporúčané)</value></data>
+  <data name="P415_Update_SourceNtl4" xml:space="preserve"><value>NanoTwitchLeafs 4 od GordenM82</value></data>
+  <data name="P415_Update_SourceOriginal" xml:space="preserve"><value>Pôvodná verzia od Locxion</value></data>
+  <data name="P415_Update_Title" xml:space="preserve"><value>Aktualizácia NanoTwitchLeafs</value></data>
+  <data name="P415_Update_Choose" xml:space="preserve"><value>K dispozícii sú aktualizácie z oboch vývojových vetiev. Vyššie číslo verzie nezaručuje rovnaké funkcie v oboch vetvách.&#xA;&#xA;Áno: {0} – {1}&#xA;Nie: {2} – {3}&#xA;Zrušiť: neaktualizovať</value></data>
+  <data name="P415_Update_SwitchWarning" xml:space="preserve"><value>Chystáte sa prejsť na druhú vývojovú vetvu:&#xA;&#xA;{0} – verzia {1}&#xA;&#xA;Nastavenia a spúšťače zostanú zachované, ale funkcie sa môžu líšiť. Pokračovať?</value></data>
 </root>

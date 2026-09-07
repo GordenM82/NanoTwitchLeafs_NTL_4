@@ -19,7 +19,7 @@ NanoTwitchLeafs verbindet Twitch mit Nanoleaf-Leuchten. Chatbefehle, Twitch-Erei
 
 ### Projektstatus
 
-**NanoTwitchLeafs 4.1.4** ist die stabile öffentliche Ausgabe der modernisierten Benutzeroberfläche. Sie wird unter dem GitHub-Konto **GordenM82** als Weiterentwicklung des ursprünglichen GPL-3.0-Projekts von **Locxion** gepflegt. Bei Weiterentwicklung, Fehlersuche und Dokumentation wurde KI-Unterstützung eingesetzt. Regelmäßige Aktualisierungen oder dauerhafter Support werden nicht zugesagt.
+**NanoTwitchLeafs 4.1.5** ist die stabile öffentliche Ausgabe der modernisierten Benutzeroberfläche. Sie wird unter dem GitHub-Konto **GordenM82** als Weiterentwicklung des ursprünglichen GPL-3.0-Projekts von **Locxion** gepflegt. Bei Weiterentwicklung, Fehlersuche und Dokumentation wurde KI-Unterstützung eingesetzt. Regelmäßige Aktualisierungen oder dauerhafter Support werden nicht zugesagt.
 
 Die fertige Windows-x64-Version steht unter [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest) bereit.
 
@@ -103,10 +103,9 @@ Für Twitch sind weder eine eigene Twitch-Anwendung noch eine manuell einzutrage
 
 ### Update innerhalb von NanoTwitchLeafs 4
 
-1. NanoTwitchLeafs vollständig beenden.
-2. Das neue Windows-x64-ZIP herunterladen und in einen neuen Ordner entpacken.
-3. `NanoTwitchLeafs.exe` aus dem neuen Ordner starten.
-4. Verbindungen, Geräte und Trigger prüfen; danach kann der alte Programmordner entfernt werden.
+Ab Version 4.1.5 prüft NTL wahlweise die Releases von **GordenM82 / NTL 4**, von **Locxion / Original** oder beide Quellen. Sind in beiden Entwicklungszweigen Updates verfügbar, werden Herausgeber und Versionsnummer angezeigt. Da sich die Funktionen beider Zweige unterscheiden können, entscheidet der Nutzer ausdrücklich, welche Ausgabe installiert werden soll.
+
+ZIP-Updates werden direkt in den bestehenden Programmordner entpackt. Für eine manuelle Aktualisierung NanoTwitchLeafs vollständig beenden und das neue Windows-x64-ZIP über denselben Ordner entpacken. Ein neuer Versionsordner ist nicht erforderlich.
 
 Benutzerdaten liegen unter `%APPDATA%\NanoTwitchLeafs-4` und werden von neueren 4.x-Versionen automatisch weiterverwendet. Vor wichtigen Updates empfiehlt sich eine Sicherung dieses Ordners.
 
@@ -136,7 +135,7 @@ NanoTwitchLeafs connects Twitch with Nanoleaf lights. Chat commands, Twitch even
 
 ### Project status
 
-**NanoTwitchLeafs 4.1.4** is the stable public release of the modernized user interface. It is maintained under the GitHub account **GordenM82** as a continuation of **Locxion**'s original GPL-3.0 project. AI assistance was used for continued development, troubleshooting, and documentation. Regular updates or permanent support are not guaranteed.
+**NanoTwitchLeafs 4.1.5** is the stable public release of the modernized user interface. It is maintained under the GitHub account **GordenM82** as a continuation of **Locxion**'s original GPL-3.0 project. AI assistance was used for continued development, troubleshooting, and documentation. Regular updates or permanent support are not guaranteed.
 
 The ready-to-run Windows x64 package is available under [Releases](https://github.com/GordenM82/NanoTwitchLeafs_NTL_4/releases/latest).
 
@@ -220,10 +219,9 @@ Twitch does not require users to register their own application or enter a clien
 
 ### Updating within NanoTwitchLeafs 4
 
-1. Close NanoTwitchLeafs completely.
-2. Download the new Windows x64 ZIP and extract it into a new folder.
-3. Start `NanoTwitchLeafs.exe` from the new folder.
-4. Verify connections, devices, and triggers; then remove the old program folder if desired.
+Starting with version 4.1.5, NTL can check releases from **GordenM82 / NTL 4**, **Locxion / Original**, or both sources. If both development branches provide updates, the publisher and version are shown. Because the branches may contain different features, the user explicitly chooses which edition to install.
+
+ZIP updates are extracted directly into the existing application folder. For a manual update, close NanoTwitchLeafs completely and extract the new Windows x64 ZIP over the same folder. A new version-specific folder is no longer required.
 
 User data is stored under `%APPDATA%\NanoTwitchLeafs-4` and reused automatically by newer 4.x versions. Backing up this folder before important updates is recommended.
 

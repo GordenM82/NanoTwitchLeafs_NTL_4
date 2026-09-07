@@ -1949,4 +1949,11 @@ Exportar</value>
   <data name="P411_Chat_Connected" xml:space="preserve"><value>Conectado al chat de Twitch. Los mensajes nuevos aparecerán aquí.</value></data>
   <data name="P411_Chat_ConnectionFailed" xml:space="preserve"><value>No se pudo conectar al chat de Twitch. Comprueba la cuenta e inténtalo de nuevo.</value></data>
   <data name="P411_Twitch_ConnectedChannel" xml:space="preserve"><value>Conectado al canal de Twitch {0}</value></data>
+  <data name="P415_Update_SourceLabel" xml:space="preserve"><value>Fuente de actualizaciones</value></data>
+  <data name="P415_Update_SourceAll" xml:space="preserve"><value>Todas las versiones disponibles (recomendado)</value></data>
+  <data name="P415_Update_SourceNtl4" xml:space="preserve"><value>NanoTwitchLeafs 4 de GordenM82</value></data>
+  <data name="P415_Update_SourceOriginal" xml:space="preserve"><value>Versión original de Locxion</value></data>
+  <data name="P415_Update_Title" xml:space="preserve"><value>Actualización de NanoTwitchLeafs</value></data>
+  <data name="P415_Update_Choose" xml:space="preserve"><value>Hay actualizaciones de ambas ramas de desarrollo. Un número de versión mayor no garantiza que ambas ramas incluyan las mismas funciones.&#xA;&#xA;Sí: {0} – {1}&#xA;No: {2} – {3}&#xA;Cancelar: no actualizar</value></data>
+  <data name="P415_Update_SwitchWarning" xml:space="preserve"><value>Vas a cambiar a la otra rama de desarrollo:&#xA;&#xA;{0} – versión {1}&#xA;&#xA;Se conservarán los ajustes y activadores, pero las funciones pueden variar entre ramas. ¿Continuar?</value></data>
 </root>

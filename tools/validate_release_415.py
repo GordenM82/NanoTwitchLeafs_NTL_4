@@ -24,17 +24,28 @@ def main():
     changelog = read("CHANGELOG.md")
     gitattributes = read(".gitattributes")
 
-    if 'AssemblyInformationalVersion("4.1.4")' not in assembly:
-        errors.append("informational version is not 4.1.4")
+    update_code = read("Controller/UpdateController.cs")
+    settings = read("Objects/AppSettings.cs")
+    if 'AssemblyInformationalVersion("4.1.5")' not in assembly:
+        errors.append("informational version is not 4.1.5")
     if "NTL4_LAYOUT_PREVIEW" in project or "NanoTwitchLeafs-4-Layout-Preview" in constants:
         errors.append("preview data path remains enabled")
     for marker in ("PREVIEW", "Layout-Vorschau", "Layout Preview"):
         if marker in main_xaml or marker in main_code:
             errors.append(f"visible preview marker remains: {marker}")
-    if "NanoTwitchLeafs-4.1.4-win-x64" not in workflow:
-        errors.append("4.1.4 workflow artifact is missing")
-    if "4.1.4" not in readme or "NanoTwitchLeafs 4.1.4" not in changelog:
-        errors.append("4.1.4 release documentation is incomplete")
+    if "NanoTwitchLeafs-4.1.5-win-x64" not in workflow:
+        errors.append("4.1.5 workflow artifact is missing")
+    if "4.1.5" not in readme or "NanoTwitchLeafs 4.1.5" not in changelog:
+        errors.append("4.1.5 release documentation is incomplete")
+    for marker in ("NTL4_GITHUB_OWNER", "ORIGINAL_GITHUB_OWNER", "UPDATE_SOURCE_ALL"):
+        if marker not in constants:
+            errors.append(f"dual-source update constant missing: {marker}")
+    for marker in ("Task.WhenAll", "SelectCandidate", "FindWindowsZip", "TrimStart('v', 'V')",
+                   "Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)"):
+        if marker not in update_code:
+            errors.append(f"dual-source/in-place updater marker missing: {marker}")
+    if "UpdateSource" not in settings or "updateSource_ComboBox" not in main_xaml:
+        errors.append("persisted update-source selector is incomplete")
     if "Dispatcher.CheckAccess()" not in main_code or "BeginInvoke(new Action(MarkSettingsDirty))" not in main_code:
         errors.append("settings dirty tracking is not dispatcher-safe")
     for marker in ("OnChatConnectionChanged", "OnChatConnectionFailed", "Twitch chat connected, but EventSub could not be started"):
@@ -64,11 +75,11 @@ def main():
         errors.append("validation helpers still affect GitHub language statistics")
 
     if errors:
-        print("4.1.4 release validation failed:")
+        print("4.1.5 release validation failed:")
         for error in errors:
             print(f"- {error}")
         return 1
-    print("4.1.4 release validation passed: startup state, non-overlapping trigger effect controls and release metadata verified.")
+    print("4.1.5 release validation passed: dual update sources, in-place ZIP updates and release metadata verified.")
     return 0
 
 

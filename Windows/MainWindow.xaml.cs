@@ -230,7 +230,7 @@ namespace NanoTwitchLeafs.Windows
 			if (_appSettings.DebugEnabled)
 				SetLogLevel(Level.Debug);
 			_logger.Info("Initialize Update Controller");
-			_updateController = new UpdateController();
+			_updateController = new UpdateController(_appSettings);
 
 			_logger.Info("Initialize Twitch Controller");
 			_twitchController = new TwitchController(_appSettingsController);
@@ -531,6 +531,7 @@ namespace NanoTwitchLeafs.Windows
 					language_Combobox.ItemsSource = languages;
 				InitializeAppearanceControls();
 				InitializeP22Texts();
+				InitializeUpdateSourceControls();
 				language_Combobox.SelectedItem = languages.FirstOrDefault(item =>
 					string.Equals(item.Tag?.ToString(), _appSettings.Language, StringComparison.OrdinalIgnoreCase))
 					?? languages[1];
@@ -613,6 +614,15 @@ namespace NanoTwitchLeafs.Windows
 			_updateController.CheckForUpdates();
 		}
 
+		private void InitializeUpdateSourceControls()
+		{
+			updateSourceLabel_TextBlock.Text = Text("P415_Update_SourceLabel");
+			updateSourceAll_Item.Content = Text("P415_Update_SourceAll");
+			updateSourceNtl4_Item.Content = Text("P415_Update_SourceNtl4");
+			updateSourceOriginal_Item.Content = Text("P415_Update_SourceOriginal");
+			SelectComboBoxItem(updateSource_ComboBox, _appSettings.UpdateSource);
+		}
+
 		private void Logger_OnAppenderMessage(Level level, DateTime logTime, string message)
 		{
 			Logger_OnMessage(level?.Name ?? "INFO", $"[{logTime.ToShortTimeString()}][{level}] {message}");
@@ -654,6 +664,7 @@ namespace NanoTwitchLeafs.Windows
 				streamElementsEnabled_CheckBox, streamElementsAutoConnect_CheckBox
 			}) checkBox.Click += SettingsControl_Changed;
 			streamElementsTokenType_ComboBox.SelectionChanged += SettingsControl_Changed;
+			updateSource_ComboBox.SelectionChanged += SettingsControl_Changed;
 		}
 
 		private void SettingsControl_Changed(object sender, RoutedEventArgs e) => MarkSettingsDirty();
@@ -1398,6 +1409,11 @@ namespace NanoTwitchLeafs.Windows
 			_appSettings.DebugEnabled = debugCmd_Checkbox.IsChecked == true;
 			_appSettings.AutoConnect = autoConnect_Checkbox.IsChecked == true;
 			_appSettings.BlacklistEnabled = blacklist_CheckBox.IsChecked == true;
+			if (updateSource_ComboBox.SelectedItem is ComboBoxItem updateSourceItem &&
+				!string.IsNullOrWhiteSpace(updateSourceItem.Tag?.ToString()))
+			{
+				_appSettings.UpdateSource = updateSourceItem.Tag.ToString();
+			}
 
 
 			// Hype Rate

@@ -1949,4 +1949,11 @@ Exporteren</value>
   <data name="P411_Chat_Connected" xml:space="preserve"><value>Verbonden met Twitch-chat. Nieuwe berichten verschijnen hier.</value></data>
   <data name="P411_Chat_ConnectionFailed" xml:space="preserve"><value>Kan geen verbinding maken met Twitch-chat. Controleer het account en probeer opnieuw.</value></data>
   <data name="P411_Twitch_ConnectedChannel" xml:space="preserve"><value>Verbonden met Twitch-kanaal {0}</value></data>
+  <data name="P415_Update_SourceLabel" xml:space="preserve"><value>Updatebron</value></data>
+  <data name="P415_Update_SourceAll" xml:space="preserve"><value>Alle beschikbare versies (aanbevolen)</value></data>
+  <data name="P415_Update_SourceNtl4" xml:space="preserve"><value>NanoTwitchLeafs 4 van GordenM82</value></data>
+  <data name="P415_Update_SourceOriginal" xml:space="preserve"><value>Originele versie van Locxion</value></data>
+  <data name="P415_Update_Title" xml:space="preserve"><value>NanoTwitchLeafs-update</value></data>
+  <data name="P415_Update_Choose" xml:space="preserve"><value>Er zijn updates uit beide ontwikkeltakken beschikbaar. Een hoger versienummer garandeert niet dat beide takken dezelfde functies bevatten.&#xA;&#xA;Ja: {0} – {1}&#xA;Nee: {2} – {3}&#xA;Annuleren: niet bijwerken</value></data>
+  <data name="P415_Update_SwitchWarning" xml:space="preserve"><value>Je schakelt over naar de andere ontwikkeltak:&#xA;&#xA;{0} – versie {1}&#xA;&#xA;Instellingen en triggers blijven behouden, maar functies kunnen verschillen. Doorgaan?</value></data>
 </root>

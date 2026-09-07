@@ -1231,4 +1231,11 @@ Jetzt testen wir die Verbindung zu Twitch!</value>
   <data name="P411_Chat_Connected" xml:space="preserve"><value>Mit dem Twitch-Chat verbunden. Neue Nachrichten erscheinen hier.</value></data>
   <data name="P411_Chat_ConnectionFailed" xml:space="preserve"><value>Verbindung zum Twitch-Chat fehlgeschlagen. Prüfe das Twitch-Konto und versuche es erneut.</value></data>
   <data name="P411_Twitch_ConnectedChannel" xml:space="preserve"><value>Mit Twitch-Kanal {0} verbunden</value></data>
+  <data name="P415_Update_SourceLabel" xml:space="preserve"><value>Updatequelle</value></data>
+  <data name="P415_Update_SourceAll" xml:space="preserve"><value>Alle verfügbaren Versionen (empfohlen)</value></data>
+  <data name="P415_Update_SourceNtl4" xml:space="preserve"><value>NanoTwitchLeafs 4 von GordenM82</value></data>
+  <data name="P415_Update_SourceOriginal" xml:space="preserve"><value>Originalversion von Locxion</value></data>
+  <data name="P415_Update_Title" xml:space="preserve"><value>NanoTwitchLeafs-Update</value></data>
+  <data name="P415_Update_Choose" xml:space="preserve"><value>Aus beiden Entwicklungszweigen sind Updates verfügbar. Eine höhere Versionsnummer bedeutet nicht automatisch, dass beide Zweige dieselben Funktionen enthalten.&#xA;&#xA;Ja: {0} – {1}&#xA;Nein: {2} – {3}&#xA;Abbrechen: nicht aktualisieren</value></data>
+  <data name="P415_Update_SwitchWarning" xml:space="preserve"><value>Du wechselst gleich zum anderen Entwicklungszweig:&#xA;&#xA;{0} – Version {1}&#xA;&#xA;Einstellungen und Trigger bleiben erhalten, die Funktionen können sich zwischen den Zweigen jedoch unterscheiden. Fortfahren?</value></data>
 </root>

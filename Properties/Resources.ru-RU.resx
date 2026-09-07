@@ -1291,4 +1291,11 @@ I tried to change myself but I couldn't :P</comment>
   <data name="P411_Chat_Connected" xml:space="preserve"><value>Чат Twitch подключён. Новые сообщения появятся здесь.</value></data>
   <data name="P411_Chat_ConnectionFailed" xml:space="preserve"><value>Не удалось подключиться к чату Twitch. Проверьте учётную запись и повторите попытку.</value></data>
   <data name="P411_Twitch_ConnectedChannel" xml:space="preserve"><value>Подключено к каналу Twitch {0}</value></data>
+  <data name="P415_Update_SourceLabel" xml:space="preserve"><value>Источник обновлений</value></data>
+  <data name="P415_Update_SourceAll" xml:space="preserve"><value>Все доступные версии (рекомендуется)</value></data>
+  <data name="P415_Update_SourceNtl4" xml:space="preserve"><value>NanoTwitchLeafs 4 от GordenM82</value></data>
+  <data name="P415_Update_SourceOriginal" xml:space="preserve"><value>Оригинальная версия от Locxion</value></data>
+  <data name="P415_Update_Title" xml:space="preserve"><value>Обновление NanoTwitchLeafs</value></data>
+  <data name="P415_Update_Choose" xml:space="preserve"><value>Доступны обновления из обеих веток разработки. Более высокий номер версии не гарантирует одинаковые функции в обеих ветках.&#xA;&#xA;Да: {0} – {1}&#xA;Нет: {2} – {3}&#xA;Отмена: не обновлять</value></data>
+  <data name="P415_Update_SwitchWarning" xml:space="preserve"><value>Вы собираетесь перейти на другую ветку разработки:&#xA;&#xA;{0} – версия {1}&#xA;&#xA;Настройки и триггеры сохранятся, но функции могут различаться. Продолжить?</value></data>
 </root>

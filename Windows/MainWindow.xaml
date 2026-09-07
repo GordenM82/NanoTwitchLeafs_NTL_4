@@ -120,6 +120,12 @@
                         <CheckBox x:Name="autoIPRefresh_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_AutoIPRefresh}" Click="autoIPRefresh_Checkbox_Click"/>
                         <CheckBox x:Name="debugCmd_Checkbox" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Checkbox_Debug}" Click="DebugCmd_Checkbox_Click"/>
                         <TextBlock Text="{x:Static p:Resources.Window_Main_Tabs_Settings_Label_Language}" Margin="0,10,0,5"/><ComboBox x:Name="language_Combobox" MaxDropDownHeight="420" MinWidth="280" SelectionChanged="language_Combobox_SelectionChanged"/>
+                        <TextBlock x:Name="updateSourceLabel_TextBlock" Margin="0,10,0,5"/>
+                        <ComboBox x:Name="updateSource_ComboBox">
+                            <ComboBoxItem x:Name="updateSourceAll_Item" Tag="All"/>
+                            <ComboBoxItem x:Name="updateSourceNtl4_Item" Tag="GordenM82"/>
+                            <ComboBoxItem x:Name="updateSourceOriginal_Item" Tag="Locxion"/>
+                        </ComboBox>
                         <Grid Margin="0,12,0,0"><Grid.RowDefinitions><RowDefinition/><RowDefinition/></Grid.RowDefinitions><Button x:Name="Open_Dir_Button" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_OpenDebugDir}" Click="Open_Dir_Button_Click" Margin="0,0,0,6"/><Button x:Name="CheckForUpdate_Button" Grid.Row="1" Content="{x:Static p:Resources.Window_Main_Tabs_Settings_Button_UpdateCheck}" Click="CheckForUpdate_Button_Click"/></Grid>
                     </StackPanel></Border>
                     <Border Style="{StaticResource NtlCardStyle}" Width="320" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="6">

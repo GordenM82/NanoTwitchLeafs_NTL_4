@@ -22,6 +22,7 @@ namespace NanoTwitchLeafs.Objects
 			Language = GetDefaultLanguage(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
 			Theme = "Light";
 			AccentColor = "TwitchPurple";
+			UpdateSource = Constants.UPDATE_SOURCE_ALL;
 			WindowWidth = 1440;
 			WindowHeight = 780;
 			StreamlabsInformation = new StreamlabsInformation();
@@ -207,6 +208,12 @@ namespace NanoTwitchLeafs.Objects
 		{
 			get { return Get(() => AccentColor); }
 			set { Set(() => AccentColor, value); }
+		}
+
+		public string UpdateSource
+		{
+			get { return Get(() => UpdateSource); }
+			set { Set(() => UpdateSource, value); }
 		}
 
 		public double WindowLeft { get { return Get(() => WindowLeft); } set { Set(() => WindowLeft, value); } }

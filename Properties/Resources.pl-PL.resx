@@ -1949,4 +1949,11 @@ Eksportuj</value>
   <data name="P411_Chat_Connected" xml:space="preserve"><value>Połączono z czatem Twitch. Nowe wiadomości pojawią się tutaj.</value></data>
   <data name="P411_Chat_ConnectionFailed" xml:space="preserve"><value>Nie można połączyć się z czatem Twitch. Sprawdź konto i spróbuj ponownie.</value></data>
   <data name="P411_Twitch_ConnectedChannel" xml:space="preserve"><value>Połączono z kanałem Twitch {0}</value></data>
+  <data name="P415_Update_SourceLabel" xml:space="preserve"><value>Źródło aktualizacji</value></data>
+  <data name="P415_Update_SourceAll" xml:space="preserve"><value>Wszystkie dostępne wersje (zalecane)</value></data>
+  <data name="P415_Update_SourceNtl4" xml:space="preserve"><value>NanoTwitchLeafs 4 od GordenM82</value></data>
+  <data name="P415_Update_SourceOriginal" xml:space="preserve"><value>Oryginalna wersja od Locxion</value></data>
+  <data name="P415_Update_Title" xml:space="preserve"><value>Aktualizacja NanoTwitchLeafs</value></data>
+  <data name="P415_Update_Choose" xml:space="preserve"><value>Dostępne są aktualizacje z obu gałęzi rozwoju. Wyższy numer wersji nie gwarantuje tych samych funkcji w obu gałęziach.&#xA;&#xA;Tak: {0} – {1}&#xA;Nie: {2} – {3}&#xA;Anuluj: nie aktualizuj</value></data>
+  <data name="P415_Update_SwitchWarning" xml:space="preserve"><value>Zamierzasz przejść do drugiej gałęzi rozwoju:&#xA;&#xA;{0} – wersja {1}&#xA;&#xA;Ustawienia i wyzwalacze zostaną zachowane, ale funkcje mogą się różnić. Kontynuować?</value></data>
 </root>

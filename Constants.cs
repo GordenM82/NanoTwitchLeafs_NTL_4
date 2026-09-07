@@ -11,11 +11,13 @@ namespace NanoTwitchLeafs
 	{
 		#region Github
 
-		public static readonly string GITHUB_OWNER = "Locxion";
-		public static readonly string GITHUB_REPO = "NanoTwitchLeafs";
-		// Custom builds must not replace themselves with an upstream release.
-		// Set this to true only after GITHUB_OWNER points to the maintained fork.
-		public static readonly bool AUTO_UPDATE_ENABLED = false;
+		public const string NTL4_GITHUB_OWNER = "GordenM82";
+		public const string NTL4_GITHUB_REPO = "NanoTwitchLeafs_NTL_4";
+		public const string ORIGINAL_GITHUB_OWNER = "Locxion";
+		public const string ORIGINAL_GITHUB_REPO = "NanoTwitchLeafs";
+		public const string UPDATE_SOURCE_ALL = "All";
+		public const string UPDATE_SOURCE_NTL4 = "GordenM82";
+		public const string UPDATE_SOURCE_ORIGINAL = "Locxion";
 
 		#endregion
 

@@ -1539,4 +1539,11 @@ Eksporter</value>
   <data name="P411_Chat_Connected" xml:space="preserve"><value>Forbundet til Twitch-chat. Nye beskeder vises her.</value></data>
   <data name="P411_Chat_ConnectionFailed" xml:space="preserve"><value>Kunne ikke oprette forbindelse til Twitch-chat. Kontrollér Twitch-kontoen, og prøv igen.</value></data>
   <data name="P411_Twitch_ConnectedChannel" xml:space="preserve"><value>Forbundet til Twitch-kanalen {0}</value></data>
+  <data name="P415_Update_SourceLabel" xml:space="preserve"><value>Opdateringskilde</value></data>
+  <data name="P415_Update_SourceAll" xml:space="preserve"><value>Alle tilgængelige versioner (anbefalet)</value></data>
+  <data name="P415_Update_SourceNtl4" xml:space="preserve"><value>NanoTwitchLeafs 4 af GordenM82</value></data>
+  <data name="P415_Update_SourceOriginal" xml:space="preserve"><value>Originalversion af Locxion</value></data>
+  <data name="P415_Update_Title" xml:space="preserve"><value>NanoTwitchLeafs-opdatering</value></data>
+  <data name="P415_Update_Choose" xml:space="preserve"><value>Der findes opdateringer fra begge udviklingsgrene. Et højere versionsnummer garanterer ikke, at begge grene har de samme funktioner.&#xA;&#xA;Ja: {0} – {1}&#xA;Nej: {2} – {3}&#xA;Annuller: opdater ikke</value></data>
+  <data name="P415_Update_SwitchWarning" xml:space="preserve"><value>Du er ved at skifte til den anden udviklingsgren:&#xA;&#xA;{0} – version {1}&#xA;&#xA;Indstillinger og udløsere bevares, men funktionerne kan variere mellem grenene. Fortsæt?</value></data>
 </root>

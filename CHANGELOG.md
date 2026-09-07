@@ -4,6 +4,16 @@
 
 > **English version below.**
 
+## NanoTwitchLeafs 4.1.5 – Updatequellen und direkte Aktualisierung (7. September 2026)
+
+- Updateprüfung für den NTL-4-Zweig von GordenM82 und die Originalversion von Locxion ergänzt
+- Updatequelle in den Einstellungen auf beide, nur NTL 4 oder nur die Originalversion einstellbar
+- bei gleichzeitig verfügbaren Updates werden Herausgeber und Versionsnummer zur bewussten Auswahl angezeigt
+- zusätzliche Warnung vor dem Wechsel in den anderen Entwicklungszweig ergänzt
+- GitHub-Tags mit und ohne vorangestelltes `v` sowie beide gebräuchlichen NTL-ZIP-Namen unterstützt
+- ZIP-Aktualisierungen ersetzen die Programmdateien direkt im bestehenden Anwendungsordner
+- Einstellungen und Trigger unter `%APPDATA%\NanoTwitchLeafs-4` bleiben von Programmupdates unberührt
+
 ## NanoTwitchLeafs 4.1.4 – Effektauswahl (7. September 2026)
 
 - überlagernden Farbwähler im Trigger-Dialog bei ausgewähltem Effekt vollständig ausgeblendet
@@ -107,6 +117,16 @@ Version 4.1.0 bringt eine vollständig modernisierte Oberfläche sowie zahlreich
 ---
 
 ## English
+
+## NanoTwitchLeafs 4.1.5 – update sources and in-place updates (7 September 2026)
+
+- added update checks for GordenM82's NTL 4 branch and Locxion's original edition
+- update source can be set to both, NTL 4 only, or the original edition only
+- displays publisher and version for an explicit choice when both branches offer updates
+- added an extra warning before switching to the other development branch
+- supports GitHub tags with or without a leading `v` and both commonly used NTL ZIP names
+- ZIP updates replace the application files directly in the existing program folder
+- settings and triggers under `%APPDATA%\NanoTwitchLeafs-4` remain separate from application updates
 
 ## NanoTwitchLeafs 4.1.4 – effect selection (7 September 2026)
 

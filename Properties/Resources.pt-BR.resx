@@ -1509,4 +1509,11 @@ Exportar</value>
   <data name="P411_Chat_Connected" xml:space="preserve"><value>Conectado ao chat da Twitch. Novas mensagens aparecerão aqui.</value></data>
   <data name="P411_Chat_ConnectionFailed" xml:space="preserve"><value>Não foi possível conectar ao chat da Twitch. Verifique a conta e tente novamente.</value></data>
   <data name="P411_Twitch_ConnectedChannel" xml:space="preserve"><value>Conectado ao canal da Twitch {0}</value></data>
+  <data name="P415_Update_SourceLabel" xml:space="preserve"><value>Fonte de atualizações</value></data>
+  <data name="P415_Update_SourceAll" xml:space="preserve"><value>Todas as versões disponíveis (recomendado)</value></data>
+  <data name="P415_Update_SourceNtl4" xml:space="preserve"><value>NanoTwitchLeafs 4 por GordenM82</value></data>
+  <data name="P415_Update_SourceOriginal" xml:space="preserve"><value>Versão original por Locxion</value></data>
+  <data name="P415_Update_Title" xml:space="preserve"><value>Atualização do NanoTwitchLeafs</value></data>
+  <data name="P415_Update_Choose" xml:space="preserve"><value>Há atualizações dos dois ramos de desenvolvimento. Um número de versão maior não garante que ambos contenham os mesmos recursos.&#xA;&#xA;Sim: {0} – {1}&#xA;Não: {2} – {3}&#xA;Cancelar: não atualizar</value></data>
+  <data name="P415_Update_SwitchWarning" xml:space="preserve"><value>Você está prestes a mudar para o outro ramo de desenvolvimento:&#xA;&#xA;{0} – versão {1}&#xA;&#xA;Configurações e gatilhos serão mantidos, mas os recursos podem variar. Continuar?</value></data>
 </root>

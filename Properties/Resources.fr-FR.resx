@@ -1500,4 +1500,11 @@ Exporter</value>
   <data name="P411_Chat_Connected" xml:space="preserve"><value>Connecté au chat Twitch. Les nouveaux messages apparaîtront ici.</value></data>
   <data name="P411_Chat_ConnectionFailed" xml:space="preserve"><value>Impossible de se connecter au chat Twitch. Vérifiez le compte et réessayez.</value></data>
   <data name="P411_Twitch_ConnectedChannel" xml:space="preserve"><value>Connecté à la chaîne Twitch {0}</value></data>
+  <data name="P415_Update_SourceLabel" xml:space="preserve"><value>Source des mises à jour</value></data>
+  <data name="P415_Update_SourceAll" xml:space="preserve"><value>Toutes les versions disponibles (recommandé)</value></data>
+  <data name="P415_Update_SourceNtl4" xml:space="preserve"><value>NanoTwitchLeafs 4 par GordenM82</value></data>
+  <data name="P415_Update_SourceOriginal" xml:space="preserve"><value>Version originale par Locxion</value></data>
+  <data name="P415_Update_Title" xml:space="preserve"><value>Mise à jour de NanoTwitchLeafs</value></data>
+  <data name="P415_Update_Choose" xml:space="preserve"><value>Des mises à jour sont disponibles dans les deux branches de développement. Un numéro de version supérieur ne garantit pas que les deux branches contiennent les mêmes fonctions.&#xA;&#xA;Oui : {0} – {1}&#xA;Non : {2} – {3}&#xA;Annuler : ne pas mettre à jour</value></data>
+  <data name="P415_Update_SwitchWarning" xml:space="preserve"><value>Vous allez passer à l’autre branche de développement :&#xA;&#xA;{0} – version {1}&#xA;&#xA;Les paramètres et déclencheurs sont conservés, mais les fonctions peuvent différer. Continuer ?</value></data>
 </root>
