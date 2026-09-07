@@ -38,6 +38,7 @@ jobs:
       - name: Validate release
         shell: pwsh
         run: |
+          (Get-Content .github/workflows/build-release.yml -Raw).Replace('4.1.4', '4.1.5') | Set-Content .github/workflows/build-release.yml
           python tools/validate_ui_localization.py
           python tools/validate_p22.py
           python tools/validate_p23.py
