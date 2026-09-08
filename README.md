@@ -48,6 +48,15 @@ Die fertige Windows-x64-Version steht unter [Releases](https://github.com/Gorden
 - Tastatur- und Fokusverbesserungen, `Strg+F`, Escape-Rückkehr und Hinweise bei ungespeicherten Änderungen
 - Toastmeldungen und erklärende Tooltips für gekürzte oder deaktivierte Funktionen
 
+### Oberflächenvorschau
+
+| Konsole | Triggerverwaltung |
+| --- | --- |
+| ![Konsole im dunklen Design](docs/images/console-dark.png) | ![Triggerverwaltung im dunklen Design](docs/images/triggers-dark.png) |
+| ![Konsole im hellen Design](docs/images/console-light.png) | ![Triggerverwaltung im hellen Design](docs/images/triggers-light.png) |
+
+[Alle 16 Ansichten im dunklen und hellen Design anzeigen.](docs/images/README.md)
+
 ### Triggerverwaltung
 
 - Suche über Trigger-Typ, Befehl, Effekt, Sound, Spendenanbieter und Zielgeräte
@@ -163,6 +172,15 @@ The ready-to-run Windows x64 package is available under [Releases](https://githu
 - monitor-bound main and child windows that respect the taskbar work area
 - keyboard and focus improvements, `Ctrl+F`, Escape navigation, and unsaved-change warnings
 - toast messages and explanatory tooltips for truncated or disabled functions
+
+### Interface preview
+
+| Console | Trigger management |
+| --- | --- |
+| ![Console in dark mode](docs/images/console-dark.png) | ![Trigger management in dark mode](docs/images/triggers-dark.png) |
+| ![Console in light mode](docs/images/console-light.png) | ![Trigger management in light mode](docs/images/triggers-light.png) |
+
+[View all 16 screens in dark and light mode.](docs/images/README.md)
 
 ### Trigger management
 
