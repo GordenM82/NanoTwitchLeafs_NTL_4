@@ -2,7 +2,7 @@
 
 ## Deutsch
 
-Die folgenden Aufnahmen zeigen NanoTwitchLeafs 4 im dunklen und hellen Darstellungsmodus. Personenbezogene Angaben, lokale Pfade, Kanalnamen, Gerätenamen und Seriennummern wurden für die Veröffentlichung unkenntlich gemacht.
+Die folgenden Aufnahmen zeigen NanoTwitchLeafs 4 im dunklen und hellen Darstellungsmodus. Personenbezogene Angaben, lokale Pfade, Kanalnamen und Seriennummern wurden für die Veröffentlichung unkenntlich gemacht. Nur in den Trigger-Aufnahmen bleiben die Gerätenamen sichtbar, damit die Auswahl mehrerer Zielgeräte erkennbar ist.
 
 | Ansicht | Dunkel | Hell |
 | --- | --- | --- |
@@ -17,7 +17,7 @@ Die folgenden Aufnahmen zeigen NanoTwitchLeafs 4 im dunklen und hellen Darstellu
 
 ## English
 
-The screenshots below show NanoTwitchLeafs 4 in dark and light mode. Personal details, local paths, channel names, device names, and serial numbers have been redacted for publication.
+The screenshots below show NanoTwitchLeafs 4 in dark and light mode. Personal details, local paths, channel names, and serial numbers have been redacted for publication. Device names remain visible only in the trigger screenshots so that selecting multiple target devices is apparent.
 
 | View | Dark | Light |
 | --- | --- | --- |
