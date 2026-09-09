@@ -114,6 +114,8 @@ Für Twitch sind weder eine eigene Twitch-Anwendung noch eine manuell einzutrage
 
 Ab Version 4.1.5 prüft NTL wahlweise die Releases von **GordenM82 / NTL 4**, von **Locxion / Original** oder beide Quellen. Sind in beiden Entwicklungszweigen Updates verfügbar, werden Herausgeber und Versionsnummer angezeigt. Da sich die Funktionen beider Zweige unterscheiden können, entscheidet der Nutzer ausdrücklich, welche Ausgabe installiert werden soll.
 
+> **Hinweis für ältere NTL-4-Versionen:** In NanoTwitchLeafs 4.1.4 oder älter ist diese neue Updatefunktion noch nicht enthalten. Diese Versionen müssen einmalig manuell auf die aktuelle Ausgabe aktualisiert werden. Dazu NTL vollständig beenden und das aktuelle Windows-x64-ZIP über den bestehenden Programmordner entpacken. Einstellungen und Trigger unter `%APPDATA%\\NanoTwitchLeafs-4` bleiben erhalten. Ab Version 4.1.5 funktionieren weitere Updates direkt im Programm.
+
 ZIP-Updates werden direkt in den bestehenden Programmordner entpackt. Für eine manuelle Aktualisierung NanoTwitchLeafs vollständig beenden und das neue Windows-x64-ZIP über denselben Ordner entpacken. Ein neuer Versionsordner ist nicht erforderlich.
 
 Benutzerdaten liegen unter `%APPDATA%\NanoTwitchLeafs-4` und werden von neueren 4.x-Versionen automatisch weiterverwendet. Vor wichtigen Updates empfiehlt sich eine Sicherung dieses Ordners.
@@ -238,6 +240,8 @@ Twitch does not require users to register their own application or enter a clien
 ### Updating within NanoTwitchLeafs 4
 
 Starting with version 4.1.5, NTL can check releases from **GordenM82 / NTL 4**, **Locxion / Original**, or both sources. If both development branches provide updates, the publisher and version are shown. Because the branches may contain different features, the user explicitly chooses which edition to install.
+
+> **Note for older NTL 4 versions:** NanoTwitchLeafs 4.1.4 and earlier do not include this new update function. These versions must be updated manually to the current release once. Close NTL completely and extract the current Windows x64 ZIP over the existing application folder. Settings and triggers under `%APPDATA%\\NanoTwitchLeafs-4` remain intact. Starting with version 4.1.5, subsequent updates work directly inside the application.
 
 ZIP updates are extracted directly into the existing application folder. For a manual update, close NanoTwitchLeafs completely and extract the new Windows x64 ZIP over the same folder. A new version-specific folder is no longer required.
 
